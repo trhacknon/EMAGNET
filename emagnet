@@ -79,14 +79,12 @@ cat << EOF
 Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 
   -a, --author        Show author information.
-
   -b, --backup        Create a compressed archive
                       - Available options: all/incoming/archive
   -l, --license       Show license information.
   -h, --help          Display this very helpful text
   -n, --notify        Set notifications on or off
   -t, --time          Set refresh time in seconds
-
   -v, --vpn           Toggle VPN on or off (Linux Only)
                       - Available options: true/false
                       Use: -v -p <provider> for set provider
@@ -229,15 +227,15 @@ curl -sL -H "$USERAGENT" "$PASTEBIN" \
      wait_time=60
      temp_cnt="${wait_time}"
        while [[ "${temp_cnt}" -gt 0 ]]; do
-       printf "\rPastebin is currently under heavy load, let's wait: \e[1;1m%1d\e[0m" ${temp_cnt}
+       printf "\rPastebin is currently under heavy load, I will continue in: \e[1;1m%1d\e[0m" ${temp_cnt}
        printf " seconds"
        sleep 1
        ((temp_cnt--))
       done
    echo
-	 bash "$basename$0" --emagnet
-  done
-   bash "$basename$0" --emagnet
+	  bash "$basename$0" --emagnet
+      done
+      bash "$basename$0" --emagnet
 fi
 }
 
@@ -653,7 +651,7 @@ fi
 
 emagnet_spotify_bruter() {
 # Not in USE, added a backup on my
-# host place if something happends
+# host place if something happens
 VERSION="0.6.0"
 WWWSOURCE="https://nr1.nu/archive/sconsify"
 SCONSIFY="${WWWSOURCE}/linux-x86_64-sconsify-${VERSION}.next.zip"
@@ -1182,9 +1180,6 @@ case "${1}" in
    	        emagnet_conf
                 if [[ "$?" -gt "0" ]]; then echo -e "$basename$0: internal error -- notify-send is required to be installed";exit 1; fi # Is notify-send installed?
                 if [[ "$2" != "true" && "$2" != "false" || -z "$2" ]]; then echo -e "$basename$0: internal error -- you must use true or false";exit 1;fi # Is you using a value?
-                # Is notification exported on the right display? Let us ask the user! ;-)
-                # If it set to truee instead of true, then we dont asking again!
-                # and using the the earlier way to set notifications to enable
                 if ! [[ "$NOTIFY" -eq "truee" ]]; then
                    notify-send "Emagnet" '\n[00] - This is a test\n[00] - If you see this\n[00] - Press Any Key'
                     echo -e "\rIf you see the notification, hit any key.\c"
