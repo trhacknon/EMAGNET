@@ -22,7 +22,7 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 ### Known Issues That Will Be Fixed In Next Push!
 
-- [x] SSH Bruterforcer isn't completely working anymore 
+- [x] SSH Bruterforcer isn't completely working anymore  - Solved, see example above!
 - [ ] Requirements packages for android devices when using termux app isnt working with brute force tools + screen
 - [ ] Sending wrong data into emagnet.log for wich files that contains correct data 
 - [ ] Re-add the feature that bypassing captcha when pastebin asking for accept captcha
