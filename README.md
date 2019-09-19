@@ -18,7 +18,7 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 ### SSH Bruteforcer (This video has been done by an anonymous user)
 
-![Screenshot](https://nr1.nu/emagnet-ssh-bruteforcer.gif)
+![Screenshot](.preview/emagnet-ssh-bruteforcer.gif)
 
 ### Known Issues That Will Be Fixed In Next Push!
 
