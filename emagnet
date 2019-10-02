@@ -241,13 +241,15 @@ fi
 }
 
 emagnet_I_was_banned() {
-
-for (( ; ; )); do
-wait_time=$IDLETIME
-temp_cnt=${wait_time}
-while [[ ${temp_cnt} -gt 0 ]]; do
+curl -Ls $PASTEBIN|grep blocked
+if [[ $VPN = "false" ]]; then
+  if [[ $? = "0" ]]; then
+   for (( ; ; )); do
+    wait_time=$IDLETIME
+   temp_cnt=${wait_time}
+   while [[ ${temp_cnt} -gt 0 ]]; do
     printf "\r$basename$0: internal error -- \e[1;31m$(curl -s $WIP)\e[0m has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt};printf " seconds";sleep 1;((temp_cnt--))
-done;
+   done;
     printf "\n"
     clear
     banner
@@ -256,6 +258,8 @@ done;
 done
     bash emagnet -e emagnet
 exit
+  fi
+fi
 }
 
 emagnet_vpnsetup() {
