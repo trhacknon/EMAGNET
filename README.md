@@ -7,6 +7,8 @@
 
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
 
+- [ ] Up Next: Get rid of wget command since it's not built in as default on mostly android systems and all we really gonna need is curl wich is installed as default on mostly android devices
+
 <a href="https://github.com/wuseman/EMAGNET"><img src="https://img.shields.io/github/languages/top/wuseman/emagnet.svg?color=magenta&label=Bash%2FShell"></a><a href="https://github.com/wuseman/EMAGNET/issues?q=is%3Aissue+is%3Aclosed">
 <img src="https://img.shields.io/github/issues-closed/wuseman/emagnet.svg?color=light&label=Closed%20Issues"></a>
  <a href="https://github.com/wuseman/EMAGNET/issues"><img src="https://img.shields.io/github/issues-raw/wuseman/emagnet.svg?color=orange&label=Open%20Issues"></a><img src="https://img.shields.io/github/last-commit/wuseman/emagnet.svg?color=darkmagenta&label=Latest%20Commit"><a href="https://twitter.com/wuseman1">
@@ -23,14 +25,6 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 ### SSH Bruteforcer (This video has been done by an anonymous user)
 
 ![Screenshot](.preview/emagnet-ssh-bruteforcer.gif)
-
-### Known Issues That Will Be Fixed In Next Push!
-
-- [x] SSH Bruterforcer isn't completely working anymore  - Solved, see example above!
-- [ ] Requirements packages for android devices when using termux app isnt working with brute force tools + screen
-- [ ] Sending wrong data into emagnet.log for wich files that contains correct data 
-- [ ] Re-add the feature that bypassing captcha when pastebin asking for accept captcha
-- [ ] Prio 1. Fix so we don't need visit pastebin more then once for check for bans and captcha..
 
 ### TIPS:
 
