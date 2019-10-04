@@ -241,24 +241,34 @@ fi
 }
 
 emagnet_I_was_banned() {
-curl -Ls $PASTEBIN|grep blocked
-if [[ $VPN = "false" ]]; then
-  if [[ $? = "0" ]]; then
-   for (( ; ; )); do
-    wait_time=$IDLETIME
-   temp_cnt=${wait_time}
-   while [[ ${temp_cnt} -gt 0 ]]; do
-    printf "\r$basename$0: internal error -- \e[1;31m$(curl -s $WIP)\e[0m has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt};printf " seconds";sleep 1;((temp_cnt--))
-   done;
-    printf "\n"
-    clear
-    banner
-    bash emagnet -e emagnet
-    sleep 2
-done
-    bash emagnet -e emagnet
-exit
-  fi
+curl -sL -H "$USERAGENT" "$PASTEBIN" \
+|grep -q "blocked your IP"
+if [[ "$?" = "0" ]]; then
+  		if [[ "$VPN" = "false" ]]; then
+                   emagnet_clear
+                   emagnet_banner
+   	   	   for (( ; ; )); do
+     		   wait_time=${IDLETIME}
+      		   temp_cnt=${wait_time}
+   		   while [[ "${temp_cnt}" -gt "0" ]]; do
+                    printf "\rIP: [\e[1;31m$(curl -s $WIP)\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
+                    printf " seconds"
+      		    sleep 1
+      		    ((temp_cnt--))
+  	            done
+                    printf "\n"
+                    emagnet_clear
+                    emagnet_banner
+                    bash "$basename$0" --emagnet
+                    sleep 2
+           done
+                    emagnet_clear
+                    emagnet_banner
+         	        bash "$basename$0" --emagnet
+        	    exit 1
+      else
+                    emagnet_banned
+      fi
 fi
 }
 
@@ -819,24 +829,25 @@ emagnet_main() {
    |awk -F, '!seen[$1]++' \
    |sed "s/^/https:\/\/pastebin.com\/raw\//g" > "$HOME/.config/emagnet/tmp/.emagnet"
     rm "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" &> /dev/null
-
-	  if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|wc -l)" = "8" ]];       then emagnet_notice_about_scraping         ;fi
-          if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|grep https)" = "0" ]];  then emagnet_heavyload;emagnet_I_was_banned;fi
-          xargs -P "${THREADS}" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
-          tt="$(cat $HOME/.config/emagnet/tmp/.emagnet| wc -l)"
-          [[ "$tt" -lt "10" ]] && tt="0$tt"
-
-                        if [[ "${tt}" -eq "00" ]]; then
-                             grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' "$EMAGNETTEMP"|cut -d: -f1|tr ' ' '\n'
-	                     printf "[\e[1;31m<<\e[0m] - No new files could be downloaded..\n[\e[1;31m<<\e[0m] - Increase time or you will get banned anytime now..\n\n"
-                             tt="\e[1;31m\e[5m00\e[0m"
-      	                     sleep 5 # Sleep here for make some room, this will not cause any problems with missing files
-                             emagnet_clear
-                             emagnet_banner
-                        else
-                             echo -e "\n======================================\nPastebin URLS from: $(date +%d/%m/%Y\ -\ %H:%M)\n======================================"  >> "$EMAGNETLOGS/pastebin-urls.txt"
-                             cat "$HOME/.config/emagnet/tmp/.emagnet" >> "$EMAGNETLOGS/pastebin-urls.txt"
-                        fi
+      if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|wc -l)" = "8" ]];       then emagnet_notice_about_scraping         ;fi
+      if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|grep https)" = "0" ]];  then emagnet_heavyload;emagnet_I_was_banned;fi
+       xargs -P "${THREADS}" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
+       tt="$(cat $HOME/.config/emagnet/tmp/.emagnet| wc -l)";[[ "$tt" -lt "10" ]] && tt="0$tt"
+         if [[ "${tt}" -eq "00" ]]; then
+           grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' "$EMAGNETTEMP"|cut -d: -f1|tr ' ' '\n'
+	   printf "[\e[1;31m<<\e[0m] - No new files could be downloaded..\n[\e[1;31m<<\e[0m] - Increase time or you will get banned anytime now..\n\n"
+           tt="\e[1;31m\e[5m00\e[0m"
+      	   sleep 5 # Sleep here for make some room, this will not cause any problems with missing files
+           emagnet_clear;emagnet_banner
+         else
+         echo -e "\n===================================================================\nPastebin URLS from: $(date +%d/%m/%Y\ -\ %H:%M)\n==================================================================="  >> "$EMAGNETLOGS/pastebin-urls.txt"
+         # cat "$HOME/.config/emagnet/tmp/.emagnet" >> "$EMAGNETLOGS/pastebin-urls.txt"
+         curl -H "$USERAGENT" -Ls "pastebin.com/archive"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'|grep -v 'archive\|contact\|settings\|messages\|signup\|index.html' |\
+         sed 's/^/https:\/\/pastebin.com\/raw\//g'|sed 's/$/ - Downloaded: /g' > 1
+         curl -H "$USERAGENT" -Ls "pastebin.com/archive" |grep -i ago|cut -d'>' -f2|cut -d'<' -f1|sed '1d' > 2
+         paste 1 2|sed 's/ago/after upload/g'|sed 's/\t//g'|sed '$d' >> "$EMAGNETLOGS/pastebin-urls.txt"
+         rm ./1 ./2
+        fi
 
 ## -> REGEX PART
 ef=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" "$EMAGNETTEMP"|awk -F':' '{print $1}'|awk -F, '!seen[$1]++')
