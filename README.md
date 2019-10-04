@@ -1,9 +1,9 @@
 # EMAGNET v3.4
 ## <p align="center">![Screenshot](https://nr1.nu/f/thant.gif)
  
-#### Image that describes the Reality, emagnet makes it easier than ever to get hold of leaked accounts. Completely legal as long as you brute forcing your own accounts only, all we do is retrieve data from pastebin, if you have opinions on this you can contact pastebin techs ![here](https://pastebin.com/contact) - I wont reply questions about this in my mailbox, all kind of messages that contains such info will be wiped, just for your notice. 
+#### Image that describes the Reality, emagnet makes it easier than ever to get hold of leaked accounts. Completely legal as long as you brute forcing your own accounts only, all we do is retrieve data from pastebin, if you have opinions or questions about stuff pastebin hosting you will find all info on https://pastebin.com/contact to get in touch - I wont reply questions about this in my mailbox, all kind of messages that contains such info will be wiped, just for your notice. 
 
-Please do not waste my time with nonsence, thanks.
+#### Please do not waste my time with nonsence, thanks.
 
 ## <p align="center">![Screenshot](https://1.bp.blogspot.com/-lsj7-5npl1w/XWsdVQA6lrI/AAAAAAAAQNM/sZ0HIH5PtjoxRAVK0RxTaHCizqi4pb7jwCLcBGAs/s1600/EMAGNET_10.png)
 
