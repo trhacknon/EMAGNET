@@ -103,7 +103,7 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
                       - Choose and set file by ./$basename$0 -s /text/to/send.txt
   -q, --quiet         Run emagnet in a screen
   -x, --syntax        Download uploads sorted by syntax
-                       - Valid syntaxes available on pastebin.com/languages
+                      - Valid syntaxes available on pastebin.com/languages
 
 EOF
 }
@@ -216,8 +216,11 @@ NRESESSIONS=$(ps aux|grep -i "emagnet"|sed '$d'|awk '{print $2}'|wc -l)
 NRINSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g'|wc -l)"
 INSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g')"
  if [[ "$INSCREEN" -gt "0" ]]; then for screens in "$INSCREEN"; do screen -X -S "$screens" kill; [[ "$?" = "0" ]] &&  echo -e "[\e[1;31m<<\e[0m] - $NRINSCREEN emagnet screens has been killed\n"; done;fi
- if [[ "$NRESESSIONS" -lt "3" ]]; then echo -e "$basename$0: internal error -- 0 emagnet sessions is currently running";else echo -e "$basename$0: killed $(echo $NRESESSIONS-2|bc) emagnet sessions"
-                                       kill -SIGKILL "$ESESSIONS" &> /dev/null;fi
+ if [[ "$NRESESSIONS" -lt "3" ]]; then 
+ 	echo -e "$basename$0: internal error -- 0 emagnet sessions is currently running";else 
+ 	echo -e "$basename$0: killed $(echo $NRESESSIONS-2|bc) emagnet sessions"
+    kill -SIGKILL "$ESESSIONS" &> /dev/null
+fi
 }
 
 emagnet_heavyload() {
@@ -253,8 +256,8 @@ if [[ "$?" = "0" ]]; then
    		   while [[ "${temp_cnt}" -gt "0" ]]; do
                     printf "\rIP: [\e[1;31m$(curl -s $WIP)\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
                     printf " seconds"
-      		    sleep 1
-      		    ((temp_cnt--))
+      		        sleep 1
+      		        ((temp_cnt--))
   	            done
                     printf "\n"
                     emagnet_clear
@@ -843,7 +846,7 @@ emagnet_main() {
          echo -e "\n===================================================================\nPastebin URLS from: $(date +%d/%m/%Y\ -\ %H:%M)\n==================================================================="  >> "$EMAGNETLOGS/pastebin-urls.txt"
          # cat "$HOME/.config/emagnet/tmp/.emagnet" >> "$EMAGNETLOGS/pastebin-urls.txt"
          curl -H "$USERAGENT" -Ls "pastebin.com/archive"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'|grep -v 'archive\|contact\|settings\|messages\|signup\|index.html' |\
-         sed 's/^/https:\/\/pastebin.com\/raw\//g'|sed 's/$/ - Downloaded: /g' > 1
+         sed 's/^/https:\/\/pastebin.com\/raw\//g'|sed 's/$/ - Downloaded /g' > 1
          curl -H "$USERAGENT" -Ls "pastebin.com/archive" |grep -i ago|cut -d'>' -f2|cut -d'<' -f1|sed '1d' > 2
          paste 1 2|sed 's/ago/after upload/g'|sed 's/\t//g'|sed '$d' >> "$EMAGNETLOGS/pastebin-urls.txt"
          rm "./1" "./2"
@@ -989,9 +992,6 @@ if ! [[ -f "$CONF" ]]; then
 fi
 }
 
-# This is the most simple method to call
-# all functions until things get better sorted
-# and cleaned up, then we can use long options with args
 case "${1}" in
 
      "-a"|"-author"|"--author")
@@ -1183,7 +1183,7 @@ case "${1}" in
                 if [[ "$2" != "true" && "$2" != "false" || -z "$2" ]]; then echo -e "$basename$0: internal error -- you must use true or false";exit 1;fi
                 if ! [[ "$NOTIFY" -eq "truee" ]]; then
                    notify-send "Emagnet" '\n[00] - This is a test\n[00] - If you see this\n[00] - Press Any Key'
-                    echo -e "\rIf you see the notification, hit any key.\c"
+                     echo -e "\rIf you see the notification, hit any key.\c"
                      read -t 5 notifyworks
                        if [[ ! -z "$yepitworks" ]] ; then
                           echo -e "\nOk, seems not, you probably must export your display then.."
@@ -1244,3 +1244,4 @@ case "${1}" in
 esac
 
 ( [[ -z $1 ]] && emagnet_usage; exit 1 )
+
