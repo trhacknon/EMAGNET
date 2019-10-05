@@ -43,11 +43,10 @@
 #### for leaked email addresses and passwords.                             ####
 ####                                                                       ####
 ###############################################################################
-###############################################################################
+
 ###############################################################################
 ### Want your own banner? Cool, just replace the ascii below               ####
 ###############################################################################
-
 emagnet_banner() {
 cat << "EOF"
      _                      _______                      _
@@ -78,7 +77,7 @@ cat << EOF
 
 Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 
-  -a, --author        Show author information.
+  -a, --author        Show author information
   -b, --backup        Create a compressed archive
                       - Available options: all/incoming/archive
   -l, --license       Show license information.
@@ -939,7 +938,6 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
 
 emagnet_run4ever() {
        emagnet_conf
-
        curl -H "$USERAGENT" -sL "$PASTEBIN"|grep -q "blocked your IP"
        if [[ "$?" = "0" ]]; then
          if [[ "$VPN" = "true" ]]; then
@@ -968,7 +966,6 @@ emagnet_run4ever() {
         emagnet_count_down
         emagnet_clear
         emagnet_banner
-        
         emagnet_analyzing_message
         emagnet_clear
         emagnet_banner
