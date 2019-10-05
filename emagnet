@@ -1042,8 +1042,8 @@ case "${1}" in
                read LIBSPOTIFY
                  if ! [[ "$LIBSPOTIFY" = "YES" ]]; then
                    echo "Can't continue until libspotify has been installed.."
-      		   echo "Exiting.."
-       		   exit 1
+      		       echo "Exiting.."
+       		       exit 1
          	 fi
                sed -i '230d' "$CONF"
                sed -i '230 i LIBSPOTIFY=true' "$CONF"
@@ -1052,7 +1052,8 @@ case "${1}" in
                sed -i '230d' "$CONF"
                sed -i '230 i LIBSPOTIFY=true' "$CONF"
             fi
-               # 2ADD! - Check so unzip is installed - Mostly users have it installed so no rush!
+              which unzip &> /dev/null
+              [[ "$?" -ne "0" ]] && echo "You must have unzip installed before you can download sconsify, exiting.."; exit 1
                ./sconsify -version &> /dev/null
                         if [[ "$?" -ne "0" ]]; then
                          echo "Sconsify is required to be installed before we attacking targets.."
