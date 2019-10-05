@@ -107,7 +107,6 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 EOF
 }
 
-
 emagnet_required_stuff(){ if ! [[ -d "$HOME/.config/emagnet/" ]]; then mkdir -p "$HOME/.config/emagnet/";mkdir -p "$HOME/.config/emagnet/tmp";fi;cp "./emagnet.conf" $HOME/.config/emagnet/;}
 emagnet_conf(){ CONF="$HOME/.config/emagnet/emagnet.conf";. "$CONF" ;}
 emagnet_mustberoot(){(( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1;  }
