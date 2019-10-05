@@ -229,7 +229,7 @@ curl -sL -H "$USERAGENT" "$PASTEBIN" \
      wait_time=60
      temp_cnt="${wait_time}"
        while [[ "${temp_cnt}" -gt 0 ]]; do
-       printf "\rPastebin is currently under heavy load, I will continue in: \e[1;1m%1d\e[0m" ${temp_cnt}
+       printf "\rPastebin is currently under heavy load, will continue in: \e[1;1m%1d\e[0m" ${temp_cnt}
        printf " seconds"
        sleep 1
        ((temp_cnt--))
