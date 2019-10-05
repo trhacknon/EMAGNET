@@ -79,8 +79,8 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 
   -a, --author        Show author information
   -b, --backup        Create a compressed archive
-                      - Available options: all/incoming/archive
-  -l, --license       Show license information.
+                      - Available options: all/archive/incoming
+  -l, --license       Show license information
   -h, --help          Display this very helpful text
   -n, --notify        Set notifications on or off
   -t, --time          Set refresh time in seconds
@@ -744,8 +744,6 @@ if ! [[ -f "$EMAIL2SEND" ]]; then
     printf "%s\n\n" "$basename$0: internal error -- not a valid file\n\n"
     exit 1
 fi
-
-
 
 if [[ "$(ls $EMAGNETDB|wc -l)" -eq "0" ]]; then
     echo -e "$basename$0: internal error -- no email addresses has been found."
