@@ -1,6 +1,8 @@
 # EMAGNET v3.4
 ## <p align="center">![Screenshot](https://nr1.nu/f/kcdle.gif)
 
+![Screenshot](https://nr1.nu/f/emagnet-main.gif)
+
 | Current Version    |  Released      | News                            | Tested On                          |
 | :----------------- | :------------- | :-------------------------------- | :----------------------------------|
 | `3.4`              |      -:-       |  Full support on android devices, no root required    | Linux/MacOS/OpenWRT/Windows/Android                               |
