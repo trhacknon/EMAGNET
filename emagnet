@@ -390,38 +390,11 @@ fi
 }
 
 emagnet_merge() {
-EMPTY="$(ls $EMAGNET/incoming/*/logs/|wc -l)"
-if [[ "$EMPTY" = "0" ]]; then echo -e "$basename$0: internal error -- nothing to merge";exit 1;fi
-DAYDIRS="$(ls $EMAGNET/incoming/|wc -l)"
-DAYDIRS2="$(ls $EMAGNET/incoming/)"
-LOGFILES="$(ls $EMAGNET/incoming/*/logs/*|wc -l)"
-TOTM="$(cat $EMAGNET/incoming/*/logs/emails-from-pastebin.txt|wc -l)"         # Total Mail Addresses
-TOTP="$(cat $EMAGNET/incoming/*/logs/passwords-from-pastebin.txt|wc -l)"      # Total passwords
-TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # Total Urls
-          emagnet_clear;emagnet_banner
-          printf "%10s Merging \e[1;36m${LOGFILES}\e[0m log files from \e[1;36m${DAYDIRS}\e[0m day directories\n\n"
-	      printf "%64s \n\n" | tr ' ' '='
-	      LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
-           for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
-            echo -e ",-> Merging logs from: $LOGDATE \n|"
-            logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
-            find $EMAGNET/incoming/*/logs/ -maxdepth 1|sed '/\/$/d' > $HOME/emagnet/.emagnet-temp-merge.txt
-            touch "$EMAGNETARCHIVE/logs/$logfiles" &> /dev/null
-              while read logs; do 
-                  echo "$logs" >> "$EMAGNETARCHIVE/logs/$logfiles"; 
-                if [[ "$?" -eq "0" ]]; then
-                  printf "| %2d) [MERGED] %.100s %s\n" "$(( ++cnt ))" "$logs'"
-                  sleep 1
-                else
-	              printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
-                  sleep 1
-                fi
-                  done < $HOME/emagnet/.emagnet-temp-merge.txt
-                  sleep 0.2
-            done
-        printf "|\n"
-        sleep 0.2
-        printf "'- Successfully merged \e[1;32m${TOTM}\e[0m emails, \e[1;34m${TOTP}\e[0m passwords and \e[1;36m${TOTU}\e[0m urls...\n\n"
+LOGS="$(ls -1 /opt/emagnet/incoming/*/logs/*|cut -d/ -f7)"
+for logfiles in $LOGS; do
+    echo $logfiles >> $EMAGNETARCHIVE/logs/$files
+done
+echo "Done.."
 }
 
 emagnet_analyzer() {
@@ -1001,8 +974,9 @@ case "${1}" in
                emagnet_instagrambruter
                mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
               fi
+
            elif [[ "$2" = "spotify" ]]; then
-               emagnet_conf
+          emagnet_conf
                find /usr/include -type d |grep 'libspotify' &> /dev/null
              if [[ "$?" -ne "0" ]]; then
              if [[ -z "$LIBSPOTIFY" ]]; then
@@ -1010,8 +984,8 @@ case "${1}" in
                read LIBSPOTIFY
                  if ! [[ "$LIBSPOTIFY" = "YES" ]]; then
                    echo "Can't continue until libspotify has been installed.."
-      		       echo "Exiting.."
-       		       exit 1
+      		   echo "Exiting.."
+       		   exit 1
          	 fi
                sed -i '230d' "$CONF"
                sed -i '230 i LIBSPOTIFY=true' "$CONF"
@@ -1020,8 +994,7 @@ case "${1}" in
                sed -i '230d' "$CONF"
                sed -i '230 i LIBSPOTIFY=true' "$CONF"
             fi
-              which unzip &> /dev/null
-              [[ "$?" -ne "0" ]] && echo "You must have unzip installed before you can download sconsify, exiting.."; exit 1
+               # 2ADD! - Check so unzip is installed - Mostly users have it installed so no rush!
                ./sconsify -version &> /dev/null
                         if [[ "$?" -ne "0" ]]; then
                          echo "Sconsify is required to be installed before we attacking targets.."
@@ -1059,7 +1032,6 @@ case "${1}" in
                        exit 1
                 fi
                 ;;
-
       "-k"|"-kill"|"--kill")
                 emagnet_kill
                 ;;
