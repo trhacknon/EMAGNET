@@ -1,7 +1,7 @@
 # EMAGNET v3.4
 ## <p align="center">![Screenshot](https://nr1.nu/f/kcdle.gif)
 
-![Screenshot](https://nr1.nu/f/emagnet-main.gif)
+![Screenshot](.preview/emagnet-main.gif)
 
 | Current Version    |  Released      | News                            | Tested On                          |
 | :----------------- | :------------- | :-------------------------------- | :----------------------------------|
