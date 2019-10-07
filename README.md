@@ -1,8 +1,6 @@
 # EMAGNET v3.4
 ## <p align="center">![Screenshot](https://nr1.nu/f/kcdle.gif)
 
-![Screenshot](.preview/emagnet-main.gif)
-
 | Current Version    |  Released      | News                            | Tested On                          |
 | :----------------- | :------------- | :-------------------------------- | :----------------------------------|
 | `3.4`              |      -:-       |  Full support on android devices, no root required    | Linux/MacOS/OpenWRT/Windows/Android                               |
@@ -23,6 +21,10 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 #### Please do not waste my time with nonsence, thanks.
 
 ## <p align="center">![Screenshot](https://1.bp.blogspot.com/-lsj7-5npl1w/XWsdVQA6lrI/AAAAAAAAQNM/sZ0HIH5PtjoxRAVK0RxTaHCizqi4pb7jwCLcBGAs/s1600/EMAGNET_10.png)
+
+### Spotify Bruteforcer
+
+![Screenshot](.preview/emagnet-main.gif)
 
 ### SSH Bruteforcer (This video has been done by an anonymous user)
 
