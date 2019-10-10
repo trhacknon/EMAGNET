@@ -394,7 +394,13 @@ LOGS="$(ls -1 /opt/emagnet/incoming/*/logs/*|cut -d/ -f7)"
 for logfiles in $LOGS; do
     echo $logfiles >> $EMAGNETARCHIVE/logs/$files
 done
+  if [[ $1 = "1" ]]; then
     echo "Done.."
+   else
+    echo -e "$basename$0: internal error -- no log files found, exiting.."
+    exit 0
+  fi
+
 }
 
 emagnet_analyzer() {
@@ -756,8 +762,7 @@ emagnet_main() {
     cat "$HOME/.config/emagnet/tmp/.emagnet1" \
    |sort \
    |cut -d/ -f5 > "$HOME/.config/emagnet/tmp/.2"
-    grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2"  \ # Check for duplicates
-   |awk -F, '!seen[$1]++' \
+    grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" |awk -F, '!seen[$1]++' \
    |sed "s/^/https:\/\/pastebin.com\/raw\//g" > "$HOME/.config/emagnet/tmp/.emagnet"
     rm "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" &> /dev/null
       if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|wc -l)" = "8" ]];       then emagnet_notice_about_scraping         ;fi
@@ -825,7 +830,7 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                   sleep 0
                fi
                
-                elif [[ "$pt" = "00" ]] && [[ "$et" -gt "00" ]]; then
+                elif [[ "$pt" = "0" ]] && [[ "$et" -gt "0" ]]; then
                    cp -rn ${ef} $EMAGNETDB/ &> /dev/null
                    echo -e "${el}" >> "$EMAGNETLOGS/emails-from-pastebin.txt"
                    echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${et} email addresses from $EMAGNETDB/${e##*/}"|xargs >> "$EMAGNETLOGS/emagnet.log"
