@@ -391,15 +391,17 @@ fi
 
 emagnet_merge() {
 LOGS="$(ls -1 /opt/emagnet/incoming/*/logs/*|cut -d/ -f7)"
+if [[ $? -eq "0" ]]; then
+    echo -e "$basename$0: internal error -- no log files found, exiting.."
+    exit 1 
+  else
+    echo "Done.."
+    exit 0
+fi
 for logfiles in $LOGS; do
     echo $logfiles >> $EMAGNETARCHIVE/logs/$files
 done
-  if [[ $1 = "1" ]]; then
-    echo "Done.."
-   else
-    echo -e "$basename$0: internal error -- no log files found, exiting.."
-    exit 0
-  fi
+  i
 
 }
 
