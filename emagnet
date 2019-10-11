@@ -107,7 +107,7 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 EOF
 }
 
-emagnet_required_stuff(){ if ! [[ -d "$HOME/.config/emagnet/" ]]; then mkdir -p "$HOME/.config/emagnet/";mkdir -p "$HOME/.config/emagnet/tmp";fi;cp "./emagnet.conf" $HOME/.config/emagnet/;}
+emagnet_required_stuff(){ if ! [[ -d "$HOME/.config/emagnet/" ]]; then mkdir -p "$HOME/.config/emagnet/tmp";fi;cp "./emagnet.conf" $HOME/.config/emagnet/;}
 emagnet_conf(){ CONF="$HOME/.config/emagnet/emagnet.conf";. "$CONF" ;}
 emagnet_mustberoot(){(( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1;  }
 emagnet_clear(){ clear;}
@@ -793,7 +793,6 @@ et=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|tr '
 pf=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f1|uniq|grep -v '"'\|','\|'<'|tr ' ' '\n')
 pl=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" "$EMAGNETTEMP"|awk '{print $1}'|cut -d':' -f2,3|cut -d'|' -f1|awk -F, '!seen[$1]++'|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'\|'index.html'\|'alerts'|grep -v '/')
 pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETTEMP|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v /|wc -l)
-sl=$(grep '^....-....-....-....-....$')" # Temp, possible serial key for games or steam key
 
 [[ "$et" -lt 10 ]] && et="0$et";[[ "$pt" -lt 10 ]] && pt="0$pt"
           if [[ "$pt" > "00" ]] && [[ "$et" > "00" ]]; then
