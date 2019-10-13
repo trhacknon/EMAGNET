@@ -22,17 +22,7 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 ### TIPS:
 
-##### Bruteforce on your own risk.
-
-For people that like things sorted. If you have some big archives with leaked databases stored (or small) on your harddrive but you are to lazy to figure out wich works and not on sites like spotify or gmail for example, then just create a a random text file in "$HOME/.config/emagnet/tmp/some-random-file" - Add all logins as: mail:password one per line - Now just run emagnet as usual and you will bruteforce all accounts you added to the file and all cracked accounts will be stored in log dirs! Once done, you will have a good list for accounts that actually works for real or at least you know wich accounts you can put at top of your text file that you know is legit.
-
-Don't forget to use vpn, tor or just edit curl command if you want to use a socks5 proxy / ssh tunnel: For a socks5 proxy use: curl --socks5-hostname localhost:port ...... and for tor use curl --socks5 127.0.0.1:9150 ......
-
-### Demo - How it works
-#### Left side is how you see it - Right side is what actually happening in the background
-![Screenshot](.preview/emagnet2-debug.gif)
-
-### Get Started On Linux/MacOSX
+### For Getting Started:
 
     git clone https://github.com/wuseman/emagnet
     cd emagnet
@@ -44,20 +34,6 @@ Don't forget to use vpn, tor or just edit curl command if you want to use a sock
 
 See video [here](https://nr1.nu/android-emagnet.gif)
 
-* Download termux from play store [here](https://play.google.com/store/apps/details?id=com.termux&hl=en_US)
-
-Once installed, copy and paste below commands: 
-
-     echo -e '
-     pkg update
-     pkg upgrade -y
-     pkg install wget curl git -y
-     git clone https://github.com/wuseman/emagnet
-
-     cd emagnet
-     bash emagnet --emagnet' > emagnet-termux.sh
-     bash emagnet-termux.sh
-    
 ###  Get Started On Windows 10
 
 Please visit my installation [wiki](https://github.com/wuseman/EMAGNET/wiki/Configurations-&-Installation) for more info (includes a video)
