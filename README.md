@@ -1,5 +1,5 @@
 # EMAGNET v3.4
-## <p align="center">![Screenshot](https://nr1.nu/f/kcdle.gif)
+## <p align="center">![Screenshot](https://i.imgur.com/s0eutgZ.gif)
 
 | Current Version    |  Released      | News                            | Tested On                          |
 | :----------------- | :------------- | :-------------------------------- | :----------------------------------|
