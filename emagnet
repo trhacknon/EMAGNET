@@ -80,6 +80,7 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
   -a, --author        Show author information
   -b, --backup        Create a compressed archive
                       - Available options: all/archive/incoming
+  -B, --blocked       Print if you have been banned
   -l, --license       Show license information
   -h, --help          Display this very helpful text
   -n, --notify        Set notifications on or off
@@ -240,6 +241,16 @@ curl -sL -H "$USERAGENT" "$PASTEBIN" \
       bash "$basename$0" --emagnet
 fi
 }
+
+emagnet_wasibanned() {
+	curl -sL "$USERAGENT" "$PASTEBIN"|grep -q "blocked your IP"
+        if [[ $? -eq "0" ]]; then
+          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) has been blocked"
+        else
+          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) is not blocked"
+        fi
+}
+
 
 emagnet_I_was_banned() {
 curl -sL -H "$USERAGENT" "$PASTEBIN" \
@@ -832,7 +843,6 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                 else
                   sleep 0
                fi
-               
                 elif [[ "$pt" = "0" ]] && [[ "$et" -gt "0" ]]; then
                    cp -rn ${ef} $EMAGNETDB/ &> /dev/null
                    echo -e "${el}" >> "$EMAGNETLOGS/emails-from-pastebin.txt"
@@ -859,10 +869,10 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                     echo -e "                       - Email Addresses Found \r             [\e[1;31m00\e[0m] \n"
                     sleep 2
               fi
-    mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
-    rm "$HOME/.config/emagnet/tmp/.emagnet" "$HOME/.config/emagnet/tmp/.emagnet1"  &> /dev/null
-    sleep 2
-    pkill -9 "notify-send" &> /dev/null
+                    mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
+                    rm "$HOME/.config/emagnet/tmp/.emagnet" "$HOME/.config/emagnet/tmp/.emagnet1"  &> /dev/null
+                    sleep 2
+                    pkill -9 "notify-send" &> /dev/null
 }
 
 emagnet_run4ever() {
@@ -924,6 +934,9 @@ case "${1}" in
           emagnet_author
      ;;
 
+     "-B"|"--banned"|"--blocked")
+          emagnet_wasibanned
+      ;;
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
         emagnet_iconnection
         emagnet_first_run
