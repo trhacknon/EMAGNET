@@ -45,7 +45,7 @@
 ###############################################################################
 
 ###############################################################################
-### Want your own banner? Cool, just replace the ascii below               ####
+## Want your own banner? Cool, just replace the ascii below               ####
 ###############################################################################
 emagnet_banner() {
 cat << "EOF"
@@ -172,7 +172,7 @@ emagnet_mustbefilled() {
   if [[ -z "$SSHPORTSCAN"    ]];then sed -i '185d' "$CONF";sed -i '185 i SSHPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
   if [[ -z "$RDPUSER"        ]];then sed -i '197d' "$CONF";sed -i '197 i RDPUSER="Administrator"'                                                                                                          "$CONF";fi
   if [[ -z "$RDPPORT"        ]];then sed -i '198d' "$CONF";sed -i '198 i RDPPORT="3389"'                                                                                                            "$CONF";fi
-  if [[ -z "$RDPPASS"        ]];then sed -i '199d' "$CONF";sed -i '199 i RDPPASS="qwerty'                                                                                                         "$CONF";fi
+  if [[ -z "$RDPPASS"        ]];then sed -i '199d' "$CONF";sed -i '199 i RDPPASS="qwerty"'                                                                                                         "$CONF";fi
   if [[ -z "$RDPTARGETS"     ]];then sed -i '200d' "$CONF";sed -i '200 i RDPTARGETS="$HOME/.config/emagnet/tmp/.emagnet-rdpbruter.txt"'                                                           "$CONF";fi
   if [[ -z "$RDPPORTSCAN"    ]];then sed -i '201d' "$CONF";sed -i '201 i RDPPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
   if [[ -z "$USERAGENT"      ]];then sed -i '195d' "$CONF";sed -i '195 i USERAGENT=Mosaic/0.9'                                                                                                    "$CONF";fi
@@ -582,14 +582,14 @@ hash xfreerdp &> /dev/null
 emagnet_conf
 if [[ -z "$rdpPASS" ]]; then
    echo -e "You must set a password to use during the attack"
-   read -p "Enter a password or hit enter for default (Default: root) " rdppassb
+   read -p "Enter a password or hit enter for default (Default: qwerty) " rdppassb
    echo ""
      if [[ -n "$rdppassb" ]]; then
        sed -i '199d' "$CONF"
        sed -i "199 i rdppassb=$rdppassb" "$CONF"
      else
        sed -i '199d' "$CONF"
-       sed -i "199 i RDPPASS=root" "$CONF"
+       sed -i "199 i RDPPASS=qwerty" "$CONF"
      fi
 fi
 
