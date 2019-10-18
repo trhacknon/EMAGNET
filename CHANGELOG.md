@@ -11,9 +11,10 @@ r = RE-ADDED FEATURE FROM AN EARLIER VERSION
      that has been re-added is now stable and not "half done" so they are here for stay.
 R = REBUILT
 
-
 # Version 3.4
 
++    Added a function to figure out if you have been blocked or not before you running emagnet
++    Added RDP bruteforcer
 +    Fixed so if we are busted and being asked for captcha then we changing IP
 +    Set wich file you want to send to all email addresses by: -s /path/to/textfile.txt
 +    Set vpn provider by: -v -p <provider>
