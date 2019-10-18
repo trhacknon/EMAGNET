@@ -80,7 +80,7 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
   -a, --author        Show author information
   -b, --backup        Create a compressed archive
                       - Available options: all/archive/incoming
-  -B, --blocked       Print if you have been banned
+  -B, --blocked       Check if your current IP has been blocked
   -l, --license       Show license information
   -h, --help          Display this very helpful text
   -n, --notify        Set notifications on or off
