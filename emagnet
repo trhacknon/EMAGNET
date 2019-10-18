@@ -250,9 +250,9 @@ fi
 emagnet_wasibanned() {
 	curl -sL "$USERAGENT" "$PASTEBIN"|grep -q "blocked your IP"
         if [[ $? -eq "0" ]]; then
-          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) has been blocked"
+          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) is blocked, turn on your vpn or wait ~30 minutes"
         else
-          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) is not blocked"
+          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) has not been blocked"
         fi
 }
 
@@ -1098,12 +1098,12 @@ case "${1}" in
       		   echo "Exiting.."
        		   exit 1
          	 fi
-               sed -i '230d' "$CONF"
-               sed -i '230 i LIBSPOTIFY=true' "$CONF"
+               sed -i '245d' "$CONF"
+               sed -i '245 i LIBSPOTIFY=true' "$CONF"
             fi
               else
-               sed -i '230d' "$CONF"
-               sed -i '230 i LIBSPOTIFY=true' "$CONF"
+               sed -i '245d' "$CONF"
+               sed -i '245 i LIBSPOTIFY=true' "$CONF"
             fi
                # 2ADD! - Check so unzip is installed - Mostly users have it installed so no rush!
                ./sconsify -version &> /dev/null
