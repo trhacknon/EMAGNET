@@ -22,10 +22,10 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
     .
     ./emagnet --emagnet
     
-### Tried to fix so it's possible to find leaked VISA/MASTERCARDS so you could figure out if your card was leaked, but it's really hard to get it fetching with a good accurate so its not worth to add it _yet_. If you wanna find visa cards then you can search for cards manually by below line:
+### Tried to fix so it's possible to find leaked VISA/MASTERCARDS so you could figure out if your card was leaked, but it's really hard to get it fetching with a good accurate so its not worth to add it _yet_. If you wanna find visa cards then you can search for cards manually by below line until I figure out a nice way to fetch them with a nice accurate:
 
       source $HOME/.config/emagnet/emagnet.conf
-      grep -eril '\b4[0-9]{12}(?:[0-9]{3})?\b\' $EMAGNET | xargs grep -ril \'visa\' .
+      grep -eril '\b4[0-9]{12}(?:[0-9]{3})?\b\' $EMAGNET
      
 ### Wiki Sections:
 
