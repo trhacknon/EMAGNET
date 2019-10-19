@@ -22,6 +22,13 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
     .
     ./emagnet --emagnet
     
+### Tried to fix so it's possible to find leaked VISA/MASTERCARDS so you could figure out if your card was leaked, but it's really hard to get it fetching with a goot accurate so I adding the one-liners here, then you can search for cards manually:
+
+* For find all files that includes a VISA card you can try below line, it will only match if they added 'VISA' is in the file, it's pretty good accurate but I have no stats for exactly how many matches you got. But this is a start:
+
+      source $HOME/.config/emagnet/emagnet.conf
+      grep -eril '\b4[0-9]{12}(?:[0-9]{3})?\b\' $EMAGNET | xargs grep -ril \'visa\' .
+     
 ### Wiki Sections:
 
 - [About](https://github.com/wuseman/EMAGNET/wiki/ABOUT) - 
