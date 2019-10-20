@@ -102,6 +102,10 @@ And to all ppl that is trying to sell public leaks and steal the real hackers jo
 
 Cheers!
 
+### Feel free to send donations if you want to support the development of the emagnet
+
+      BTC Address: 1PShAiLCgEnMMPKAwLcv6pxNSx6hiyRMHE
+
 ### Emagnet is a private project since 2015 and was released in June @ 2018, to be continued. 
 
 
