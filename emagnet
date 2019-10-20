@@ -59,7 +59,7 @@ cat << "EOF"
     ,dMMMb.     ~~' OO     `YOOOOOP'     OO `~~     ,dMMMb.
  _,dP~  `YMba_      OOb      `OOO'      dOO      _aMMP'  ~Yb._
              `YMMMM\`OOOo     OOO     oOOO'/MMMMP'
-     ,aa.     `~YMMb `OOOb._,dOOOb._,dOOO'dMMP~'       ,aa.
+     ,aa.     `~YMMb `OOOb._,dOOOb._,dOOO'dMMP~'       ,aa.>
    ,dMYYMba._         `OOOOOOOOOOOOOOOOO'          _,adMYYMb.
   ,MP'   `YMMba._      OOOOOOOOOOOOOOOOO       _,adMMP'   `YM.
   MP'        ~YMMMba._ YOOOOPVVVVVYOOOOP  _,adMMMMP~       `YM
@@ -248,12 +248,12 @@ fi
 }
 
 emagnet_wasibanned() {
-	curl -sL "$USERAGENT" "$PASTEBIN"|grep -q "blocked your IP"
-        if [[ $? -eq "0" ]]; then
-          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) is blocked, turn on your vpn or wait ~30 minutes"
-        else
-          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) has not been blocked"
-        fi
+curl -sL https://pastebin.com|grep -qowi 'Pastebin.com has blocked your IP'
+    if [[ $? -eq "0" ]]; then
+      echo -e "$basename$0: $(curl -sL https://nr1.nu/i/) has been blocked ... :-("
+     else
+      echo -e "$basename$0: $(curl -sL https://nr1.nu/i/) has not been blocked ... :-)"
+    fi
 }
 
 
@@ -1098,12 +1098,12 @@ case "${1}" in
       		   echo "Exiting.."
        		   exit 1
          	 fi
-               sed -i '245d' "$CONF"
-               sed -i '245 i LIBSPOTIFY=true' "$CONF"
+               sed -i '243d' "$CONF"
+               sed -i '243 i LIBSPOTIFY=true' "$CONF"
             fi
               else
-               sed -i '245d' "$CONF"
-               sed -i '245 i LIBSPOTIFY=true' "$CONF"
+               sed -i '243d' "$CONF"
+               sed -i '243 i LIBSPOTIFY=true' "$CONF"
             fi
                # 2ADD! - Check so unzip is installed - Mostly users have it installed so no rush!
                ./sconsify -version &> /dev/null
