@@ -1007,6 +1007,7 @@ emagnet_run4ever() {
 
 emagnet_first_run() {
 if ! [[ -f "$CONF" ]]; then
+	    echo "Please wait, generating emagnet.conf for you ..."
         emagnet_requirements
         emagnet_required_stuff
         emagnet_conf
