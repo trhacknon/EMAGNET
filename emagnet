@@ -44,6 +44,9 @@
 ####                                                                       ####
 ###############################################################################
 
+
+
+
 ###############################################################################
 ## Want your own banner? Cool, just replace the ascii below               ####
 ###############################################################################
@@ -1006,7 +1009,12 @@ emagnet_run4ever() {
 }
 
 emagnet_first_run() {
-if ! [[ -f "$CONF" ]]; then
+# Emagnet wont run on default installed MacOSX systems since they using a very old version since 2007
+# Upgrade your bash version or even better for your own safety, move to Linux! :-)
+        emagnet_bashversion() {
+        BASH_VERSION="$(bash --version|grep -o version..|head -n1|awk '{print $2}')"
+        if [[ $BASH_VERSION -lt "4" ]]; then echo -e "$basename$0: internal error -- you must install bash 4.3.4 or newer for emagnet to work properly"; fi;}
+    if ! [[ -f "$CONF" ]]; then
 	    echo "Please wait, generating emagnet.conf for you ..."
         emagnet_requirements
         emagnet_required_stuff
