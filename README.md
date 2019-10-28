@@ -1,9 +1,9 @@
 # EMAGNET v3.4
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
 
-| Current Version    |  Released      | News                            | Tested On                          |
-| :----------------- | :------------- | :-------------------------------- | :----------------------------------|
-| `3.4`              |      -:-       |  Full support on android devices, no root required    | Linux/MacOS/OpenWRT/Windows/Android                               |
+| Current Version    | News                            | Tested On                          |
+| :----------------- | :-------------------------------- | :----------------------------------|
+| `3.4`              |  Full support on android devices, no root required    | Linux/MacOS/OpenWRT/Windows/Android                               |
 
 <a href="https://github.com/wuseman/EMAGNET"><img src="https://img.shields.io/github/languages/top/wuseman/emagnet.svg?color=magenta&label=Bash%2FShell"></a><a href="https://github.com/wuseman/EMAGNET/issues?q=is%3Aissue+is%3Aclosed">
 <img src="https://img.shields.io/github/issues-closed/wuseman/emagnet.svg?color=light&label=Closed%20Issues"></a>
