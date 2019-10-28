@@ -21,12 +21,7 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
     chmod +x emagnet*
     .
     ./emagnet --emagnet
-    
-### Tried to fix so it's possible to find leaked VISA/MASTERCARDS so you could figure out if your card was leaked, but it's really hard to get it fetching with a good accurate so its not worth to add it _yet_. If you wanna find visa cards then you can search for cards manually by below line until I figure out a nice way to fetch them with a nice accurate:
-
-      source $HOME/.config/emagnet/emagnet.conf
-      grep -eril '\b4[0-9]{12}(?:[0-9]{3})?\b\' $EMAGNET
-     
+        
 ### Wiki Sections:
 
 - [About](https://github.com/wuseman/EMAGNET/wiki/ABOUT) - 
@@ -40,11 +35,13 @@ _Get started with spotify brute forcing - How emagnet will work with your openvp
 - [Regex - Tips For Search](https://github.com/wuseman/EMAGNET/wiki/Searching-&-Regex) - How To Find your facebook credenticals, if it has been leaked._
 
 
-### How it works
+### How it works line by line:
 
 * Left side is how you see things - Right side is what actually happening, line by line:
 
 ![Screenshot](.preview/emagnet2-debug.gif)
+
+# Reality
 
 #### Below you can see an image that describes the reality, emagnet makes it easier than ever to get hold of leaked accounts. Emagnet does not violate any country's laws as long as you brute forcing your own accounts only (this is up to every user to decide), all we do is retrieve data from pastebin, if you have opinions or questions about stuff pastebin hosting you will find all info on https://pastebin.com/contact to get in touch - I wont reply questions about this in my mailbox, all kind of messages that contains such info will be wiped, just for your notice. 
 
