@@ -44,13 +44,13 @@ _Get started with spotify brute forcing - How emagnet will work with your openvp
 
 * Left side is how you see things - Right side is what actually happening, line by line:
 
+![Screenshot](.preview/emagnet2-debug.gif)
+
 ### System Requirements
 
 - Bash     - Find more info about _bash_ [here](https://www.gnu.org/software/bash/)
 - Wget     - Find more info about _wget_ [here](https://www.gnu.org/software/wget/)
 - Curl     - Find more info about _curl_ [here](https://github.com/curl/curl)
-
-![Screenshot](.preview/emagnet2-debug.gif)
 
 # Reality
 
