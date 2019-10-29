@@ -250,9 +250,9 @@ fi
 emagnet_wasibanned() {
 curl -sL https://pastebin.com|grep -qowi 'Pastebin.com has blocked your IP'
     if [[ $? -eq "0" ]]; then
-      echo -e "$basename$0: $(curl -sL https://nr1.nu/i/) has been blocked ... :-("
+      echo -e "$basename$0: $(curl -sL https://nr1.nu/i/) has been blocked ... "
      else
-      echo -e "$basename$0: $(curl -sL https://nr1.nu/i/) has not been blocked ... :-)"
+      echo -e "$basename$0: $(curl -sL https://nr1.nu/i/) has not been blocked ... "
     fi
 }
 
