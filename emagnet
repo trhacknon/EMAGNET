@@ -942,7 +942,7 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                    ${et} - Email addresses found"
                 fi
                    echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
-                   echo -e "                       - Passwords Found \r             [\e[1;31m0\e[0m] "
+                   echo -e "                       - Passwords Found \r             [\e[1;31m00\e[0m] "
                    echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m] \n"
                    sleep 2
                 else
@@ -953,8 +953,8 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                     0 - Email addresses found"
                  fi
                     echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
-                    echo -e "                       - Passwords found \r             [\e[1;31m0\e[0m] "
-                    echo -e "                       - Email Addresses Found \r             [\e[1;31m0\e[0m] \n"
+                    echo -e "                       - Passwords found \r             [\e[1;31m00\e[0m] "
+                    echo -e "                       - Email Addresses Found \r             [\e[1;31m00\e[0m] \n"
                     sleep 2
               fi
                     mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
