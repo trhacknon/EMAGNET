@@ -1094,8 +1094,6 @@ emagnet_customsearch() {
      grep -rei ${searchfor} $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'
 }
 
-
-
 read -p " [O] - Option: " diagst
         case "$diagst" in
                 1) emagnet_findemailaddresses                                                       ;;
@@ -1111,7 +1109,6 @@ read -p " [O] - Option: " diagst
                \?) echo -e "$basename$0: internal error -- $diagst is an Unknown option, exiting.." ;;
         esac
 }
-
 
 case "${1}" in
 
