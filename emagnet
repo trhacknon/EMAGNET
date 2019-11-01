@@ -927,7 +927,6 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                   printf "%64s \n\n" | tr ' ' '='
                   printf "%15s";printf "BRUTE FORCING -- \e[1;31mRDP\e[0m ACCOUNTS\e[0m\n\n"
                   emagnet_rdpbruter
-
                 else
                   sleep 0
                fi
