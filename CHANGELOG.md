@@ -13,6 +13,7 @@ R = REBUILT
 
 # Version 3.4
 
++    Added it possible to search for various stuff
 +    Added a function to figure out if you have been blocked or not before you running emagnet
 +    Added RDP bruteforcer
 +    Fixed so if we are busted and being asked for captcha then we changing IP
