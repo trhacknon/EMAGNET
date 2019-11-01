@@ -938,7 +938,7 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                 if [[ "$NOTIFY" = "true" ]]; then
                    notify-send "Emagnet" "\n
                    ${tt} - Files downloaded\n
-                   0 - Passwords found\n
+                   00 - Passwords found\n
                    ${et} - Email addresses found"
                 fi
                    echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
