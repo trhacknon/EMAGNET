@@ -113,7 +113,7 @@ emagnet_required_stuff(){ if ! [[ -d "$HOME/.config/emagnet/" ]]; then mkdir -p 
 emagnet_conf(){ CONF="$HOME/.config/emagnet/emagnet.conf";. "$CONF" ;}
 emagnet_mustberoot(){(( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1;  }
 emagnet_clear(){ clear;}
-emagnet_iconnection(){ ping -i "1" -c 1 1.1.1.1 &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
+emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
 emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;curl -s "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
 emagnet_is_this_android(){ getprop &> /dev/null; [[ "$?" -eq "0" ]] && sed -i '204d' "$CONF"; sed -i '204 i ANDROID=true' "$CONF";}
 emagnet_not_available_on_android(){ echo "This feature is not supported on your $(getprop ro.model.name)" device;exit 1;}
@@ -251,9 +251,9 @@ fi
 emagnet_wasibanned() {
 	curl -sL "$USERAGENT" "$PASTEBIN"|grep -q "blocked your IP"
         if [[ $? -eq "0" ]]; then
-          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) is blocked, turn on your vpn or wait ~30 minutes"
+          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) is blocked, turn on your vpn or wait ~30 minutes ..."
         else
-          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) has not been blocked"
+          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) has not been blocked ..."
         fi
 }
 
@@ -266,13 +266,13 @@ if [[ "$?" = "0" ]]; then
                     emagnet_clear
                     emagnet_banner
    	   	   for (( ; ; )); do
-                    wait_time=${IDLETIME}
+                  wait_time=${IDLETIME}
       		        temp_cnt=${wait_time}
-   		   while [[ "${temp_cnt}" -gt "0" ]]; do
+   		          while [[ "${temp_cnt}" -gt "0" ]]; do
                     printf "\rIP: [\e[1;31m$(curl -s $WIP)\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
                     printf " seconds"
-      		        sleep 1
-      		        ((temp_cnt--))
+      		          sleep 1
+      		          ((temp_cnt--))
   	            done
                     printf "\n"
                     emagnet_clear
@@ -1385,5 +1385,3 @@ case "${1}" in
 esac
 
 ( [[ -z $1 ]] && emagnet_usage; exit 1 )
-
-
