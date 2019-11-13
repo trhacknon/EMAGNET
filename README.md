@@ -22,7 +22,7 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 * The result is amazing, it have never ever been so easy to hack million of peoples accounts before!
 * Run emagnet on your android device, just put your android device in your pocket and emagnet will hack the accounts for you - This preview is for spotify, but emagnet has support for more protocols and it will be more supported protocols in next upgrade.
 
-### Sit back and relax and Emagnet will do the rest, watch the video below, this is actually for real! Enjoy. 
+### Sit back and relax and Emagnet will do the rest, watch the video below, this is for real! Enjoy. 
 
 ![Screenshot](https://nr1.nu/emagnet/previews/emagnet-latest.gif)
 
