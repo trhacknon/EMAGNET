@@ -14,6 +14,11 @@
 
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
 
+### A sample from 2019-11-13:
+#### The video has been made by an unknown user, I got it in my mailbox so don't blame me for this!
+
+![Screenshot](https://nr1.nu/emagnet/previews/emagnet-latest.gif)
+
 #### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
 
 - Emagnet is No.1 tool for fetch these leaks from pastebin
@@ -36,10 +41,6 @@ _Previews can be found here._
 - [Configurations-&-Installation](https://github.com/wuseman/EMAGNET/wiki/Configurations-&-Installation) - 
 _Get started with spotify brute forcing - How emagnet will work with your openvpn files._
 - [Regex - Tips For Search](https://github.com/wuseman/EMAGNET/wiki/Searching-&-Regex) - How To Find your facebook credenticals, if it has been leaked._
-
-### A sample from 2019-11-13 when an unknown user using emagnet, don't blame me for brute forcing!
-
-![Screenshot](https://nr1.nu/emagnet/previews/emagnet-latest.gif)
 
 ### How it works, this is an example when executing ./emagnet -g spotify:
 
