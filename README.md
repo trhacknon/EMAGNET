@@ -33,8 +33,6 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 _How everything started._
 - [Previews](https://github.com/wuseman/EMAGNET/wiki/PREVIEWS) - 
 _Previews can be found here._
-- [Faq](https://github.com/wuseman/EMAGNET/wiki/FAQ) - 
-_How to grab your visa card if it has been leaked. Also get answers why we not using TOR._
 - [Configurations-&-Installation](https://github.com/wuseman/EMAGNET/wiki/Configurations-&-Installation) - 
 _Get started with spotify brute forcing - How emagnet will work with your openvpn files._
 - [Regex - Tips For Search](https://github.com/wuseman/EMAGNET/wiki/Searching-&-Regex) - How To Find your facebook credenticals, if it has been leaked._
