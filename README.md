@@ -37,6 +37,10 @@ _Previews can be found here._
 _Get started with spotify brute forcing - How emagnet will work with your openvpn files._
 - [Regex - Tips For Search](https://github.com/wuseman/EMAGNET/wiki/Searching-&-Regex) - How To Find your facebook credenticals, if it has been leaked._
 
+### A sample from 2019-11-13 when an unknown user using emagnet, don't blame me for brute forcing!
+
+![Screenshot](https://nr1.nu/emagnet/previews/emagnet-latest.gif)
+
 ### How it works, this is an example when executing ./emagnet -g spotify:
 
 * Left side is how you see things - Right side is what actually happening, line by line:
