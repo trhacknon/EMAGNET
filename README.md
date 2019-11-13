@@ -19,9 +19,10 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 - Emagnet is No.1 tool for fetch these leaks from pastebin
 
 ### A sample from 2019-11-13 when running emagnet with brute forde mode on for spotify:
-##### The result is amazing, it have never ever been so easy to hack million of peoples accounts before!
-##### Put the phone away while emagnet is running and I can promise you that you have hacked some ppls accounts.
-##### This preview is for spotify, but emagnet has support for more protocols and soon there will be even better
+* The result is amazing, it have never ever been so easy to hack million of peoples accounts before!
+* Put the phone away while emagnet is running and I can promise you that you have hacked some ppls accounts.
+
+#### This preview is for spotify, but emagnet has support for more protocols and soon there will be even better
 
 ![Screenshot](https://nr1.nu/emagnet/previews/emagnet-latest.gif)
 
