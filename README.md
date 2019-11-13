@@ -14,10 +14,6 @@
 
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
 
-#### Emagnet Search has been added, probably the most powerful way for find leaked credit cards leaked on pastebin, just run 'git pull; emagnet -S' for open search menu - It's not done yet - Keep eyes open for nex push! - Don't abuse this and don't break the law in your Country, you have been informed.  :)
-
-![Screenshot](.preview/emagnet_search.gif)
-
 #### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
 
 - Emagnet is No.1 tool for fetch these leaks from pastebin
@@ -48,6 +44,10 @@ _Get started with spotify brute forcing - How emagnet will work with your openvp
 * Left side is how you see things - Right side is what actually happening, line by line:
 
 ![Screenshot](.preview/emagnet2-debug.gif)
+
+#### Emagnet Search has been added, probably the most powerful way for find leaked credit cards leaked on pastebin, just run 'git pull; emagnet -S' for open search menu - It's not done yet - Keep eyes open for nex push! - Don't abuse this and don't break the law in your Country, you have been informed.  :)
+
+![Screenshot](.preview/emagnet_search.gif)
 
 ### System Requirements
 
