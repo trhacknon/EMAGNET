@@ -39,12 +39,8 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
     chmod +x emagnet*
     ./emagnet --emagnet
    
-    That's it!
+    That's it, have phun!
     
-### If you want to download lastest uploads on pastebin without using emagnet and you working on your own project, then you can use below command:
-
-     curl -Ls pastebin.com/archive|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'|grep -v 'archive\|contact\|settings\|messages\|signup\|index.html'|awk '{print tolower($0)}'|sed 's/^/http:\/\/pastebin.com\/raw/g'|xargs wget
-
 ### Wiki Sections:
 
 - [About](https://github.com/wuseman/EMAGNET/wiki/ABOUT) - 
