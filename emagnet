@@ -684,7 +684,7 @@ while read instagramlogin; do
          echo -e "[+] Login Details For INSTAGRAM - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"        >>    "$EMAGNETCRACKED/cracked-instasgram-passwords.txt"
          echo -e "[+]------------------------------------------------------------"              >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
          echo -e "[+] Username: ${INSTAGRAM_USER}"                                              >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
-         echo -e "[+] Password: ${INSTAGRAM_PASS}"                                              >>    "$EMAGNETCRACKED/cracked-instsagram-passwords.txt"
+         echo -e "[+] Password: ${INSTAGRAM_PASS}"                                              >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
          echo -e "================================================================\n\n"         >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
          echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${INSTAGRAM_USER}:${INSTAGRAM_PASS}"    >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
          echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${INSTAGRAM_USER}:${INSTAGRAM_PASS}"      >>    "$HOME/.config/emagnet/tmp/.emagnet-failed"
