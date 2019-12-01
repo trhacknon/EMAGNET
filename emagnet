@@ -1001,7 +1001,7 @@ emagnet_run4ever() {
         emagnet_banner
         emagnet_I_was_banned
         emagnet_main
-      done
+       done
 }
 
 emagnet_first_run() {
@@ -1108,8 +1108,6 @@ read -p " [O] - Option: " diagst
         esac
 }
 
-
-
 case "${1}" in
 
      "-a"|"-author"|"--author")
@@ -1136,13 +1134,13 @@ case "${1}" in
         ;;
 
       "-g"|"-bruteforce"|"--bruteforce")
+          emagnet_iconnection
+          emagnet_first_run
           sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' "$CONF"
           sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' "$CONF"
           sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
           sed -i 's/IBRUTEFORCE=true/IBRUTEFORCE=false/g' "$CONF"
           sed -i 's/RBRUTEFORCE=true/RBRUTEFORCE=false/g' "$CONF"
-          emagnet_iconnection
-          emagnet_first_run
 
            if [[ "$2" = "gmail" ]]; then
             sed -i 's/GBRUTEFORCE=false/GBRUTEFORCE=true/g' "$CONF"
@@ -1181,11 +1179,11 @@ case "${1}" in
               fi
 
            elif [[ "$2" = "spotify" ]]; then
-          emagnet_conf
+           emagnet_conf
                find /usr/include -type d |grep 'libspotify' &> /dev/null
              if [[ "$?" -ne "0" ]]; then
              if [[ -z "$LIBSPOTIFY" ]]; then
-	       printf "Libspotify is deprecated but is required for emagnet bruteforcing\nto work, do you have libspotify installed? (YES/no): "
+	                 printf "Libspotify is deprecated but is required for emagnet bruteforcing\nto work, do you have libspotify installed? (YES/no): "
                read LIBSPOTIFY
                  if ! [[ "$LIBSPOTIFY" = "YES" ]]; then
                    echo "Can't continue until libspotify has been installed.."
@@ -1199,7 +1197,11 @@ case "${1}" in
                sed -i '245d' "$CONF"
                sed -i '245 i LIBSPOTIFY=true' "$CONF"
             fi
-               # 2ADD! - Check so unzip is installed - Mostly users have it installed so no rush!
+               hash unzip &> /dev/null
+               if [[ "$?" -ne "0" ]]; then
+                echo -e "$basename$0: internal error -- unzip is required to be installed for unzip sconsify ..."
+                exit 1
+              fi
                ./sconsify -version &> /dev/null
                         if [[ "$?" -ne "0" ]]; then
                          echo "Sconsify is required to be installed before we attacking targets.."
