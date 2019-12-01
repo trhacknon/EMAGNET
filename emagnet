@@ -109,19 +109,68 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 EOF
 }
 
-emagnet_required_stuff(){ if ! [[ -d "$HOME/.config/emagnet/" ]]; then mkdir -p "$HOME/.config/emagnet/tmp";fi;cp "./emagnet.conf" $HOME/.config/emagnet/;}
-emagnet_conf(){ CONF="$HOME/.config/emagnet/emagnet.conf";. "$CONF" ;}
-emagnet_mustberoot(){(( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1;  }
-emagnet_clear(){ clear;}
-emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
-emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;curl -s "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
-emagnet_is_this_android(){ getprop &> /dev/null; [[ "$?" -eq "0" ]] && sed -i '204d' "$CONF"; sed -i '204 i ANDROID=true' "$CONF";}
-emagnet_not_available_on_android(){ echo "This feature is not supported on your $(getprop ro.model.name)" device;exit 1;}
-emagnet_requirements_android(){ for android_tools in curl wget; do hash "${android_tools}";done;[[ "$?" -ne "0" ]] && echo "You must install ${android_tools} on your device";exit 1;}
-emagnet_requirements(){ for cmd in wget curl; do hash $cmd; if [[ "$?" -gt 0 ]]; then echo "$cmd is required to be installed, exiting."; exit 1;fi;done;}
-emagnet_optional(){ sleep 0;}
-emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
-emagnet_paths(){ PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}";for DIRS in ${PATHS}; do ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done ;}
+emagnet_required_stuff() { 
+  if ! [[ -d "$HOME/.config/emagnet/" ]]; then 
+    mkdir -p "$HOME/.config/emagnet/tmp"
+  fi
+    cp "./emagnet.conf" $HOME/.config/emagnet/
+}
+
+emagnet_conf() { 
+  CONF="$HOME/.config/emagnet/emagnet.conf"
+  . "$CONF" 
+}
+
+emagnet_mustberoot() { 
+  (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1  
+}
+
+emagnet_clear(){ 
+  clear
+}
+
+emagnet_iconnection() { 
+  ping -i "1" -c 1 google.com &> /dev/null
+     if [[ "$?" -gt "0" ]]; then 
+      echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"
+      exit 1
+     fi
+}
+
+emagnet_license() { 
+   printf "%s\n" "Printing LICENSE - Use 'q' to quit"
+   sleep 2
+   curl -s "https://nr1.nu/licenses/LICENSE.md"|less
+   printf "%s\n" "Thank you.." 
+ }
+
+
+emagnet_requirements(){ 
+  for cmd in wget curl; do 
+   hash $cmd
+   if [[ "$?" -gt 0 ]]; then 
+    echo "$cmd is required to be installed, exiting."
+    exit 1
+    fi
+  done
+ }
+
+emagnet_optional(){ 
+  sleep 0
+}
+
+emagnet_blocked(){ 
+   if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then 
+   curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet
+   fi
+}
+
+emagnet_paths(){ 
+  PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}"
+  for DIRS in ${PATHS}; do 
+    ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done 
+}
+
 CONF="$HOME/.config/emagnet/emagnet.conf"
 
 emagnet_mustbefilled() {
@@ -251,9 +300,9 @@ fi
 emagnet_wasibanned() {
 	curl -sL "$USERAGENT" "$PASTEBIN"|grep -q "blocked your IP"
         if [[ $? -eq "0" ]]; then
-          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) is blocked, turn on your vpn or wait ~30 minutes ..."
+          echo -e "$basename$0: $(curl -s $WIP) is blocked, turn on your vpn or wait ~30 minutes ..."
         else
-          echo -e "$basename$0: $(curl -s https://nr1.nu/i/) has not been blocked ..."
+          echo -e "$basename$0: $(curl -s $WIP) has not been blocked ..."
         fi
 }
 
@@ -344,8 +393,8 @@ else
   line1='................................[ ok ]'
   line2='...............................................'
   OPENVPNRUNNING="$(ps aux |grep openvpn|sed '1d')"
-  MYIP="$(curl -s https://nr1.nu/i/)"
-  MYCOUNTRY="$(curl -s https://nr1.nu/i/|xargs whois|grep -i COUNTRY|awk '{print tolower($2)}')"
+  MYIP="$(curl -s $WIP)"
+  MYCOUNTRY="$(curl -s $WIP|xargs whois|grep -i COUNTRY|awk '{print tolower($2)}')"
   COUNTRY=$(awk -F'="' '/VPNCOUNTRYS="/ {print $2}' $CONF|sed 's/"//g'|tr ' ' '\n'|sort -R | sed 's/.*[0-9]\t//'|shuf -n1)
       curl -H "$USERAGENT" -Ls "$WIP" > "$HOME/.config/emagnet/tmp/.emagnet-ip"
       if [[ -n "$OPENVPNRUNNING" ]]; then pkill -9 "openvpn"; fi
@@ -358,11 +407,11 @@ else
 	    printf "\n"
         emagnet_vpnsetup
         sleep 10
-        MYIP="$(curl -s https://nr1.nu/i/)"
+        MYIP="$(curl -s $WIP)"
         MYOLDIP="$(cat $HOME/.config/emagnet/tmp/.emagnet-ip)"
 	    if [[ "$MYIP" != "$MYOLDIP" ]]; then
                 rm "$HOME/.config/emagnet/tmp/.emagnet-ip" &> /dev/null
-                MYNEWIP=$(printf "Successfully connected to $(echo  "$(curl -s https://nr1.nu/i/)")")
+                MYNEWIP=$(printf "Successfully connected to $(echo  "$(curl -s $WIP)")")
                 printf "%s%s[ ok ]\n" "$MYNEWIP" "${line:${#MYNEWIP}}"
                 printf "\rEmagnet will continue in 5 seconds.........................[ ok ]\n\n"
                 sleep 5
@@ -370,10 +419,10 @@ else
             if [[ "$MYIP" = "$MYOLDIP" ]]; then
               echo -e "Still trying to establish a connection.....................[\e[1;3m\e[5mwait\e[0m\e[0m]"
               sleep 10
-              MYIP="$(curl -s https://nr1.nu/i/)"
+              MYIP="$(curl -s $WIP)"
 		          if [[ ! "$MYIP" = "$MYOLDIP" ]]; then
                       rm "$HOME/.config/emagnet/tmp/.emagnet-ip" &> /dev/null
-                      MYNEWIP=$(echo -e "Successfully connected to $(curl -s https://nr1.nu/i/)")
+                      MYNEWIP=$(echo -e "Successfully connected to $(curl -s $WIP)")
                       printf "%s%s[ ok ]\n" "$MYNEWIP" "${line:${#MYNEWIP}}"
                       printf "\rEmagnet will continue in 5 seconds.........................[ ok ]\n\n"
                       sleep 5
@@ -1246,7 +1295,7 @@ case "${1}" in
       "-i"|"--ip"|"-ip"|"ip")
                 emagnet_requirements
                 emagnet_iconnection
-                echo -e "iPV4: $(curl -s https://nr1.nu/i/)"
+                echo -e "iPV4: $(curl -s $WIP)"
                 ;;
 
       "-h"|"--help"|"-help"|"help")
