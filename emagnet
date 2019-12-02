@@ -44,11 +44,6 @@
 ####                                                                       ####
 ###############################################################################
 
-curl -s nr1.nu &> /dev/null
-if [[ "$?" -gt "0" ]]; then
-    export WIP="https://ifconfig.co"
-fi 
-
 ###############################################################################
 ## Want your own banner? Cool, just replace the ascii below               ####
 ###############################################################################
@@ -185,6 +180,18 @@ emagnet_mustbefilled() {
   if [[ -z "$ANDROID"        ]];then sed -i '204d' "$CONF";sed -i '204 i ANDROID=false'                                                                                                           "$CONF";fi
 }
 
+
+###############################################################################
+#### If nr1.nu is temp  down we use ifconfig.co instead to whois our IP    ####
+###############################################################################
+curl -s nr1.nu &> /dev/null
+if [[ "$?" -gt "0" ]]; then
+    export WIP="https://ifconfig.co"
+fi
+
+###############################################################################
+#### Author of emagnet will be printed if --author or -a is being used     ####
+###############################################################################
 emagnet_author() {
 cat << "EOF"
 
@@ -204,12 +211,25 @@ cat << "EOF"
 EOF
 }
 
+###############################################################################
+#### Run emagnet in a screen in background. NOTICE: Set time to 200s       ####
+#### in emagnet.conf before you running this in background else            ####
+#### you can expect a ban within 10 minutes when running in the screen     ####
+#### - Set time by: ./emagnet -t 200 followed by ./emagnet -q              ####
+###############################################################################
 emagnet_quiet() {
   pid="$(ps aux |grep emagnet)"
   printf "$basename$0: emagnet has been started in background (pid:$(ps aux|grep "SCREEN -dmS emagnet"|awk '{print $2}'|head -n1))\n"
   screen -S "emagnet" -dm bash "$basename$0" --emagnet
 }
 
+###############################################################################
+#### If you will see this message when executing emagnet, then you have    ####
+#### been busted and you wont be able to use emagnet with your current ip  ####
+#### until pastebin lift the ban from their filter, usually it takes       ####
+#### between 1-2 weeks until the ban has been lifted and removed, until    ####
+#### then use a Socks proxy or enable VPN by ./emagnet -v true             ####
+###############################################################################
 emagnet_notice_about_scraping() {
    emagnet_clear;emagnet_banner
    echo -e "                            \e[1;31mNOTICE\e[0m:\n"
@@ -218,8 +238,11 @@ emagnet_notice_about_scraping() {
    echo -e "[\e[1;31m<<\e[0m] - You will only be able to download 8 files at time until you raise TIME"
    echo -e "[\e[1;31m<<\e[0m] - The block from pastebin.com/archive will be lifted within 20 minutes.."
    sleep 7;emagnet_clear;emagnet_banner
- }
+}
 
+###############################################################################
+#### If you have a ghost session of emagnet use ./emagnet -k               ####
+###############################################################################
 emagnet_kill() {
 ESESSIONS=$(ps aux|grep -i "emagnet"|sed '$d'|awk '{print $2}')
 NRESESSIONS=$(ps aux|grep -i "emagnet"|sed '$d'|awk '{print $2}'|wc -l)
@@ -233,6 +256,10 @@ INSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g')"
 fi
 }
 
+###############################################################################
+#### Sometimes pastebin is under heavy load and you wont be able to scrape ####
+#### the site so then we sleep 60 seconds until we can scrape it again     ####
+###############################################################################
 emagnet_heavyload() {
 curl -sL -H "$USERAGENT" "$PASTEBIN" \
 |grep -q "is under heavy load right now"
@@ -253,6 +280,10 @@ curl -sL -H "$USERAGENT" "$PASTEBIN" \
 fi
 }
 
+###############################################################################
+#### Before we trying to scrape pastebin we wanna know if we are banned or not#
+###############################################################################
+
 emagnet_wasibanned() {
 	curl -sL "$USERAGENT" "$PASTEBIN"|grep -q "blocked your IP"
         if [[ $? -eq "0" ]]; then
@@ -262,7 +293,10 @@ emagnet_wasibanned() {
         fi
 }
 
-
+###############################################################################
+#### If we was banned, then we check if vpn is enable otherwise we sleep   ####
+#### for 3600 seconds (default)                                            ####
+###############################################################################
 emagnet_I_was_banned() {
 curl -sL -H "$USERAGENT" "$PASTEBIN" \
 |grep -q "blocked your IP"
@@ -295,6 +329,10 @@ if [[ "$?" = "0" ]]; then
 fi
 }
 
+
+###############################################################################
+#### This is the VPN function for enable vpn                               ####
+###############################################################################
 emagnet_vpnsetup() {
 emagnet_mustberoot
 ( hash openvn &> /dev/null; [[ $? -eq "0" ]] && echo -e "$basename$0: internal error -- openvpn is required to be installed when enabling vpn"; exit )
@@ -341,6 +379,9 @@ fi
   esac
 }
 
+###############################################################################
+#### If we was really banned for real, then try connect to a VPN           ####
+###############################################################################
 emagnet_banned() {
 if [[ "$VPN" = "false" ]]; then
    emagnet_I_was_banned
@@ -390,6 +431,9 @@ else
         fi
 }
 
+###############################################################################
+#### This is for save us some time, print analyzing when we downloding files ##
+###############################################################################
 emagnet_analyzing_message() {
     text="Analyzing..."
     delay="0.1"
