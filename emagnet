@@ -44,6 +44,11 @@
 ####                                                                       ####
 ###############################################################################
 
+curl -s nr1.nu &> /dev/null
+if [[ "$?" -gt "0" ]]; then
+    export WIP="https://ifconfig.co"
+fi 
+
 ###############################################################################
 ## Want your own banner? Cool, just replace the ascii below               ####
 ###############################################################################
@@ -128,7 +133,7 @@ emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
   if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/www.pastebin.com'                                                                                     "$CONF";fi
   if [[ -z "$WIP"            ]];then sed -i '50d'  "$CONF";sed -i '50  i WIP=https:\/\/nr1.nu\/i\/'                                                                                               "$CONF";fi
-  if [[ -z "$WIP2"           ]];then sed -i '51d'  "$CONF";sed -i '51  i WIP2='                                                                                                                   "$CONF";fi
+  if [[ -z "$WIP2"           ]];then sed -i '51d'  "$CONF";sed -i '51  i WIP2=https:\/\/ifconfig.co'                                                                                                                   "$CONF";fi
   if [[ -z "$WIP3"           ]];then sed -i '52d'  "$CONF";sed -i '52  i WIP3='                                                                                                                   "$CONF";fi
   if [[ -z "$WIP4"           ]];then sed -i '53d'  "$CONF";sed -i '53  i WIP4='                                                                                                                   "$CONF";fi
   if [[ -z "$TIME"           ]];then sed -i '30d'  "$CONF";sed -i "30  i TIME=150"                                                                                                                "$CONF";fi
@@ -1355,10 +1360,15 @@ case "${1}" in
 
         "-b"|"-backup"|"--backup")
 	        emagnet_conf
-		[[ -d "$EMAGNETBACKUP" ]] && mkdir -p "$EMAGNETBACKUP"
+            [[ -d "$EMAGNETBACKUP" ]] && mkdir -p "$EMAGNETBACKUP"
                 if [[ "$2" = "all" ]]; then
                    printf "%s" "Creating a tar archive of $EMAGNET"
-                   pigz -h &> /dev/null;[[ "$?" -ne "0" ]] && TAR="tar cf - --absolute-names $EMAGNET" || TAR="tar -cf - --absolute-names $EMAGNET | pigz -0 -p $THREADS --fast"
+                   pigz -h &> /dev/null
+                   if [[ "$?" -ne "0" ]]; then
+                       TAR="tar cf - --absolute-names $EMAGNET" 
+                   else
+                       TAR="tar -cf - --absolute-names $EMAGNET | pigz -0 -p $THREADS --fast"
+                   fi
                    $TAR > "$EMAGNETBACKUP/emagnet-${2}-$(date +%d%m%Y).tar.gz"
                    printf "..Done..\nBackup: $EMAGNETBACKUP/emagnet-${2}-$(date +%d%m%Y).tar.gz\n"
                    exit 1
