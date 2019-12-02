@@ -283,7 +283,6 @@ fi
 ###############################################################################
 #### Before we trying to scrape pastebin we wanna know if we are banned or not#
 ###############################################################################
-
 emagnet_wasibanned() {
 	curl -sL "$USERAGENT" "$PASTEBIN"|grep -q "blocked your IP"
         if [[ $? -eq "0" ]]; then
@@ -381,6 +380,7 @@ fi
 
 ###############################################################################
 #### If we was really banned for real, then try connect to a VPN           ####
+#### to our vpn setup we have set in emagnet.conf, otherwise sleep for 3600s ##
 ###############################################################################
 emagnet_banned() {
 if [[ "$VPN" = "false" ]]; then
@@ -458,11 +458,16 @@ fi
            printf "%26s"; for analyzing in $(seq 0 $(expr length "${text}")); do echo -n "${text:$analyzing:1}";sleep "${delay}";done
 }
 
+###############################################################################
+#### If you have many daily dirs in incoming folder then we send everything ###
+#### to our archive dir instead and merging files so everything is sorted  ####
+#### in one file instead of all log files in incoming dir                  ####
+###############################################################################
 emagnet_merge() {
-LOGS="$(ls -1 /opt/emagnet/incoming/*/logs/*|cut -d/ -f7)"
+LOGS="$(ls -1 /opt/emagnet/incoming/*/logs/*|cut -d/ -f7 &> /dev/null)"
 if [[ $? -eq "0" ]]; then
     echo -e "$basename$0: internal error -- no log files found, exiting.."
-    exit 1 
+    exit 1
   else
     echo "Done.."
     exit 0
