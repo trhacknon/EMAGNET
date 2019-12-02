@@ -1040,9 +1040,11 @@ emagnet_run4ever() {
             if [[ $? = "0" ]]; then
                 emagnet_banner
                 echo -e "[\e[1;31m<<\e[0m] - Busted! I told you, \e[1;31mDON'T\e[0m scrape pastebin to often."
-                echo -e "[\e[1;31m<<\e[0m] - and set time to <200 seconds. This block wont be lifted until ~1 week"
-                echo -e "[\e[1;31m<<\e[0m] - There is one solution. Change IP OR wait one week and run emagnet again"
-                echo -e "[\e[1;31m<<\e[0m] - Do not set TIME to <200 seconds..\n"
+                echo -e "[\e[1;31m<<\e[0m] - and from now you should set time to 200> seconds."
+                echo -e "[\e[1;31m<<\e[0m] - This block wont be lifted until ~1 or ~2 weeks"
+                echo -e "[\e[1;31m<<\e[0m] - There is one solution for this and it is to execute"
+                echo -e "[\e[1;31m<<\e[0m] - emagnet from another IP, use a socks5 proxy or setup a vpn"
+                echo -e "[\e[1;31m<<\e[0m] - Do not set TIME to <200 seconds, this is my last warning..\n"
                 exit 1
             fi
           fi
