@@ -64,6 +64,12 @@ _Get started with spotify brute forcing - How emagnet will work with your openvp
 - Wget     - Find more info about _wget_ [here](https://www.gnu.org/software/wget/)
 - Curl     - Find more info about _curl_ [here](https://github.com/curl/curl)
 
+# Busted!
+
+If you have scraped pastebin to often and if you have been banned for real you will end here!
+
+![Screenshot](https://i.imgur.com/Tz1R3ts.png)
+
 # Reality
 
 #### Below you can see an image that describes the reality, emagnet makes it easier than ever to get hold of leaked accounts. Emagnet does not violate any country's laws as long as you brute forcing your own accounts only (this is up to every user to decide), all we do is retrieve data from pastebin, if you have opinions or questions about stuff pastebin hosting you will find all info on https://pastebin.com/contact to get in touch - I wont reply questions about this in my mailbox, all kind of messages that contains such info will be wiped, just for your notice.
