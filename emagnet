@@ -115,9 +115,6 @@ emagnet_mustberoot(){(( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal e
 emagnet_clear(){ clear;}
 emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
 emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;curl -s "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
-emagnet_is_this_android(){ getprop &> /dev/null; [[ "$?" -eq "0" ]] && sed -i '204d' "$CONF"; sed -i '204 i ANDROID=true' "$CONF";}
-emagnet_not_available_on_android(){ echo "This feature is not supported on your $(getprop ro.model.name)" device;exit 1;}
-emagnet_requirements_android(){ for android_tools in curl wget; do hash "${android_tools}";done;[[ "$?" -ne "0" ]] && echo "You must install ${android_tools} on your device";exit 1;}
 emagnet_requirements(){ for cmd in wget curl; do hash $cmd; if [[ "$?" -gt 0 ]]; then echo "$cmd is required to be installed, exiting."; exit 1;fi;done;}
 emagnet_optional(){ sleep 0;}
 emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
@@ -129,8 +126,6 @@ emagnet_mustbefilled() {
   if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/www.pastebin.com'                                                                                     "$CONF";fi
   if [[ -z "$WIP"            ]];then sed -i '50d'  "$CONF";sed -i '50  i WIP=https:\/\/nr1.nu\/i\/'                                                                                               "$CONF";fi
   if [[ -z "$WIP2"           ]];then sed -i '51d'  "$CONF";sed -i '51  i WIP2=https:\/\/ifconfig.co'                                                                                                                   "$CONF";fi
-  if [[ -z "$WIP3"           ]];then sed -i '52d'  "$CONF";sed -i '52  i WIP3='                                                                                                                   "$CONF";fi
-  if [[ -z "$WIP4"           ]];then sed -i '53d'  "$CONF";sed -i '53  i WIP4='                                                                                                                   "$CONF";fi
   if [[ -z "$TIME"           ]];then sed -i '30d'  "$CONF";sed -i "30  i TIME=150"                                                                                                                "$CONF";fi
   if [[ -z "$MYIP"           ]];then sed -i '40d'  "$CONF";sed -i "40  i MYIP=$(curl -s https://nr1.nu/i/)"                                                                                       "$CONF";fi
   if [[ -z "$EMAGNET"        ]];then sed -i '72d'  "$CONF";sed -i '72  i EMAGNET=$HOME/emagnet'                                                                                                   "$CONF";fi
@@ -146,7 +141,7 @@ emagnet_mustbefilled() {
   if [[ -z "$EMAGNETSYNTAX"  ]];then sed -i "82d"  "$CONF";sed -i '82  i EMAGNETSYNTAX=$EMAGNETHOME\/sorted-by-syntax'                                                                            "$CONF";fi
   if [[ -z "$EMAGNETCRACKED" ]];then sed -i "83d"  "$CONF";sed -i '83  i EMAGNETCRACKED=$EMAGNET/cracked-accounts'                                                                                "$CONF";fi
   if [[ -z "$VERSION"        ]];then sed -i '91d'  "$CONF";sed -i '91  i VERSION=3.4'                                                                                                             "$CONF";fi
-  if [[ -z "$THREADS"        ]];then sed -i '100d' "$CONF";sed -i "100 i THREADS=$(( NUMCPUS + 1 ))"                                                                                              "$CONF";fi
+  if [[ -z "$THREADS"        ]];then sed -i '100d' "$CONF";sed -i "100 i THREADS=$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')"                                         "$CONF";fi
   if [[ -z "$IDLETIME"       ]];then sed -i '109d' "$CONF";sed -i "109 i IDLETIME=3600"                                                                                                           "$CONF";fi
   if [[ -z "$GBRUTEFORCE"    ]];then sed -i '125d' "$CONF";sed -i '125 i GBRUTEFORCE=false'                                                                                                       "$CONF";fi
   if [[ -z "$SBRUTEFORCE"    ]];then sed -i '126d' "$CONF";sed -i '126 i SBRUTEFORCE=false'                                                                                                       "$CONF";fi
@@ -167,13 +162,12 @@ emagnet_mustbefilled() {
   if [[ -z "$SSHPASS"        ]];then sed -i '183d' "$CONF";sed -i '183 i SSHPASS='                                                                                                                "$CONF";fi
   if [[ -z "$SSHTARGETS"     ]];then sed -i '184d' "$CONF";sed -i '184 i SSHTARGETS="$HOME/.config/emagnet/tmp/.emagnet-sshbruter.txt"'                                                           "$CONF";fi
   if [[ -z "$SSHPORTSCAN"    ]];then sed -i '185d' "$CONF";sed -i '185 i SSHPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
-  if [[ -z "$RDPUSER"        ]];then sed -i '197d' "$CONF";sed -i '197 i RDPUSER="Administrator"'                                                                                                          "$CONF";fi
-  if [[ -z "$RDPPORT"        ]];then sed -i '198d' "$CONF";sed -i '198 i RDPPORT="3389"'                                                                                                            "$CONF";fi
-  if [[ -z "$RDPPASS"        ]];then sed -i '199d' "$CONF";sed -i '199 i RDPPASS="qwerty"'                                                                                                         "$CONF";fi
+  if [[ -z "$RDPUSER"        ]];then sed -i '197d' "$CONF";sed -i '197 i RDPUSER="Administrator"'                                                                                                 "$CONF";fi
+  if [[ -z "$RDPPORT"        ]];then sed -i '198d' "$CONF";sed -i '198 i RDPPORT="3389"'                                                                                                          "$CONF";fi
+  if [[ -z "$RDPPASS"        ]];then sed -i '199d' "$CONF";sed -i '199 i RDPPASS="qwerty"'                                                                                                        "$CONF";fi
   if [[ -z "$RDPTARGETS"     ]];then sed -i '200d' "$CONF";sed -i '200 i RDPTARGETS="$HOME/.config/emagnet/tmp/.emagnet-rdpbruter.txt"'                                                           "$CONF";fi
   if [[ -z "$RDPPORTSCAN"    ]];then sed -i '201d' "$CONF";sed -i '201 i RDPPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
   if [[ -z "$USERAGENT"      ]];then sed -i '195d' "$CONF";sed -i '195 i USERAGENT=Mosaic/0.9'                                                                                                    "$CONF";fi
-  if [[ -z "$ANDROID"        ]];then sed -i '204d' "$CONF";sed -i '204 i ANDROID=false'                                                                                                           "$CONF";fi
 }
 
 
