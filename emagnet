@@ -161,11 +161,7 @@ emagnet_mustbefilled() {
   if [[ -z "$VPN"            ]];then sed -i '162d' "$CONF";sed -i '162 i VPN=false'                                                                                                               "$CONF";fi
   if [[ -z "$VPNROOT"        ]];then sed -i '163d' "$CONF";sed -i '163 i VPNROOT=/etc/openvpn'                                                                                                    "$CONF";fi
   if [[ -z "$VPNPROVIDER"    ]];then sed -i '164d' "$CONF";sed -i '164 i VPNPROVIDER=$VPNROOT/'                                                                                                   "$CONF";fi
-  if [[ -z "$VPNPROVIDER2"   ]];then sed -i '165d' "$CONF";sed -i '165 i VPNPROVIDER2=$VPNROOT/'                                                                                                  "$CONF";fi
-  if [[ -z "$VPNPROVIDER3"   ]];then sed -i '166d' "$CONF";sed -i '166 i VPNPROVIDER3=$VPNROOT/'                                                                                                  "$CONF";fi
   if [[ -z "$VPNCOUNTRYS"    ]];then sed -i '167d' "$CONF";sed -i '167 i VPNCOUNTRYS="belgium bulgaria czhech denmark spain finland uk uk-london uk-manchester greece hongkong hungaria italy"'   "$CONF";fi
-  if [[ -z "$VPNCOUNTRYS2"   ]];then sed -i '168d' "$CONF";sed -i '168 i VPNCOUNTRYS2="argentina australia brazil denmark finland france germany hong iceland india ireland sweden"'              "$CONF";fi
-  if [[ -z "$VPNCOUNTRYS3"   ]];then sed -i '169d' "$CONF";sed -i '169 i VPNCOUNTRYS3="belgium bulgaria czhech denmark spain finland uk uk-london uk-manchester greece hongkong hungaria italy"'  "$CONF";fi
   if [[ -z "$SSHUSER"        ]];then sed -i '181d' "$CONF";sed -i '181 i SSHUSER="root"'                                                                                                          "$CONF";fi
   if [[ -z "$SSHPORT"        ]];then sed -i '182d' "$CONF";sed -i '182 i SSHPORT="22"'                                                                                                            "$CONF";fi
   if [[ -z "$SSHPASS"        ]];then sed -i '183d' "$CONF";sed -i '183 i SSHPASS='                                                                                                                "$CONF";fi
