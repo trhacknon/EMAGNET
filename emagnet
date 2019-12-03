@@ -140,8 +140,8 @@ emagnet_mustbefilled() {
   if [[ -z "$EMAGNETBACKUP"  ]];then sed -i "81d"  "$CONF";sed -i '81  i EMAGNETBACKUP=$EMAGNET/backup'                                                                                           "$CONF";fi
   if [[ -z "$EMAGNETSYNTAX"  ]];then sed -i "82d"  "$CONF";sed -i '82  i EMAGNETSYNTAX=$EMAGNETHOME\/sorted-by-syntax'                                                                            "$CONF";fi
   if [[ -z "$EMAGNETCRACKED" ]];then sed -i "83d"  "$CONF";sed -i '83  i EMAGNETCRACKED=$EMAGNET/cracked-accounts'                                                                                "$CONF";fi
-  if [[ -z "$VERSION"        ]];then sed -i '91d'  "$CONF";sed -i '91  i VERSION=3.4'                                                                                                             "$CONF";fi
-  if [[ -z "$THREADS"        ]];then sed -i '99d' "$CONF";sed -i "99 i THREADS=$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')"                                         "$CONF";fi
+  if [[ -z "$VERSION"        ]];then sed -i '91d'  "$CONF";sed -i '91  i VERSION=3.4.1'                                                                                                             "$CONF";fi
+  if [[ -z "$THREADS"        ]];then sed -i '99d'  "$CONF";sed -i "99  i THREADS=$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')"                                         "$CONF";fi
   if [[ -z "$IDLETIME"       ]];then sed -i '109d' "$CONF";sed -i "109 i IDLETIME=3600"                                                                                                           "$CONF";fi
   if [[ -z "$GBRUTEFORCE"    ]];then sed -i '125d' "$CONF";sed -i '125 i GBRUTEFORCE=false'                                                                                                       "$CONF";fi
   if [[ -z "$SBRUTEFORCE"    ]];then sed -i '126d' "$CONF";sed -i '126 i SBRUTEFORCE=false'                                                                                                       "$CONF";fi
