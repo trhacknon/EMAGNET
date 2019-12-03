@@ -304,7 +304,7 @@ if [[ "$?" = "0" ]]; then
                     emagnet_clear
                     emagnet_banner
    	   	   for (( ; ; )); do
-                  wait_time=${IDLETIME}
+                   wait_time=${IDLETIME}
       		        temp_cnt=${wait_time}
    		          while [[ "${temp_cnt}" -gt "0" ]]; do
                     printf "\rIP: [\e[1;31m$(curl -s $WIP)\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
@@ -320,7 +320,7 @@ if [[ "$?" = "0" ]]; then
            done
                     emagnet_clear
                     emagnet_banner
-         	        bash "$basename$0" --emagnet
+                    bash "$basename$0" --emagnet
                     exit 1
       else
                     emagnet_banned
@@ -336,45 +336,40 @@ emagnet_vpnsetup() {
 emagnet_mustberoot
 ( hash openvn &> /dev/null; [[ $? -eq "0" ]] && echo -e "$basename$0: internal error -- openvpn is required to be installed when enabling vpn"; exit )
 VPNCONFIG=$(awk -F'/' '/VPNPROVIDER/ {print $2}' $CONF |cut -d'"' -f1|head -2|sed '1d')
-VPNCONFIG2=$(awk -F'/' '/VPNPROVIDER/ {print $2}' $CONF|cut -d'"' -f1|head -2|tail -1)
-VPNCONFIG3=$(awk -F'/' '/VPNPROVIDER/ {print $2}' $CONF|cut -d'"' -f1|head -3|tail -1)
-
-if [[ -z "$VPNPROVIDER" || -n "$VPNPROVIDER2" ]]; then
-        export VPNCONFIG="$VPNCONFIG2"
-        export VPNCOUNTRYS="$VPNCOUNTRYS2"
- elif [[ -z "$VPNPROVIDER" || -z "$VPNPROVIDER2" || -n "$VPNPROVIDER3" ]]; then
-        export VPNCONFIG="$VPNCONFIG3"
-        export VPNCOUNTRYS="$VPNCOUNTRYS3"
- else
-       	export VPNCONFIG="$VPNCONFIG"
-        export VPNCOUNTRYS="$VPNCOUNTRYS"
-fi
 
   case "$COUNTRY" in
-     "belgium")        cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.be.ovpn"  &> /dev/null & ;;
-     "bulgaria")       cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.bg.ovpn"  &> /dev/null & ;;
-     "czech")          cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.cz.ovpn"  &> /dev/null & ;;
-     "denmark")        cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.dk.ovpn"  &> /dev/null & ;;
-     "spain")          cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.es.ovpn"  &> /dev/null & ;;
-     "finland")        cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.fi.ovpn"  &> /dev/null & ;;
-     "united-kingdom") cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.gb.ovpn"  &> /dev/null & ;;
-     "greece")         cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.gr.ovpn"  &> /dev/null & ;;
-     "hongkong")       cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.hk.ovpn"  &> /dev/null & ;;
-     "hungaria")       cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.hu.ovpn"  &> /dev/null & ;;
-     "italy")          cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.it.ovpn"  &> /dev/null & ;;
-     "moldavia")       cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.md.ovpn"  &> /dev/null & ;;
-     "netherlands")    cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.nl.ovpn"  &> /dev/null & ;;
-     "norway")         cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.no.ovpn"  &> /dev/null & ;;
-     "poland")         cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.pl.ovpn"  &> /dev/null & ;;
-     "portugal")       cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.pt.ovpn"  &> /dev/null & ;;
-     "romania")        cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ro.ovpn"  &> /dev/null & ;;
-     "russia")         cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.rs.ovpn"  &> /dev/null & ;;
-     "sweden")         cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.se.ovpn"  &> /dev/null & ;;
-     "sweden1")        cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.se.ovpn"  &> /dev/null & ;;
-     "sweden2")        cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.se2.ovpn" &> /dev/null & ;;
-     "sweden3")        cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.se3.ovpn" &> /dev/null & ;;
-     "sweden4")        cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.se4.ovpn" &> /dev/null & ;;
-     "united-states")  cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.us.ovpn"  &> /dev/null & ;;
+     "argentina")             cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ag.ovpn"  &> /dev/null & ;;
+     "australia")             cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.au.ovpn"  &> /dev/null & ;;
+     "brazil")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.br.ovpn"  &> /dev/null & ;;
+     "canada")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ca.ovpn"  &> /dev/null & ;;
+     "switzerland")           cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ch.ovpn"  &> /dev/null & ;;
+     "china")                 cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.cn.ovpn"  &> /dev/null & ;;
+     "croatia")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.cr.ovpn"  &> /dev/null & ;;
+     "czhech")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.cz.ovpn"  &> /dev/null & ;;
+     "germany")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.de.ovpn"  &> /dev/null & ;;
+     "denmark")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.dk.ovpn"  &> /dev/null & ;;
+     "spain")                 cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.es.ovpn"  &> /dev/null & ;;
+     "finland")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.fi.ovpn"  &> /dev/null & ;;
+     "france")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.fr.ovpn"  &> /dev/null & ;;
+     "íreland")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ir.ovpn"  &> /dev/null & ;;
+     "iceland")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.is.ovpn"  &> /dev/null & ;;
+     "italy")                 cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.it.ovpn"  &> /dev/null & ;;
+     "japan")                 cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.jp.ovpn"  &> /dev/null & ;;
+     "korea")                 cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.kr.ovpn"  &> /dev/null & ;;
+     "luxemburg")             cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.lx.ovpn"  &> /dev/null & ;;
+     "mexico")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.mx.ovpn"  &> /dev/null & ;;
+     "malaysia")              cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.my.ovpn"  &> /dev/null & ;;
+     "netherlands")           cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.nl.ovpn"  &> /dev/null & ;;
+     "norway")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.no.ovpn"  &> /dev/null & ;;
+     "new-zealand")           cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.nz.ovpn"  &> /dev/null & ;;
+     "panama")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.pa.ovpn"  &> /dev/null & ;;
+     "poland")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.pl.ovpn"  &> /dev/null & ;;
+     "portugal")              cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.pt.ovpn"  &> /dev/null & ;;
+     "russia")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ru.ovpn"  &> /dev/null & ;;
+     "sweden")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.se.ovpn"  &> /dev/null & ;;
+     "turkey")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.tr.ovpn"  &> /dev/null & ;;
+     "united-kingdom")        cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.uk.ovpn"  &> /dev/null & ;;
+     "united-states")         cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.us.ovpn"  &> /dev/null & ;;
   esac
 }
 
@@ -961,9 +956,9 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
                "${pt}" - Passwords Found\n
                "${et}" - Email Addresses Found"
              fi
-               echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
-               echo -e "                       - Passwords Found \r             [\e[1;32m$pt\e[0m] "
-               echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m] "
+               echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m]"
+               echo -e "                       - Passwords Found \r             [\e[1;32m$pt\e[0m]"
+               echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m]\n"
                sleep 2
 
                if [[ "$GBRUTEFORCE" = "true" ]]; then
@@ -1395,7 +1390,7 @@ case "${1}" in
         "-v"|"-vpn"|"--vpn")
                 if [[ $1 -eq "-v" && $2 = "-p" && -n $3  ]]; then
                          sed -i '164d' $CONF; sed -i "164 i VPNPROVIDER=\$VPNROOT/$3" $CONF
-                         printf "$basename$0: config file has been updated -- vpn provider has been set to $3\n "
+                         echo -e "$basename$0: config file has been updated -- vpn provider has been set to $3"
                          exit 1
                 fi
                 emagnet_conf
