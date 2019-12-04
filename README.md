@@ -1,4 +1,4 @@
-# EMAGNET v3.4
+# EMAGNET v3.4.1
 
 #### Important Notice: Avoid being banned by set TIME for 200 seconds or higher in emagnet.conf.
 
