@@ -11,6 +11,12 @@ r = RE-ADDED FEATURE FROM AN EARLIER VERSION
      that has been re-added is now stable and not "half done" so they are here for stay.
 R = REBUILT
 
+# Version 3.4.1 
+
++    Added support for PROXY / SSH Tunnels
++    Changed main site to ipconfig.co for whois our IP since nr1.nu is down for an unknown time
++    Removed WIP3,WIP4,WIP5 from emagnet.conf
+
 # Version 3.4
 
 +    Added it possible to search for various stuff
