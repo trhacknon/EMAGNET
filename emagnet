@@ -125,62 +125,59 @@ CONF="$HOME/.config/emagnet/emagnet.conf"
 emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
   if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/www.pastebin.com'                                                                                     "$CONF";fi
-  if [[ -z "$WIP"            ]];then sed -i '50d'  "$CONF";sed -i '50  i WIP=https:\/\/nr1.nu\/i\/'                                                                                               "$CONF";fi
-  if [[ -z "$WIP2"           ]];then sed -i '51d'  "$CONF";sed -i '51  i WIP2=https:\/\/ifconfig.co'                                                                                                                   "$CONF";fi
   if [[ -z "$TIME"           ]];then sed -i '30d'  "$CONF";sed -i "30  i TIME=150"                                                                                                                "$CONF";fi
   if [[ -z "$MYIP"           ]];then sed -i '40d'  "$CONF";sed -i "40  i MYIP=$(curl -s https://nr1.nu/i/)"                                                                                       "$CONF";fi
-  if [[ -z "$EMAGNET"        ]];then sed -i '72d'  "$CONF";sed -i '72  i EMAGNET=$HOME/emagnet'                                                                                                   "$CONF";fi
-  if [[ -z "$EMAGNETHOME"    ]];then sed -i "73d"  "$CONF";sed -i '73  i EMAGNETHOME=$EMAGNET\/incoming\/$(date +%Y-%m-%d)'                                                                       "$CONF";fi
-  if [[ -z "$EMAGNETLOGS"    ]];then sed -i "74d"  "$CONF";sed -i '74  i EMAGNETLOGS=$EMAGNETHOME/logs'                                                                                           "$CONF";fi
-  if [[ -z "$EMAGNETPW"      ]];then sed -i "75d"  "$CONF";sed -i '75  i EMAGNETPW=$EMAGNETHOME\/password-files'                                                                                  "$CONF";fi
-  if [[ -z "$EMAGNETALL"     ]];then sed -i "76d"  "$CONF";sed -i '76  i EMAGNETALL=$EMAGNETHOME\/all-files'                                                                                      "$CONF";fi
-  if [[ -z "$EMAGNETCRAP"    ]];then sed -i "77d"  "$CONF";sed -i '77  i EMAGNETCRAP=$EMAGNETHOME\/.pastebin'                                                                                     "$CONF";fi
-  if [[ -z "$EMAGNETTEMP"    ]];then sed -i "78d"  "$CONF";sed -i '78  i EMAGNETTEMP=$EMAGNETHOME\/.temp'                                                                                         "$CONF";fi
-  if [[ -z "$EMAGNETARCHIVE" ]];then sed -i "79d"  "$CONF";sed -i '79  i EMAGNETARCHIVE=$EMAGNET/archive'                                                                                         "$CONF";fi
-  if [[ -z "$EMAGNETDB"      ]];then sed -i "80d"  "$CONF";sed -i '80  i EMAGNETDB=$EMAGNETHOME\/email-files'                                                                                     "$CONF";fi
-  if [[ -z "$EMAGNETBACKUP"  ]];then sed -i "81d"  "$CONF";sed -i '81  i EMAGNETBACKUP=$EMAGNET/backup'                                                                                           "$CONF";fi
-  if [[ -z "$EMAGNETSYNTAX"  ]];then sed -i "82d"  "$CONF";sed -i '82  i EMAGNETSYNTAX=$EMAGNETHOME\/sorted-by-syntax'                                                                            "$CONF";fi
-  if [[ -z "$EMAGNETCRACKED" ]];then sed -i "83d"  "$CONF";sed -i '83  i EMAGNETCRACKED=$EMAGNET/cracked-accounts'                                                                                "$CONF";fi
-  if [[ -z "$VERSION"        ]];then sed -i '91d'  "$CONF";sed -i '91  i VERSION=3.4.1'                                                                                                             "$CONF";fi
+  if [[ -z "$WIP"            ]];then sed -i '50d'  "$CONF";sed -i '50  i WIP=https:\/\/nr1.nu\/i\/'                                                                                               "$CONF";fi
+  if [[ -z "$WIP2"           ]];then sed -i '51d'  "$CONF";sed -i '51  i WIP2=https:\/\/ifconfig.co'                                                                                                                   "$CONF";fi
+  if [[ -z "$EMAGNET"        ]];then sed -i '70d'  "$CONF";sed -i '70  i EMAGNET=$HOME/emagnet'                                                                                                   "$CONF";fi
+  if [[ -z "$EMAGNETHOME"    ]];then sed -i "71d"  "$CONF";sed -i '71  i EMAGNETHOME=$EMAGNET\/incoming\/$(date +%Y-%m-%d)'                                                                       "$CONF";fi
+  if [[ -z "$EMAGNETLOGS"    ]];then sed -i "72d"  "$CONF";sed -i '72  i EMAGNETLOGS=$EMAGNETHOME/logs'                                                                                           "$CONF";fi
+  if [[ -z "$EMAGNETPW"      ]];then sed -i "73d"  "$CONF";sed -i '73  i EMAGNETPW=$EMAGNETHOME\/password-files'                                                                                  "$CONF";fi
+  if [[ -z "$EMAGNETALL"     ]];then sed -i "74d"  "$CONF";sed -i '74  i EMAGNETALL=$EMAGNETHOME\/all-files'                                                                                      "$CONF";fi
+  if [[ -z "$EMAGNETCRAP"    ]];then sed -i "75d"  "$CONF";sed -i '75  i EMAGNETCRAP=$EMAGNETHOME\/.pastebin'                                                                                     "$CONF";fi
+  if [[ -z "$EMAGNETTEMP"    ]];then sed -i "76d"  "$CONF";sed -i '76  i EMAGNETTEMP=$EMAGNETHOME\/.temp'                                                                                         "$CONF";fi
+  if [[ -z "$EMAGNETARCHIVE" ]];then sed -i "77d"  "$CONF";sed -i '77  i EMAGNETARCHIVE=$EMAGNET/archive'                                                                                         "$CONF";fi
+  if [[ -z "$EMAGNETDB"      ]];then sed -i "78d"  "$CONF";sed -i '78  i EMAGNETDB=$EMAGNETHOME\/email-files'                                                                                     "$CONF";fi
+  if [[ -z "$EMAGNETBACKUP"  ]];then sed -i "79d"  "$CONF";sed -i '79  i EMAGNETBACKUP=$EMAGNET/backup'                                                                                           "$CONF";fi
+  if [[ -z "$EMAGNETSYNTAX"  ]];then sed -i "80d"  "$CONF";sed -i '80  i EMAGNETSYNTAX=$EMAGNETHOME\/sorted-by-syntax'                                                                            "$CONF";fi
+  if [[ -z "$EMAGNETCRACKED" ]];then sed -i "81d"  "$CONF";sed -i '81  i EMAGNETCRACKED=$EMAGNET/cracked-accounts'                                                                                "$CONF";fi
+  if [[ -z "$VERSION"        ]];then sed -i '90d'  "$CONF";sed -i '90  i VERSION=3.4.1'                                                                                                             "$CONF";fi
   if [[ -z "$THREADS"        ]];then sed -i '99d'  "$CONF";sed -i "99  i THREADS=$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')"                                         "$CONF";fi
-  if [[ -z "$IDLETIME"       ]];then sed -i '109d' "$CONF";sed -i "109 i IDLETIME=3600"                                                                                                           "$CONF";fi
-  if [[ -z "$GBRUTEFORCE"    ]];then sed -i '125d' "$CONF";sed -i '125 i GBRUTEFORCE=false'                                                                                                       "$CONF";fi
-  if [[ -z "$SBRUTEFORCE"    ]];then sed -i '126d' "$CONF";sed -i '126 i SBRUTEFORCE=false'                                                                                                       "$CONF";fi
-  if [[ -z "$PBRUTEFORCE"    ]];then sed -i '127d' "$CONF";sed -i '127 i PBRUTEFORCE=false'                                                                                                       "$CONF";fi
-  if [[ -z "$IBRUTEFORCE"    ]];then sed -i '128d' "$CONF";sed -i '128 i IBRUTEFORCE=false'                                                                                                       "$CONF";fi
-  if [[ -z "$BBRUTEFORCE"    ]];then sed -i '129d' "$CONF";sed -i '129 i BBRUTEFORCE=template'                                                                                                    "$CONF";fi
-  if [[ -z "$CBRUTEFORCE"    ]];then sed -i '130d' "$CONF";sed -i '130 i CBRUTEFORCE=template'                                                                                                    "$CONF";fi
-  if [[ -z "$DBRUTEFORCE"    ]];then sed -i '131d' "$CONF";sed -i '131 i DBRUTEFORCE=template'                                                                                                    "$CONF";fi
-  if [[ -z "$EBRUTEFORCE"    ]];then sed -i '132d' "$CONF";sed -i '132 i EBRUTEFORCE=template'                                                                                                    "$CONF";fi
-  if [[ -z "$EMAIL2SEND"     ]];then sed -i '141d' "$CONF";sed -i '141 i EMAIL2SEND='                                                                                                             "$CONF";fi
-  if [[ -z "$NOTIFY"         ]];then sed -i '150d' "$CONF";sed -i '150 i NOTIFY=false'                                                                                                            "$CONF";fi
-  if [[ -z "$VPN"            ]];then sed -i '162d' "$CONF";sed -i '162 i VPN=false'                                                                                                               "$CONF";fi
-  if [[ -z "$VPNROOT"        ]];then sed -i '163d' "$CONF";sed -i '163 i VPNROOT=/etc/openvpn'                                                                                                    "$CONF";fi
-  if [[ -z "$VPNPROVIDER"    ]];then sed -i '164d' "$CONF";sed -i '164 i VPNPROVIDER=$VPNROOT/'                                                                                                   "$CONF";fi
-  if [[ -z "$VPNCOUNTRYS"    ]];then sed -i '167d' "$CONF";sed -i '167 i VPNCOUNTRYS="belgium bulgaria czhech denmark spain finland uk uk-london uk-manchester greece hongkong hungaria italy"'   "$CONF";fi
-  if [[ -z "$SSHUSER"        ]];then sed -i '181d' "$CONF";sed -i '181 i SSHUSER="root"'                                                                                                          "$CONF";fi
-  if [[ -z "$SSHPORT"        ]];then sed -i '182d' "$CONF";sed -i '182 i SSHPORT="22"'                                                                                                            "$CONF";fi
-  if [[ -z "$SSHPASS"        ]];then sed -i '183d' "$CONF";sed -i '183 i SSHPASS='                                                                                                                "$CONF";fi
-  if [[ -z "$SSHTARGETS"     ]];then sed -i '184d' "$CONF";sed -i '184 i SSHTARGETS="$HOME/.config/emagnet/tmp/.emagnet-sshbruter.txt"'                                                           "$CONF";fi
-  if [[ -z "$SSHPORTSCAN"    ]];then sed -i '185d' "$CONF";sed -i '185 i SSHPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
-  if [[ -z "$RDPUSER"        ]];then sed -i '197d' "$CONF";sed -i '197 i RDPUSER="Administrator"'                                                                                                 "$CONF";fi
-  if [[ -z "$RDPPORT"        ]];then sed -i '198d' "$CONF";sed -i '198 i RDPPORT="3389"'                                                                                                          "$CONF";fi
-  if [[ -z "$RDPPASS"        ]];then sed -i '199d' "$CONF";sed -i '199 i RDPPASS="qwerty"'                                                                                                        "$CONF";fi
-  if [[ -z "$RDPTARGETS"     ]];then sed -i '200d' "$CONF";sed -i '200 i RDPTARGETS="$HOME/.config/emagnet/tmp/.emagnet-rdpbruter.txt"'                                                           "$CONF";fi
-  if [[ -z "$RDPPORTSCAN"    ]];then sed -i '201d' "$CONF";sed -i '201 i RDPPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
-  if [[ -z "$USERAGENT"      ]];then sed -i '195d' "$CONF";sed -i '195 i USERAGENT=Mosaic/0.9'                                                                                                    "$CONF";fi
+  if [[ -z "$IDLETIME"       ]];then sed -i '108d' "$CONF";sed -i "108 i IDLETIME=3600"                                                                                                           "$CONF";fi
+  if [[ -z "$GBRUTEFORCE"    ]];then sed -i '124d' "$CONF";sed -i '124 i GBRUTEFORCE=false'                                                                                                       "$CONF";fi
+  if [[ -z "$SBRUTEFORCE"    ]];then sed -i '125d' "$CONF";sed -i '125 i SBRUTEFORCE=false'                                                                                                       "$CONF";fi
+  if [[ -z "$PBRUTEFORCE"    ]];then sed -i '126d' "$CONF";sed -i '126 i PBRUTEFORCE=false'                                                                                                       "$CONF";fi
+  if [[ -z "$IBRUTEFORCE"    ]];then sed -i '127d' "$CONF";sed -i '127 i IBRUTEFORCE=false'                                                                                                       "$CONF";fi
+  if [[ -z "$BBRUTEFORCE"    ]];then sed -i '128d' "$CONF";sed -i '128 i BBRUTEFORCE=template'                                                                                                    "$CONF";fi
+  if [[ -z "$CBRUTEFORCE"    ]];then sed -i '129d' "$CONF";sed -i '129 i CBRUTEFORCE=template'                                                                                                    "$CONF";fi
+  if [[ -z "$DBRUTEFORCE"    ]];then sed -i '130d' "$CONF";sed -i '130 i DBRUTEFORCE=template'                                                                                                    "$CONF";fi
+  if [[ -z "$EBRUTEFORCE"    ]];then sed -i '131d' "$CONF";sed -i '131 i EBRUTEFORCE=template'                                                                                                    "$CONF";fi
+  if [[ -z "$EMAIL2SEND"     ]];then sed -i '140d' "$CONF";sed -i '140 i EMAIL2SEND='                                                                                                             "$CONF";fi
+  if [[ -z "$NOTIFY"         ]];then sed -i '149d' "$CONF";sed -i '149 i NOTIFY=false'                                                                                                            "$CONF";fi
+  if [[ -z "$VPN"            ]];then sed -i '161d' "$CONF";sed -i '161 i VPN=false'                                                                                                               "$CONF";fi
+  if [[ -z "$VPNROOT"        ]];then sed -i '162d' "$CONF";sed -i '162 i VPNROOT=/etc/openvpn'                                                                                                    "$CONF";fi
+  if [[ -z "$VPNPROVIDER"    ]];then sed -i '163d' "$CONF";sed -i '163 i VPNPROVIDER=$VPNROOT/'                                                                                                   "$CONF";fi
+  if [[ -z "$VPNCOUNTRYS"    ]];then sed -i '164d' "$CONF";sed -i '164 i VPNCOUNTRYS="belgium bulgaria czhech denmark spain finland uk uk-london uk-manchester greece hongkong hungaria italy"'   "$CONF";fi
+  if [[ -z "$SSHUSER"        ]];then sed -i '176d' "$CONF";sed -i '176 i SSHUSER="root"'                                                                                                          "$CONF";fi
+  if [[ -z "$SSHPORT"        ]];then sed -i '177d' "$CONF";sed -i '177 i SSHPORT="22"'                                                                                                            "$CONF";fi
+  if [[ -z "$SSHPASS"        ]];then sed -i '178d' "$CONF";sed -i '178 i SSHPASS='                                                                                                                "$CONF";fi
+  if [[ -z "$SSHTARGETS"     ]];then sed -i '179d' "$CONF";sed -i '179 i SSHTARGETS="$HOME/.config/emagnet/tmp/.emagnet-sshbruter.txt"'                                                           "$CONF";fi
+  if [[ -z "$SSHPORTSCAN"    ]];then sed -i '180d' "$CONF";sed -i '180 i SSHPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
+  if [[ -z "$RDPUSER"        ]];then sed -i '192d' "$CONF";sed -i '192 i RDPUSER="Administrator"'                                                                                                 "$CONF";fi
+  if [[ -z "$RDPPORT"        ]];then sed -i '193d' "$CONF";sed -i '193 i RDPPORT="3389"'                                                                                                          "$CONF";fi
+  if [[ -z "$RDPPASS"        ]];then sed -i '194d' "$CONF";sed -i '194 i RDPPASS="qwerty"'                                                                                                        "$CONF";fi
+  if [[ -z "$RDPTARGETS"     ]];then sed -i '195d' "$CONF";sed -i '195 i RDPTARGETS="$HOME/.config/emagnet/tmp/.emagnet-rdpbruter.txt"'                                                           "$CONF";fi
+  if [[ -z "$RDPPORTSCAN"    ]];then sed -i '196d' "$CONF";sed -i '196 i RDPPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
+  if [[ -z "$USERAGENT"      ]];then sed -i '206d' "$CONF";sed -i '206 i USERAGENT=Mosaic/0.9'                                                                                                    "$CONF";fi
+  if [[ -z "$PROXY"          ]];then sed -i '219d' "$CONF";sed -i '219 i PROXY=false'                                                                                                             "$CONF";fi                                                                                                           
+  if [[ -z "$PROXYHOST"      ]];then sed -i '220d' "$CONF";sed -i '220 i PROXY=localhost'                                                                                                         "$CONF";fi
+  if [[ -z "$PROXYPORT"      ]];then sed -i '221d' "$CONF";sed -i '221 i PROXY=5000'                                                                                                              "$CONF";fi
+  if [[ -z "$PROXYUSER"      ]];then sed -i '222d' "$CONF";sed -i '222 i PROXY=user'                                                                                                              "$CONF";fi
+  if [[ -z "$PROXYPORT"      ]];then sed -i '223d' "$CONF";sed -i '223 i PROXY=password'                                                                                                          "$CONF";fi
+ 
 }
 
-
-###############################################################################
-#### If nr1.nu is temp  down we use ifconfig.co instead to whois our IP    ####
-###############################################################################
-curl -s nr1.nu &> /dev/null
-if [[ "$?" -gt "0" ]]; then
-    export WIP="https://ifconfig.co"
-fi
-
-###############################################################################
+##############################################################################
 #### Author of emagnet will be printed if --author or -a is being used     ####
 ###############################################################################
 emagnet_author() {
