@@ -54,15 +54,17 @@ _Previews can be found here._
 _Get started with spotify brute forcing - How emagnet will work with your openvpn files._
 - [Regex - Tips For Search](https://github.com/wuseman/EMAGNET/wiki/Searching-&-Regex) - How To Find your facebook credenticals, if it has been leaked._
 
-#### Emagnet Search has been added, probably the most powerful way for find leaked credit cards leaked on pastebin, just run 'git pull; emagnet -S' for open search menu - It's not done yet - Keep eyes open for nex push! - Don't abuse this and don't break the law in your Country, you have been informed.  :)
-
-![Screenshot](.preview/emagnet_search.gif)
-
 ### System Requirements
 
 - Bash     - Find more info about _bash_ [here](https://www.gnu.org/software/bash/)
 - Wget     - Find more info about _wget_ [here](https://www.gnu.org/software/wget/)
 - Curl     - Find more info about _curl_ [here](https://github.com/curl/curl)
+
+# Busted!
+
+If you have scraped pastebin to often and if you have been banned for real you will end up here!
+
+![Screenshot](https://i.imgur.com/Tz1R3ts.png)
 
 # Reality
 
