@@ -114,7 +114,8 @@ emagnet_conf(){ CONF="$HOME/.config/emagnet/emagnet.conf";. "$CONF" ;}
 emagnet_mustberoot(){(( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1;  }
 emagnet_clear(){ clear;}
 emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
-emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;curl -s "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
+emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;
+if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi;$CURL "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
 emagnet_requirements(){ for cmd in wget curl; do hash $cmd; if [[ "$?" -gt 0 ]]; then echo "$cmd is required to be installed, exiting."; exit 1;fi;done;}
 emagnet_optional(){ sleep 0;}
 emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
@@ -878,7 +879,12 @@ fi
 }
 
 emagnet_main() {
-    curl -H "$USERAGENT" -Ls "$PASTEBIN/archive" \
+    if [[ $PROXY = "true" ]]; then 
+      CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT "
+    else
+      CURL="curl -s "
+    fi
+    $CURL -H "$USERAGENT" -Ls "$PASTEBIN/archive" \
    |awk -F'href="/' '{print $2}' \
    |cut -d'"' -f1 \
    |awk 'length($0)>6 && length($0)<9' \
@@ -905,10 +911,14 @@ emagnet_main() {
          else
            echo -e "\n===================================================================\nPastebin URLS from: $(date +%d/%m/%Y\ -\ %H:%M)\n==================================================================="  >> "$EMAGNETLOGS/pastebin-urls.txt"
            # cat "$HOME/.config/emagnet/tmp/.emagnet" >> "$EMAGNETLOGS/pastebin-urls.txt"
-           curl -H "$USERAGENT" -Ls "pastebin.com/archive"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'| \
+           if [[ $PROXY = "true" ]]; then 
+            CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT "; else 
+            CURL="curl -s ";fi
+           $CURL -H "$USERAGENT" -Ls "pastebin.com/archive"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'| \
            grep -v 'archive\|contact\|settings\|messages\|signup\|index.html' |\
            sed 's/^/https:\/\/pastebin.com\/raw\//g'|sed 's/$/ - Downloaded /g' > 1
-           curl -H "$USERAGENT" -Ls "pastebin.com/archive" |grep -i ago|cut -d'>' -f2|cut -d'<' -f1|sed '1d' > 2
+           if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi
+           $CURL -H "$USERAGENT" -Ls "pastebin.com/archive" |grep -i ago|cut -d'>' -f2|cut -d'<' -f1|sed '1d' > 2
            paste 1 2|sed 's/ago/after upload/g'|sed 's/\t//g'|sed '$d' >> "$EMAGNETLOGS/pastebin-urls.txt"
            rm "./1" "./2"
         fi
@@ -994,7 +1004,8 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
 
 emagnet_run4ever() {
        emagnet_conf
-       curl -H "$USERAGENT" -sL "$PASTEBIN"|grep -q "blocked your IP"
+       if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi
+       $CURL -H "$USERAGENT" -sL "$PASTEBIN"|grep -q "blocked your IP"
        if [[ "$?" = "0" ]]; then
          if [[ "$VPN" = "true" ]]; then
            emagnet_banned
@@ -1002,13 +1013,14 @@ emagnet_run4ever() {
            emagnet_I_was_banned;
          fi
        fi
-
-       curl -H "$USERAGENT" -sL "$PASTEBIN"|grep -q "captcha"
+       if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi
+       $CURL -H "$USERAGENT" -sL "$PASTEBIN"|grep -q "captcha"
        if [[ "$?" = "0" ]]; then
          if [[ "$VPN" = "true" ]]; then
           emagnet_banned
          else
-           curl -s -H "$USERAGENT" "$PASTEBIN"|grep -q 'recaptcha'
+          if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi
+          $CURL -s -H "$USERAGENT" "$PASTEBIN"|grep -q 'recaptcha'
             if [[ $? = "0" ]]; then
                 echo -e "[\e[1;31m<<\e[0m] - Busted! I told you, \e[1;31mDON'T\e[0m scrape pastebin to often."
                 echo -e "[\e[1;31m<<\e[0m] - and set time to <150 seconds. This block wont be lifted until ~1 week"
@@ -1269,9 +1281,15 @@ case "${1}" in
                 ;;
 
       "-i"|"--ip"|"-ip"|"ip")
+                emagnet_conf
                 emagnet_requirements
                 emagnet_iconnection
-                echo -e "iPV4: $(curl -s $WIP)"
+                if [[ $PROXY = "true" ]]; then
+                CURL="curl -s -x socks5h://$PROXYHOST:$PROXYPORT ";
+                else
+                CURL="curl -s "
+                fi
+                echo -e "iPV4: $($CURL -s $WIP)"
                 ;;
 
       "-h"|"--help"|"-help"|"help")
