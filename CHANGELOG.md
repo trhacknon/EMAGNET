@@ -13,10 +13,13 @@ R = REBUILT
 
 # Version 3.4.1 
 
++    Fixed a bug wich caused spotify brute-forcing run over and over again, now we run it once and then we fetching more uploads
 +    Added support for PROXY / SSH Tunnels
++    Added proxy to help/usage
 +    Changed main site to ipconfig.co for whois our IP since nr1.nu is down for an unknown time
 +    Removed WIP3,WIP4,WIP5 from emagnet.conf
 +    Removed android functions and stuff from emagnet.conf
++    Added values to all variables, we keep "mustbefilled" if you remove any variable by mistake
 
 # Version 3.4
 
