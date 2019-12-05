@@ -1422,12 +1422,26 @@ case "${1}" in
                   exit 1
                 fi
                 ;;
+         "-p"|"--proxy"|"--p")
+               if [[ "$2" = "true" ]]; then
+                 sed -i 's/PROXY=false/PROXY=true/g' $CONF
+                 echo -e "$basename$0: config file has been udpated -- proxy has been enable"
+               elif [[ "$2" = "false" ]]; then
+                 sed -i 's/PROXY=true/PROXY=false/g' $CONF
+                 echo -e "$basename$0: config file has been udpated -- proxy has been disabled"
+               else
+                 echo -e "$basename$0: internal error -- you must set proxy to true or false"
+                 exit 1
+              fi
+               ;;
+
 	  "\?")
               printf "emagnet: internal error -- use --help for available commands'\n\n"
               exit 1 ;;
    	   "*")
               printf "emagnet: internal error -- use --help for available commands'\n\n"
               exit 1 ;;
+
 esac
 
 ( [[ -z $1 ]] && emagnet_usage; exit 1 )
