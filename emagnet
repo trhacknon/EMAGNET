@@ -89,6 +89,7 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
                       - Available options: true/false
                       Use: -v -p <provider> for set provider
   -V, --version       Displays version information.
+  -p, --proxy         Set ssh tunnel on or off
   -i, --ip            Print you current WAN IPv4/IPv6
   -e, --emagnet       Download latest uploaded files on pastebin
                       and store email addresses and passwords
