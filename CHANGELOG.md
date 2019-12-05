@@ -16,6 +16,7 @@ R = REBUILT
 +    Added support for PROXY / SSH Tunnels
 +    Changed main site to ipconfig.co for whois our IP since nr1.nu is down for an unknown time
 +    Removed WIP3,WIP4,WIP5 from emagnet.conf
++    Removed android functions and stuff from emagnet.conf
 
 # Version 3.4
 
