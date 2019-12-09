@@ -15,6 +15,8 @@ You really don't need all these threads since we downloading 49 files max all th
     
 Instead, but it is really needed on very slow CPUS only, otherwise you don't have to care about htis.
 
+Things will go back to normal on wednesday again, of you already have been used emagnet for a while you don't have to care, this is a notice for new users only. 
+
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
 
 | Current Version    | News                            | Tested On                          |
