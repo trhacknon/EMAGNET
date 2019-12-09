@@ -9,7 +9,7 @@
 
     xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}'
 
-You really don't need all these files since we downloading 49 files max all the time, a good recommendation is to take the value from above command devided with 2, so if you have an old cpu you can do: 
+You really don't need all these threads since we downloading 49 files max all the time, a good recommendation is to take the value from above command devided with 2, so if you have an old cpu you can do, please remember this is not threads/core its how many threads a single core is used so don't be confused about htis. 
 
     echo $(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}') / 2|bc
     
