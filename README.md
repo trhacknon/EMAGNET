@@ -2,6 +2,15 @@
 
 #### Important Notice: Avoid being banned by set TIME for 200 seconds or higher in emagnet.conf.
 #### Nr1.nu is my own domain, it will be down until wednesday due maintaince, so. From now you using ifconfig.me for whois your IP if you dont trust this place change MYIP= in /etc/emagnet.conf until wednesday.
+#### From now we using max args for downloading files AS FAST AS POSSIBLE, you can figure out how many threads you are using by type:
+
+    xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}'
+
+You really don't need all these files since we downloading 49 files max all the time, a good recommendation is to take the value from above command devided with 2, so if you have an old cpu you can do: 
+
+    echo $(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}') / 2|bc
+    
+Instead, but it is really needed on very slow CPUS only, otherwise you don't have to care about htis.
 
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
 
