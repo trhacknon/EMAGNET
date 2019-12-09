@@ -5,7 +5,7 @@
 
 ### A special not for v3.4.1 that has been added is how many threads we using during download:
 
-#### From now we using max args for downloading files AS FAST AS POSSIBLE, you can figure out how many threads you are using by type:
+#### From now we using max args for downloading files AS FAST AS POSSIBLE, you can figure out how many threads you are using while downloading instead of how many cores you are using, see below:
 
     xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}'
 
