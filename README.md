@@ -2,6 +2,9 @@
 
 #### Important Notice: Avoid being banned by set TIME for 200 seconds or higher in emagnet.conf.
 #### Nr1.nu is my own domain, it will be down until wednesday due maintaince, so. From now you using ifconfig.me for whois your IP if you dont trust this place change MYIP= in /etc/emagnet.conf until wednesday.
+
+# A special not for v3.4.1 that has been added is how many threads we using during download:
+
 #### From now we using max args for downloading files AS FAST AS POSSIBLE, you can figure out how many threads you are using by type:
 
     xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}'
