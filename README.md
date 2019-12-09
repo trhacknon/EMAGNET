@@ -1,6 +1,7 @@
 # EMAGNET v3.4.1
 
 #### Important Notice: Avoid being banned by set TIME for 200 seconds or higher in emagnet.conf.
+#### Nr1.nu is my own domain, it will be down until wednesday due maintaince, so. From now you using ifconfig.me for whois your IP if you dont trust this place change MYIP= in /etc/emagnet.conf until wednesday.
 
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
 
