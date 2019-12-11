@@ -4,23 +4,6 @@
 
 #### _Nr1.nu is from now up and running again as expected, we are now using nr1.nu for whois our IP again, whois your IP unlimited times without any logs saved or stored._
 
-### A special not for v3.4.1 that has been added is how many threads we using during download:
-
-#### From now we using max args for downloading files AS FAST AS POSSIBLE, you can figure out how many threads you are using while downloading instead of how many cores you are using, see below:
-
-    xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}'
-
-You really don't need all these threads since we downloading 49 files max all the time, a good recommendation is to take the value from above command devided with 2, so if you have an old cpu you can do, please remember this is not threads/core its how many threads a single core is used so don't be confused about htis. 
-
-    echo $(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}') / 2|bc
-    
-Instead, but it is really needed on very slow CPUS only, otherwise you don't have to care about htis.
-
-Things will go back to normal on wednesday again, if you already have been used emagnet for a while you don't have to care, this is a notice for new users only. 
-
-### Notice 2: 
-
-If you run emagnet --bruteforce ssh and do not see how many ip addresses that was found it means there was no ipv4 addresses found, this is not a bug or miss from me. If there is any ipv4 addresses found then you will see how many ipv4 addresses you found, then you gonna portscan them and last you will see how many of all the ipv4 addresses found has port 22 open and then it will begin the bruteforce and using the credenticals from emgnet.conf, default is root:root. 
 
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
 
@@ -65,6 +48,25 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
    
     That's it, have phun!
     
+### A special not for v3.4.1 that has been added is how many threads we using during download:
+
+#### From now we using max args for downloading files AS FAST AS POSSIBLE, you can figure out how many threads you are using while downloading instead of how many cores you are using, see below:
+
+    xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}'
+
+You really don't need all these threads since we downloading 49 files max all the time, a good recommendation is to take the value from above command devided with 2, so if you have an old cpu you can do, please remember this is not threads/core its how many threads a single core is used so don't be confused about htis. 
+
+    echo $(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}') / 2|bc
+    
+Instead, but it is really needed on very slow CPUS only, otherwise you don't have to care about htis.
+
+Things will go back to normal on wednesday again, if you already have been used emagnet for a while you don't have to care, this is a notice for new users only. 
+
+### Notice 2: 
+
+If you run emagnet --bruteforce ssh and do not see how many ip addresses that was found it means there was no ipv4 addresses found, this is not a bug or miss from me. If there is any ipv4 addresses found then you will see how many ipv4 addresses you found, then you gonna portscan them and last you will see how many of all the ipv4 addresses found has port 22 open and then it will begin the bruteforce and using the credenticals from emgnet.conf, default is root:root. 
+
+
 ### Wiki Sections:
 
 - [About](https://github.com/wuseman/EMAGNET/wiki/ABOUT) - 
