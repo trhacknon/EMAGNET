@@ -2,7 +2,7 @@
 
 #### Important Notice: Avoid being banned by set TIME for 200 seconds or higher in emagnet.conf.
 
-#### Nr1.nu is from now up and running again as expected, we are now using nr1.nu for whois our IP again, whois your IP unlimited times without any logs saved or stored.
+#### _Nr1.nu is from now up and running again as expected, we are now using nr1.nu for whois our IP again, whois your IP unlimited times without any logs saved or stored._
 
 ### A special not for v3.4.1 that has been added is how many threads we using during download:
 
