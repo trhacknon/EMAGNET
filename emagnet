@@ -448,18 +448,38 @@ fi
 #### in one file instead of all log files in incoming dir                  ####
 ###############################################################################
 emagnet_merge() {
-LOGS="$(ls -1 /opt/emagnet/incoming/*/logs/*|cut -d/ -f7 &> /dev/null)"
-if [[ $? -eq "0" ]]; then
-    echo -e "$basename$0: internal error -- no log files found, exiting.."
-    exit 1
-  else
-    echo "Done.."
-    exit 0
-fi
-for logfiles in $LOGS; do
-    echo $logfiles >> $EMAGNETARCHIVE/logs/$files
-done
-  i
+EMPTY="$(ls $EMAGNET/incoming/*/logs/|wc -l)"
+if [[ "$EMPTY" = "0" ]]; then echo -e "$basename$0: internal error -- nothing to merge";exit 1;fi
+DAYDIRS="$(ls $EMAGNET/incoming/|wc -l)"
+DAYDIRS2="$(ls $EMAGNET/incoming/)"
+LOGFILES="$(ls $EMAGNET/incoming/*/logs/*|wc -l)"
+TOTM="$(cat $EMAGNET/incoming/*/logs/emails-from-pastebin.txt|wc -l)"         # Total Mail Addresses
+TOTP="$(cat $EMAGNET/incoming/*/logs/passwords-from-pastebin.txt|wc -l)"      # Total passwords
+TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # Total Urls
+          emagnet_clear;emagnet_banner
+          printf "%10s Merging \e[1;36m${LOGFILES}\e[0m log files from \e[1;36m${DAYDIRS}\e[0m day directories\n\n"
+	  printf "%64s \n\n" | tr ' ' '='
+	  LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
+           for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
+            echo -e ",-> Merging logs from: $LOGDATE \n|"
+            logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
+            find $EMAGNET/incoming/*/logs/ -maxdepth 1|sed '/\/$/d' > $HOME/emagnet/.emagnet-temp-merge.txt
+            touch "$EMAGNETARCHIVE/logs/$logfiles" &> /dev/null
+              while read logs; do 
+                  echo "$logs" >> "$EMAGNETARCHIVE/logs/$logfiles"; 
+                if [[ "$?" -eq "0" ]]; then
+                  printf "| %2d) [MERGED] %.100s %s\n" "$(( ++cnt ))" "$logs'"
+                  sleep 1
+                else
+	          printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
+                  sleep 1
+                fi
+                  done < $HOME/emagnet/.emagnet-temp-merge.txt
+                  sleep 0.2
+            done
+        printf "|\n"
+        sleep 0.2
+        printf "'- Successfully merged \e[1;32m${TOTM}\e[0m emails, \e[1;34m${TOTP}\e[0m passwords and \e[1;36m${TOTU}\e[0m urls...\n\n"
 
 }
 
@@ -470,7 +490,7 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
            printf "%64s \n\n" | tr ' ' '='
 	  elif [[ "$PBRUTEFORCE" = "true" ]]; then
            printf "%18s \e[0;32mSPOTIFY\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
-           printf "%64s \n\n" | tr ' ' '='
+          printf "%64s \n\n" | tr ' ' '='
 	  elif [[ "$SBRUTEFORCE" = "true" ]]; then
            printf "%20s \e[1;34mSSH\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
@@ -1424,18 +1444,19 @@ case "${1}" in
                 fi
                 ;;
          "-p"|"--proxy"|"--p")
-               if [[ "$2" = "true" ]]; then
+             if [[ "$2" = "true" ]]; then
                  sed -i 's/PROXY=false/PROXY=true/g' $CONF
                  echo -e "$basename$0: config file has been udpated -- proxy has been enable"
                elif [[ "$2" = "false" ]]; then
-                 sed -i 's/PROXY=true/PROXY=false/g' $CONF
+             
+                sed -i 's/PROXY=true/PROXY=false/g' $CONF
                  echo -e "$basename$0: config file has been udpated -- proxy has been disabled"
                else
                  echo -e "$basename$0: internal error -- you must set proxy to true or false"
                  exit 1
               fi
                ;;
-
+      
 	  "\?")
               printf "emagnet: internal error -- use --help for available commands'\n\n"
               exit 1 ;;
