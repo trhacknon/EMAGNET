@@ -458,8 +458,8 @@ TOTP="$(cat $EMAGNET/incoming/*/logs/passwords-from-pastebin.txt|wc -l)"      # 
 TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # Total Urls
           emagnet_clear;emagnet_banner
           printf "%10s Merging \e[1;36m${LOGFILES}\e[0m log files from \e[1;36m${DAYDIRS}\e[0m day directories\n\n"
-	  printf "%64s \n\n" | tr ' ' '='
-	  LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
+	      printf "%64s \n\n" | tr ' ' '='
+	      LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
            for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
             echo -e ",-> Merging logs from: $LOGDATE \n|"
             logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
@@ -881,9 +881,12 @@ if [[ -z "$SYNTAX2DL" ]]; then echo -e "$basename$0: internal error -- you must 
 if [[ "$?" = "0" ]]; then
      printf "Downloading $(cat $HOME/.config/emagnet/tmp/.emagnet-syntaxes-urls|wc -l) ${SYNTAX2DL} files.."
      mkdir -p "$EMAGNETSYNTAX/$SYNTAX2DL"
+if [[ $PROXY = "true" ]]; then
+     export SOCKS_SERVER=$PROXYHOST:$PROXYPORT
      xargs -P "${THREADS}" -n 1 wget --user-agent="${USERAGENT}" -nc -q < $HOME/.config/emagnet/tmp/.emagnet-syntaxes-urls -P "$EMAGNETSYNTAX/$SYNTAX2DL" &> /dev/null
-     printf "\n%s\n" "Done.."
-     rm "$HOME/.config/emagnet/tmp/.emagnet-syntaxes-urls" "$HOME/.config/emagnet/tmp/.emagnet-syntaxes" &> /dev/null
+     else
+     xargs -P "${THREADS}" -n 1 wget --user-agent="${USERAGENT}" -nc -q < $HOME/.config/emagnet/tmp/.emagnet-syntaxes-urls -P "$EMAGNETSYNTAX/$SYNTAX2DL" &> /dev/null
+fi
  else
      curl -Ls "$PASTEBIN/languages" \
      |grep -o 'href="/archive/............' \
@@ -1305,12 +1308,13 @@ case "${1}" in
                 emagnet_conf
                 emagnet_requirements
                 emagnet_iconnection
+                echo "The IP You will use when visiting pastbin:"
                 if [[ $PROXY = "true" ]]; then
                 CURL="curl -s -x socks5h://$PROXYHOST:$PROXYPORT ";
                 else
                 CURL="curl -s "
                 fi
-                echo -e "iPV4: $($CURL -s $WIP)"
+                echo -e "IP : $($CURL -s $WIP)"
                 ;;
 
       "-h"|"--help"|"-help"|"help")
