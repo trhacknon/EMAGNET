@@ -2,7 +2,7 @@
 
 #### Important Notice: Avoid being banned by set TIME for 200 seconds or higher in emagnet.conf.
 
-#### _Nr1.nu is from now up and running again as expected, we are now using nr1.nu for whois our IP again, whois your IP unlimited times without any logs saved or stored._
+#### _Nr1.nu is from now up and running again as expected, we are now using nr1.nu for whois our IP again, whois your IP unlimited times without any logs saved or stored. Also my mail server is up and running again so now you can send e-mail to wuseman@nr1.nu again - Sorry for the downtime_ // Regards
 
 
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
