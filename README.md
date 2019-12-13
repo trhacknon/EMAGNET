@@ -2,6 +2,8 @@
 
 #### Important Notice: Avoid being banned by set TIME for 200 seconds or higher in emagnet.conf.
 
+#### If want more, more, more more leaks then emagnet gives you, then you can get them from https://demonforums.net/Forum-Combolists - HaveIBeenPwned using this page aswell
+
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
 
 | Current Version    | News                            | Tested On                          |
