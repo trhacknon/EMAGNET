@@ -13,6 +13,7 @@ R = REBUILT
 
 # Version 3.4.1 
 
++    Fixed an issue with --merge, now incoming files getting merged to archive again
 +    Fixed a bug wich caused spotify brute-forcing run over and over again, now we run it once and then we fetching more uploads
 +    Added support for PROXY / SSH Tunnels
 +    Added proxy to help/usage
