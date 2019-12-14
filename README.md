@@ -1,6 +1,6 @@
 # EMAGNET v3.4.1
 
-#### Important Notice: Avoid being banned by set TIME for 200 seconds or higher in emagnet.conf.
+### Before you using emagnet, please remember that with great power comes great responsibility. 
 
 #### If u want more, more, more and even more leaks then you can get them from https://demonforums.net/Forum-Combolists (if you don't like all script kiddies forums then all the leaks can be found here directly https://www.exclusive4u.tk/) - TroyBeenPwned using this page aswell but mostly times you already have grabbed them with emagnet, but in case you forgot to start emagnet during they uploaded the leak on pastebin you can use this as a backup. It's one of few forums that actually is OK.
 
