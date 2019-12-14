@@ -2,7 +2,7 @@
 
 #### Important Notice: Avoid being banned by set TIME for 200 seconds or higher in emagnet.conf.
 
-#### If u want more, more, more and even more leaks then you can get them from https://demonforums.net/Forum-Combolists (if you don't like all script kiddies forums then all the leaks can be found here directly https://www.exclusive4u.tk/ - HaveIBeenPwned using this page aswell but mostly times you already have grabbed them with emagnet, but in case you forgot to start emagnet during they uploaded the leak on pastebin you can use this as a backup. It's one of few forums that actually is OK.
+#### If u want more, more, more and even more leaks then you can get them from https://demonforums.net/Forum-Combolists (if you don't like all script kiddies forums then all the leaks can be found here directly https://www.exclusive4u.tk/) - TroyBeenPwned using this page aswell but mostly times you already have grabbed them with emagnet, but in case you forgot to start emagnet during they uploaded the leak on pastebin you can use this as a backup. It's one of few forums that actually is OK.
 
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
 
