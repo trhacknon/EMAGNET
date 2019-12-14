@@ -2,11 +2,11 @@
 
 ### Before you using emagnet, please remember that with great power comes great responsibility. 
 
-##### Limited tips and tricks, this does not belongs to emagnet it self but but I have decided to place it here anyway instead of create a new repo cause this wont last forever, soon they will figure out that I have find a way to bypass their premium download for users that paid, free users must wait 30 seconds on wierd urls until they can download them one by one. Do as following to bypass their protection and grab millions of accounts in few minutes, you can copy and paste below command, see preview under how it works and that it actually works flawless. 
+##### Limited tips and tricks, this does not belongs to emagnet it self but but I have decided to place it here anyway instead of create a new repo cause this wont last forever, soon they will figure out that I have find a way to bypass their premium download for users that paid, free users must wait 30 seconds on wierd urls until they can download them one by one. Do as following to bypass their protection and grab millions of accounts in few minutes, you can copy and paste below command, see preview under how it works and that it actually works flawless. (change 700 1099 to whatever you want, that's just an example for show you how to bypass the limit's they got if you are a normal user)
 
     for numbers in {700..1099}; do wget http://s3.up4ever.download:8080/d/ddojdrvfpqy52ag4rjoacd3mfcvjttqltq3awa75zfiyemmcygk3dje7yerloc4kjctze2st/$numbers\k.rar; done
 
-![Screenshot](.previews/magnet-downloading-dbs.gif)
+![Screenshot](.preview/magnet-downloading-dbs.gif)
 
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
 
