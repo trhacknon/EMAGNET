@@ -11,6 +11,8 @@ This tips does not belongs to emagnet itself but I have decided to place it here
 
 If you want to brute-force all accounts you have downloaded, just move all text files to $EMAGNET/incoming/dialy-dir/.temp and run emagnet --bruteforce spotify for example and you will have thousands of new accounts that work, but remember. HURRY UP! They will soon figure out that we using their bandwidth without paying a cent. ;-)
 
+Emagnet vs Troy Hunt: 3-0 - There would be no surprise if he will go to media and claim he figure this out, attention whore.
+
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
 
 | Current Version    | News                            | Tested On                          |
