@@ -6,7 +6,7 @@
 
     for numbers in {700..1099}; do wget http://s3.up4ever.download:8080/d/ddojdrvfpqy52ag4rjoacd3mfcvjttqltq3awa75zfiyemmcygk3dje7yerloc4kjctze2st/$numbers\k.rar; done
 
-![Screenshot](.preview/magnet-downloading-dbs.gif)
+![Screenshot](.preview/emagnet-downloading-dbs.gif)
 
 ## <p align="center">![Screenshot](https://i.ibb.co/3B5GS6X/68747470733a2f2f6e72312e6e752f656d61676e65742f70726576696577732f656d61676e65745f6f6c646d6f76692e676966.gif)
 
