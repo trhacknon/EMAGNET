@@ -396,6 +396,8 @@ else
                 printf "%s%s[ ok ]\n" "$MYNEWIP" "${line:${#MYNEWIP}}"
                 printf "\rEmagnet will continue in 5 seconds.........................[ ok ]\n\n"
                 sleep 5
+                emagnet_clear
+                emagnet_banner
         fi
             if [[ "$MYIP" = "$MYOLDIP" ]]; then
               echo -e "Still trying to establish a connection.....................[\e[1;3m\e[5mwait\e[0m\e[0m]"
@@ -1149,7 +1151,7 @@ emagnet_findonionurls() {
 
 emagnet_customsearch() {
      read -p " [S] - What are you looking for: " searchfor
-     grep -rei ${searchfor} $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'
+     grep -rei "$*" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'
 }
 
 read -p " [O] - Option: " diagst
