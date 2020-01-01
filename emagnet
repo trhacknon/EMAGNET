@@ -396,8 +396,6 @@ else
                 printf "%s%s[ ok ]\n" "$MYNEWIP" "${line:${#MYNEWIP}}"
                 printf "\rEmagnet will continue in 5 seconds.........................[ ok ]\n\n"
                 sleep 5
-                emagnet_clear
-                emagnet_banner
         fi
             if [[ "$MYIP" = "$MYOLDIP" ]]; then
               echo -e "Still trying to establish a connection.....................[\e[1;3m\e[5mwait\e[0m\e[0m]"
@@ -481,6 +479,7 @@ TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # 
             done
         printf "|\n"
         sleep 0.2
+        rm $HOME/emagnet/.emagnet-temp-merge.txt
         printf "'- Successfully merged \e[1;32m${TOTM}\e[0m emails, \e[1;34m${TOTP}\e[0m passwords and \e[1;36m${TOTU}\e[0m urls...\n\n"
 
 }
