@@ -28,7 +28,7 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 ### Sit back and relax and Emagnet will do the rest, watch the video below, this is for real!
 
-![Screenshot](.previews/emagnet-latest.gif)
+![Screenshot](.preview/emagnet-latest.gif)
 
 ### ... So how does this work? See the video below exactly line by line how it works: 
 
