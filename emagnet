@@ -1150,7 +1150,7 @@ emagnet_findonionurls() {
 
 emagnet_customsearch() {
      read -p " [S] - What are you looking for: " searchfor
-     grep -rei "$*" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'
+     grep -ri "$searchfor" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'
 }
 
 read -p " [O] - Option: " diagst
