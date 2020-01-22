@@ -16,11 +16,8 @@
 </a>
 </p>
 
-### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible:
+### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible (You wont miss a single file if you run as emagnet as below):
 
-     cd /tmp
-     git clone https://github.com/wuseman/emagnet
-     cd emagnet
      bash emagnet -t 300
      bash emagnet -q
 
