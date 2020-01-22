@@ -16,7 +16,7 @@
 </a>
 </p>
 
-### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible (You wont miss a single file if you run as emagnet as below):
+### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible (You wont miss a single file if you run emagnet as below):
 
      bash emagnet -t 300
      bash emagnet -q
