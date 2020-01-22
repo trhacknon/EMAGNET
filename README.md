@@ -16,16 +16,16 @@
 </a>
 </p>
 
-### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible (You wont miss a single file if you run emagnet as below):
-
-     bash emagnet -t 300
-     bash emagnet -q
-
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
 
 #### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
 
 - Emagnet is No.1 tool for fetch these leaks from pastebin
+
+### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible (You wont miss a single file if you run emagnet as below):
+
+     bash emagnet -t 300
+     bash emagnet -q
 
 ### A sample from 2019-11-13 when running emagnet with brute force mode on for spotify:
 * The result is amazing, it have never ever been so easy to hack million of peoples accounts before!
