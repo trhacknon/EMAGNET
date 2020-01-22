@@ -16,6 +16,14 @@
 </a>
 </p>
 
+### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible:
+
+     cd /tmp
+     git clone https://github.com/wuseman/emagnet
+     cd emagnet
+     bash emagnet -t 300
+     bash emagnet -q
+
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
 
 #### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
