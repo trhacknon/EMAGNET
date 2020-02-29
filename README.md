@@ -43,8 +43,8 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 ### Getting Started:
 
-    git clone https://github.com/wuseman/emagnet
-    cd emagnet
+    git clone https://github.com/wuseman/emagnet /tmp/emagnet
+    cd /tmp/emagnet
     chmod +x emagnet*
     ./emagnet --emagnet
    
