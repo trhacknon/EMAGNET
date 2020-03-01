@@ -22,6 +22,11 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 - Emagnet is No.1 tool for fetch these leaks from pastebin
 
+### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible (You wont miss a single file if you run emagnet as below):
+
+     bash emagnet -t 300
+     bash emagnet -q
+
 ### A sample from 2019-11-13 when running emagnet with brute force mode on for spotify:
 * The result is amazing, it have never ever been so easy to hack million of peoples accounts before!
 * Run emagnet on your android device, just put your android device in your pocket and emagnet will hack the accounts for you - This preview is for spotify, but emagnet has support for more protocols and it will be more supported protocols in next upgrade.
@@ -38,8 +43,8 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 ### Getting Started:
 
-    git clone https://github.com/wuseman/emagnet
-    cd emagnet
+    git clone https://github.com/wuseman/emagnet /tmp/emagnet
+    cd /tmp/emagnet
     chmod +x emagnet*
     ./emagnet --emagnet
    
