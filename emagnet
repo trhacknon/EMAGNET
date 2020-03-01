@@ -119,7 +119,7 @@ emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;
 if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi;$CURL "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
 emagnet_requirements(){ 
 uname -a|grep -i "android" &> /dev/null
-   if [[ "$?" -eq "1" ]]; then
+   if [[ "$?" -eq "0" ]]; then
       echo -e "Updating repository.."
       pkg update &> /dev/null
       echo -e "Installing curl and wget, hit Y when it asking for it ..."
