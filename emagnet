@@ -118,12 +118,10 @@ emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "
 emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;
 if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi;$CURL "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
 emagnet_requirements(){ 
-for cmd in wget curl; do 
-   hash $cmd; 
-       if [[ "$?" -gt 0 ]]; then 
-            echo "$cmd is required to be installed, exiting."; 
-	    exit 1
-       fi
+uname -a|grep -i "android"
+if [[ "$?" = "1" ]]; then echo "Wget is required to be installed before you can run emagnet ..."; fi; read -p "Install wget: (y/N)" wgetandroid;
+    if [[ "$wgetandroid" = "yes" ]]; then echo "Installing wget ..."; pkg install wget;fi 
+for cmd in wget curl; do hash $cmd;if [[ "$?" -gt 0 ]]; then echo "$cmd is required to be installed, exiting."; exit 1;fi
 done;}
 emagnet_optional(){ sleep 0;}
 emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
