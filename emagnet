@@ -289,7 +289,7 @@ emagnet_wasibanned() {
 #### for 3600 seconds (default)                                            ####
 ###############################################################################
 emagnet_I_was_banned() {
-curl -sL -H "$USERAGENT" "$PASTEBIN" \
+curl -s -H "$USERAGENT" "$PASTEBIN" \
 |grep -q "blocked your IP"
 if [[ "$?" = "0" ]]; then
   		if [[ "$VPN" = "false" ]]; then
