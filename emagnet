@@ -1246,7 +1246,8 @@ case "${1}" in
 
            elif [[ "$2" = "spotify" ]]; then
            emagnet_conf
-               find /usr/include -type d |grep 'libspotify' &> /dev/null
+             if [[ -f "/usr/include/portaudiocpp/" ]]; then echo "portaudio is required to be installed ..."; fi; exit 1  
+             find /usr/include -type d |grep 'libspotify' &> /dev/null
              if [[ "$?" -ne "0" ]]; then
              if [[ -z "$LIBSPOTIFY" ]]; then
 	                 printf "Libspotify is deprecated but is required for emagnet bruteforcing\nto work, do you have libspotify installed? (YES/no): "
