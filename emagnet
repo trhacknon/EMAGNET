@@ -1247,7 +1247,7 @@ case "${1}" in
            elif [[ "$2" = "spotify" ]]; then
            emagnet_conf
              if [[ ! -f "/usr/include/portaudiocpp/" ]]; then 
-                echo "portaudio is required to be installed ..."; 
+                echo -e "$basename0: internal error - portaudio is required to be installed ..."; 
              fi
              exit 1
              find /usr/include -type d |grep 'libspotify' &> /dev/null
