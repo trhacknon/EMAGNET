@@ -209,6 +209,8 @@ EOF
 #### - Set time by: ./emagnet -t 200 followed by ./emagnet -q              ####
 ###############################################################################
 emagnet_quiet() {
+ mkdir -p /tmp/screen/ &> /dev/null
+ chmod -R 755 /tmp/screen &> /dev/null
  hash screen &> /dev/null; if [[ "$?" -gt "0" ]]; then echo -e "Screen is required to be installed before you run emagnet in background ...";exit 1; fi
   pid="$(ps aux |grep emagnet)"
   printf "$basename$0: emagnet has been started in background (pid:$(ps aux|grep "SCREEN -dmS emagnet"|awk '{print $2}'|head -n1))\n"
