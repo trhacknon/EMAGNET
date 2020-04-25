@@ -1276,7 +1276,7 @@ case "${1}" in
                 echo -e "$basename$0: internal error -- unzip is required to be installed for unzip sconsify ..."
                 exit 1
               fi
-               /usr/local/bin/sconsify -version &> /dev/null
+                  /usr/local/bin/sconsify -version &> /dev/null
                         if [[ "$?" -ne "0" ]]; then
                          echo "Sconsify is required to be installed before we attacking targets.."
                            read -p "Download and install sconsify (y/N): " installsconsify
@@ -1284,12 +1284,18 @@ case "${1}" in
                               echo -e "Hold on, downloading sconsify.."
                               wget -q --user-agent="${USERAGENT}" "https://github.com/fabiofalci/sconsify/releases/download/next-20180428/linux-x86_64-sconsify-0.6.0-next.zip"
                               echo -e "Unzipping sconsify into current dir.."
-                              unzip -q -o "linux-x86_64-sconsify-0.6.0-next.zip"
-                              mv ./sconsify /usr/local/bin &> /dev/null
-                              chmod +x /usr/local/bin/sconsify
-                              echo -e "Cleaning up."
+                              echo $PATH|grep -ow "\/usr\/local\/bin"
+                              if [[ $? -eq 0 ]]; then
+                                  unzip -q -o "linux-x86_64-sconsify-0.6.0-next.zip"
+                                  mv ./sconsify /usr/local/bin &> /dev/null
+                                  chmod +x /usr/local/bin/sconsify
+                              else
+                                  unzip -q -o "linux-x86_64-sconsify-0.6.0-next.zip"
+                                  chmod +x ./sconsify
+                              fi
+                              echo -e "Cleaning up..."
                               rm "linux-x86_64-sconsify-0.6.0-next.zip"
-                              echo "All done.."
+                              echo "All done, have fun!"
                               sleep 2
                              else
                               echo -e "$basename$0: internal error -- sconsify is required to be installed.."
