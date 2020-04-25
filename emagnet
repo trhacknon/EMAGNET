@@ -1276,7 +1276,7 @@ case "${1}" in
                 echo -e "$basename$0: internal error -- unzip is required to be installed for unzip sconsify ..."
                 exit 1
               fi
-               ./sconsify -version &> /dev/null
+               /usr/local/bin/sconsify -version &> /dev/null
                         if [[ "$?" -ne "0" ]]; then
                          echo "Sconsify is required to be installed before we attacking targets.."
                            read -p "Download and install sconsify (y/N): " installsconsify
