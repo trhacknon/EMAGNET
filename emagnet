@@ -1294,7 +1294,7 @@ case "${1}" in
                              else
                               echo -e "$basename$0: internal error -- sconsify is required to be installed.."
                               exit 1
-                            fi
+                         fi
                         fi
                      sed -i 's/PBRUTEFORCE=false/PBRUTEFORCE=true/g' "$CONF"
                   emagnet_conf
