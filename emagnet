@@ -1247,10 +1247,7 @@ case "${1}" in
 
            elif [[ "$2" = "spotify" ]]; then
            emagnet_conf
-             if [[ ! -f "/usr/include/portaudiocpp/" ]]; then 
-                echo -e "$basename0: internal error - portaudio is required to be installed ..."; 
-             fi
-             exit 1
+
              find /usr/include -name "portaudio.h" |xargs grep -v "port" &> /dev/null
                if [[ $? -ne 0 ]]; then 
                     echo -e "$basename$0: internal error -- portaudio is requrired to be installed"
@@ -1288,7 +1285,8 @@ case "${1}" in
                               wget -q --user-agent="${USERAGENT}" "https://github.com/fabiofalci/sconsify/releases/download/next-20180428/linux-x86_64-sconsify-0.6.0-next.zip"
                               echo -e "Unzipping sconsify into current dir.."
                               unzip -q -o "linux-x86_64-sconsify-0.6.0-next.zip"
-                              chmod +x ./sconsify
+                              mv ./sconsify /usr/local/bin &> /dev/null
+                              chmod +x /usr/local/bin/sconsify
                               echo -e "Cleaning up."
                               rm "linux-x86_64-sconsify-0.6.0-next.zip"
                               echo "All done.."
