@@ -1284,7 +1284,7 @@ case "${1}" in
                               echo -e "Hold on, downloading sconsify.."
                               wget -q --user-agent="${USERAGENT}" "https://github.com/fabiofalci/sconsify/releases/download/next-20180428/linux-x86_64-sconsify-0.6.0-next.zip"
                               echo -e "Unzipping sconsify into current dir.."
-                              echo $PATH|grep -ow "\/usr\/local\/bin"
+                              echo $PATH|grep -qow "\/usr\/local\/bin"
                               if [[ $? -eq 0 ]]; then
                                   unzip -q -o "linux-x86_64-sconsify-0.6.0-next.zip"
                                   mv ./sconsify /usr/local/bin &> /dev/null
