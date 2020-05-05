@@ -1087,6 +1087,7 @@ fi
 }
 
 emagnet_search() {
+	emagnet_requirements
     dt="$(date +%d%m%y)"
     emagnet_conf
     emagnet_clear
@@ -1201,6 +1202,7 @@ case "${1}" in
         ;;
 
       "-g"|"-bruteforce"|"--bruteforce")
+          emagnet_requirements
           emagnet_iconnection
           emagnet_first_run
           sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' "$CONF"
@@ -1325,8 +1327,8 @@ case "${1}" in
                 ;;
 
       "-i"|"--ip"|"-ip"|"ip")
-                emagnet_conf
                 emagnet_requirements
+                emagnet_conf
                 emagnet_iconnection
                 echo "The IP You will use when visiting pastbin:"
                 if [[ $PROXY = "true" ]]; then
@@ -1348,16 +1350,19 @@ case "${1}" in
                 ;;
 
       "-m"|"-merge"|"--merge")
+                emagnet_required_stuff
                 emagnet_conf
                 emagnet_merge
                 ;;
 
       "-M"|"-move"|"--move")
+                emagnet_required_stuff
                 emagnet_conf
                 emagnet_move_files
                 ;;
 
       "-s"|"-spam"|"--spam")
+               emagnet_required_stuff
                emagnet_conf 
                if [[ -z "$EMAIL2SEND" ]]; then
                  if ! [[ -f "$2" ]]; then
@@ -1396,6 +1401,7 @@ case "${1}" in
                 ;;
 
       "-t"|"-time"|"--time")
+                emagnet_required_stuff
                 emagnet_conf
                 if [[ -z "$2" ]]; then echo "emagnet: internal error -- time require a number to be used";exit 1;fi
                 re='^[0-9]+$';if ! [[ $2 =~ $re ]]; then  echo -e "emagnet: internal error -- that's not a valid number" >&2;exit 1; fi
