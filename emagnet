@@ -117,8 +117,8 @@ emagnet_clear(){ clear;}
 emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
 emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;
 if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi;$CURL "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
-emagnet_requirements(){ 
-for cmd in wget curl; do hash $cmd;if [[ "$?" -gt 0 ]]; then echo "$cmd is required to be installed, exiting."; exit 1;fi
+emagnet_requirements(){
+for cmd in wget curl; do which $cmd &> /dev/null;if [[ "$?" -gt 0 ]]; then echo "$cmd is required to be installed, exiting."; exit 1;fi
 done;}
 emagnet_optional(){ sleep 0;}
 emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
@@ -1087,7 +1087,7 @@ fi
 }
 
 emagnet_search() {
-	emagnet_requirements
+    emagnet_requirements
     dt="$(date +%d%m%y)"
     emagnet_conf
     emagnet_clear
@@ -1189,6 +1189,7 @@ case "${1}" in
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
         emagnet_iconnection
         emagnet_first_run
+        emagnet_requirements
         sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' "$CONF"
         sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' "$CONF"
         sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
