@@ -478,24 +478,25 @@ LOGFILES="$(ls $EMAGNET/incoming/*/logs/*|wc -l)"
 TOTM="$(cat $EMAGNET/incoming/*/logs/emails-from-pastebin.txt|wc -l)"         # Total Mail Addresses
 TOTP="$(cat $EMAGNET/incoming/*/logs/passwords-from-pastebin.txt|wc -l)"      # Total passwords
 TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # Total Urls
-          emagnet_clear;emagnet_banner
+          emagnet_clear
+          emagnet_banner
           printf "%10s Merging \e[1;36m${LOGFILES}\e[0m log files from \e[1;36m${DAYDIRS}\e[0m day directories\n\n"
-	      printf "%64s \n\n" | tr ' ' '='
-	      LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
-           for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
-            echo -e ",-> Merging logs from: $LOGDATE \n|"
-            #logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
-            find $EMAGNET/incoming/*/logs/ -maxdepth 1|sed '/\/$/d' > $HOME/emagnet/.emagnet-temp-merge.txt
-            touch "$EMAGNETARCHIVE/logs/$logfiles" &> /dev/null
-              while read logs; do 
-                  echo "$logs" >> "$EMAGNETARCHIVE/logs/$logfiles"; 
-                if [[ "$?" -eq "0" ]]; then
-                  printf "| %2d) [MERGED] %.100s %s\n" "$(( ++cnt ))" "$logs'"
-                  sleep 1
-                else
-	          printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
-                  sleep 1
-                fi
+	  printf "%64s \n\n" | tr ' ' '='
+	  LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
+             for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
+                   echo -e ",-> Merging logs from: $LOGDATE \n|"
+                   #logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
+                   find $EMAGNET/incoming/*/logs/ -maxdepth 1|sed '/\/$/d' > $HOME/emagnet/.emagnet-temp-merge.txt
+                   touch "$EMAGNETARCHIVE/logs/$logfiles/$logs" &> /dev/null
+                      while read logs; do 
+                            echo "$logs" >> "$EMAGNETARCHIVE/logs/$logfiles/$logs"; 
+                             if [[ "$?" -eq "0" ]]; then
+                               printf "| %2d) [MERGED] %.100s %s\n" "$(( ++cnt ))" "$logs'"
+                               sleep 1
+                             else
+	                       printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
+                               sleep 1
+                             fi
                   done < $HOME/emagnet/.emagnet-temp-merge.txt
                   sleep 0.2
             done
@@ -821,7 +822,6 @@ mail="$(echo $line | cut -d: -f1)"
 password="$(echo $line | cut -d: -f2)"
     if [[ -z "$attack" ]]; then
          printf "[-] Wrong Password For $mail: \e[1;31m$password\e[0m\n"
-         echo -e "[-] $(date +%d/%m/%Y\ -\ %H:%M) -> Wrong Password For $mail $mail: \e[1;31m$password\e[0m" >> "$EMAGNETLOGS/failed-to-crack.txt"
     fi
       if [[ -n "$attack" ]]; then
          echo -e "[+] Password Has Been Cracked $mail: \e[1;32m$password\e[0m"
@@ -929,7 +929,14 @@ emagnet_main() {
       CURL="curl -s "
     fi
 
-    if [[ "$API" -eq "true" ]]; then
+
+
+    if [[ "$API" = "true" ]]; then
+        NOTALLOWED="$(curl -Ls https://scrape.pastebin.com/api_scraping.php|grep -qi "DOES NOT HAVE ACCESS")"
+        if [[ $NOTALLOWED = "0" ]]; then
+            echo -e "$basename$0: internal error -- you did whitelist your IP, please visit https://pastebin.com/doc_scraping_api and set your IP, exiting..."
+            exit 0
+        fi
         rm /root/.config/emagnet/tmp/.1 /root/.config/emagnet/tmp/.* &> /dev/null
         curl -s https://scrape.pastebin.com/api_scraping.php|grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*"|awk 'length < 30' > $HOME/.config/emagnet/tmp/.emagnet1
         ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.1"
@@ -948,10 +955,12 @@ emagnet_main() {
         |sort \
         |cut -d/ -f5 > "$HOME/.config/emagnet/tmp/.2"
         grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" |awk -F, '!seen[$1]++'|sed "s/^/https:\/\/pastebin.com\/raw\//g" > "$HOME/.config/emagnet/tmp/.emagnet"
-      fi
+    
+    fi
+
       rm "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" &> /dev/null
-      if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|wc -l)"      = "8" ]];  then emagnet_notice_about_scraping         ;fi
-      if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|grep https|wc -l)" = "0" ]];  then emagnet_heavyload;emagnet_I_was_banned;fi
+      # Trying without this one ------ if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|wc -l)"      = "8" ]];then emagnet_notice_about_scraping;fi
+      if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|grep https|wc -l)" = "0" ]];then emagnet_heavyload;emagnet_I_was_banned;fi
        xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
       tt="$(cat $HOME/.config/emagnet/tmp/.emagnet| wc -l)"
       [[ "$tt" -lt "10" ]] && tt="0$tt"
