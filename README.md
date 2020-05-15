@@ -16,7 +16,9 @@
 </a>
 </p>
 
-##### Tons of leaked databases can be found on: https://mega.nz/folder/EnxggCiY#btfevmu3fO4AQrWe-81z6A/folder/hm50kRBJ - Hurry up before they are gone.
+#  Important: Please make sure you ONLY fetch the scraping API endpoints listed on this page. If you scrape our website (including /raw/* pages) with your whitelisted IP, you will get blocked. 
+
+# Tons of leaked databases can be found on: https://mega.nz/folder/EnxggCiY#btfevmu3fO4AQrWe-81z6A/folder/hm50kRBJ - Hurry up before they are gone.
 
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
 
