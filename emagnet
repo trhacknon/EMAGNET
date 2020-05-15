@@ -486,7 +486,7 @@ TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # 
              for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
                    echo -e ",-> Merging logs from: $LOGDATE \n|"
                    #logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
-                   find $EMAGNET/incoming/*/logs/ -maxdepth 1|sed '/\/$/d' > $HOME/emagnet/.emagnet-temp-merge.txt
+                   find $EMAGNET/incoming/ -maxdepth 1 -type f|sed '/\/$/d' > $HOME/emagnet/.emagnet-temp-merge.txt
                    touch "$EMAGNETARCHIVE/logs/$logfiles/$logs" &> /dev/null
                       while read logs; do 
                             echo "$logs" >> "$EMAGNETARCHIVE/logs/$logfiles/$logs"; 
