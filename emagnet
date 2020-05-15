@@ -2,17 +2,14 @@
 ###############################################################################
 ###############################################################################
 ###                                                                         ###
-### If you will copy any developers work and claim you are the dev/founder  ###
-### it wont make you a hacker - The only person you're fooling is yourself  ###
-### so please respect all developers and GPL Licenses no matter if it's my  ###
-### script, tool or project or if it's anyone else, thank you!      	    ###
+### Author: wuseman <wuseman@nr1.nu>                                        ###
+### IRC: Freenode @ wuseman                                                 ###
 ###                                                                         ###
 ###############################################################################
-###################### EMAGNET WAS FOUNDED BY WUSEMAN #########################
+############################## AUTHOR WUSMAN ##################################
 ###############################################################################
 ####                                                                       ####
-####  Emagnet - A tool for find all latest leaked databases                ####
-####  Copyright (C) 2018-2019, wuseman                                     ####
+####  Copyright (C) 2017-2020, wuseman                                     ####
 ####                                                                       ####
 ####  This program is free software; you can redistribute it and/or modify ####
 ####  it under the terms of the GNU General Public License as published by ####
@@ -25,27 +22,48 @@
 ####  GNU General Public License for more details.                         ####
 ####                                                                       ####
 ####  You must obey the GNU General Public License. If you will modify     ####
-####  emagnet file(s), you may extend this exception to your version       ####
+####  the file(s), you may extend this exception to your version           ####
 ####  of the file(s), but you are not obligated to do so.  If you do not   ####
 ####  wish to do so, delete this exception statement from your version.    ####
 ####  If you delete this exception statement from all source files in the  ####
 ####  program, then also delete it here.                                   ####
 ####                                                                       ####
-####  Contact:                                                             ####
-####          IRC: Freenode @ wuseman                                      ####
-####          Mail: wuseman <wuseman@nr1.nu>                               ####
-####                                                                       ####
+###############################################################################
+###############################################################################
+### Last Modified:
+###############################################################################
+################################ NOTICE  ######################################
+###############################################################################
+###                                                                         ###
+### If you will copy any developers work and claim you are the dev/founder  ###
+### it wont make you a hacker - The only person you're fooling is yourself  ###
+### so please respect all developers and GPL Licenses no matter if it's my  ###
+### script, tool or project or if it's anyone else, thank you!      	    ###
+###                                                                         ###
+###############################################################################
 ###############################################################################
 #### ---------------------- VERY IMPORTANT iNFO  -----------------------   ####
 ###############################################################################
 ####                                                                       ####
 #### Emagnet has been created for a legal purpose, wich is for count stats ####
-#### for leaked email addresses and passwords.                             ####
+#### for leaked email addresses and passwords for private usage only.      ####
+####                                                                       ####
+#### Storing passwords can be a criminal offense depending on where        ####
+#### you from and where you live. You have all responsibility in your      ####
+#### hands when you using emagnet and __wuseman__ can never ever be        ####
+#### held responsible for any action that any user has committed.          ####
+#### You are not allowed to run emagnet if you DON'T accept this, if you   ####
+#### execute emagnet AT LEAST once then all responsibility is in           ####
+#### your hands, have fun!                                                 ####
+####                                                                       ####
+#### This notice has been added 2020-05-15:                                ####
+#### This warning has been added due requests and also few pressures       ####
+#### from big brother, now you have been warned ONCE again...              ####
 ####                                                                       ####
 ###############################################################################
 
 ###############################################################################
-## Want your own banner? Cool, just replace the ascii below               ####
+## Want your own banner? Cool, just replace the ascii below                ####
 ###############################################################################
 emagnet_banner() {
 cat << "EOF"
@@ -78,7 +96,6 @@ cat << EOF
 Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 
   -a, --author        Show author information
-  -A, --api           If you have a PRO account, set this to true
   -b, --backup        Create a compressed archive
                       - Available options: all/archive/incoming
   -B, --blocked       Check if your current IP has been blocked
@@ -111,7 +128,6 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 EOF
 }
 
-CONF="$HOME/.config/emagnet/emagnet.conf"
 emagnet_required_stuff(){ if ! [[ -d "$HOME/.config/emagnet/" ]]; then mkdir -p "$HOME/.config/emagnet/tmp";fi;cp "./emagnet.conf" $HOME/.config/emagnet/;}
 emagnet_conf(){ CONF="$HOME/.config/emagnet/emagnet.conf";. "$CONF" ;}
 emagnet_mustberoot(){(( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1;  }
@@ -119,23 +135,14 @@ emagnet_clear(){ clear;}
 emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
 emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;
 if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi;$CURL "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
-emagnet_requirements(){
-for cmd in wget curl; do which $cmd &> /dev/null;if [[ "$?" -gt 0 ]]; then echo -e "$basename$0: internal error -- $cmd is required to be installed, exiting."; exit 1;fi
+emagnet_requirements(){ 
+for cmd in wget curl; do hash $cmd;if [[ "$?" -gt 0 ]]; then echo "$cmd is required to be installed, exiting."; exit 1;fi
 done;}
 emagnet_optional(){ sleep 0;}
 emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
 emagnet_paths(){ PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}";for DIRS in ${PATHS}; do ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done ;}
+CONF="$HOME/.config/emagnet/emagnet.conf"
 
-emagnet_firstrun() {
-        emagnet_requirements
-        if [[ ! -f $CONF ]]; then
-        emagnet_banner
-        printf "Do you have a PRO membership on pastebin.com and also\n"; read -p "did you whitlist your ip for scraping (yes/NO): " scraping
-          if [[ "$scraping" = "yes" ]]; then
-             sed -i 's/API=false/API=true/g' "$PWD/emagnet.conf"
-          fi
-    fi
-}
 emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
   if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/www.pastebin.com'                                                                                     "$CONF";fi
@@ -921,7 +928,8 @@ emagnet_main() {
     else
       CURL="curl -s "
     fi
-    if ! [[ "$API" = "false" ]]; then
+
+    if [[ "$API" -eq "true" ]]; then
         rm /root/.config/emagnet/tmp/.1 /root/.config/emagnet/tmp/.* &> /dev/null
         curl -s https://scrape.pastebin.com/api_scraping.php|grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*"|awk 'length < 30' > $HOME/.config/emagnet/tmp/.emagnet1
         ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.1"
@@ -1196,40 +1204,10 @@ read -p " [O] - Option: " diagst
         esac
 }
 
-
-countdown() {
-  emagnet_clear;emagnet_banner
-  sed -i 's/API=true/API=false/g' $CONF
-  echo -e "You forgot to whitlist your IP on pastebin, changing API to false..."
-  echo -e "If this is wrong, go whitelist your ip here: https://pastebin.com/doc_scraping_api...\n"
-  echo -e "Emagnet will take latest uploads from pastebin.com/archive until you solve this..."
-
-  secs=10
-  shift
-  msg=$@
-  while [ $secs -gt 0 ]
-  do
-             printf "\r\033[KContinues in %.d seconds $msg..." $((secs--))
-    sleep 1
-  done
-  echo
-}
-
 case "${1}" in
 
      "-a"|"-author"|"--author")
           emagnet_author
-     ;;
-
-     "-A"|"-api"|"--api")
-        if [[ $2 = true ]]; then
-          sed -i 's/API=false/API=true/g' $CONF
-          echo -e "$basename$0: config updated -- API has been set to true"
-        else
-          sed -i 's/API=false/API=false/g' $CONF
-          sed -i 's/API=true/API=false/g' $CONF
-          echo -e "$basename$0: config updated -- API has been set to false"
-        fi
      ;;
 
      "-B"|"--banned"|"--blocked")
@@ -1237,7 +1215,6 @@ case "${1}" in
       ;;
 
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
-	emagnet_firstrun
         emagnet_iconnection
         emagnet_first_run
         sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' "$CONF"
@@ -1245,10 +1222,6 @@ case "${1}" in
         sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
         sed -i 's/IBRUTEFORCE=true/IBRUTEFORCE=false/g' "$CONF"
         sed -i 's/RBRUTEFORCE=true/RBRUTEFORCE=false/g' "$CONF"
-        curl -s https://scrape.pastebin.com/api_scraping.php|grep -qi "NOT HAVE ACCESS"
-           if [[ "$?" -eq "0" ]]; then 
-               countdown
-           fi
         emagnet_run4ever
 		  ;;
       "-S"|"-search"|"--search")
@@ -1552,3 +1525,6 @@ case "${1}" in
 esac
 
 ( [[ -z $1 ]] && emagnet_usage; exit 1 )
+
+
+### Last Modified: 
