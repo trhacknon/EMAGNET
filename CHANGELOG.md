@@ -11,6 +11,19 @@ r = RE-ADDED FEATURE FROM AN EARLIER VERSION
      that has been re-added is now stable and not "half done" so they are here for stay.
 R = REBUILT
 
+
+# Version 3.4.2
+
++    Added  better support for requirements, changed hash/which
++    Added API to emagnet.conf, if you have whitlisted your IP at pastebin.com please set this value to true otherwise leave it to false - If this is set
+     to true you are allowed to scrape pastebin for new uploads much faster, add your IP on: https://pastebin.com/doc_scraping_api 
++    Added warning about using emagnet in countries you are not allowed to store passwords and other private info
++    Added a checker, if API is set to true and the IP that is being used is not whitelisted we stop.
+r    Emagnet stats is back on track, was added in version 1.6. Show stats for how many passwords, email addressses and files you have catched
++    Renamed emagnet to emagnet.sh
++    Added archive folder with older versions of emagnet, random versions comes and goes
++    Created a symlink to emagnet from emagnet.sh 
+
 # Version 3.4.1 
 
 +    Fixed an issue with --merge, now incoming files getting merged to archive again
