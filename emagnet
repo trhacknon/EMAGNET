@@ -8,8 +8,17 @@
 ###############################################################################
 ############################## AUTHOR WUSMAN ##################################
 ###############################################################################
+###                                                                         ###
+### If you will copy any developers work and claim you are the dev/founder  ###
+### it wont make you a hacker - The only person you're fooling is yourself  ###
+### so please respect all developers and GPL Licenses no matter if it's my  ###
+### script, tool or project or if it's anyone else, thank you!              ###
+###                                                                         ###
+###############################################################################
+###########################o###################################################
+###############################################################################
 ####                                                                       ####
-####  Copyright (C) 2017-2020, wuseman                                     ####
+####  Copyright (C) 2018-2020, wuseman                                     ####
 ####                                                                       ####
 ####  This program is free software; you can redistribute it and/or modify ####
 ####  it under the terms of the GNU General Public License as published by ####
@@ -31,40 +40,8 @@
 ###############################################################################
 ###############################################################################
 ### Last Modified:
-###############################################################################
-################################ NOTICE  ######################################
-###############################################################################
-###                                                                         ###
-### If you will copy any developers work and claim you are the dev/founder  ###
-### it wont make you a hacker - The only person you're fooling is yourself  ###
-### so please respect all developers and GPL Licenses no matter if it's my  ###
-### script, tool or project or if it's anyone else, thank you!      	    ###
-###                                                                         ###
-###############################################################################
-###############################################################################
-#### ---------------------- VERY IMPORTANT iNFO  -----------------------   ####
-###############################################################################
-####                                                                       ####
-#### Emagnet has been created for a legal purpose, wich is for count stats ####
-#### for leaked email addresses and passwords for private usage only.      ####
-####                                                                       ####
-#### Storing passwords can be a criminal offense depending on where        ####
-#### you from and where you live. You have all responsibility in your      ####
-#### hands when you using emagnet and __wuseman__ can never ever be        ####
-#### held responsible for any action that any user has committed.          ####
-#### You are not allowed to run emagnet if you DON'T accept this, if you   ####
-#### execute emagnet AT LEAST once then all responsibility is in           ####
-#### your hands, have fun!                                                 ####
-####                                                                       ####
-#### This notice has been added 2020-05-15:                                ####
-#### This warning has been added due requests and also few pressures       ####
-#### from big brother, now you have been warned ONCE again...              ####
-####                                                                       ####
-###############################################################################
 
-###############################################################################
-## Want your own banner? Cool, just replace the ascii below                ####
-###############################################################################
+
 emagnet_banner() {
 cat << "EOF"
      _                      _______                      _
@@ -96,6 +73,7 @@ cat << EOF
 Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 
   -a, --author        Show author information
+  -A, --api           If you have a PRO account, set this to true
   -b, --backup        Create a compressed archive
                       - Available options: all/archive/incoming
   -B, --blocked       Check if your current IP has been blocked
@@ -128,6 +106,7 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 EOF
 }
 
+CONF="$HOME/.config/emagnet/emagnet.conf"
 emagnet_required_stuff(){ if ! [[ -d "$HOME/.config/emagnet/" ]]; then mkdir -p "$HOME/.config/emagnet/tmp";fi;cp "./emagnet.conf" $HOME/.config/emagnet/;}
 emagnet_conf(){ CONF="$HOME/.config/emagnet/emagnet.conf";. "$CONF" ;}
 emagnet_mustberoot(){(( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1;  }
@@ -135,14 +114,22 @@ emagnet_clear(){ clear;}
 emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
 emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;
 if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi;$CURL "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
-emagnet_requirements(){ 
-for cmd in wget curl; do hash $cmd;if [[ "$?" -gt 0 ]]; then echo "$cmd is required to be installed, exiting."; exit 1;fi
+emagnet_requirements(){
+for cmd in wget curl; do which $cmd &> /dev/null;if [[ "$?" -gt 0 ]]; then echo -e "$basename$0: internal error -- $cmd is required to be installed, exiting."; exit 1;fi
 done;}
 emagnet_optional(){ sleep 0;}
 emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
 emagnet_paths(){ PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}";for DIRS in ${PATHS}; do ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done ;}
-CONF="$HOME/.config/emagnet/emagnet.conf"
 
+emagnet_firstrun() {
+     if [[ ! -f $CONF ]]; then
+        emagnet_banner
+        printf "Do you have a PRO membership on pastebin.com and also\n"; read -p "did you whitlist your ip for scraping (yes/NO): " scraping
+          if [[ "$scraping" = "yes" ]]; then
+             sed -i 's/API=false/API=true/g' "$PWD/emagnet.conf"
+          fi
+    fi
+}
 emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
   if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/www.pastebin.com'                                                                                     "$CONF";fi
@@ -478,25 +465,24 @@ LOGFILES="$(ls $EMAGNET/incoming/*/logs/*|wc -l)"
 TOTM="$(cat $EMAGNET/incoming/*/logs/emails-from-pastebin.txt|wc -l)"         # Total Mail Addresses
 TOTP="$(cat $EMAGNET/incoming/*/logs/passwords-from-pastebin.txt|wc -l)"      # Total passwords
 TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # Total Urls
-          emagnet_clear
-          emagnet_banner
+          emagnet_clear;emagnet_banner
           printf "%10s Merging \e[1;36m${LOGFILES}\e[0m log files from \e[1;36m${DAYDIRS}\e[0m day directories\n\n"
-	  printf "%64s \n\n" | tr ' ' '='
-	  LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
-             for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
-                   echo -e ",-> Merging logs from: $LOGDATE \n|"
-                   #logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
-                   find $EMAGNET/incoming/ -maxdepth 1 -type f|sed '/\/$/d' > $HOME/emagnet/.emagnet-temp-merge.txt
-                   touch "$EMAGNETARCHIVE/logs/$logfiles/$logs" &> /dev/null
-                      while read logs; do 
-                            echo "$logs" >> "$EMAGNETARCHIVE/logs/$logfiles/$logs"; 
-                             if [[ "$?" -eq "0" ]]; then
-                               printf "| %2d) [MERGED] %.100s %s\n" "$(( ++cnt ))" "$logs'"
-                               sleep 1
-                             else
-	                       printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
-                               sleep 1
-                             fi
+	      printf "%64s \n\n" | tr ' ' '='
+	      LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
+           for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
+            echo -e ",-> Merging logs from: $LOGDATE \n|"
+            #logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
+            find $EMAGNET/incoming/*/logs/ -maxdepth 1|sed '/\/$/d' > $HOME/emagnet/.emagnet-temp-merge.txt
+            touch "$EMAGNETARCHIVE/logs/$logfiles" &> /dev/null
+              while read logs; do 
+                  echo "$logs" >> "$EMAGNETARCHIVE/logs/$logfiles"; 
+                if [[ "$?" -eq "0" ]]; then
+                  printf "| %2d) [MERGED] %.100s %s\n" "$(( ++cnt ))" "$logs'"
+                  sleep 1
+                else
+	          printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
+                  sleep 1
+                fi
                   done < $HOME/emagnet/.emagnet-temp-merge.txt
                   sleep 0.2
             done
@@ -822,6 +808,7 @@ mail="$(echo $line | cut -d: -f1)"
 password="$(echo $line | cut -d: -f2)"
     if [[ -z "$attack" ]]; then
          printf "[-] Wrong Password For $mail: \e[1;31m$password\e[0m\n"
+         echo -e "[-] $(date +%d/%m/%Y\ -\ %H:%M) -> Wrong Password For $mail $mail: \e[1;31m$password\e[0m" >> "$EMAGNETLOGS/failed-to-crack.txt"
     fi
       if [[ -n "$attack" ]]; then
          echo -e "[+] Password Has Been Cracked $mail: \e[1;32m$password\e[0m"
@@ -923,20 +910,15 @@ fi
 }
 
 emagnet_main() {
+    # Check if PROXY is set to true (ssh/tunnel)
     if [[ $PROXY = "true" ]]; then 
       CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT "
     else
       CURL="curl -s "
     fi
 
-
-
-    if [[ "$API" = "true" ]]; then
-        NOTALLOWED="$(curl -Ls https://scrape.pastebin.com/api_scraping.php|grep -qi "DOES NOT HAVE ACCESS")"
-        if [[ $NOTALLOWED = "0" ]]; then
-            echo -e "$basename$0: internal error -- you did whitelist your IP, please visit https://pastebin.com/doc_scraping_api and set your IP, exiting..."
-            exit 0
-        fi
+# Decide wich URL to use when scraping pastebin, checkin API value for choose from emagnet.conf
+    if ! [[ "$API" = "false" ]]; then
         rm /root/.config/emagnet/tmp/.1 /root/.config/emagnet/tmp/.* &> /dev/null
         curl -s https://scrape.pastebin.com/api_scraping.php|grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*"|awk 'length < 30' > $HOME/.config/emagnet/tmp/.emagnet1
         ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.1"
@@ -955,14 +937,17 @@ emagnet_main() {
         |sort \
         |cut -d/ -f5 > "$HOME/.config/emagnet/tmp/.2"
         grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" |awk -F, '!seen[$1]++'|sed "s/^/https:\/\/pastebin.com\/raw\//g" > "$HOME/.config/emagnet/tmp/.emagnet"
-    
-    fi
+      fi
 
       rm "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" &> /dev/null
-      # Trying without this one ------ if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|wc -l)"      = "8" ]];then emagnet_notice_about_scraping;fi
-      if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|grep https|wc -l)" = "0" ]];then emagnet_heavyload;emagnet_I_was_banned;fi
-       xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
+      if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|wc -l)"      = "8" ]];  then emagnet_notice_about_scraping         ;fi
+      if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|grep https|wc -l)" = "0" ]];  then emagnet_heavyload;emagnet_I_was_banned;fi
+
+# Downloading new pastes we found, no duplicates will be downloaded of course
+      xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
       tt="$(cat $HOME/.config/emagnet/tmp/.emagnet| wc -l)"
+
+# Count stats and print them in realtime 
       [[ "$tt" -lt "10" ]] && tt="0$tt"
       el=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|cut -d: -f2|tr ' ' '\n'|awk -F, '!seen[$1]++')
       et=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|tr ' ' '\n'|wc -l)
@@ -1213,10 +1198,40 @@ read -p " [O] - Option: " diagst
         esac
 }
 
+
+countdown() {
+  emagnet_clear;emagnet_banner
+  sed -i 's/API=true/API=false/g' $CONF
+  echo -e "You have set API to true but your IP is not whitelisted for scraping. "
+  echo -e "Whitelist your ip at: https://pastebin.com/doc_scraping_api\n"
+  echo -e "API has been set to false and emagnet will not be able to scrape"
+  echo -e "pastebin until you added your IP, using pastebin.com/archive until then\n "
+  secs=10
+  shift
+  msg=$@
+  while [ $secs -gt 0 ]
+  do
+             printf "\r\033[KContinues in %.d seconds $msg..." $((secs--))
+    sleep 1
+  done
+  echo
+}
+
 case "${1}" in
 
      "-a"|"-author"|"--author")
           emagnet_author
+     ;;
+
+     "-A"|"-api"|"--api")
+        if [[ $2 = true ]]; then
+          sed -i 's/API=false/API=true/g' $CONF
+          echo -e "$basename$0: config updated -- API has been set to true"
+        else
+          sed -i 's/API=false/API=false/g' $CONF
+          sed -i 's/API=true/API=false/g' $CONF
+          echo -e "$basename$0: config updated -- API has been set to false"
+        fi
      ;;
 
      "-B"|"--banned"|"--blocked")
@@ -1224,13 +1239,19 @@ case "${1}" in
       ;;
 
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
+	emagnet_firstrun
         emagnet_iconnection
         emagnet_first_run
+        emagnet_requirements
         sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' "$CONF"
         sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' "$CONF"
         sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
         sed -i 's/IBRUTEFORCE=true/IBRUTEFORCE=false/g' "$CONF"
         sed -i 's/RBRUTEFORCE=true/RBRUTEFORCE=false/g' "$CONF"
+        curl -s https://scrape.pastebin.com/api_scraping.php|grep -qi "NOT HAVE ACCESS"
+           if [[ "$?" -eq "0" ]]; then 
+               countdown
+           fi
         emagnet_run4ever
 		  ;;
       "-S"|"-search"|"--search")
@@ -1534,6 +1555,3 @@ case "${1}" in
 esac
 
 ( [[ -z $1 ]] && emagnet_usage; exit 1 )
-
-
-### Last Modified: 
