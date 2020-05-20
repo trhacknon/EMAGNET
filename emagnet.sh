@@ -39,15 +39,15 @@
 ####                                                                       ####
 ###############################################################################
 #################################################################################
-### Last Modified: 16:50:06 - 2020-05-19
+### Last Modified: 05:23:32 - 2020-05-20
 
 
 # First, check if we using right config file...
 if [[ -f $HOME/.config/emagnet/emagnet.conf ]]; then
 grep -qio 'version=[0-9].*' $HOME/.config/emagnet/emagnet.conf
-if [[ $? -eq "0" ]]; then 
-    mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak
-fi
+   if [[ $? -eq "0" ]]; then 
+        mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak
+   fi
 fi
 
 emagnet_banner() {
@@ -1295,6 +1295,8 @@ case "${1}" in
      ;;
 
      "-A"|"-api"|"--api")
+         emagnet_required_stuff
+         emagnet_conf
        if [[ $2 = "true" ]]; then
           sed -i 's/API=false/API=true/g' $CONF
           echo -e "$basename$0: config file has been update -- API has been set to true"
