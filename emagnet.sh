@@ -290,13 +290,14 @@ fi
 #### Before we trying to scrape pastebin we wanna know if we are banned or not#
 ###############################################################################
 emagnet_wasibanned() {
-	emagnet_required_stuff
+          echo -ne "Please wait"
+    emagnet_required_stuff
     emagnet_conf
     curl -sL "$USERAGENT" "$PASTEBIN"|grep -q "blocked your IP"
         if [[ $? -eq "0" ]]; then
-          echo -e "Please wait...";echo -e "$basename$0 \e[1;31m$(curl -s $WIP2)\e[0m is blocked, turn on your vpn or wait ~30 minutes ..."
+          echo -e ", $basename$0 \e[1;31m$(curl -s $WIP2)\e[0m is blocked, turn on your vpn or wait ~30 minutes ..."
         else
-          echo -e "Please wait...";echo -e "$basename$0: \e[1;31m$(curl -s $WIP2)\e[0m has not been blocked ..."
+          echo -e ", $basename$0: \e[1;31m$(curl -s $WIP2)\e[0m has not been blocked ..."
         fi
 }
 
