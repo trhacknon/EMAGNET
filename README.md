@@ -1,4 +1,4 @@
-# EMAGNET v3.4.1
+# EMAGNET v3.4.2
 
 ### Before you using emagnet, please remember that with great power comes great responsibility. 
 
@@ -16,10 +16,6 @@
  <img src="https://img.shields.io/website/https/nr1.nu.svg?down_color=darkred&down_message=DOWN&label=Nr1.nu%2Femagnet&up_message=UP"><img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a></a></a>
 </a>
 </p>
-
-#  Important: Please make sure you ONLY fetch the scraping API endpoints listed on this page. If you scrape our website (including /raw/* pages) with your whitelisted IP, you will get blocked. 
-
-# Tons of leaked databases can be found on: https://mega.nz/folder/EnxggCiY#btfevmu3fO4AQrWe-81z6A/folder/hm50kRBJ - Hurry up before they are gone.
 
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
 
@@ -55,10 +51,7 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
    
     That's it, have phun!
 
-### Emagnet stats has been re-added, count stats with --stats
-![Screenshot](.preview/emagnet_stats.png)
-
-### Notice 2: 
+### Notice
 
 If you run emagnet --bruteforce ssh and do not see how many ip addresses that was found it means there was no ipv4 addresses found, this is not a bug or miss from me. If there is any ipv4 addresses found then you will see how many ipv4 addresses you found, then you gonna portscan them and last you will see how many of all the ipv4 addresses found has port 22 open and then it will begin the bruteforce and using the credenticals from emgnet.conf, default is root:root. 
 
@@ -79,19 +72,9 @@ _Get started with spotify brute forcing - How emagnet will work with your openvp
 - Wget     - Find more info about _wget_ [here](https://www.gnu.org/software/wget/)
 - Curl     - Find more info about _curl_ [here](https://github.com/curl/curl)
 
-# Busted!
+### Bonus: 
 
-If you have scraped pastebin to often and if you have been banned for real you will end up here!
-
-![Screenshot](https://i.imgur.com/Tz1R3ts.png)
-
-# Reality
-
-#### Below you can see an image that describes the reality, emagnet makes it easier than ever to get hold of leaked accounts. Emagnet does not violate any country's laws as long as you brute forcing your own accounts only (this is up to every user to decide), all we do is retrieve data from pastebin, if you have opinions or questions about stuff pastebin hosting you will find all info on https://pastebin.com/contact to get in touch - I wont reply questions about this in my mailbox, all kind of messages that contains such info will be wiped, just for your notice.
-
-#### Please do not waste my time with _nonsence_, thanks.
-
-## <p align="center">![Screenshot](https://1.bp.blogspot.com/-lsj7-5npl1w/XWsdVQA6lrI/AAAAAAAAQNM/sZ0HIH5PtjoxRAVK0RxTaHCizqi4pb7jwCLcBGAs/s1600/EMAGNET_10.png)
+Tons of leaked databases can be found on: https://mega.nz/folder/EnxggCiY#btfevmu3fO4AQrWe-81z6A/folder/hm50kRBJ - Hurry up before they are gone.
  
 ## Changelog
 
