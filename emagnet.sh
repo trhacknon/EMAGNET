@@ -121,8 +121,7 @@ emagnet_conf(){ CONF="$HOME/.config/emagnet/emagnet.conf";. "$CONF" ;}
 emagnet_mustberoot(){(( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1;  }
 emagnet_clear(){ clear;}
 emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
-emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;
-if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi;$CURL "https://nr1.nu/licenses/LICENSE.md"|less;printf "%s\n" "Thank you.." ;}
+emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;curl -sL "https://nr1.nu/emagnet/emagnet_license.md"|less;printf "%s\n" "Thank you.." ;}
 emagnet_requirements(){
 for cmd in wget curl; do which $cmd &> /dev/null;if [[ "$?" -gt 0 ]]; then echo -e "$basename$0: internal error -- $cmd is required to be installed, exiting."; exit 1;fi
 done;}
@@ -1519,6 +1518,8 @@ case "${1}" in
                 emagnet_spammer
                 ;;
       "-d"|"-stats"|"--stats")
+                emagnet_required_stuff
+                emagnet_conf
                 emagnet_stats
                 ;;
 
