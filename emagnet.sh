@@ -121,7 +121,7 @@ emagnet_optional(){ sleep 0;}
 emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
 emagnet_paths(){ PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}";for DIRS in ${PATHS}; do ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done ;}
 
-emagnet_firstrun() {
+emagnet_api() {
     if [[ $API = "true" ]]; then
         emagnet_banner
         printf "Do you have a PRO membership on pastebin.com and also\n"; read -p "did you whitlist your ip for scraping (yes/NO): " scraping
@@ -1168,7 +1168,7 @@ emagnet_findstreaming() {
 }
 
 emagnet_findonionurls() {
-     grep -rEo "h....\/\/.*onion$" $EMAGNET|awk -F':' '{print $2}'|awk '{print NR-1 "-> " $0}'
+     grep -rEo "h....\/\/.*onion$" $EMAGNET
 }
 
 emagnet_customsearch() {
@@ -1301,7 +1301,6 @@ case "${1}" in
       ;;
 
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
-	    emagnet_firstrun
         emagnet_distro
         emagnet_iconnection
         emagnet_first_run
@@ -1315,6 +1314,7 @@ case "${1}" in
            if [[ "$?" -eq "0" ]]; then 
                countdown
            fi
+	    emagnet_api
         emagnet_run4ever
 		  ;;
       "-S"|"-search"|"--search")
