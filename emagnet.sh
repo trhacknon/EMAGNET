@@ -1235,44 +1235,43 @@ emagnet_stats() {
 
 for tpasswordsfiles in "$TPASSWORDFILES"; do
   if [[ $TPASSWORDFILES -lt "10" ]]; then
-    printf "Files with at least one password%s%s%11s[\e[1;31m0$TPASSWORDFILES%10d\e[0m]\n"
+    printf "Total Files That Includes Atleast 1 Password"; printf "%s%s%11s[\e[1;31m0$TPASSWORDFILES%10d\e[0m]\n"|tr ' ' '.'
   else
-    printf "Files with at least one password%s%s%11s[\e[1;32m$TPASSWORDFILES\e[0m]\n"
+    printf "Total Files That Includes Atleast 1 Password"; printf "s%s%11s[\e[1;32m$TPASSWORDFILES\e[0m]\n"|tr ' ' '.'
  fi
 done
 
 for temailfiles in "$TEMAILFILES"; do
   if [[ $TEMAILFILES -lt "10" ]]; then
-    printf "Files with at least one email-address%s%s%8s[\e[1;31m00\e[0m]\n"
+    printf "Total Files That Includes Atleast 1 Mail Address";printf "%s%s%8s[\e[1;31m00\e[0m]\n"|tr ' ' '.'
 else
-    printf "Files with at least one email-address%s%s%8s[\e[1;32m$TEMAILFILES\e[0m]\n"
+    printf "Total Files That Includes Atleast 1 Mail Address";printf "%s%s%8s[\e[1;32m$TEMAILFILES\e[0m]\n"|tr ' ' '.'
   fi
 done
 
 for totalfiles in "$TOTALFILES"; do
   if [[ $TOTALFILES -lt "10" ]]; then
-    printf "Total Files"; printf "%s%s%45s[\e[1;31m0$TOTALFILES\e[0m]\n"
+    printf "Total Files"; printf "%s%s%45s[\e[1;31m0$TOTALFILES\e[0m]\n"|tr ' ' '.'
   else
-    printf "Total Files"; printf "%s%s%45s[\e[1;32m$TOTALFILES\e[0m]\n"
+    printf "Total Files"; printf "%s%s%45s[\e[1;32m$TOTALFILES\e[0m]\n"|tr ' ' '.'
   fi
 done
 
 for temails in "$TEMAILS"; do
   if [[ $TEMAILS -lt "10" ]]; then
-    printf "Total mail-addresses has been found%s%s%29s[\e[1;31m0$TEMAILS\e[0m]\n"
+    printf "Total Mail Addresses Stored"; printf "%s%s%29s[\e[1;31m0$TEMAILS\e[0m]\n"|tr ' ' '.'
   else
-    printf "Total mail-addresses has been found%s%s%29s[\e[1;32m$TEMAILS\e[0m]\n"
+    printf "Total Mail Addresses Stored"; printf "%s%s%29s[\e[1;32m$TEMAILS\e[0m]\n"|tr ' ' '.'
   fi
 done
 
 for tpasswords in "$TPASSWORDS"; do
   if [[ $TPASSWORDS -lt "10" ]]; then
-    printf "Total leaked accounts has been found%s%s%s%34s[\e[1;31m0$TPASSWORDS\e[0m]\n\n"
+    printf "Total Passwords Stored"; printf "%s%s%s%34s[\e[1;31m0$TPASSWORDS\e[0m]\n\n"|tr ' ' '.'
   else
-    printf "Total leaked accounts has been found%s%s%34s[\e[1;32m$TPASSWORDS\e[0m]\n\n"
+    printf "Total Passwords Stored"; printf "%s%s%34s[\e[1;32m$TPASSWORDS\e[0m]\n\n"|tr ' ' '.'
   fi
 done
-
 }
 
 case "${1}" in
@@ -1497,7 +1496,7 @@ case "${1}" in
                 emagnet_first_run
                 emagnet_spammer
                 ;;
-      "-stats"|"--stats")
+      "-c"|"-stats"|"--stats")
                 emagnet_stats
                 ;;
 
