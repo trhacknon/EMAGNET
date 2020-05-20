@@ -1176,7 +1176,7 @@ emagnet_customsearch() {
      grep -ri "$searchfor" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'
 }
 
-read -p " [O] - Option: " diagst
+read -p "[X] - Option: " diagst
         case "$diagst" in
                 1) emagnet_findemailaddresses                                                       ;;
                 2) emagnet_findemailsandpasswords                                                   ;;
