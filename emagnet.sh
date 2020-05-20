@@ -122,16 +122,14 @@ emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl
 emagnet_paths(){ PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}";for DIRS in ${PATHS}; do ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done ;}
 
 emagnet_firstrun() {
-if [[ $API = "true" ]]; then
-    if [[ ! -f $CONF ]]; then
+    if [[ $API = "true" ]]; then
         emagnet_banner
         printf "Do you have a PRO membership on pastebin.com and also\n"; read -p "did you whitlist your ip for scraping (yes/NO): " scraping
           if [[ "$scraping" = "yes" ]]; then
              sed -i 's/API=false/API=true/g' "$PWD/emagnet.conf"
           fi
-    fi
 fi
-}
+      }
 emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
   if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/www.pastebin.com'                                                                                     "$CONF";fi
@@ -307,7 +305,7 @@ if [[ "$?" = "0" ]]; then
                    wait_time=${IDLETIME}
       		        temp_cnt=${wait_time}
    		          while [[ "${temp_cnt}" -gt "0" ]]; do
-                    printf "\rIP: [\e[1;31m$(curl -s $WIP)\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
+                    printf "\rIP: [\e[1;31m$(curl -s $WIP2 )\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
                     printf " seconds"
       		          sleep 1
       		          ((temp_cnt--))
@@ -950,7 +948,6 @@ emagnet_main() {
       tt="$(cat $HOME/.config/emagnet/tmp/.emagnet| wc -l)"
 
 # Count stats and print them in realtime 
-      [[ "$tt" -lt "10" ]] && tt="0$tt"
       el=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|cut -d: -f2|tr ' ' '\n'|awk -F, '!seen[$1]++')
       et=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|tr ' ' '\n'|wc -l)
       ef=$(grep -rEiEio "\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f1|uniq|grep -v '"'\|','\|'<'|tr ' ' '\n')
@@ -977,7 +974,7 @@ emagnet_main() {
            rm "./1" "./2"
         fi
          
-         if [[ "$pt" -gt "00" ]] && [[ "$et" -gt "00" ]]; then
+         if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
             echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${pt} passwords from: $EMAGNETPW/${pf##*/}"      | xargs >> "$EMAGNETLOGS/emagnet.log"
             echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${et} email addresses from: $EMAGNETDB/${ef##*/}"|xargs >> "$EMAGNETLOGS/emagnet.log"
             echo -e "${pl}" >> $EMAGNETLOGS/passwords-from-pastebin.txt
@@ -1017,7 +1014,6 @@ emagnet_main() {
                   sleep 0
                fi
                 elif [[ "$pt" = "0" ]] && [[ "$et" -gt "0" ]]; then
-                  [[ "$et" -lt 10 ]] && et="0$et";[[ "$pt" -lt 10 ]] && pt="0$pt"
                    cp -rn ${ef} $EMAGNETDB/ &> /dev/null
                    echo -e "${el}" >> "$EMAGNETLOGS/emails-from-pastebin.txt"
                    echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${et} email addresses from $EMAGNETDB/${e##*/}"|xargs >> "$EMAGNETLOGS/emagnet.log"
@@ -1273,8 +1269,16 @@ for tpasswords in "$TPASSWORDS"; do
 done
 }
 
-case "${1}" in
+emagnet_distro() {
+emagnet_conf
+    if [[ -z $DISTRO ]]; then
+        DISTRO="$(cat /etc/*release | head -n 1 | awk '{ print tolower($1) }' | cut -d= -f2)"
+        sed -i "s/DISTRO=/DISTRO=$DISTRO/g" $CONF
+    fi
+}
 
+
+case "${1}" in
      "-a"|"-author"|"--author")
           emagnet_author
      ;;
@@ -1297,7 +1301,8 @@ case "${1}" in
       ;;
 
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
-	emagnet_firstrun
+	    emagnet_firstrun
+        emagnet_distro
         emagnet_iconnection
         emagnet_first_run
         emagnet_requirements
