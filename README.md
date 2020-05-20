@@ -53,20 +53,9 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
     ./emagnet --emagnet
    
     That's it, have phun!
-    
-### A special not for v3.4.1 that has been added is how many threads we using during download:
 
-#### From now we using max args for downloading files AS FAST AS POSSIBLE, you can figure out how many threads you are using while downloading instead of how many cores you are using, see below:
-
-    xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}'
-
-You really don't need all these threads since we downloading 49 files max all the time, a good recommendation is to take the value from above command devided with 2, so if you have an old cpu you can do, please remember this is not threads/core its how many threads a single core is used so don't be confused about htis. 
-
-    echo $(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}') / 2|bc
-    
-Instead, but it is really needed on very slow CPUS only, otherwise you don't have to care about htis.
-
-Things will go back to normal on wednesday again, if you already have been used emagnet for a while you don't have to care, this is a notice for new users only. 
+### Emagnet stats has been re-added, count stats with --stats
+![Screenshot](.preview/emagnet_stats.png)
 
 ### Notice 2: 
 
