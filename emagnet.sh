@@ -1152,23 +1152,23 @@ emagnet_findcreditcards() {
 }
 
 emagnet_findipv4addresses() {
-     grep -roE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' $EMAGNET|awk -F":" '{print $2}'|awk '{print NR-1 "-> " $0}'
+     grep -roE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' $EMAGNET|awk -F":" '{print $2}'|awk '{print NR-1 "-> " $0}'|awk '!seen[$0]++'
 }
 
 emagnet_findipv6addresses() {
-    grep -roE "\b([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}\b" $EMAGNET|awk '{print NR-1 "-> " $0}'|cut -d: -f2-
+    grep -roE "\b([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}\b" $EMAGNET|awk '{print NR-1 "-> " $0}'|cut -d: -f2-|awk '!seen[$0]++'
 }
 
 emagnet_findpaypalleaks() {
-    grep -iroE "paypal\|neteller\|skrill" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'
+    grep -iroE "paypal\|neteller\|skrill" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'|awk '!seen[$0]++'
 }
 
 emagnet_findstreaming() {
-    grep -iroE "EXTINF" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'
+    grep -iroE "EXTINF" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'|awk '!seen[$0]++'
 }
 
 emagnet_findonionurls() {
-     grep -rEo "h....\/\/.*onion$" $EMAGNET|cut -d: -f2,3,4,5
+     grep -rEo "h....\/\/.*onion$" $EMAGNET|cut -d: -f2,3,4,5|awk '!seen[$0]++'
 }
 
 emagnet_customsearch() {
@@ -1176,7 +1176,7 @@ emagnet_customsearch() {
      grep -ri "$searchfor" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'
 }
 
-read -p "[X] - Option: " diagst
+read -p "[0] - Option: " diagst
         case "$diagst" in
                 1) emagnet_findemailaddresses                                                       ;;
                 2) emagnet_findemailsandpasswords                                                   ;;
@@ -1196,6 +1196,7 @@ read -p "[X] - Option: " diagst
 
 countdown() {
   emagnet_clear;emagnet_banner
+if [[ $API = "true" ]]; then
   sed -i 's/API=true/API=false/g' $CONF
   echo -e "You have set API to true but your IP is not whitelisted for scraping. "
   echo -e "Whitelist your ip at: https://pastebin.com/doc_scraping_api\n"
@@ -1210,6 +1211,7 @@ countdown() {
     sleep 1
   done
   echo
+fi
 }
 
 ###############################################################################
