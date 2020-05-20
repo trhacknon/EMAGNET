@@ -51,9 +51,6 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
    
     That's it, have phun!
 
-### Emagnet stats has been re-added, count stats with --stats
-![Screenshot](.preview/emagnet_stats.png)
-
 ### Notice
 
 If you run emagnet --bruteforce ssh and do not see how many ip addresses that was found it means there was no ipv4 addresses found, this is not a bug or miss from me. If there is any ipv4 addresses found then you will see how many ipv4 addresses you found, then you gonna portscan them and last you will see how many of all the ipv4 addresses found has port 22 open and then it will begin the bruteforce and using the credenticals from emgnet.conf, default is root:root. 
