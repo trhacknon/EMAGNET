@@ -1585,7 +1585,8 @@ case "${1}" in
                 ;;
 
         "-b"|"-backup"|"--backup")
-	        emagnet_conf
+            emagnet_required_stuff
+            emagnet_conf
             [[ -d "$EMAGNETBACKUP" ]] && mkdir -p "$EMAGNETBACKUP"
                 if [[ "$2" = "all" ]]; then
                    printf "%s" "Creating a tar archive of $EMAGNET"
