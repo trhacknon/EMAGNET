@@ -108,7 +108,7 @@ Feel free to read the history about emagnet [here](https://github.com/wuseman/EM
 
 #### Development of emagnet is active and is updated frequently, please use the latest version if you report issues/bugs.
 
-# Greetings: 
+### Greetings: 
 
 _m1st_ that deliver legit leaks for us daily.
 
@@ -118,7 +118,7 @@ Cheers!
 
 ### Feel free to send donations if you want to support the development of the emagnet
 
-      BTC Address: 1Cf3Xuc5sCu9H4VL2jeruELDDNkmk1u7Sx
+      BTC Address: 3HxYkrvw8dDuWEJawjtin4yuPBA9Zm27RZ
 
 ### Emagnet is a private project since 2015 and was released in June @ 2018, to be continued. 
 
