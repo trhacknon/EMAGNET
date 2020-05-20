@@ -1552,7 +1552,9 @@ case "${1}" in
                 ;;
 
         "-n"|"-notify"|"--notify")
-   	        emagnet_conf
+   	        emagnet_required_stuff
+            emagnet_conf
+            which "notify-send" &> /dev/null
                 if [[ "$?" -gt "0" ]]; then echo -e "$basename$0: internal error -- notify-send is required to be installed";exit 1; fi
                 if [[ "$2" != "true" && "$2" != "false" || -z "$2" ]]; then echo -e "$basename$0: internal error -- you must use true or false";exit 1;fi
                 if ! [[ "$NOTIFY" -eq "truee" ]]; then
