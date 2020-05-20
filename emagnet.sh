@@ -1168,7 +1168,7 @@ emagnet_findstreaming() {
 }
 
 emagnet_findonionurls() {
-     grep -rEo "h....\/\/.*onion$" $EMAGNET
+     grep -rEo "h....\/\/.*onion$" $EMAGNET|cut -d: -f2,3,4,5
 }
 
 emagnet_customsearch() {
