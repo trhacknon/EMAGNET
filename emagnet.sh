@@ -76,6 +76,7 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
   -b, --backup        Create a compressed archive
                       - Available options: all/archive/incoming
   -B, --blocked       Check if your current IP has been blocked
+  -d, --stats         Count total passwords, mail addresses and how many files you downloaded 
   -l, --license       Show license information
   -h, --help          Display this very helpful text
   -n, --notify        Set notifications on or off
@@ -1216,159 +1217,63 @@ countdown() {
   echo
 }
 
-### SPINNER
-
-################################################################################
-#### Choose wich symbol you wish to use, UNI_DOTS2 is default...............####
-################################################################################
-SPINNER_SYMBOLS="UNI_DOTS2"
-
-################################################################################
-#### Dont edit the below settings, will probably result in spinner to crash.####
-################################################################################
-SPINNER_CLEAR=1
-SPINNER_DONEFILE="stopspinning"
-SPINNER_COLORNUM=2
-SPINNER_COLORCYCLE=1
-
-cleanup () {
-	tput rc
-	tput cnorm
-	return 1
-}
-
-trap cleanup INT QUIT TERM
-spinner () {
-  local ASCII_PROPELLER="/ - \\ |"
-  local ASCII_PLUS="x +"
-  local ASCII_BLINK="o -"
-  local ASCII_V="v < ^ >"
-  local ASCII_INFLATE=". o O o"
-#  local UNI_DOTS="⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏"
-#  local UNI_DOTS="E M A G N E T"
-#  local UNI_DOTS2="E M A G N E T"
-#  local UNI_DOTS3="E M A G N E T"
-#  local UNI_DOTS4="E M A G N E T"
-#  local UNI_DOTS5="E M A G N E T"
-#  local UNI_DOTS6="E M A G N E T"
-  local UNI_DOTS2="⣾ ⣽ ⣻ ⢿ ⡿ ⣟ ⣯ ⣷"
-  local UNI_DOTS3="⣷ ⣯ ⣟ ⡿ ⢿ ⣻ ⣽ ⣾"
-  local UNI_DOTS4="⠋ ⠙ ⠚ ⠞ ⠖ ⠦ ⠴ ⠲ ⠳ ⠓"
-  local UNI_DOTS5="⠄ ⠆ ⠇ ⠋ ⠙ ⠸ ⠰ ⠠ ⠰ ⠸ ⠙ ⠋ ⠇ ⠆"
-  local UNI_DOTS6="⠋ ⠙ ⠚ ⠒ ⠂ ⠂ ⠒ ⠲ ⠴ ⠦ ⠖ ⠒ ⠐ ⠐ ⠒ ⠓ ⠋"
-  local UNI_DOTS7="⠁ ⠉ ⠙ ⠚ ⠒ ⠂ ⠂ ⠒ ⠲ ⠴ ⠤ ⠄ ⠄ ⠤ ⠴ ⠲ ⠒ ⠂ ⠂ ⠒ ⠚ ⠙ ⠉ ⠁"
-  local UNI_DOTS8="⠈ ⠉ ⠋ ⠓ ⠒ ⠐ ⠐ ⠒ ⠖ ⠦ ⠤ ⠠ ⠠ ⠤ ⠦ ⠖ ⠒ ⠐ ⠐ ⠒ ⠓ ⠋ ⠉ ⠈"
-  local UNI_DOTS9="⠁ ⠁ ⠉ ⠙ ⠚ ⠒ ⠂ ⠂ ⠒ ⠲ ⠴ ⠤ ⠄ ⠄ ⠤ ⠠ ⠠ ⠤ ⠦ ⠖ ⠒ ⠐ ⠐ ⠒ ⠓ ⠋ ⠉ ⠈ ⠈"
-  local UNI_DOTS10="⢹ ⢺ ⢼ ⣸ ⣇ ⡧ ⡗ ⡏"
-  local UNI_DOTS11="⢄ ⢂ ⢁ ⡁ ⡈ ⡐ ⡠"
-  local UNI_DOTS12="⠁ ⠂ ⠄ ⡀ ⢀ ⠠ ⠐ ⠈"
-  local UNI_BOUNCE="⠁ ⠂ ⠄ ⠂"
-  local SPINNER_NORMAL
-  SPINNER_NORMAL=$(tput sgr0)
-  eval SYMBOLS=\$${SPINNER_SYMBOLS}
-  SPINNER_PPID=$(ps -p "$$" -o ppid=)
-  while :; do
-    tput civis
-    for c in ${SYMBOLS}; do
-      if [ $SPINNER_COLORCYCLE -eq 1 ]; then
-        if [ $SPINNER_COLORNUM -eq 7 ]; then
-          SPINNER_COLORNUM=1
-        else
-          SPINNER_COLORNUM=$((SPINNER_COLORNUM+1))
-        fi
-      fi
-      local COLOR
-      COLOR=$(tput setaf ${SPINNER_COLORNUM})
-      tput sc
-      env printf "${COLOR}${c}${SPINNER_NORMAL}"
-      tput rc
-      if [ -f "${SPINNER_DONEFILE}" ]; then
-        if [ ${SPINNER_CLEAR} -eq 1 ]; then
-          tput el
-        fi
-        rm ${SPINNER_DONEFILE}
-        break 2
-      fi
-      env sleep .2
-      if [ ! -z "$SPINNER_PPID" ]; then
-        SPINNER_PARENTUP=$(ps --no-headers $SPINNER_PPID)
-        if [ -z "$SPINNER_PARENTUP" ]; then
-          break 2
-        fi
-      fi
-    done
-  done
-  tput cnorm
-  return 0
-}
-
-################################################################################
+###############################################################################
 #### This is stats function when you using emagnet -s for count stats.......####
 ################################################################################
 emagnet_stats() {
-   emagnet_conf
-   SPINNER_DONEFILE="donespinning"
-   emagnet_clear
-   emagnet_banner
-   spinner &
-   printf "+ Please wait, counting data.................................." &
-   sleep 1
-   SPINNER_COLORCYCLE=0
-   SPINNER_COLORNUM=1
-   SPINNER_SYMBOLS=$1
-if [ $SPINNER_COLORNUM -eq 7 ]; then SPINNER_COLORNUM=1; else SPINNER_COLORNUM=$((SPINNER_COLORNUM+1)); fi
+   emagnet_clear;emagnet_banner;emagnet_conf
+   printf "Please wait..."
    TOTALFILES=$(ls $EMAGNETARCHIVE/all-files | wc -l)
    TEMAILFILES=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETARCHIVE/all-files | cut -d: -f1|uniq|sort| wc -l)
    TPASSWORDFILES=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETARCHIVE/all-files|awk '{print $1}'|cut -d: -f1|uniq|grep -v '"'\|','\|'<'\|'>'|uniq|sort|wc -l)
    TEMAILS=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" $EMAGNETARCHIVE/all-files|awk -F, '!seen[$1]++'|wc -l)
    TPASSWORDS=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETARCHIVE/all-files|awk -F, '!seen[$1]++'|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v ' '\|'/'\|'"'\|','\|'<'\|'>'|wc -l)
-   touch "donespinning"
    emagnet_clear; emagnet_banner;
-   printf '+ Please wait, counting data.............................[\e[1;32mDONE\e[0m]'
-   sleep 1
-   emagnet_clear; emagnet_banner;
+   printf '+ Please wait, counting data                              [\e[1;32mDONE\e[0m]'
+   sleep 1;emagnet_clear;emagnet_banner;
    printf "%23s EMAGNET STATS\n\n"
-for tpasswordsfiles in $TPASSWORDFILES; do
+
+for tpasswordsfiles in "$TPASSWORDFILES"; do
   if [[ $TPASSWORDFILES -lt "10" ]]; then
-    printf "Total Files That Includes Atleast 1 Password%s%s%11s[\e[1;31m0$TPASSWORDFILES%10d\e[0m]\n" # |tr ' ' '.'
+    printf "Files with at least one password%s%s%11s[\e[1;31m0$TPASSWORDFILES%10d\e[0m]\n"
   else
-    printf "Total Files That Includes Atleast 1 Password %s%s%11s[\e[1;32m$TPASSWORDFILES\e[0m]\n" # |tr ' ' '.'
+    printf "Files with at least one password%s%s%11s[\e[1;32m$TPASSWORDFILES\e[0m]\n"
  fi
 done
 
-for temailfiles in $TEMAILFILES; do
+for temailfiles in "$TEMAILFILES"; do
   if [[ $TEMAILFILES -lt "10" ]]; then
-    printf "Total Files That Includes Atleast 1 Mail Address%s%s%8s[\e[1;31m00\e[0m]\n" # |tr ' ' '.'
+    printf "Files with at least one email-address%s%s%8s[\e[1;31m00\e[0m]\n"
 else
-    printf "Total Files That Includes Atleast 1 Mail Address%s%s%8s[\e[1;32m$TEMAILFILES\e[0m]\n" # |tr ' ' '.'
+    printf "Files with at least one email-address%s%s%8s[\e[1;32m$TEMAILFILES\e[0m]\n"
   fi
 done
 
-for totalfiles in $TOTALFILES; do
+for totalfiles in "$TOTALFILES"; do
   if [[ $TOTALFILES -lt "10" ]]; then
-    printf "Total Files"; printf "%s%s%45s[\e[1;31m0$TOTALFILES\e[0m]\n" # |tr ' ' '.'
+    printf "Total Files"; printf "%s%s%45s[\e[1;31m0$TOTALFILES\e[0m]\n"
   else
-    printf "Total Files"; printf "%s%s%45s[\e[1;32m$TOTALFILES\e[0m]\n" # |tr ' ' '.'
+    printf "Total Files"; printf "%s%s%45s[\e[1;32m$TOTALFILES\e[0m]\n"
   fi
 done
 
-for temails in $TEMAILS; do
+for temails in "$TEMAILS"; do
   if [[ $TEMAILS -lt "10" ]]; then
-    printf "Total Mail Addresses Stored%s%s%29s[\e[1;31m0$TEMAILS\e[0m]\n" # |tr ' ' '.'
+    printf "Total mail-addresses has been found%s%s%29s[\e[1;31m0$TEMAILS\e[0m]\n"
   else
-    printf "Total Mail Addresses Stored%s%s%29s[\e[1;32m$TEMAILS\e[0m]\n" # |tr ' ' '.'
+    printf "Total mail-addresses has been found%s%s%29s[\e[1;32m$TEMAILS\e[0m]\n"
   fi
 done
 
-for tpasswords in $TPASSWORDS; do
+for tpasswords in "$TPASSWORDS"; do
   if [[ $TPASSWORDS -lt "10" ]]; then
-    printf "Total Passwords Stored%s%s%s%34s[\e[1;31m0$TPASSWORDS\e[0m]\n\n" # |tr ' ' '.'
+    printf "Total leaked accounts has been found%s%s%s%34s[\e[1;31m0$TPASSWORDS\e[0m]\n\n"
   else
-    printf "Total Passwords Stored%s%s%34s[\e[1;32m$TPASSWORDS\e[0m]\n\n" # |tr ' ' '.'
+    printf "Total leaked accounts has been found%s%s%34s[\e[1;32m$TPASSWORDS\e[0m]\n\n"
   fi
 done
-}
 
+}
 
 case "${1}" in
 
