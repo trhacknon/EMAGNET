@@ -1567,7 +1567,7 @@ case "${1}" in
                           echo -e "\nOk, seems not, you probably must export your display then.."
                           exit 1
                        else
-                          echo -e "\n$basename$0: config file has been udpated -- notifications has been enable"
+                          echo -e "\n$basename$0: config file has been updated -- notifications has been enable"
                           sed -i '150d' "$CONF";sed -i "150 i NOTIFY=truee"  "$CONF";printf "$basename$0: config file has been updated -- notifications has been enable\n"
                           exit 1
                        fi
@@ -1626,11 +1626,11 @@ case "${1}" in
               emagnet_conf
               if [[ "$2" = "true" ]]; then
                  sed -i 's/PROXY=false/PROXY=true/g' $CONF
-                 echo -e "$basename$0: config file has been udpated -- proxy has been enable"
+                 echo -e "$basename$0: config file has been updated -- proxy has been enable"
                elif [[ "$2" = "false" ]]; then
              
                 sed -i 's/PROXY=true/PROXY=false/g' $CONF
-                 echo -e "$basename$0: config file has been udpated -- proxy has been disabled"
+                 echo -e "$basename$0: config file has been updated -- proxy has been disabled"
                else
                  echo -e "$basename$0: internal error -- you must set proxy to true or false"
                  exit 1
