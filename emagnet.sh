@@ -122,13 +122,15 @@ emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl
 emagnet_paths(){ PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}";for DIRS in ${PATHS}; do ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done ;}
 
 emagnet_firstrun() {
-     if [[ ! -f $CONF ]]; then
+if [[ $API = "true" ]]; then
+    if [[ ! -f $CONF ]]; then
         emagnet_banner
         printf "Do you have a PRO membership on pastebin.com and also\n"; read -p "did you whitlist your ip for scraping (yes/NO): " scraping
           if [[ "$scraping" = "yes" ]]; then
              sed -i 's/API=false/API=true/g' "$PWD/emagnet.conf"
           fi
     fi
+fi
 }
 emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
