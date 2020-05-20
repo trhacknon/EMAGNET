@@ -39,7 +39,7 @@
 ####                                                                       ####
 ###############################################################################
 #################################################################################
-### Last Modified: 05:23:32 - 2020-05-20
+### Last Modified: 05:35:56 - 2020-05-20
 
 
 # First, check if we using right config file...
@@ -290,15 +290,15 @@ fi
 #### Before we trying to scrape pastebin we wanna know if we are banned or not#
 ###############################################################################
 emagnet_wasibanned() {
-          echo -ne "Please wait"
+    echo -ne "Please wait"
     emagnet_required_stuff
     emagnet_conf
     curl -sL "$USERAGENT" "$PASTEBIN"|grep -q "blocked your IP"
-        if [[ $? -eq "0" ]]; then
-          echo -e ", $basename$0 \e[1;31m$(curl -s $WIP2)\e[0m is blocked, turn on your vpn or wait ~30 minutes ..."
-        else
-          echo -e ", $basename$0: \e[1;31m$(curl -s $WIP2)\e[0m has not been blocked ..."
-        fi
+     if [[ $? -eq "0" ]]; then
+       echo -e ", \e[1;31m$(curl -s $WIP2)\e[0m is blocked, turn on your vpn or wait ~30 minutes ..."
+     else
+       echo -e ", \e[1;31m$(curl -s $WIP2)\e[0m has not been blocked ..."
+    fi
 }
 
 ###############################################################################
@@ -1518,7 +1518,7 @@ case "${1}" in
                 emagnet_first_run
                 emagnet_spammer
                 ;;
-      "-c"|"-stats"|"--stats")
+      "-d"|"-stats"|"--stats")
                 emagnet_stats
                 ;;
 
