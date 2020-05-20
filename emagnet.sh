@@ -39,7 +39,7 @@
 ####                                                                       ####
 ###############################################################################
 #################################################################################
-### Last Modified: 05:59:20 - 2020-05-20
+### Last Modified: 15:37:40 - 2020-05-20
 
 
 # First, check if we using right config file...
@@ -994,17 +994,17 @@ emagnet_main() {
             echo -e "${el}" >> $EMAGNETLOGS/emails-from-pastebin.txt
             cp -rn ${ef} $EMAGNETDB/ &> /dev/null
             cp -rn ${pf} $EMAGNETPW/ &> /dev/null
-             if [[ "$NOTIFY" = "true" ]]; then
-                notify-send "Emagnet" "\n
+             if [[ "$NOTIFY" = "truee" ]]; then
+                notify-send -a "Stats" "Emagnet" "\n
                "${tt}" - Files Downloaded\n
                "${pt}" - Passwords Found\n
                "${et}" - Email Addresses Found"
+               
              fi
                echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m]"
                echo -e "                       - Passwords Found \r             [\e[1;32m$pt\e[0m]"
                echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m]\n"
                sleep 2
-
                if [[ "$GBRUTEFORCE" = "true" ]]; then
                   printf "%64s \n\n" | tr ' ' '='
                   printf "%17s";printf "BRUTE FORCING -- $(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mI\e[0;32mL\E[1;31m\e[0m") ACCOUNTS\e[0m\n\n"
@@ -1030,8 +1030,8 @@ emagnet_main() {
                    cp -rn ${ef} $EMAGNETDB/ &> /dev/null
                    echo -e "${el}" >> "$EMAGNETLOGS/emails-from-pastebin.txt"
                    echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${et} email addresses from $EMAGNETDB/${e##*/}"|xargs >> "$EMAGNETLOGS/emagnet.log"
-                if [[ "$NOTIFY" = "true" ]]; then
-                   notify-send "Emagnet" "\n
+                if [[ "$NOTIFY" = "truee" ]]; then
+                   notify-send -a "Stats" "Emagnet" "\n
                    ${tt} - Files downloaded\n
                    00 - Passwords found\n
                    ${et} - Email addresses found"
@@ -1041,8 +1041,8 @@ emagnet_main() {
                    echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m] \n"
                    sleep 2
                 else
-                  if [[ "$NOTIFY" = "true" ]]; then
-                    notify-send "Emagnet" "\n
+                  if [[ "$NOTIFY" = "truee" ]]; then
+                    notify-send -a "Stats" "Emagnet" "\n
                     ${tt} - Files downloaded\n
                     00 - Passwords found\n
                     00 - Email addresses found"
@@ -1623,7 +1623,6 @@ case "${1}" in
                 ;;
          "-p"|"--proxy"|"--p")
               emagnet_required_stuff
-              emagnet_conf
               if [[ "$2" = "true" ]]; then
                  sed -i 's/PROXY=false/PROXY=true/g' $CONF
                  echo -e "$basename$0: config file has been updated -- proxy has been enable"
