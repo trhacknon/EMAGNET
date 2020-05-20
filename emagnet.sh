@@ -120,16 +120,15 @@ done;}
 emagnet_optional(){ sleep 0;}
 emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
 emagnet_paths(){ PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}";for DIRS in ${PATHS}; do ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done ;}
-
 emagnet_api() {
-    if [[ $API = "true" ]]; then
+if [[ $API = "true" ]]; then
         emagnet_banner
         printf "Do you have a PRO membership on pastebin.com and also\n"; read -p "did you whitlist your ip for scraping (yes/NO): " scraping
           if [[ "$scraping" = "yes" ]]; then
              sed -i 's/API=false/API=true/g' "$PWD/emagnet.conf"
           fi
 fi
-      }
+}
 emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
   if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/www.pastebin.com'                                                                                     "$CONF";fi
@@ -1097,6 +1096,7 @@ if ! [[ -f "$CONF" ]]; then
         emagnet_mustbefilled
         emagnet_paths
         emagnet_I_was_banned
+        emagnet_api
         timeout 2 ping -t 1 -c 1 nr1.nu &> /dev/null
         [[ "$?" -gt "0" ]] && sed -i '40d' $CONF;sed -i '40 i MYIP=127.0.0.1' $CONF || wip
         emagnet_conf
@@ -1303,10 +1303,10 @@ case "${1}" in
       ;;
 
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
-        emagnet_distro
         emagnet_iconnection
         emagnet_first_run
         emagnet_requirements
+        emagnet_distro
         sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' "$CONF"
         sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' "$CONF"
         sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
