@@ -1537,6 +1537,8 @@ case "${1}" in
                 ;;
 
       "version"|"-version"|"--version"|"-V")
+                emagnet_required_stuff
+                emagnet_conf
                 VERSION="$(cat $CONF|grep "^VERSION"|cut -d= -f2)"
                 printf "Emagnet Version: $VERSION\n"
                 ;;
@@ -1620,7 +1622,9 @@ case "${1}" in
                 fi
                 ;;
          "-p"|"--proxy"|"--p")
-             if [[ "$2" = "true" ]]; then
+              emagnet_required_stuff
+              emagnet_conf
+              if [[ "$2" = "true" ]]; then
                  sed -i 's/PROXY=false/PROXY=true/g' $CONF
                  echo -e "$basename$0: config file has been udpated -- proxy has been enable"
                elif [[ "$2" = "false" ]]; then
