@@ -955,12 +955,9 @@ emagnet_main() {
       pf=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f1|uniq|grep -v '"'\|','\|'<'|tr ' ' '\n')
       pl=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" "$EMAGNETTEMP"|awk '{print $1}'|cut -d':' -f2,3|cut -d'|' -f1|awk -F, '!seen[$1]++'|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'\|'index.html'\|'alerts'|grep -v '/')
       pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETTEMP|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v /|wc -l)
-      [[ "$et" -lt 10 ]] && et="0$et";[[ "$pt" -lt 10 ]] && pt="0$pt"
-         
-         if [[ "${tt}" -eq "00" ]]; then
+         if [[ "${tt}" -eq "0" ]]; then
            grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' "$EMAGNETTEMP"|cut -d: -f1|tr ' ' '\n'
 	         printf "[\e[1;31m<<\e[0m] - No new files could be downloaded..\n[\e[1;31m<<\e[0m] - Increase time or you will get banned anytime now..\n\n"
-           tt="\e[1;31m\e[5m00\e[0m"
       	   sleep 5 # Sleep here for make some room, this will not cause any problems with missing files
            emagnet_clear;emagnet_banner
          else
@@ -979,7 +976,6 @@ emagnet_main() {
         fi
          
          if [[ "$pt" -gt "00" ]] && [[ "$et" -gt "00" ]]; then
-
             echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${pt} passwords from: $EMAGNETPW/${pf##*/}"      | xargs >> "$EMAGNETLOGS/emagnet.log"
             echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${et} email addresses from: $EMAGNETDB/${ef##*/}"|xargs >> "$EMAGNETLOGS/emagnet.log"
             echo -e "${pl}" >> $EMAGNETLOGS/passwords-from-pastebin.txt
@@ -1083,6 +1079,7 @@ emagnet_run4ever() {
           fi
          fi
        for (( ; ; )); do
+        emagnet_conf
         emagnet_count_down
         emagnet_clear
         emagnet_banner
@@ -1281,14 +1278,16 @@ case "${1}" in
      ;;
 
      "-A"|"-api"|"--api")
-       if [[ $2 = true ]]; then
+       if [[ $2 = "true" ]]; then
           sed -i 's/API=false/API=true/g' $CONF
-          echo -e "$basename$0: config updated -- API has been set to true"
-        else
+          echo -e "$basename$0: config file has been update -- API has been set to true"
+       elif [[ $2 = "false" ]]; then 
           sed -i 's/API=false/API=false/g' $CONF
           sed -i 's/API=true/API=false/g' $CONF
-          echo -e "$basename$0: config updated -- API has been set to false"
-        fi
+          echo -e "$basename$0: config file has been updated -- API has been set to false"
+       else 
+          echo -e "$basename$0: internal error -- API requires a value to be used (true/false)"
+       fi
      ;;
 
      "-B"|"--banned"|"--blocked")
