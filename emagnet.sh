@@ -1576,7 +1576,9 @@ case "${1}" in
                 ;;
 
         "-v"|"-vpn"|"--vpn")
-                if [[ $1 -eq "-v" && $2 = "-p" && -n $3  ]]; then
+               emagnet_required_stuff
+               emagnet_conf
+               if [[ $1 -eq "-v" && $2 = "-p" && -n $3  ]]; then
                          sed -i '163d' $CONF; sed -i "163 i VPNPROVIDER=\$VPNROOT/$3" $CONF
                          echo -e "$basename$0: config file has been updated -- vpn provider has been set to $3"
                          exit 1
@@ -1586,7 +1588,7 @@ case "${1}" in
                 if [[ -z "$2" ]]; then echo -e "$basename$0: internal error -- you must include true or false";exit 1;fi
                 if [[ "$2" = "true" ]] || [[ $2 = "on" ]] || [[ $2 = "enable" ]]; then    sed -i '161d' "$CONF";sed -i "161i VPN=true" "$CONF";echo -e "emagnet: config file has been updated -- vpn has been enabled";exit 1
                 elif [[ $2 = "false" ]] || [[ $2 = "off" ]] || [[ $2 = "disable" ]]; then sed -i '161d' "$CONF";sed -i "161i VPN=false" "$CONF";echo -e "emagnet: config file has been updated -- vpn has been disabled";exit 1
-                elif [[ $1 = "-v"  || $2 = "-p" || -z $3 ]]; then echo -e "basename$0: internal error -- you must include a vpn provider"; exit 1
+                elif [[ $1 = "-v"  || $2 = "-p" || -z $3 ]]; then echo -e "$basename$0: internal error -- you must include a vpn provider";echo -e "$basename$0: usage example -- ./emagnet -v -p mullvad"; exit 1
                 else echo -e "basename$0: internal error -- $2 is an unknown option -- valid options is true or false"; exit 1; fi
                 ;;
 
