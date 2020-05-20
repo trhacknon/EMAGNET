@@ -40,7 +40,16 @@
 ###############################################################################
 #################################################################################
 ### Last Modified: 16:50:06 - 2020-05-19
-   
+
+
+# First, check if we using right config file...
+if [[ -f $HOME/.config/emagnet/emagnet.conf ]]; then
+grep -qio 'version=[0-9].*' $HOME/.config/emagnet/emagnet.conf
+if [[ $? -eq "0" ]]; then 
+    mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak
+fi
+fi
+
 emagnet_banner() {
 cat << "EOF"
      _                      _______                      _
