@@ -21,7 +21,7 @@
 
 If you have been using emagnet for a while you have probably already noticed that pastebin removed all latest uploads from the main page and from archive so they can gain more money since it is required to be a pro member for get the newest  uploads. A PRO membership will cost you 12€/Monthly. This is probably because there is so many emagnet users out there now and I don't want you to loose any leaks so from now I got you all covered for free!! Respect the real hackers that doing this for fun and sharing things for free, nobody should earn money on their work, esepecially not forum owners - but hey... I got you covered from now - 
 
-All latest uploads can be found on: https://nr1.nu/emagnet/pastebin/2020-MM-DD/pastebin-uploads.txt and it will change folder daily, since things is hsoted in russia / moscow the timezone will be (GMT+3) so 00.00(GMt+3) a new folder gonna be created.
+All latest uploads can be found on: https://nr1.nu/emagnet/pastebin/2020-MM-DD/pastebin-uploads.txt and it will change folder daily, since things is hosted in russia / moscow the timezone will be (GMT+3) so 00.00(GMt+3) a new folder gonna be created.
 
 I dont want you to miss anything so until i will re-write the emagnet_main function you can do something like the below example:
 
