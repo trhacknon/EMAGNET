@@ -17,6 +17,35 @@
 </a>
 </p>
 
+### News:
+
+If you have been using emagnet for a while you have probably already noticed that pastebin removed all latest uploads from the main page and from archive so they can gain more money since it is required to be a pro member for get the newest  uploads. A PRO membership will cost you 12€/Monthly. This is probably because there is so many emagnet users out there now and I don't want you to loose any leaks so from now I got you all covered for free!! Respect the real hackers that doing this for fun and sharing things for free, nobody should earn money on their work, esepecially not forum owners - but hey... I got you covered from now - 
+
+All latest uploads can be found on: https://nr1.nu/emagnet/pastebin/2020-MM-DD/pastebin-uploads.txt and it will change folder daily, since things is hsoted in russia / moscow the timezone will be (GMT+3) so 00.00(GMt+3) a new folder gonna be created.
+
+I dont want you to miss anything so until i will re-write the emagnet_main function you can do something like the below example:
+
+### Please remember, this is only a temporary and ugly way for bypass the recently pastebin changes:
+
+#### Create a new bash script and then add it to crontab to run every 301s (I scraping pastebin every 300 seconds so pastebin-uploads.txt gets updated with new urls every 300 seconds), this can be done by run:
+
+    crontab -l | { cat; * * * * sleep 301;bash ./yourscript.sh"; } | crontab - 
+
+####  And something like below will got you covered:
+
+    #!/bin/bash
+    # This example using parallel for download files ASAP! 
+    
+    ÈMAGNET_CONF="~/.config/emagnet/emagent.conf"
+    . $EMAGNET_CONF
+    curl -s https://nr1.nu/emagnet/pastebin/$(date +%Y-%m-%d)/pastebin-uploads.txt|grep -o "https://pastebin.com.*.*raw.*"|awk '!seen[$0]++'  > ~/.pastebin-uploads.txt
+    if ! [[ -d "~/.parallel" ]]; then echo "will cite"|parallel --wil-cite &> /dev/null; fi
+    parallel -a ~/.pastebin-uploads.txt -j250% -n1000 wget -nc -P $EMAGNETTEMP
+    # Now you can execute emagnet as usual:
+    bash ~/emagnet/emagnet.sh -e # Edit this if you got emagnet stored somewhere else
+    
+### About: 
+
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
 
 #### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
