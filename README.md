@@ -36,7 +36,7 @@ I dont want you to miss anything so until i will re-write the emagnet_main funct
     #!/bin/bash
     # This example using parallel for download files ASAP! 
     
-    ÈMAGNET_CONF="~/.config/emagnet/emagent.conf"
+    EMAGNET_CONF="~/.config/emagnet/emagent.conf"
     . $EMAGNET_CONF
     curl -s https://nr1.nu/emagnet/pastebin/$(date +%Y-%m-%d)/pastebin-uploads.txt|grep -o "https://pastebin.com.*.*raw.*"|awk '!seen[$0]++'  > ~/.pastebin-uploads.txt
     if ! [[ -d "~/.parallel" ]]; then echo "will cite"|parallel --wil-cite &> /dev/null; fi
