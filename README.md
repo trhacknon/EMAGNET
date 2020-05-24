@@ -104,16 +104,12 @@ _Previews can be found here._
 - [Configurations-&-Installation](https://github.com/wuseman/EMAGNET/wiki/Configurations-&-Installation) - 
 _Get started with spotify brute forcing - How emagnet will work with your openvpn files._
 - [Regex - Tips For Search](https://github.com/wuseman/EMAGNET/wiki/Searching-&-Regex) - How To Find your facebook credenticals, if it has been leaked._
-- [Leaked Databases - Various Public Leaks](https://github.com/wuseman/EMAGNET/wiki/Leaked-Databases )
+- [Leaked Databases](https://github.com/wuseman/EMAGNET/wiki/Leaked-Databases) - Various Public Leaks
 
 ### Scripts Folder:
 
 Nothing in this folder is required for run emagnet. It's just a place were I store various stuff that has been built for Emagnet to facilitate the usage of Emagnet
 
-### Looking for databases, then visit below url to find some of them:
-
-     https://github.com/wuseman/EMAGNET/wiki/Leaked-Databases 
- 
 ## Changelog
 
 [Versions changelog](CHANGELOG.md).
