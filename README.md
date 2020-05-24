@@ -89,6 +89,11 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 If you run emagnet --bruteforce ssh and do not see how many ip addresses that was found it means there was no ipv4 addresses found, this is not a bug or miss from me. If there is any ipv4 addresses found then you will see how many ipv4 addresses you found, then you gonna portscan them and last you will see how many of all the ipv4 addresses found has port 22 open and then it will begin the bruteforce and using the credenticals from emgnet.conf, default is root:root. 
 
+### System Requirements
+
+- Bash     - Find more info about _bash_ [here](https://www.gnu.org/software/bash/)
+- Wget     - Find more info about _wget_ [here](https://www.gnu.org/software/wget/)
+- Curl     - Find more info about _curl_ [here](https://github.com/curl/curl)
 
 ### Wiki Sections:
 
@@ -99,12 +104,7 @@ _Previews can be found here._
 - [Configurations-&-Installation](https://github.com/wuseman/EMAGNET/wiki/Configurations-&-Installation) - 
 _Get started with spotify brute forcing - How emagnet will work with your openvpn files._
 - [Regex - Tips For Search](https://github.com/wuseman/EMAGNET/wiki/Searching-&-Regex) - How To Find your facebook credenticals, if it has been leaked._
-
-### System Requirements
-
-- Bash     - Find more info about _bash_ [here](https://www.gnu.org/software/bash/)
-- Wget     - Find more info about _wget_ [here](https://www.gnu.org/software/wget/)
-- Curl     - Find more info about _curl_ [here](https://github.com/curl/curl)
+- [Leaked Databases - Various Public Leaks](https://github.com/wuseman/EMAGNET/wiki/Leaked-Databases )
 
 ### Scripts Folder:
 
