@@ -43,7 +43,12 @@ I dont want you to miss anything so until i will re-write the emagnet_main funct
     parallel -a ~/.pastebin-uploads.txt -j250% -n1000 wget -nc -P $EMAGNETTEMP
     # Now you can execute emagnet as usual:
     bash ~/emagnet/emagnet.sh -e # Edit this if you got emagnet stored somewhere else
-    
+    uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect.
+BBC NEWS: "Pastebin: Running the site where hackers publicise their attacks"
+
+    Emagnet is No.1 tool for fetch these leaks from pastebin
+
+The ultimate way to run emagnet without being blocked and get as many leaked accounts as 
 ### About: 
 
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
@@ -103,7 +108,7 @@ _Get started with spotify brute forcing - How emagnet will work with your openvp
 
 ### Scripts Folder:
 
-     Nothing in this folder is required for run emagnet. It's just a place were I store various stuff that has been built for Emagnet to for facilitate the usage of Emagnet
+Nothing in this folder is required for run emagnet. It's just a place were I store various stuff that has been built for Emagnet to facilitate the usage of Emagnet
 
 ### Looking for databases, then visit below url to find some of them:
 
