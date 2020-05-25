@@ -39,8 +39,7 @@ I dont want you to miss anything so until i will re-write the emagnet_main funct
     EMAGNET_CONF="~/.config/emagnet/emgnet.conf"
     . $EMAGNET_CONF
     curl -s https://nr1.nu/emagnet/pastebin/$(date +%Y-%m-%d)/pastebin-uploads.txt|grep -o "https://pastebin.com.*.*raw.*"|awk '!seen[$0]++'  > ~/.pastebin-uploads.txt
-    if ! [[ -d "~/.parallel" ]]; then echo "will cite"|parallel --wil-cite &> /dev/null; fi
-    parallel -a ~/.pastebin-uploads.txt -j250% -n1000 wget -nc -P $EMAGNETTEMP
+    cat ~/.pastebin-uploads.txt|xargs -P 1200 wget -nc -q --show-progress progress=bar:force -i ~/.pastebin-uploads.txt -P $EMAGNETTEMP 2>&1
     # Now you can execute emagnet as usual:
     bash ~/emagnet/emagnet.sh -e # Edit this if you got emagnet stored somewhere else
     uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect.
