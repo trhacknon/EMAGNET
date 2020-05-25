@@ -101,9 +101,13 @@ _Get started with spotify brute forcing - How emagnet will work with your openvp
 - Wget     - Find more info about _wget_ [here](https://www.gnu.org/software/wget/)
 - Curl     - Find more info about _curl_ [here](https://github.com/curl/curl)
 
-### Bonus: 
+### Scripts Folder:
 
-Tons of leaked databases can be found on: https://mega.nz/folder/EnxggCiY#btfevmu3fO4AQrWe-81z6A/folder/hm50kRBJ - Hurry up before they are gone.
+     Nothing in this folder is required for run emagnet. It's just a place were I store various stuff that has been built for Emagnet to for facilitate the usage of Emagnet
+
+### Looking for databases, then visit below url to find some of them:
+
+     https://github.com/wuseman/EMAGNET/wiki/Leaked-Databases 
  
 ## Changelog
 
