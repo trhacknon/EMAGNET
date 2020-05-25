@@ -842,16 +842,26 @@ fi
 }
 
 emagnet_spammer() {
+emagnet_required_stuff
+emagnet_conf
 ssmtp &> /dev/null
 if [[ "$?" -gt "0" ]]; then printf "%s\n" "$basename$0: internal error -- ssmtp is required to be installed";exit 1;fi
+
 if [[ -z "$EMAIL2SEND" ]]; then
     printf "%s\n" " - You must create a text file wich contains the message"
     printf "%s\n" " - you want to send when text file has been created then run:"
     printf "%s\n" " - Usage: ./$basename$0 -s /path/to/text-file.txt"
     exit 1
 fi
+
+
+if [[ -z "$2" ]]; then
+    printf "%s\n" "$basename$0: internal error -- you must choose a file with email addresses..."
+    exit 1 
+fi
+
 if ! [[ -f "$EMAIL2SEND" ]]; then
-    printf "%s\n\n" "$basename$0: internal error -- not a valid file\n\n"
+    printf "%s\n" "$basename$0: internal error -- $1 does not exist..."
     exit 1
 fi
 
