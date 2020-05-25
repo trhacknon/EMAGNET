@@ -34,7 +34,7 @@ All latest uploads can be found on: https://nr1.nu/emagnet/pastebin/2020-MM-DD/p
     #!/bin/bash
     # This example using parallel for download files ASAP! 
     
-    EMAGNET_CONF="~/.config/emagnet/emgnet.conf"
+    EMAGNET_CONF="~/.config/emagnet/emagnet.conf"
     . $EMAGNET_CONF
     curl -s https://nr1.nu/emagnet/pastebin/$(date +%Y-%m-%d)/pastebin-uploads.txt|grep -o "https://pastebin.com.*.*raw.*"|awk '!seen[$0]++'  > ~/.pastebin-uploads.txt
     cat ~/.pastebin-uploads.txt|xargs -P 1200 wget -nc -q --show-progress progress=bar:force -i ~/.pastebin-uploads.txt -P $EMAGNETTEMP 2>&1
