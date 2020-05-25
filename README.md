@@ -17,6 +17,19 @@
 </a>
 </p>
 
+### About: 
+
+Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
+
+#### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
+
+- Emagnet is No.1 tool for fetch these leaks from pastebin
+
+### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible (You wont miss a single file if you run emagnet as below):
+
+     bash emagnet -t 300
+     bash emagnet -q
+ 
 ### News:
 
 If you have been using emagnet for a while you have probably already noticed that pastebin removed all latest uploads from the main page and from archive so they can gain more money since it is required to be a pro member for get the newest  uploads. A PRO membership will cost you 12€/Monthly. This is probably because there is so many emagnet users out there now and I don't want you to loose any leaks so from now I got you all covered for free!! Respect the real hackers that doing this for fun and sharing things for free, nobody should earn money on their work, esepecially not forum owners - but hey... I got you covered from now - 
@@ -40,23 +53,6 @@ All latest uploads can be found on: https://nr1.nu/emagnet/pastebin/2020-MM-DD/p
     cat ~/.pastebin-uploads.txt|xargs -P 1200 wget -nc -q --show-progress progress=bar:force -i ~/.pastebin-uploads.txt -P $EMAGNETTEMP 2>&1
     bash ~/emagnet/emagnet.sh -e
     
-BBC NEWS: "Pastebin: Running the site where hackers publicise their attacks"
-
-    Emagnet is No.1 tool for fetch these leaks from pastebin
-
-### About: 
-
-Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
-
-#### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
-
-- Emagnet is No.1 tool for fetch these leaks from pastebin
-
-### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible (You wont miss a single file if you run emagnet as below):
-
-     bash emagnet -t 300
-     bash emagnet -q
-
 ### A sample from 2019-11-13 when running emagnet with brute force mode on for spotify:
 * The result is amazing, it have never ever been so easy to hack million of peoples accounts before!
 * Run emagnet on your android device, just put your android device in your pocket and emagnet will hack the accounts for you - This preview is for spotify, but emagnet has support for more protocols and it will be more supported protocols in next upgrade.
