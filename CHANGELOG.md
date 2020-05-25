@@ -23,6 +23,7 @@ r    Emagnet stats is back on track, was added in version 1.6. Show stats for ho
 +    Renamed emagnet to emagnet.sh
 +    Added archive folder with older versions of emagnet, random versions comes and goes
 +    Created a symlink to emagnet from emagnet.sh 
++    Added scripts folder, released with scrape-pastebin.sh for store all uploads from pastebin on your own place
 
 # Version 3.4.1 
 
