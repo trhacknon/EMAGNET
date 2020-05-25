@@ -23,8 +23,6 @@ If you have been using emagnet for a while you have probably already noticed tha
 
 All latest uploads can be found on: https://nr1.nu/emagnet/pastebin/2020-MM-DD/pastebin-uploads.txt and it will change folder daily, since things is hosted in russia / moscow the timezone will be (GMT+3) so 00.00(GMt+3) a new folder gonna be created.
 
-I dont want you to miss anything so until i will re-write the emagnet_main function you can do something like the below example:
-
 ### Please remember, this is only a temporary and ugly way for bypass the recently pastebin changes:
 
 #### Create a new bash script and then add it to crontab to run every 301s (I scraping pastebin every 300 seconds so pastebin-uploads.txt gets updated with new urls every 300 seconds), this can be done by run:
@@ -40,9 +38,8 @@ I dont want you to miss anything so until i will re-write the emagnet_main funct
     . $EMAGNET_CONF
     curl -s https://nr1.nu/emagnet/pastebin/$(date +%Y-%m-%d)/pastebin-uploads.txt|grep -o "https://pastebin.com.*.*raw.*"|awk '!seen[$0]++'  > ~/.pastebin-uploads.txt
     cat ~/.pastebin-uploads.txt|xargs -P 1200 wget -nc -q --show-progress progress=bar:force -i ~/.pastebin-uploads.txt -P $EMAGNETTEMP 2>&1
-    # Now you can execute emagnet as usual:
-    bash ~/emagnet/emagnet.sh -e # Edit this if you got emagnet stored somewhere else
-    uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect.
+    bash ~/emagnet/emagnet.sh -e
+    
 BBC NEWS: "Pastebin: Running the site where hackers publicise their attacks"
 
     Emagnet is No.1 tool for fetch these leaks from pastebin
