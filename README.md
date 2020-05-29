@@ -44,6 +44,12 @@ All latest uploads can be found on: https://nr1.nu/emagnet/pastebin/2020-MM-DD/p
 
 ####  And something like below will got you covered:
 
+#### Fixed so the files is available for everyone again, just copy and paste below for get the missed uploads (~20659 uploads with over 10 000 leaked accounts):
+
+    curl -s https://nr1.nu/emagnet/pastebin/2020-05-{21,23,24,25,26,27,27,28}/pastebin-uploads.txt|grep "https://pastebin.com.*.*raw.*"|awk '!seen[$0]++' 
+
+#### Main:
+
     #!/bin/bash
     # This example using parallel for download files ASAP! 
     
