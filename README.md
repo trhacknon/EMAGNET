@@ -21,7 +21,7 @@
 
 If you have been using emagnet for a while you have probably already noticed that pastebin removed all latest uploads from the main page and from archive so they can gain more money since it is required to be a pro member for get all uploads. A PRO membership will cost you 12€/Monthly. This is probably because there is so many emagnet users out there now a days and this is not OK so I am working daily on a new version so we can use emagnet as it is supposed to work after the big changes from pastebin.
 
-Emagnet's main_function must be built from scratch and this requires alot of small edits on other functions aswell so please be aware of this. I have figure out a way how all emagnet users will be able to bypass the PRO membership requirements to get access to all latest uploads again FOR FREE and I will release this new version within few days if everyhting will looks OK. 
+Emagnet's main_function must be built from scratch and this requires alot of small edits on other functions aswell so please be aware of this. I have figure out a way how all emagnet users will be able to bypass the PRO membership requirements to get access to all latest uploads again FOR FREE and I will release this new version within few days if everyhting will looks OK but I want to try it for few days before i release it so everything working good. 
 
 ##### Aha, so what about the current version then? 
 
