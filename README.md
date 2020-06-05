@@ -17,6 +17,22 @@
 </a>
 </p>
 
+# Please read and understand below:
+
+If you have been using emagnet for a while you have probably already noticed that pastebin removed all latest uploads from the main page and from archive so they can gain more money since it is required to be a pro member for get all uploads. A PRO membership will cost you 12€/Monthly. This is probably because there is so many emagnet users out there now a days and this is not OK so I am working daily on a new version so we can use emagnet as it is supposed to work after the big changes from pastebin.
+
+Emagnet's main_function must be built from scratch and this requires alot of small edits on other functions aswell so please be aware of this. I have figure out a way how all emagnet users will be able to bypass the PRO membership requirements to get access to all latest uploads again FOR FREE and I will release this new version within few days if everyhting will looks OK. 
+
+##### Aha, so what about the current version then? 
+
+It works fine, but you wont get all uploads on pastebin, you will get some random uploads that pastebin choosed to give us since they do not show all uploads anymore on the main page or in archive page.
+
+This text was added: 2020-06-06 and I will do my best to get out the new version before 2020-06-10
+
+Thanks for reading, patience is the key to success
+
+// wuseman
+
 ### About: 
 
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
@@ -30,35 +46,6 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
      bash emagnet -t 300
      bash emagnet -q
  
-### News:
-
-If you have been using emagnet for a while you have probably already noticed that pastebin removed all latest uploads from the main page and from archive so they can gain more money since it is required to be a pro member for get the newest  uploads. A PRO membership will cost you 12€/Monthly. This is probably because there is so many emagnet users out there now and I don't want you to loose any leaks so from now I got you all covered for free!! Respect the real hackers that doing this for fun and sharing things for free, nobody should earn money on their work, esepecially not forum owners - but hey... I got you covered from now - 
-
-All latest uploads can be found on: https://nr1.nu/emagnet/pastebin/2020-MM-DD/pastebin-uploads.txt and it will change folder daily, since things is hosted in russia / moscow the timezone will be (GMT+3) so 00.00(GMt+3) a new folder gonna be created.
-
-### Please remember, this is only a temporary and ugly way for bypass the recently pastebin changes:
-
-#### Create a new bash script and then add it to crontab to run every 301s (I scraping pastebin every 300 seconds so pastebin-uploads.txt gets updated with new urls every 300 seconds), this can be done by run:
-
-    crontab -l | { cat; * * * * sleep 301;bash ./yourscript.sh"; } | crontab - 
-
-####  And something like below will got you covered:
-
-#### Fixed so the files is available for everyone again, just copy and paste below for get the missed uploads (~20659 uploads with over 10 000 leaked accounts):
-
-    curl -s https://nr1.nu/emagnet/pastebin/2020-05-{21,23,24,25,26,27,27,28}/pastebin-uploads.txt|grep "https://pastebin.com.*.*raw.*"|awk '!seen[$0]++' 
-
-#### Main:
-
-    #!/bin/bash
-    # This example using parallel for download files ASAP! 
-    
-    EMAGNET_CONF="/root/.config/emagnet/emagnet.conf"
-    source "$EMAGNET_CONF"
-    curl -s "https://nr1.nu/emagnet/pastebin/$(date +%Y-%m-%d)/pastebin-uploads.txt"|grep -o "https://pastebin.com.*.*raw.*"|awk '!seen[$0]++'  > ~/.pastebin-uploads.txt
-    cat ~/.pastebin-uploads.txt|xargs -P 1200 wget -nc -q --show-progress progress=bar:force -i ~/.pastebin-uploads.txt -P $EMAGNETTEMP 2>&1
-    bash ~/emagnet/emagnet.sh -e
-    
 ### A sample from 2019-11-13 when running emagnet with brute force mode on for spotify:
 * The result is amazing, it have never ever been so easy to hack million of peoples accounts before!
 * Run emagnet on your android device, just put your android device in your pocket and emagnet will hack the accounts for you - This preview is for spotify, but emagnet has support for more protocols and it will be more supported protocols in next upgrade.
