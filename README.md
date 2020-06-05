@@ -23,9 +23,14 @@ If you have been using emagnet for a while you have probably already noticed tha
 
 Emagnet's main_function must be built from scratch and this requires alot of small edits on other functions aswell so please be aware of this. I have figure out a way how all emagnet users will be able to bypass the PRO membership requirements to get access to all latest uploads again FOR FREE and I will release this new version within few days if everyhting will looks OK but I want to try it for few days before i release it so everything working good. 
 
-##### Aha, so what about the current version then? 
+The earlier workaround worked fine were I added all pastes from pastebin to nr1.nu so all none-pro users could download all uploads from my server instead but my server is not powerful enough to handle the traffic so I decided to remove this workaround and fix a real fix instead :)
 
-It works fine, but you wont get all uploads on pastebin, you will get some random uploads that pastebin choosed to give us since they do not show all uploads anymore on the main page or in archive page.
+#### Aha, so what about the current version then? 
+
+It works fine, but you wont get all uploads on pastebin, you will get some random uploads that pastebin choosed to give us 
+since they do not show all uploads anymore on the main page or in archive page.
+
+__So, you don't have to contact me about this since I am well aware that emagnet does not catch all uploads anymore__
 
 This text was added: 2020-06-06 and I will do my best to get out the new version before 2020-06-10
 
