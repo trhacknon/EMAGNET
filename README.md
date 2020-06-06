@@ -34,7 +34,7 @@ __So, you don't have to contact me about this since I am well aware that emagnet
 
 This text was added: 2020-06-06 and I will do my best to get out the new version before 2020-06-10
 
-#### The upcomming version is _alot_ faster, see sample:
+#### The upcomming version is _alot_ faster, see sample how fast it download 51 different files and counting data from each file:
 
 ![Screenshot](https://i.imgur.com/j6Zk1R3.gif)
 
