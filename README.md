@@ -34,7 +34,11 @@ __So, you don't have to contact me about this since I am well aware that emagnet
 
 This text was added: 2020-06-06 and I will do my best to get out the new version before 2020-06-10
 
-Thanks for reading, patience is the key to success
+#### The upcomming version is _alot_ faster on everything:
+
+![Screenshot](https://i.imgur.com/j6Zk1R3.gif)
+
+_Thanks for reading, patience is the key to success_
 
 // wuseman
 
