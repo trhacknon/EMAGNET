@@ -145,7 +145,7 @@ Cheers!
 
 ### Feel free to send donations if you want to support the development of the emagnet
 
-      BTC Address: 3HxYkrvw8dDuWEJawjtin4yuPBA9Zm27RZ
+      BTC Address: 1MJ3JATUjfRUSoBdrbRHEC5XX1zgH72uKj
 
 ### Emagnet is a private project since 2015 and was released in June @ 2018, to be continued. 
 
