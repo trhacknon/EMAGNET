@@ -32,7 +32,7 @@ since they do not show all uploads anymore on the main page or in archive page.
 
 __So, you don't have to contact me about this since I am well aware that emagnet does not catch all uploads anymore__
 
-This text was added: 2020-06-06 and I will do my best to get out the new version before 2020-06-10
+This text was added: 2020-06-06 and I will do my best to get out the new version before 2020-06-10 (will be delayed some days)
 
 #### The upcomming version is _alot_ faster, see sample how fast it download 51 different files and counting data:
 
