@@ -127,7 +127,6 @@ emagnet_required_tools() {
      done
 }
 
-
 #### If we are on wrong version, then stop!
 emagnet_version() {
     if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
@@ -170,9 +169,7 @@ EOF
 printf "%64s \n\n" | tr ' ' '='
 }
 
-
-
-#### CHeck for a working connection, using google since it is up 24/7 
+#### Check for a working connection, using google since it is up 24/7 
 emagnet_iconnection() { 
     ping -i "1" -c 1 google.com &> /dev/null
         if [[ "$?" -gt "0" ]]; then 
