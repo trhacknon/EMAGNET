@@ -39,7 +39,7 @@
 ####                                                                       ####
 ###############################################################################
 ###############################################################################
-#### Modified: 01:37:08 - 2020-06-18
+#### Modified: 06:33:59 - 2020-06-21
 ##############################################################################
 CURRENT_VERSION="4.0"
 
@@ -94,7 +94,6 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
                       and store email addresses and passwords
                       in sorted day directories.
   -k, --kill          Kill emagnet ghost sessions
-  -S, --search        Search for email addresses and various stuff
   -q, --screen        Run emagnet in a screen
 
 EOF
@@ -451,7 +450,7 @@ elif [[ ${1} = "--license"  || ${1} = "--l" || ${1} = "-l" || ${1} = "-license" 
     emagnet_license
 
 
-elif [[ ${1} = "--screen" ]]; then
+elif [[ ${1} = "--screen"  || ${1} = "--q" || ${1} = "-screen" || ${1} = "-q"]]; then
     emagnet_screen
 
 
@@ -474,7 +473,7 @@ elif [[ ${1} = "--time" || ${1} = "--t" || ${1} = "-time" || ${1} = "-t" ]]; the
      printf "%s\n" "$basename$0: config file has been updated -- time has been set to: $2 seconds"
      exit 0
 
-elif [[ ${1} = "--version" || ${1} = "--v"  || ${1} = "-v" || ${1} = "-version" ]]; then
+elif [[ ${1} = "--version" || ${1} = "--V"  || ${1} = "-V" || ${1} = "-version" ]]; then
      VERSION="$(cat ${PWD}/$basname$0|grep -oi "CURRENT_VERSION.*"|head -n1 |grep -oE "[0-9].*"|cut -d'"' -f1)"
      printf "%s\n" "Emagnet Version: $VERSION"
      
