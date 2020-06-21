@@ -450,7 +450,7 @@ elif [[ ${1} = "--license"  || ${1} = "--l" || ${1} = "-l" || ${1} = "-license" 
     emagnet_license
 
 
-elif [[ ${1} = "--screen"  || ${1} = "--q" || ${1} = "-screen" || ${1} = "-q"]]; then
+elif [[ ${1} = "--screen"  || ${1} = "--q" || ${1} = "-screen" || ${1} = "-q" ]]; then
     emagnet_screen
 
 
