@@ -27,19 +27,9 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 ### Emagnet Beta
 
-Want to get all latest uploads from pastebin and be updated, then run beta/emagnet-beta-4.0.sh
+Use beta version for be updated - ![Emagnet Beta - v4.0](https://github.com/wuseman/emagnet/beta) 
 
-#### Beta using nr1.nu for find latest uploads but using pastebin.com for download files from pastebin - Does not support any auto-bruter method atm, please see my other repos for be able to brute-force the accounts from emagnet/logs/passwords-from-pastebin.txt manually
-
-     git clone https://github.com/wuseman/emagnet
-     chmod +x emagnet/beta/emagnet-beta-4.0.sh
-     bash emagnet/beta/emagnet-beta-4.0.sh
-
-From pastebin dev team? You suck! 
-
-### Getting Started - Old version
-
-#### Old version that using pastebin.com for get latest uploads - Works fine but you wont get all latest uploads unless you are a PRO user but auto-bruter is supported.
+### Getting Started
 
     git clone https://github.com/wuseman/emagnet
     chmod +x emagnet/emagnet.sh
