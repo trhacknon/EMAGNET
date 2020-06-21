@@ -460,11 +460,11 @@ elif [[ ${1} = "--kill" || ${1} = "--k" || ${1} = "-kill" || ${1} = "-k" ]]; the
 
 elif [[ ${1} = "--time" || ${1} = "--t" || ${1} = "-time" || ${1} = "-t" ]]; then
   emagnet_conf
-     if [[ -z "$2" ]]; then echo "emagnet: internal error -- time require a number to be used";exit 1;fi
+     if [[ -z "$2" ]]; then echo -e "$basename$0: internal error -- time require a number to be used";exit 1;fi
      
      re='^[0-9]+$'
         if ! [[ $2 =~ $re ]]; then  
-          echo -e "emagnet: internal error -- that's not a valid number" >&2
+          echo -e "$basename$0: internal error -- that's not a valid number" >&2
           exit 1
         fi
      
