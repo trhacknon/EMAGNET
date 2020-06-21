@@ -43,19 +43,8 @@
 ##############################################################################
 CURRENT_VERSION="4.0"
 
+#### Author of emagnet will be printed if --author or -a is being used
 
-
-
-
-
-
-
-
-
-
-##############################################################################
-#### Author of emagnet will be printed if --author or -a is being used     ####
-###############################################################################
 emagnet_author() {
 cat << "EOF"
 
@@ -75,30 +64,12 @@ cat << "EOF"
 EOF
 }
 
-
-
-
-
-
-
-
-
-
-
+#### Some functions require root on almost all distros, installing missing packages for example.
 emagnet_mustberoot() {
   (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1
 }
 
-
-
-
-
-
-
-
-
-
-
+#### Print LICENSE
 emagnet_license(){
   printf "%s\n" "Printing LICENSE - Use 'q' to quit"
   sleep 2
@@ -106,16 +77,7 @@ emagnet_license(){
   printf "%s\n" "Thank you.." 
 }
 
-
-
-
-
-
-
-
-
-
-
+#### Print help and available commands
 emagnet_help() {
 cat << EOF
 
@@ -138,16 +100,7 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 EOF
 }
 
-
-
-
-
-
-
-
-
-
-
+#### Check so we are running correct version of emagnet 
 emagnet_conf() {
 if ! [[ -f "$HOME/.config/emagnet/emagnet.conf" ]]; then
     mkdir -p "$HOME/.config/emagnet/tmp"
@@ -163,16 +116,7 @@ fi
     source "$CONF" &> /dev/null
 }
 
-
-
-
-
-
-
-
-
-
-
+#### Required tools for emagnet
 emagnet_required_tools() {
      for cmd in wget curl; do 
          which $cmd &> /dev/null
@@ -184,15 +128,7 @@ emagnet_required_tools() {
 }
 
 
-
-
-
-
-
-
-
-
-
+#### If we are on wrong version, then stop!
 emagnet_version() {
     if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
                echo -e "$basename$0: internal error -- You are using an old emagnet.conf..."
@@ -203,30 +139,13 @@ emagnet_version() {
     fi
 }
 
-
-
-
-
-
-
-
-
-
-
+#### Just for make it easier to read main script
 emagnet_clear() { 
     clear
 }
 
 
-
-
-
-
-
-
-
-
-
+#### Emagnet's maskot since day 1!
 emagnet_banner() {
 cat << "EOF"
      _                      _______                      _
@@ -253,14 +172,7 @@ printf "%64s \n\n" | tr ' ' '='
 
 
 
-
-
-
-
-
-
-
-
+#### CHeck for a working connection, using google since it is up 24/7 
 emagnet_iconnection() { 
     ping -i "1" -c 1 google.com &> /dev/null
         if [[ "$?" -gt "0" ]]; then 
@@ -269,16 +181,8 @@ emagnet_iconnection() {
         fi
 }
 
-
-
-
-
-
-
-
-
-
-
+#### UP NEXT! We can remove alot of old stuff in here, will be up next!
+#### Paths that must be filled
 emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
   if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/nr1.nu\/emagnet\/pastebin/\$(date +%Y-%m-%d)\/pastebin.txt'                                                                                     "$CONF";fi
@@ -334,15 +238,6 @@ emagnet_mustbefilled() {
 }
 
 
-
-
-
-
-
-
-
-
-
 # Check so all paths has been created so we can use emagnet
 emagnet_paths() {
 if ! [[ -d ${EMAGNETALL} ]]; then
@@ -356,17 +251,7 @@ fi
 }
 
 
-
-
-
-
-
-
-
-
-###############################################################################
-#### If you have a ghost session of emagnet use ./emagnet -k               ####
-###############################################################################
+#### If you have a ghost session of emagnet use ./emagnet -k
 emagnet_kill() {
 ESESSIONS=$(ps aux|grep -i emagnet |awk '{print $2}'|sed '$d')
 NRESESSIONS=$(ps aux|grep -i "emagnet"|awk '{print $2}'|sed '$d'|wc -l)
@@ -387,48 +272,6 @@ INSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g')"
    fi
 }
 
-
-
-
-
-
-
-
-
-
-
-
-###############################################################################
-#### Sometimes pastebin is under heavy load and you wont be able to scrape ####
-#### the site so then we sleep 60 seconds until we can scrape it again     ####
-###############################################################################
-emagnet_heavyload() {
-    for (( ; ; )); do
-     wait_time=60
-     temp_cnt="${wait_time}"
-      while [[ "${temp_cnt}" -gt 0 ]]; do
-      printf "\rPastebin is currently under heavy load, will continue in: \e[1;1m%1d\e[0m" ${temp_cnt}
-      printf " seconds"
-      sleep 1
-      ((temp_cnt--))
-      done
-      echo
-      bash "$basename$0" --emagnet
-      done
-      bash "$basename$0" --emagnet
-}
-
-
-
-
-
-
-
-
-
-
-
-
 # This is for count down in seconds for see emagnet is actually running
 emagnet_analyzer() {
    wait_time=$TIME
@@ -439,17 +282,6 @@ emagnet_analyzer() {
               ((temp_cnt--))
           done
 }
-
-
-
-
-
-
-
-
-
-
-
 
 # Before we do anything we print analyzing, 100 milli seconds between each print of character
 emagnet_analyzing_message() {
@@ -462,58 +294,11 @@ emagnet_analyzing_message() {
         done
 }
 
-
-
-
-
-
-
-
-
-
-
-emagnet_api() {
-    if [[ $API = "true" ]]; then
-      sed -i 's/API=true/API=false/g' $CONF
-      echo -e "You have set API to true but your IP is not whitelisted for scraping. "
-      echo -e "Whitelist your ip at: https://pastebin.com/doc_scraping_api\n"
-      echo -e "API has been set to false and emagnet will not be able to scrape"
-      echo -e "pastebin until you added your IP, using pastebin.com/archive until then\n "
-        secs=10
-        shift
-        msg=$@
-          while [[ $secs -gt "0" ]]; do
-             printf "\r\033[KContinues in %.d seconds $msg..." $((secs--))
-             sleep 1
-          done
-        echo
-    fi
-}
-
-
-
-
-
-
-
-
-
-
-
+#### This is added for upcomming versions
 emagnet_count_down() {
 # Add all brute force stuff here later....
      emagnet_analyzer
 }
-
-
-
-
-
-
-
-
-
-
 
 # After we downloaded and counted data we want to move all temporary files to all-files
 # and also because we dont want to count data from those files twice...
@@ -521,17 +306,6 @@ emagnet_move_realtime() {
          mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
          rm "$HOME/.config/emagnet/tmp/.emagnet" "$HOME/.config/emagnet/tmp/.emagnet1"  &> /dev/null
  }
-
-
-
-
-
-
-
-
-
-
-
 
 emagnet_main() {
 # This is not in use, use this when using pastebin.com instead
@@ -547,7 +321,7 @@ emagnet_main() {
 #      rm $EMAGNETTEMP/.status &> /dev/null
 #  fi
 
-curl -Ls https://nr1.nu/emagnet/pastebin/$(date +%Y-%m-%d)/pastebin.txt > $HOME/.config/emagnet/tmp/.emagnet1
+curl -H "$USERAGENT" -Ls ${PASTEBIN} > $HOME/.config/emagnet/tmp/.emagnet1
 grep -q "raw" $HOME/.config/emagnet/tmp/.emagnet1
 ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.1"
 cat "$HOME/.config/emagnet/tmp/.emagnet1"|sort|cut -d/ -f5 > "$HOME/.config/emagnet/tmp/.2"
@@ -570,14 +344,12 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
     emagnet_clear
     emagnet_banner
 
-###################################################################
-# If we found both passwords and email addresses then we do below #
-# --------------------------------------------------------------- #
-# Notice about sleep:                                             #
-# Sleep 2 below counters is added so user will be able to see     #
-# what stats we have collected, otherwise it will just            #
-# go on and on and we wont see any stats                          # 
-###################################################################
+# If we found both passwords and email addresses then we do below 
+# --------------------------------------------------------------- 
+# Notice about sleep:                                             
+# Sleep 2 below counters is added so user will be able to see     
+# what stats we have collected, otherwise it will just            
+# go on and on and we wont see any stats                           
 if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
             echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${pt} passwords from: $EMAGNETPW/${pf##*/}"      | xargs >> "$EMAGNETLOGS/emagnet.log"
             echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${et} email addresses from: $EMAGNETDB/${ef##*/}"|xargs >> "$EMAGNETLOGS/emagnet.log"
@@ -594,9 +366,8 @@ if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
             emagnet_move_realtime
             sleep 2                         
 
-###################################################################
-# If we found no passwords and mail addresses only we do below    #
-###################################################################
+
+# If we found no passwords and mail addresses only we do below
 elif [[ "$pt" = "0" ]] && [[ "$et" -gt "0" ]]; then
             echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${et} email addresses from: $EMAGNETDB/${ef##*/}"|xargs >> "$EMAGNETLOGS/emagnet.log"
             echo -e "${el}" >> $EMAGNETLOGS/emails-from-pastebin.txt
@@ -609,9 +380,7 @@ elif [[ "$pt" = "0" ]] && [[ "$et" -gt "0" ]]; then
             emagnet_move_realtime
             sleep 2                         
             
-###################################################################
-# If we found no passwords and no mail addresses we print 00      #
-###################################################################
+# If we found no passwords and no mail addresses we print 00 
 elif [[ "$pt" = "0" ]] && [[ "$et" = "0" ]] && [[ ${tt} = "0" ]]; then
             echo -e "[\e[1;31m<<\e[0m] - No new files could be downloaded...\n[\e[1;31m<<\e[0m] - You may want to raise time in emagnet.conf.."
             sleep 2                         
@@ -625,16 +394,7 @@ elif [[ "$pt" = "0" ]] && [[ "$et" = "0" ]] && [[ ${tt} = "0" ]]; then
 fi
 }
 
-
-
-
-
-
-
-
-
-
-
+#### Run emagnet in a screen
 emagnet_screen() {
  mkdir -p /tmp/screen/S-root &> /dev/null
  chmod 755 /tmp/screen &> /dev/null
@@ -649,17 +409,7 @@ emagnet_screen() {
          screen -S "emagnet" -dm bash "$basename$0" --emagnet
 }
 
-
-
-
-
-
-
-
-
-
-
-
+#### Emagnet, first time we run it then we run this and then emagnet_lets_run
 emagnet_first_run() {
 CONF="$HOME/.config/emagnet/emagnet.conf"
 if ! [[ -f "$CONF" ]]; then
@@ -671,16 +421,7 @@ if ! [[ -f "$CONF" ]]; then
 fi
 }
 
-
-
-
-
-
-
-
-
-
-
+#### This is were the magic happens!
 emagnet_lets_run() {
     for (( ; ; )); do  
         emagnet_conf                         # Source emagnet-conf so we know all settings for emagnet
@@ -700,26 +441,7 @@ done
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### Using if instead of getops for now
 if [[  "${1}" = "--emagnet" || "${1}" = "-e" || "${1}" = "--e" || "${1}" = "-emagnet" ]]; then
     emagnet_first_run
     emagnet_lets_run
