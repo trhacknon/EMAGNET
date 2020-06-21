@@ -425,7 +425,6 @@ emagnet_lets_run() {
         emagnet_first_run
         emagnet_paths
         emagnet_iconnection                  # Check if we got internet, otherwise we stop
-        emagnet_api                          # Count down in milliseconds until we will download and scrape pastebin again
         emagnet_version                      # Check so we using the correct emagnet.conf
         emagnet_clear
         emagnet_banner
