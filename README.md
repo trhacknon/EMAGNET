@@ -17,16 +17,6 @@
 </a>
 </p>
 
-#### Emagnet Beta
-
-Want to get all latest uploads from pastebin, then run beta/emagnet-beta-4.0.sh
-
-     git clone https://github.com/wuseman/emagnet
-     chmod +x beta/emagnet-beta-4.0.sh
-     bash beta/emagnet-beta-4.0.sh
-
-From pastebin dev team? You sucks! 
-
 ### About: 
 
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
@@ -35,16 +25,28 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 - Emagnet is No.1 tool for fetch these leaks from pastebin
 
-### The ultimate way to run emagnet without being blocked and get as many leaked accounts as possible (You wont miss a single file if you run emagnet as below):
 
-     bash emagnet -t 300
-     bash emagnet -q
- 
-### A sample from 2019-11-13 when running emagnet with brute force mode on for spotify:
-* The result is amazing, it have never ever been so easy to hack million of peoples accounts before!
-* Run emagnet on your android device, just put your android device in your pocket and emagnet will hack the accounts for you - This preview is for spotify, but emagnet has support for more protocols and it will be more supported protocols in next upgrade.
+### Emagnet Beta
 
-### Sit back and relax and Emagnet will do the rest, watch the video below, this is for real!
+Want to get all latest uploads from pastebin and be updated, then run beta/emagnet-beta-4.0.sh
+
+#### Beta using nr1.nu for find latest uploads but using pastebin.com for downloading the files from pastebin - Does not support any auto-bruter method atm, please see my other repos for be able to brute-force the accounts from emagnet/logs/passwords-from-pastebin.txt manually
+
+     git clone https://github.com/wuseman/emagnet
+     chmod +x emagnet/beta/emagnet-beta-4.0.sh
+     bash emagnet/beta/emagnet-beta-4.0.sh
+
+From pastebin dev team? You suck! 
+
+### Getting Started - Old version
+
+#### Old version that using pastebin.com for get latest uploads - Works fine but you wont get all latest uploads unless you are a PRO user but auto-bruter is supported.
+
+    git clone https://github.com/wuseman/emagnet
+    chmod +x emagnet/emagnet.sh
+    bash emagnet/emagnet.sh --emagnet
+  
+### Sit back and relax and Emagnet will do the rest, watch the video below, this is for real!	
 
 ![Screenshot](.preview/emagnet-latest.gif)
 
@@ -53,19 +55,6 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 * Left side is how you see things - Right side is what actually going on:
 
 ![Screenshot](.preview/emagnet2-debug.gif)
-
-### Getting Started:
-
-    git clone https://github.com/wuseman/emagnet /tmp/emagnet
-    cd /tmp/emagnet
-    chmod +x emagnet*
-    ./emagnet --emagnet
-   
-    That's it, have phun!
-
-### Notice
-
-If you run emagnet --bruteforce ssh and do not see how many ip addresses that was found it means there was no ipv4 addresses found, this is not a bug or miss from me. If there is any ipv4 addresses found then you will see how many ipv4 addresses you found, then you gonna portscan them and last you will see how many of all the ipv4 addresses found has port 22 open and then it will begin the bruteforce and using the credenticals from emgnet.conf, default is root:root. 
 
 ### System Requirements
 
@@ -83,10 +72,6 @@ _Previews can be found here._
 _Get started with spotify brute forcing - How emagnet will work with your openvpn files._
 - [Regex - Tips For Search](https://github.com/wuseman/EMAGNET/wiki/Searching-&-Regex) - How To Find your facebook credenticals, if it has been leaked._
 - [Leaked Databases](https://github.com/wuseman/EMAGNET/wiki/Leaked-Databases) - Various Public Leaks
-
-### Scripts Folder:
-
-Nothing in this folder is required for run emagnet. It's just a place were I store various stuff that has been built for Emagnet to facilitate the usage of Emagnet
 
 ## Changelog
 
