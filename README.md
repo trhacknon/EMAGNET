@@ -22,7 +22,7 @@
 
 Once again it's boring news. 
 
-Pastebin really working hard for block Emagnet and all users that using emagnet, they closed over 20 pro accounts that was used to monitor pastebin for Emagnet.
+Pastebin really working hard for block Emagnet and all users that using emagnet, they closed/removed 20+ accounts that was used for scrape and monitor pastebin.
 
 It's not possible to buy pro accounts anymore since they "sold out" all PRO accounts so from now it's not possible to use emagnet beta neither since they closed over 20+ accounts that was used to scrape pastebin, emagnet works fine still but you wont be able to get all pastes anymore due to all limits they added last 2 months so for now they blocked emagnet and it out of my control, really.
 
