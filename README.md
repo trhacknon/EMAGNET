@@ -28,7 +28,7 @@ It's not possible to buy pro accounts anymore since they "sold out" all PRO acco
 
 ![Screenshot](https://nr1.nu/f/gjojs.png)
 
-PRO users: You will be able to scrape pastebin with your added ip on pastebin  even if you wont pay next bill so don't buy another month of PRO account, for be able to scrape pastebin from your IP you just need to use curl with mozilla useragent and also include the cookie from _ga and cf_clearance. 
+PRO users: You will be able to scrape pastebin with your added ip on pastebin  even if you wont pay next bill so don't buy another month of PRO account, for be able to scrape pastebin from your IP you just need to use curl with mozilla useragent and also include the cookie from _ga and cf_clearance. For not use static _ga and cf values use |shuffle -n1 for randomize the values. 
 
 Here is an example how you can scrape pastebin again without pay for another month of PRO account:
 
