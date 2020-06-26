@@ -17,6 +17,28 @@
 </a>
 </p>
 
+
+### Latest Update: 
+
+Once again it's boring news. 
+
+Pastebin really working hard for block Emagnet and all users that using emagnet, they closed over 20 pro accounts that was used to monitor pastebin for Emagnet.
+
+It's not possible to buy pro accounts anymore since they "sold out" all PRO accounts so from now it's not possible to use emagnet beta neither since they closed over 20+ accounts that was used to scrape pastebin, emagnet works fine still but you wont be able to get all pastes anymore due to all limits they added last 2 months so for now they blocked emagnet and it out of my control, really.
+
+![Screenshot](https://nr1.nu/f/gjojs.png)
+
+PRO users: You will be able to scrape pastebin with your added ip on pastebin  even if you wont pay next bill so don't buy another month of PRO account, for be able to scrape pastebin from your IP you just need to use curl with mozilla useragent and also include the cookie from _ga and cf_clearance. 
+
+Here is an example how you can scrape pastebin again without pay for another month of PRO account:
+
+    curl -Ls 'https://scrape.pastebin.com/api_scraping.php' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Cookie: _ga=GAx.x.xxxxxxxxxx.xxxxxxxxx0; cf_clearance=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxxxxx-x-xxxxxxxx-xxx'|grep -i full_url|awk -F'"' '{print $4}'|sed 's/.com/.com\/raw/g' 
+
+As you can see I got no PRO account on this IP, but I am able to scrape Pastebin so remove your card from this place :-) 
+
+![Screenshot](https://nr1.nu/f/yvggy.png)
+![Screenshot](https://nr1.nu/f/jddfi.png)
+
 ### About: 
 
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
