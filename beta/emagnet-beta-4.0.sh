@@ -139,7 +139,7 @@ emagnet_version() {
 
 #### Just for make it easier to read main script
 emagnet_clear() { 
-    clear
+clear
 }
 
 
@@ -324,8 +324,14 @@ cat "$HOME/.config/emagnet/tmp/.emagnet1"|sort|cut -d/ -f5 > "$HOME/.config/emag
 grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" |awk -F, '!seen[$1]++'|sed "s/^/https:\/\/pastebin.com\/raw\//g" > "$HOME/.config/emagnet/tmp/.emagnet"
 rm "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" &> /dev/null
 
-# Downloading new pastes we found, no duplicates will be downloaded of course
-      xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
+# BETA TEST
+while read line; do
+curl -sL $PASTEBIN \
+    -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
+    -H 'Cookie: _ga=GA1.2.1092992254.1592458160; cf_clearance=127618303dfe7f40fd4bed06784b682ff11e9492-1593096187-0-d1784d20-250' \
+    -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::'); \
+    done < "$HOME/.config/emagnet/tmp/.emagnet1" &> /dev/null
+      #xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
       tt="$(ls $EMAGNETTEMP| wc -l)"
 
 # Count stats and print them in realtime
