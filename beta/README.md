@@ -9,5 +9,5 @@ Get the latest version that is beeing used and try beta features, this may be un
 
 #### Have fun!
 
-From pastebin dev team? You suck! 
+From pastebin dev team? Go *cry*! 
 
