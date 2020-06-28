@@ -1,4 +1,4 @@
-# EMAGNE BETA - 4.0
+# EMAGNE BETA - v4.0
 
 Get the latest version that is beeing used and try beta features, this may be unstable so please don't report issues for this script.
 
