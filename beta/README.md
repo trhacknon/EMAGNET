@@ -1,7 +1,7 @@
 # EMAGNE BETA - Version 4.0
 
 ### Emagnet Beta
-Get the latest version that is beeing used at the moment - Want to get all latest uploads from pastebin and be updated, then run beta/emagnet-beta-4.0.sh
+Get the latest version that is beeing used at the moment and try beta features, this may be unstable so please don't report issues for this script.
 
 #### Beta using nr1.nu for find latest uploads but using pastebin.com for download files from pastebin - Does not support any auto-bruter method atm, please see my other repos for be able to brute-force the accounts from emagnet/logs/passwords-from-pastebin.txt manually
      git clone https://github.com/wuseman/emagnet
