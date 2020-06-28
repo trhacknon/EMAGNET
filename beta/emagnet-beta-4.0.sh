@@ -315,14 +315,18 @@ emagnet_main() {
 #      grep -qi "TO GET ACCESS" /$EMAGNETTEMP/.status
 #        if [[ "$?" = "0" ]]; then emagnet_api;fi
 #      rm $EMAGNETTEMP/.status &> /dev/null
-#  fi
+#  fi#
+# ------------------------------------------------------------
+# BETA - CHOOSE ONE?
+#curl -s https://scrape.pastebin.com/api_scraping.php -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Cookie: _ga=GA1.2.1092992254.1592458160; cf_clearance=427618303dfe7f40fd4bed06784b682ff11e9492-1593096187-0-d1784d20-250'|egrep -oi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' > $HOME/.config/emagnet/tmp/.emagnet-temp1
+#grep -qEoi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' $HOME/.config/emagnet/tmp/.emagnet-temp1
+# ------------------------------------------------------------
 
-curl -H "$USERAGENT" -Ls ${PASTEBIN} > $HOME/.config/emagnet/tmp/.emagnet1
-grep -q "raw" $HOME/.config/emagnet/tmp/.emagnet1
-ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.1"
-cat "$HOME/.config/emagnet/tmp/.emagnet1"|sort|cut -d/ -f5 > "$HOME/.config/emagnet/tmp/.2"
-grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" |awk -F, '!seen[$1]++'|sed "s/^/https:\/\/pastebin.com\/raw\//g" > "$HOME/.config/emagnet/tmp/.emagnet"
-rm "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" &> /dev/null
+curl -sL -H "$USERAGENT" -Ls ${PASTEBIN} > $HOME/.config/emagnet/tmp/.emagnet-temp1
+ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
+cat "$HOME/.config/emagnet/tmp/.emagnet-temp1"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp3"
+grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3"|awk -F= '{print $2}' |awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet"
+rm "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp2" &> /dev/null
 
 # BETA TEST
 while read line; do
@@ -330,7 +334,9 @@ curl -sL $PASTEBIN \
     -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
     -H 'Cookie: _ga=GA1.2.1092992254.1592458160; cf_clearance=127618303dfe7f40fd4bed06784b682ff11e9492-1593096187-0-d1784d20-250' \
     -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::'); \
-    done < "$HOME/.config/emagnet/tmp/.emagnet1" &> /dev/null
+done < "$HOME/.config/emagnet/tmp/.emagnet" &> /dev/null
+
+      
       #xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
       tt="$(ls $EMAGNETTEMP| wc -l)"
 
