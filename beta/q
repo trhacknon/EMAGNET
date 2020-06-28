@@ -1,0 +1,9 @@
+#!/bin/bash
+. /root/.config/emagnet/emagnet.conf
+while read line; do
+curl -sL $PASTEBIN \
+    -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
+    -H 'Cookie: _ga=GA1.2.1092992254.1592458160; cf_clearance=127618303dfe7f40fd4bed06784b682ff11e9492-1593096187-0-d1784d20-250' \
+    -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::'); \
+    done < $HOME/.config/emagnet/tmp/.emagnet
+
