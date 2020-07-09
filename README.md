@@ -17,7 +17,7 @@
 
 ### About: 
 
-Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin with the data we want to collect. 
+Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin w
 
 #### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
 
@@ -25,7 +25,17 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 ### Emagnet Beta
 
-Use beta version for be updated - ![Emagnet Beta - v4.0](https://github.com/wuseman/EMAGNET/tree/emagnet/beta) 
+Use beta version for be updated - [Emagnet Beta - v4.0](https://github.com/wuseman/EMAGNET/tree/emagnet/beta) 
+ 
+- My server has been disconnected from the rack and my nic slot has been suspended due suspicion of illegal activity by russian law by offering urls that requires a pro membership, now things become ridiculous how things in few weeks have turned against everything emagnet does.
+
+- Now, they have made it difficult to continue maintain this project until I get another server up and running in another country, since you will now only download syntaxes that is *not* used as default (this removes - almost all uploads since mostly ppl does not use any syntax when sharing text on pastebin)
+
+- In theory this means: none *active* pro-members will be able to list recent uploads anymore wich means we cant see recent uploads unless you have access to  scrape.pastebin.com/api.php , and snce they *really* closed the opportunity to become a pro member for new and old members things become really hard, unless you got a friend that share urls like I did on my server. 
+
+- Understand, what they removed from recent uploads by visit: https://pastebin.com/archive -> then try to visit the default syntaxes section: https://pastebin.com/archive/text - the only section that was removed from recent uploads - get it? Cool!
+
+As soon as I got another server up in another country and things works again - wich will be within few days - you wont see this message anymore .  :-)
 
 ### Getting Started
 
