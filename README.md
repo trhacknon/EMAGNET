@@ -35,7 +35,11 @@ Use beta version for be updated - [Emagnet Beta - v4.0](https://github.com/wusem
 
 - Understand this better by vist https://pastebin.com/languages -> choose any syntax and you will list recent uploads -> now visit the default syntax section: https://pastebin.com/archive/text - it affects no one more then emagnet users and few other scrapers that have been using this section without any api key for free - get it? Cool!
 
-As soon as I got another server up in another country and things works again - wich will be within few days - you wont see this message anymore .  :-)
+~~As soon as I got another server up in another country and things works again - wich will be within few days - you wont see this message anymore .  :-)~~
+
+Alright, 30 minutes after I added above message I got things up and running, things works as before now lets see how stable it works for handle the traffic.
+
+Cheers! :) 
 
 ### Getting Started
 
