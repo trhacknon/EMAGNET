@@ -31,7 +31,7 @@ Use beta version for be updated - [Emagnet Beta - v4.0](https://github.com/wusem
 
 - Now, they have made it difficult to continue maintain this project until I get another server up and running in another country, since you will now only download syntaxes that is *not* used as default (this removes - almost all uploads since mostly ppl does not use any syntax when sharing text on pastebin)
 
-- In theory this means: none *active* pro-members will be able to list recent uploads anymore wich means we cant see recent uploads unless you have access to  scrape.pastebin.com/api.php , and snce they *really* closed the opportunity to become a pro member for new and old members things become really difficult to maintain without my server for host files - Maybe you know someone that that want be kind and share urls like I did on my server and then add your friends domain to PASTEBIN= in ~/.config/emagnet.conf
+- In theory this means: none *active* pro-members will be able to list recent uploads anymore wich means we cant see recent uploads unless you have access to  scrape.pastebin.com/api.php , and snce they *really* closed the opportunity to become a pro member for new and old members things become really difficult to maintain without my server for host files - Maybe you know someone that that is willing to help you and share the the urls same way as I did on my server, then add your friends domain were urls are stored to PASTEBIN=, in ~/.config/emagnet.conf. Or you can setup a tunnel or a vpn aswell from the whitelisted ip.
 
 - Understand this better by vist: https://pastebin.com/archive -> visit any section and you will see what's shared, excempt on the default syntax section: https://pastebin.com/archive/text -  get it? Cool!
 
