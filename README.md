@@ -33,7 +33,7 @@ Use beta version for be updated - [Emagnet Beta - v4.0](https://github.com/wusem
 
 - In theory this means: none *active* pro-members will be able to list recent uploads anymore wich means we cant see recent uploads unless you have access to  scrape.pastebin.com/api.php , and snce they *really* closed the opportunity to become a pro member for new and old members things become really hard, unless you got a friend that share urls like I did on my server. 
 
-- Understand what happend by vist: https://pastebin.com/archive -> now try visit the default syntaxes section and see any data: https://pastebin.com/archive/text -  get it? Cool!
+- Understand this better by vist: https://pastebin.com/archive -> visit any section and you will see what's shared, excempt on the default syntax section: https://pastebin.com/archive/text -  get it? Cool!
 
 As soon as I got another server up in another country and things works again - wich will be within few days - you wont see this message anymore .  :-)
 
