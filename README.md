@@ -39,6 +39,11 @@ Use beta version for be updated - [Emagnet Beta - v4.0](https://github.com/wusem
 
 Alright, 30 minutes after I added above message I got things up and running, things works as before now lets see how stable it works for handle the traffic.
 
+All from : scrape.pastebin.com/api.php is now available as free on below links, change date if you check this manually to current date. 
+
+https://nr1.nu/emagnet/pastebin/2020-07-09/pastebin.txt
+https://nr1.nu/emagnet/pastebin/2020-07-09/pastebin-full.txt 
+
 Cheers! :) 
 
 ### Getting Started
