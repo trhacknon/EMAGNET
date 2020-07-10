@@ -40,7 +40,6 @@
 ###############################################################################
 #################################################################################
 ### Last Modified: 01:55:09 - 2020-07-11
-CURRENT_VERSION="4.0"
 
 # First, check if we using right config file...
 emagnet_check_version() {
@@ -57,16 +56,6 @@ fi
 emagnet_mustberoot() {
       (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1
   }
-
-
-
-
-
-
-
-
-
-
 
 emagnet_banner() {
 cat << "EOF"
@@ -1020,8 +1009,9 @@ emagnet_main() {
       pl=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" "$EMAGNETTEMP"|awk '{print $1}'|cut -d':' -f2,3|cut -d'|' -f1|awk -F, '!seen[$1]++'|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'\|'index.html'\|'alerts'|grep -v '/')
       pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETTEMP|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v /|wc -l)
          if [[ "${tt}" -eq "0" ]]; then
+           tt=0$tt
            grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' "$EMAGNETTEMP"|cut -d: -f1|tr ' ' '\n'
-	         printf "[\e[1;31m<<\e[0m] - No new files could be downloaded..\n[\e[1;31m<<\e[0m] - Increase time or you will get banned anytime now..\n\n"
+           printf "[\e[1;31m<<\e[0m] - No new files could be downloaded..\n[\e[1;31m<<\e[0m] - Increase time or you will get banned anytime now..\n\n"
       	   sleep 5 # Sleep here for make some room, this will not cause any problems with missing files
            emagnet_clear;emagnet_banner
          else
