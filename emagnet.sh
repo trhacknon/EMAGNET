@@ -269,7 +269,6 @@ INSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g')"
      echo -e "$basename$0: killed $(echo $NRESESSIONS-2|bc) emagnet sessions"
      kill -9 $ESESSIONS &> /dev/null
    fi
-fi
 }
 
 ###############################################################################
