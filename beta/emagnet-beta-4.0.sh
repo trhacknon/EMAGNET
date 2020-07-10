@@ -326,18 +326,22 @@ curl -sL -H "$USERAGENT" -Ls ${PASTEBIN} > $HOME/.config/emagnet/tmp/.emagnet-te
 ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
 cat "$HOME/.config/emagnet/tmp/.emagnet-temp1"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp3"
 grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3"|awk -F= '{print $2}' |awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet"
-rm "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp2" &> /dev/null
+rm "$HOME/.config/emagnet/tmp/.emagnet-temp1" "$HOME/.config/emagnet/tmp/.emagnet-temp2" &> /dev/null
 
 # BETA TEST
-while read line; do
-curl -sL $PASTEBIN \
-    -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
-    -H 'Cookie: _ga=GA1.2.1092992254.1592458160; cf_clearance=127618303dfe7f40fd4bed06784b682ff11e9492-1593096187-0-d1784d20-250' \
-    -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::'); \
-done < "$HOME/.config/emagnet/tmp/.emagnet" &> /dev/null
+#while read line; do
+#curl -sL $PASTEBIN \
+#     -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H \
+#     -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' \
+#     -H 'Cookie: __cfduid=d2e18fdc6a3d38ee3d6c8cc5b203196491594393380; cf_clearance=98336182d164990db56c6bde6fa1b9322a73784c-1594393403-0-1za25cfc5cze628b45azf578cfb9-250; PHPSESSID=hiboik4gpc7ukqp7ub7htumn37; _ga=GA1.2.1253238121.1594400611; _gid=GA1.2.800917015.1594400611; __gads=ID=883426bbab8ac903:T=1594393407:S=ALNI_MbZ7LSFU0ozRmh-P-RFqSDlQjsOZQ; _gat_UA-58643-34=1' \
+#     -H 'Upgrade-Insecure-Requests: 1' \
+#     -H 'Cache-Control: max-age=0' \
+#     -H 'TE: Trailers'
+#    -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::');
+#done < "$HOME/.config/emagnet/tmp/.emagnet-temp3" &> /dev/null
 
       
-      #xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
+      xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
       tt="$(ls $EMAGNETTEMP| wc -l)"
 
 # Count stats and print them in realtime

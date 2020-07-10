@@ -252,15 +252,23 @@ emagnet_notice_about_scraping() {
 #### If you have a ghost session of emagnet use ./emagnet -k               ####
 ###############################################################################
 emagnet_kill() {
-ESESSIONS=$(ps aux|grep -i "emagnet"|sed '$d'|awk '{print $2}')
-NRESESSIONS=$(ps aux|grep -i "emagnet"|sed '$d'|awk '{print $2}'|wc -l)
+ESESSIONS=$(ps aux|grep -i emagnet |awk '{print $2}'|sed '$d')
+NRESESSIONS=$(ps aux|grep -i "emagnet"|awk '{print $2}'|sed '$d'|wc -l)
 NRINSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g'|wc -l)"
 INSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g')"
- if [[ "$INSCREEN" -gt "0" ]]; then for screens in "$INSCREEN"; do screen -X -S "$screens" kill; [[ "$?" = "0" ]] &&  echo -e "[\e[1;31m<<\e[0m] - $NRINSCREEN emagnet screens has been killed\n"; done;fi
- if [[ "$NRESESSIONS" -lt "3" ]]; then 
- 	echo -e "$basename$0: internal error -- 0 emagnet sessions is currently running";else 
- 	echo -e "$basename$0: killed $(echo $NRESESSIONS-2|bc) emagnet sessions"
-    kill -SIGKILL "$ESESSIONS" &> /dev/null
+
+ if [[ "$INSCREEN" -gt "0" ]]; then 
+   for screens in "$INSCREEN"; do 
+    screen -X -S "$screens" kill; 
+    [[ "$?" = "0" ]] &&  echo -e "[\e[1;31m<<\e[0m] - $NRINSCREEN emagnet screens has been killed\n"
+    done
+ fi
+   
+   if [[ "$NRESESSIONS" -lt "3" ]]; then 
+     echo -e "$basename$0: internal error -- 0 emagnet sessions is currently running";else 
+     echo -e "$basename$0: killed $(echo $NRESESSIONS-2|bc) emagnet sessions"
+     kill -9 $ESESSIONS &> /dev/null
+   fi
 fi
 }
 
@@ -564,7 +572,9 @@ fi
 }
 
 emagnet_count_down() {
-            emagnet_paths;emagnet_conf
+            emagnet_paths
+            emagnet_conf
+
 if [[ "$GBRUTEFORCE" = "true" ]]; then
        	    sed -i '125d' "$CONF"
       	    sed -i '125 i GBRUTEFORCE=true' "$CONF"
@@ -573,55 +583,57 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
             sed -i '127d' "$CONF"
       	    sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
-     	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
+     	      sed -i '128 i IBRUTEFORCE=false' "$CONF"
             sed -i '129d' "$CONF"
-     	    sed -i '129 i RBRUTEFORCE=false' "$CONF"     	    
+     	      sed -i '129 i RBRUTEFORCE=false' "$CONF"     	    
             emagnet_conf
             printf "%19s \e[1;31m$(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mi\e[0;32mL\e\e[0m") BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
+
 	  elif [[ "$SBRUTEFORCE" = "true" ]]; then
       	    sed -i '125d' "$CONF"
-     	    sed -i '125 i GBRUTEFORCE=false' "$CONF"
+     	      sed -i '125 i GBRUTEFORCE=false' "$CONF"
       	    sed -i '126d' "$CONF"
             sed -i '126 i SBRUTEFORCE=true' "$CONF"
             sed -i '127d' "$CONF"
-     	    sed -i '127 i PBRUTEFORCE=false' "$CONF"
+     	      sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
-     	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
+     	      sed -i '128 i IBRUTEFORCE=false' "$CONF"
             sed -i '129d' "$CONF"
-     	    sed -i '129 i RBRUTEFORCE=false' "$CONF" 
+     	      sed -i '129 i RBRUTEFORCE=false' "$CONF" 
             emagnet_conf
             printf "%18s \e[0;32mSPOTIFY\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
+
 	  elif [[ "$PBRUTEFORCE" = "true" ]]; then
             sed -i '125d' "$CONF"
-     	    sed -i '125 i GBRUTEFORCE=false' "$CONF"
+     	      sed -i '125 i GBRUTEFORCE=false' "$CONF"
       	    sed -i '126d' "$CONF"
-     	    sed -i '126 i SBRUTEFORCE=false' "$CONF"
+     	      sed -i '126 i SBRUTEFORCE=false' "$CONF"
             sed -i '127d' "$CONF"
-     	    sed -i '127 i PBRUTEFORCE=true' "$CONF"
+     	      sed -i '127 i PBRUTEFORCE=true' "$CONF"
             sed -i '128d' "$CONF"
-     	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
+     	      sed -i '128 i IBRUTEFORCE=false' "$CONF"
             sed -i '129d' "$CONF"
-     	    sed -i '129 i RBRUTEFORCE=false' "$CONF" 
+     	      sed -i '129 i RBRUTEFORCE=false' "$CONF" 
             emagnet_conf
             printf "%20s \e[1;34mSSH\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
 
 	  elif [[ "$IBRUTEFORCE" = "true" ]]; then
-	        sed -i '125d' "$CONF"
-     	    sed -i '125 i GBRUTEFORCE=false' "$CONF"
+	          sed -i '125d' "$CONF"
+     	      sed -i '125 i GBRUTEFORCE=false' "$CONF"
       	    sed -i '126d' "$CONF"
-     	    sed -i '126 i SBRUTEFORCE=false' "$CONF"
+     	      sed -i '126 i SBRUTEFORCE=false' "$CONF"
             sed -i '127d' "$CONF"
-     	    sed -i '127 i PBRUTEFORCE=false' "$CONF"
+     	      sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
-     	    sed -i '128 i IBRUTEFORCE=true' "$CONF"
+     	      sed -i '128 i IBRUTEFORCE=true' "$CONF"
             sed -i '129d' "$CONF"
-     	    sed -i '129 i RBRUTEFORCE=false' "$CONF" 
+     	      sed -i '129 i RBRUTEFORCE=false' "$CONF" 
             emagnet_conf
             printf "%20s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
@@ -798,15 +810,15 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
 #                     |cut -d':' -f2,3 \
 #                     |cut -d'|' -f1 \
 #                     |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
-              	        echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
-            	        echo -e "================================================================"      >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-             	        echo -e "[+] Login Details For SPOTIFY - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"   >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-              	        echo -e "[+]------------------------------------------------------------"       >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-             	        echo -e "[+] Username: ${SPOTIFY_USER}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-                      	echo -e "[+] Password: ${SPOTIFY_PASS}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-             	        echo -e "================================================================\n\n"  >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-               	        echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}" >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
-                       	echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"   >>    "$HOME/.config/emagnet/tmp/.emagnet-failed"
+              	       echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
+            	         echo -e "================================================================"      >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+             	         echo -e "[+] Login Details For SPOTIFY - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"   >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+              	       echo -e "[+]------------------------------------------------------------"       >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+             	         echo -e "[+] Username: ${SPOTIFY_USER}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+                       echo -e "[+] Password: ${SPOTIFY_PASS}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+             	         echo -e "================================================================\n\n"  >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+               	       echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}" >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
+                       echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"   >>    "$HOME/.config/emagnet/tmp/.emagnet-failed"
               fi
             done < $SPOTIFY_TARGETS
 
@@ -933,6 +945,23 @@ fi
 }
 
 emagnet_main() {
+# This is not in use, use this when using pastebin.com ias
+# ------------------------------------------------------------
+#  if [[ $? -gt "0" ]]; then
+#    curl -s -H "$USERAGENT" https://scrape.pastebin.com/api_scraping.php > $EMAGNETTEMP/.status
+#      grep -qi "blocked your IP" /$EMAGNETTEMP/.status
+#        if [[ "$?" = "0" ]]; then emagnet_banned;fi    
+#      grep -qi "is under heavy load right now" /$EMAGNETTEMP/.status
+#        if [[" $?" = "0" ]]; then emagnet_heavyload;fi 
+#      grep -qi "TO GET ACCESS" /$EMAGNETTEMP/.status
+#        if [[ "$?" = "0" ]]; then emagnet_api;fi
+#      rm $EMAGNETTEMP/.status &> /dev/null
+#  fi#
+# ------------------------------------------------------------
+# BETA - CHOOSE ONE?
+#curl -s https://scrape.pastebin.com/api_scraping.php -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Cookie: _ga=GA1.2.1092992254.1592458160; cf_clearance=427618303dfe7f40fd4bed06784b682ff11e9492-1593096187-0-d1784d20-250'|egrep -oi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' > $HOME/.config/emagnet/tmp/.emagnet-temp1
+#grep -qEoi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' $HOME/.config/emagnet/tm
+
     # Check if PROXY is set to true (ssh/tunnel)
     if [[ $PROXY = "true" ]]; then 
       CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT "
