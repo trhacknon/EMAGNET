@@ -25,10 +25,6 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 
 - Emagnet is No.1 tool for fetch these leaks from pastebin
 
-### Emagnet Beta
-
-Use beta version for be updated - [Emagnet Beta - v4.0](https://github.com/wuseman/EMAGNET/tree/emagnet/beta) 
-
 ### Getting Started
 
     git clone https://github.com/wuseman/emagnet
