@@ -28,26 +28,6 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 ### Emagnet Beta
 
 Use beta version for be updated - [Emagnet Beta - v4.0](https://github.com/wuseman/EMAGNET/tree/emagnet/beta) 
- 
-- My server has been disconnected from the rack and my nic slot has been suspended due suspicion of illegal activity by russian law by offering urls that requires a pro membership, now things become ridiculous how things in few weeks have turned against everything emagnet does.
-
-- Now, they have made it difficult to continue maintain this project until I get another server up and running in another country, since you will now only download syntaxes that is *not* used as default (this removes - almost all uploads since mostly ppl does not use any syntax when sharing text on pastebin)
-
-- In theory this means: none *active* pro-members will be able to list recent uploads anymore wich means we cant see recent uploads unless you have access to  scrape.pastebin.com/api.php , and snce they *really* closed the opportunity to become a pro member for new and old members things become really difficult to maintain without my server for host files - Maybe you know someone that that is willing to help you and share the the urls same way as I did on my server, then add your friends domain were urls are stored to PASTEBIN=, in ~/.config/emagnet.conf. Or you can setup a tunnel or a vpn aswell from the whitelisted ip.
-
-- Understand this better by vist https://pastebin.com/languages -> choose any syntax and you will list recent uploads -> now visit the default syntax section: https://pastebin.com/archive/text - it affects no one more then emagnet users and few other scrapers that have been using this section without any api key for free - get it? Cool!
-
-~~As soon as I got another server up in another country and things works again - wich will be within few days - you wont see this message anymore .  :-)~~
-
-Alright, 30 minutes after I added above message I got things up and running, things works as before now lets see how stable it works for handle the traffic.
-
-All from : scrape.pastebin.com/api.php is now available as free on below links, change date if you check this manually to current date. 
-
-https://nr1.nu/emagnet/pastebin/2020-07-09/pastebin.txt
-
-https://nr1.nu/emagnet/pastebin/2020-07-09/pastebin-full.txt 
-
-Cheers! :) 
 
 ### Getting Started
 
