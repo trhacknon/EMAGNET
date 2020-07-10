@@ -39,8 +39,8 @@
 ####                                                                       ####
 ###############################################################################
 #################################################################################
-### Last Modified: 15:37:40 - 2020-05-20
-
+### Last Modified: 01:55:09 - 2020-07-11
+CURRENT_VERSION="4.0"
 
 # First, check if we using right config file...
 emagnet_check_version() {
@@ -52,6 +52,21 @@ grep -qio 'version=[0-9].*' $HOME/.config/emagnet/emagnet.conf
    fi
 fi
 }
+
+#### Some functions require root on almost all distros, installing missing packages for example.
+emagnet_mustberoot() {
+      (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1
+  }
+
+
+
+
+
+
+
+
+
+
 
 emagnet_banner() {
 cat << "EOF"
@@ -121,7 +136,6 @@ EOF
 CONF="$HOME/.config/emagnet/emagnet.conf"
 emagnet_required_stuff(){ if ! [[ -d "$HOME/.config/emagnet/" ]]; then mkdir -p "$HOME/.config/emagnet/tmp";fi;cp "./emagnet.conf" $HOME/.config/emagnet/;}
 emagnet_conf(){ CONF="$HOME/.config/emagnet/emagnet.conf";. "$CONF" ;}
-emagnet_mustberoot(){(( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1;  }
 emagnet_clear(){ clear;}
 emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
 emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;curl -sL "https://nr1.nu/emagnet/emagnet_license.md"|less;printf "%s\n" "Thank you.." ;}
@@ -1201,7 +1215,7 @@ emagnet_findcreditcards() {
 # and it will only grep files that includes
 # a cc card number togheter with any of the words above
     grep -riE "[2-6][0-9]{3}([ -]?)[0-9]{4}([ -]?)[0-9]{4}([ -]?)[0-9]{3,4}([ -]?)[0-9]{0,3}[^a-zA-Z]?"i $EMAGNET \
-    |grep -i 'Visa.*\|Creditcard\|credit\ card\|CC Number\|Card Info'
+    |grep -i 'Visa.*\|Creditcard\|credit\ card\|CC Number\|Card Info\|mastercard.*\*.mastercard\|*.visa'
 }
 
 emagnet_findipv4addresses() {
