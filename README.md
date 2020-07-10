@@ -1,5 +1,7 @@
 # EMAGNET v3.4.2
 
+### Before you using emagnet, please remember that with great power comes great responsibility. 
+
 ## <p align="center">![Screenshot](https://repository-images.githubusercontent.com/165741206/f9087e00-397d-11ea-9cab-1aea419f9448)
 
 | Current Version    | News                            | Tested On                          |
