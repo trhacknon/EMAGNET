@@ -201,6 +201,7 @@ emagnet_move_realtime() {
 
 # Check if we are allowed to visit pastebin before doing next function
 emagnet_check_pastebin() {
+emagnet_conf
   curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
     grep -qi "blocked your IP" /$EMAGNETTEMP/.status
     if [[ "$?" = "0" ]]; then 
@@ -209,7 +210,7 @@ emagnet_check_pastebin() {
       exit 1
     fi       
       grep -qi "is under heavy load right now" /$EMAGNETTEMP/.status
-   if [[" $?" = "0" ]]; then 
+   if [[ "$?" = "0" ]]; then 
       echo -e "$basename$0: internal error -- pastebin is under heavy load, please try again in a few seconds.."
       exit 1
   fi 
