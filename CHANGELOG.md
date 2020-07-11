@@ -12,6 +12,26 @@ r = RE-ADDED FEATURE FROM AN EARLIER VERSION
 R = REBUILT
 
 
+# Version 3.4.3
+
++    Almost entire emagnet_main function, the heart of emagnet is changed since we changed how we list files and check things for not download dupes.
++    Changed source for get newest uploads from pastebin (notice: be careful here if you didnt run emagnet before, you will probably be banned due ALOT of downloads)
+     pastebin.com is now https://nr1.nu/emagnet/pastebin/$(date +%Y-%m-%d)/pastebin.txt in emagnet.conf under PASTEBIN= (source, variable name will be changed)
++    Added current_version to mainscript so we can differ versions if config file is for another version
++    Function: emagnet_requirements renamed to emagnet_required_tools
++    Function: emagnet_quiet renamed to emagnet_screen
++    Removed functions that was useless after we changed to nr1.nu instead for recent uploads: 
+     emagnet_heavyload,emagnet_blocked, emagnet_api, emagnet_notice_about_scraping
++    Functions that are removed from script but will be readded if we got banned from pastebin because downloading:
+     emagnet_wasibanned, emagnet_I_was_banned, emagnet_vpnsetup
++    Added 'root' as default pass for ssh bruteforcer
++    pastebin.com is now gone, using PASTEBIN=https://nr1.nu/emagnet/pastebin/$(date +%Y-%m-%d)/pastebin.txt
++    We do not use patebin for get recent pastes anymore since they removed it from all public lists, new source is nr1.nu/emagnet/YYYY-MM-DD/daily_dir/pastebin.txt
++    Removed notify-send from main function (not removed from emagnet.conf yet)
++    Option for -v, -vpn, --vpn is temporary moved until we readd functions for set a country (this will be rebuilt)
++    emagnet_check_pastebin was added for check if everything is fine when visits pastebin
++    Prtaudio message when bruteforcing with spotify, we fixed typos also message for libspotify was added
+
 # Version 3.4.2
 
 +    Added  better support for requirements, changed hash/which

@@ -40,8 +40,70 @@
 ###############################################################################
 #################################################################################
 ### Last Modified: 01:55:09 - 2020-07-11
+CURRENT_VERSION="3.4.2"
 
-# First, check if we using right config file...
+#### Author of emagnet will be printed if --author or -a is being used
+emagnet_author() {
+cat << "EOF"
+
+ Copyright (C) 2018-2019, wuseman
+
+ Emagnet was founded in 2015 and was released as open source
+ on github.com/wuseman/emagnet in January 2018 and is licensed
+ under GNU LESSER GENERAL PUBLIC LICENSE GPLv3
+
+   - Author: wuseman <wuseman@nr1.nu>
+   - IRC   : wuseman <irc.freenode.com>
+
+ Please report bugs/issues on:
+
+   - https://github.com/wuseman/EMAGNET/issues
+
+EOF
+}
+
+#### Check so we are running correct version of emagnet 
+emagnet_conf() {
+if ! [[ -f "$HOME/.config/emagnet/emagnet.conf" ]]; then
+    mkdir -p "$HOME/.config/emagnet/tmp"
+    cp "./emagnet.conf" $HOME/.config/emagnet/ &> /dev/null
+fi
+
+      if [[ "$?" -gt "0" ]]; then
+          echo -e "$basename$0: internal error -- Can't find emagnet.conf, please move it to $HOME/.config/emagnet/ manually...."
+          echo -e "$basename$0: internal error -- Download correct config file from https://github.com/wuseman/emagnet"
+          echo -e "$basename$0: internal error -- When you got the correct version, move emagnet.conf into $HOME/.config/emagnet/ and please try again"
+          exit 1
+      fi
+
+    CONF="$HOME/.config/emagnet/emagnet.conf"
+    source "$CONF" &> /dev/null
+}
+
+#### Required tools for emagnet
+emagnet_required_tools() {
+     for cmd in wget curl; do 
+         which $cmd &> /dev/null
+             if [[ "$?" -gt 0 ]]; then 
+                 echo -e "$basename$0: internal error -- $cmd is required to be installed, exiting."
+                 exit 1
+             fi
+     done
+}
+
+#### If we are on wrong version, then stop!
+emagnet_version() {
+    if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
+               echo -e "$basename$0: internal error -- You are using an old emagnet.conf..."
+               echo -e "$basename$0: internal error -- Download correct config file from https://github.com/wuseman/emagnet"
+               echo -e "$basename$0: internal error -- When you got the correct version, move emagnet.conf into $HOME/.config/emagnet/ and please try again"
+               mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak
+               exit 1 
+    fi
+}
+
+
+# Check if we using right config file...
 emagnet_check_version() {
 if [[ -f $HOME/.config/emagnet/emagnet.conf ]]; then
 grep -qio 'version=[0-9].*' $HOME/.config/emagnet/emagnet.conf
@@ -57,6 +119,108 @@ emagnet_mustberoot() {
       (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1
   }
 
+#### Print LICENSE
+emagnet_license(){
+  printf "%s\n" "Printing LICENSE - Use 'q' to quit"
+  sleep 2
+  curl -sL "https://nr1.nu/emagnet/emagnet_license.md"|less
+  printf "%s\n" "Thank you.." 
+}
+
+emagnet_required_stuff() { 
+     if ! [[ -d "$HOME/.config/emagnet/" ]];then 
+      mkdir -p "$HOME/.config/emagnet/tmp"
+     fi
+     cp "./emagnet.conf" $HOME/.config/emagnet/
+}
+
+#### UP NEXT! We can remove alot of old stuff in here, will be up next!
+#### Paths that must be filled
+emagnet_mustbefilled() {
+  if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
+  if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/nr1.nu\/emagnet\/pastebin/\$(date +%Y-%m-%d)\/pastebin.txt'                                                                                     "$CONF";fi
+  if [[ -z "$TIME"           ]];then sed -i '30d'  "$CONF";sed -i "30  i TIME=200"                                                                                                                "$CONF";fi
+  if [[ -z "$MYIP"           ]];then sed -i '40d'  "$CONF";sed -i "40  i MYIP=$(curl -s https://nr1.nu/i/)"                                                                                       "$CONF";fi
+  if [[ -z "$WIP"            ]];then sed -i '50d'  "$CONF";sed -i '50  i WIP=https:\/\/nr1.nu\/i\/'                                                                                               "$CONF";fi
+  if [[ -z "$WIP2"           ]];then sed -i '51d'  "$CONF";sed -i '51  i WIP2=https:\/\/ifconfig.co'                                                                                                                   "$CONF";fi
+  if [[ -z "$EMAGNET"        ]];then sed -i '70d'  "$CONF";sed -i '70  i EMAGNET=$HOME/emagnet'                                                                                                   "$CONF";fi
+  if [[ -z "$EMAGNETHOME"    ]];then sed -i "71d"  "$CONF";sed -i '71  i EMAGNETHOME=$EMAGNET\/incoming\/$(date +%Y-%m-%d)'                                                                       "$CONF";fi
+  if [[ -z "$EMAGNETLOGS"    ]];then sed -i "72d"  "$CONF";sed -i '72  i EMAGNETLOGS=$EMAGNETHOME/logs'                                                                                           "$CONF";fi
+  if [[ -z "$EMAGNETPW"      ]];then sed -i "73d"  "$CONF";sed -i '73  i EMAGNETPW=$EMAGNETHOME\/password-files'                                                                                  "$CONF";fi
+  if [[ -z "$EMAGNETALL"     ]];then sed -i "74d"  "$CONF";sed -i '74  i EMAGNETALL=$EMAGNETHOME\/all-files'                                                                                      "$CONF";fi
+  if [[ -z "$EMAGNETCRAP"    ]];then sed -i "75d"  "$CONF";sed -i '75  i EMAGNETCRAP=$EMAGNETHOME\/.pastebin'                                                                                     "$CONF";fi
+  if [[ -z "$EMAGNETTEMP"    ]];then sed -i "76d"  "$CONF";sed -i '76  i EMAGNETTEMP=$EMAGNETHOME\/.temp'                                                                                         "$CONF";fi
+  if [[ -z "$EMAGNETARCHIVE" ]];then sed -i "77d"  "$CONF";sed -i '77  i EMAGNETARCHIVE=$EMAGNET/archive'                                                                                         "$CONF";fi
+  if [[ -z "$EMAGNETDB"      ]];then sed -i "78d"  "$CONF";sed -i '78  i EMAGNETDB=$EMAGNETHOME\/email-files'                                                                                     "$CONF";fi
+  if [[ -z "$EMAGNETBACKUP"  ]];then sed -i "79d"  "$CONF";sed -i '79  i EMAGNETBACKUP=$EMAGNET/backup'                                                                                           "$CONF";fi
+  if [[ -z "$EMAGNETSYNTAX"  ]];then sed -i "80d"  "$CONF";sed -i '80  i EMAGNETSYNTAX=$EMAGNETHOME\/sorted-by-syntax'                                                                            "$CONF";fi
+  if [[ -z "$EMAGNETCRACKED" ]];then sed -i "81d"  "$CONF";sed -i '81  i EMAGNETCRACKED=$EMAGNET/cracked-accounts'                                                                                "$CONF";fi
+  if [[ -z "$VERSION"        ]];then sed -i '90d'  "$CONF";sed -i '90  i VERSION=4.0'                                                                                                             "$CONF";fi
+  if [[ -z "$THREADS"        ]];then sed -i '99d'  "$CONF";sed -i "99  i THREADS=$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')"                                         "$CONF";fi
+  if [[ -z "$IDLETIME"       ]];then sed -i '108d' "$CONF";sed -i "108 i IDLETIME=3600"                                                                                                           "$CONF";fi
+  if [[ -z "$GBRUTEFORCE"    ]];then sed -i '124d' "$CONF";sed -i '124 i GBRUTEFORCE=false'                                                                                                       "$CONF";fi
+  if [[ -z "$SBRUTEFORCE"    ]];then sed -i '125d' "$CONF";sed -i '125 i SBRUTEFORCE=false'                                                                                                       "$CONF";fi
+  if [[ -z "$PBRUTEFORCE"    ]];then sed -i '126d' "$CONF";sed -i '126 i PBRUTEFORCE=false'                                                                                                       "$CONF";fi
+  if [[ -z "$IBRUTEFORCE"    ]];then sed -i '127d' "$CONF";sed -i '127 i IBRUTEFORCE=false'                                                                                                       "$CONF";fi
+  if [[ -z "$BBRUTEFORCE"    ]];then sed -i '128d' "$CONF";sed -i '128 i BBRUTEFORCE='                                                                                                    "$CONF";fi
+  if [[ -z "$CBRUTEFORCE"    ]];then sed -i '129d' "$CONF";sed -i '129 i CBRUTEFORCE='                                                                                                    "$CONF";fi
+  if [[ -z "$DBRUTEFORCE"    ]];then sed -i '130d' "$CONF";sed -i '130 i DBRUTEFORCE='                                                                                                    "$CONF";fi
+  if [[ -z "$EBRUTEFORCE"    ]];then sed -i '131d' "$CONF";sed -i '131 i EBRUTEFORCE='                                                                                                    "$CONF";fi
+  if [[ -z "$EMAIL2SEND"     ]];then sed -i '140d' "$CONF";sed -i '140 i EMAIL2SEND='                                                                                                             "$CONF";fi
+  if [[ -z "$NOTIFY"         ]];then sed -i '149d' "$CONF";sed -i '149 i NOTIFY=false'                                                                                                            "$CONF";fi
+  if [[ -z "$VPN"            ]];then sed -i '161d' "$CONF";sed -i '161 i VPN=false'                                                                                                               "$CONF";fi
+  if [[ -z "$VPNROOT"        ]];then sed -i '162d' "$CONF";sed -i '162 i VPNROOT=/etc/openvpn'                                                                                                    "$CONF";fi
+  if [[ -z "$VPNPROVIDER"    ]];then sed -i '163d' "$CONF";sed -i '163 i VPNPROVIDER=$VPNROOT/'                                                                                                   "$CONF";fi
+  if [[ -z "$VPNCOUNTRYS"    ]];then sed -i '164d' "$CONF";sed -i '164 i VPNCOUNTRYS="belgium bulgaria czhech denmark spain finland uk uk-london uk-manchester greece hongkong hungaria italy"'   "$CONF";fi
+  if [[ -z "$SSHUSER"        ]];then sed -i '176d' "$CONF";sed -i '176 i SSHUSER="root"'                                                                                                          "$CONF";fi
+  if [[ -z "$SSHPORT"        ]];then sed -i '177d' "$CONF";sed -i '177 i SSHPORT="22"'                                                                                                            "$CONF";fi
+  if [[ -z "$SSHPASS"        ]];then sed -i '178d' "$CONF";sed -i '178 i SSHPASS=root'                                                                                                                "$CONF";fi
+  if [[ -z "$SSHTARGETS"     ]];then sed -i '179d' "$CONF";sed -i '179 i SSHTARGETS="$HOME/.config/emagnet/tmp/.emagnet-sshbruter.txt"'                                                           "$CONF";fi
+  if [[ -z "$SSHPORTSCAN"    ]];then sed -i '180d' "$CONF";sed -i '180 i SSHPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
+  if [[ -z "$RDPUSER"        ]];then sed -i '192d' "$CONF";sed -i '192 i RDPUSER="Administrator"'                                                                                                 "$CONF";fi
+  if [[ -z "$RDPPORT"        ]];then sed -i '193d' "$CONF";sed -i '193 i RDPPORT="3389"'                                                                                                          "$CONF";fi
+  if [[ -z "$RDPPASS"        ]];then sed -i '194d' "$CONF";sed -i '194 i RDPPASS="qwerty"'                                                                                                        "$CONF";fi
+  if [[ -z "$RDPTARGETS"     ]];then sed -i '195d' "$CONF";sed -i '195 i RDPTARGETS="$HOME/.config/emagnet/tmp/.emagnet-rdpbruter.txt"'                                                           "$CONF";fi
+  if [[ -z "$RDPPORTSCAN"    ]];then sed -i '196d' "$CONF";sed -i '196 i RDPPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
+  if [[ -z "$USERAGENT"      ]];then sed -i '206d' "$CONF";sed -i '206 i USERAGENT=Mosaic/0.9'                                                                                                    "$CONF";fi
+  if [[ -z "$PROXY"          ]];then sed -i '219d' "$CONF";sed -i '219 i PROXY=false'                                                                                                             "$CONF";fi                                                                                                           
+  if [[ -z "$PROXYHOST"      ]];then sed -i '220d' "$CONF";sed -i '220 i PROXY=localhost'                                                                                                         "$CONF";fi
+  if [[ -z "$PROXYPORT"      ]];then sed -i '221d' "$CONF";sed -i '221 i PROXY=5000'                                                                                                              "$CONF";fi
+  if [[ -z "$PROXYUSER"      ]];then sed -i '222d' "$CONF";sed -i '222 i PROXY=user'                                                                                                              "$CONF";fi
+  if [[ -z "$PROXYPORT"      ]];then sed -i '223d' "$CONF";sed -i '223 i PROXY=password'                                                                                                          "$CONF";fi
+}
+
+# After we downloaded and counted data we want to move all temporary files to all-files
+# and also because we dont want to count data from those files twice...
+emagnet_move_realtime() {
+         mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
+         rm "$HOME/.config/emagnet/tmp/.emagnet" "$HOME/.config/emagnet/tmp/.emagnet1"  &> /dev/null
+ }
+
+
+
+# Check if we are allowed to visit pastebin before doing next function
+emagnet_check_pastebin() {
+  curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
+    grep -qi "blocked your IP" /$EMAGNETTEMP/.status
+    if [[ "$?" = "0" ]]; then 
+      MYIP_PASTEBIN=$(curl -s --insecure https://nr1.nu/i/)
+      echo -e "$basename$0: internal error -- pastebin blocked\e[1;31m $MYIP_PASTEBIN\e[0m, try again within 60 minutes..."
+      exit 1
+    fi       
+      grep -qi "is under heavy load right now" /$EMAGNETTEMP/.status
+   if [[" $?" = "0" ]]; then 
+      echo -e "$basename$0: internal error -- pastebin is under heavy load, please try again in a few seconds.."
+      exit 1
+  fi 
+      grep -qi "TO GET ACCESS" /$EMAGNETTEMP/.status
+   if [[ "$?" = "0" ]]; then 
+      echo -e "$basename$0: internal error -- ${MYIP} does not have access to https://scrape.pastebin.com/api_scraping.php...."
+   fi
+      rm $EMAGNETTEMP/.status &> /dev/null
+}
+
+#### Emagnet maskot
 emagnet_banner() {
 cat << "EOF"
      _                      _______                      _
@@ -77,7 +241,6 @@ cat << "EOF"
    `Mb.           `YMMMb`OOOI,,,,,IOOOO'dMMMP'           ,dM'
      `'                  `OObNNNNNdOO'                   `'
                            `~OOOOO~'
-
 EOF
 printf "%64s \n\n" | tr ' ' '='
 }
@@ -123,137 +286,56 @@ EOF
 }
 
 CONF="$HOME/.config/emagnet/emagnet.conf"
-emagnet_required_stuff(){ if ! [[ -d "$HOME/.config/emagnet/" ]]; then mkdir -p "$HOME/.config/emagnet/tmp";fi;cp "./emagnet.conf" $HOME/.config/emagnet/;}
-emagnet_conf(){ CONF="$HOME/.config/emagnet/emagnet.conf";. "$CONF" ;}
-emagnet_clear(){ clear;}
-emagnet_iconnection(){ ping -i "1" -c 1 google.com &> /dev/null;if [[ "$?" -gt "0" ]];then echo -e "$basename$0: internal error -- no internet connection, can't connect to pastebin"; exit 1;fi; }
-emagnet_license(){ printf "%s\n" "Printing LICENSE - Use 'q' to quit";sleep 2;curl -sL "https://nr1.nu/emagnet/emagnet_license.md"|less;printf "%s\n" "Thank you.." ;}
-emagnet_requirements(){
-for cmd in wget curl; do which $cmd &> /dev/null;if [[ "$?" -gt 0 ]]; then echo -e "$basename$0: internal error -- $cmd is required to be installed, exiting."; exit 1;fi
-done;}
-emagnet_optional(){ sleep 0;}
-emagnet_blocked(){ if ! [[ -s "$HOME/.config/emagnet/tmp/.emagnet" ]]; then curl -h "$HEADER"-Ls "$PASTEBIN" -H "$USERAGENT" > $HOME/.config/emagnet/tmp/.emagnet;fi;} # 2FIX - Do we need this?
-emagnet_paths(){ PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}";for DIRS in ${PATHS}; do ! [[ -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null; done ;}
-emagnet_api() {
-if [[ $API = "true" ]]; then
-        emagnet_banner
-        printf "Do you have a PRO membership on pastebin.com and also\n"; read -p "did you whitlist your ip for scraping (yes/NO): " scraping
-          if [[ "$scraping" = "yes" ]]; then
-             sed -i 's/API=false/API=true/g' "$PWD/emagnet.conf"
+
+
+#### Just for make it easier to read main script
+emagnet_clear() { 
+    clear
+}
+
+#### Check for a working connection, using google since it is up 24/7 
+emagnet_iconnection() { 
+    ping -i "1" -c 1 google.com &> /dev/null
+        if [[ "$?" -gt "0" ]]; then 
+            echo -e "$basename$0: internal error -- this feature require a inernet connection but you seems to be offline, exiting.."
+            exit 1
+        fi
+}
+
+emagnet_optional(){ 
+     sleep 0
+}
+
+
+# Check so all paths has been created so we can use emagnet
+emagnet_paths() {
+if ! [[ -d ${EMAGNETALL} ]]; then
+      PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}"
+         for DIRS in ${PATHS}; do 
+          if ! [[ -d "${DIRS}" ]]; then
+             mkdir -p "${DIRS}" &> /dev/null
           fi
+         done
 fi
 }
-emagnet_mustbefilled() {
-  if [[ -z "$DEBUG"          ]];then sed -i "12d"  "$CONF";sed -i '12  i DEBUG=false'                                                                                                             "$CONF";fi
-  if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  "$CONF";sed -i '21  i PASTEBIN=https:\/\/www.pastebin.com'                                                                                     "$CONF";fi
-  if [[ -z "$TIME"           ]];then sed -i '30d'  "$CONF";sed -i "30  i TIME=200"                                                                                                                "$CONF";fi
-  if [[ -z "$MYIP"           ]];then sed -i '40d'  "$CONF";sed -i "40  i MYIP=$(curl -s https://ifconfig.co)"                                                                                       "$CONF";fi
-  if [[ -z "$WIP"            ]];then sed -i '50d'  "$CONF";sed -i '50  i WIP=https:\/\/nr1.nu\/i\/'                                                                                               "$CONF";fi
-  if [[ -z "$WIP2"           ]];then sed -i '51d'  "$CONF";sed -i '51  i WIP2=https:\/\/ifconfig.co'                                                                                                                   "$CONF";fi
-  if [[ -z "$EMAGNET"        ]];then sed -i '70d'  "$CONF";sed -i '70  i EMAGNET=$HOME/emagnet'                                                                                                   "$CONF";fi
-  if [[ -z "$EMAGNETHOME"    ]];then sed -i "71d"  "$CONF";sed -i '71  i EMAGNETHOME=$EMAGNET\/incoming\/$(date +%Y-%m-%d)'                                                                       "$CONF";fi
-  if [[ -z "$EMAGNETLOGS"    ]];then sed -i "72d"  "$CONF";sed -i '72  i EMAGNETLOGS=$EMAGNETHOME/logs'                                                                                           "$CONF";fi
-  if [[ -z "$EMAGNETPW"      ]];then sed -i "73d"  "$CONF";sed -i '73  i EMAGNETPW=$EMAGNETHOME\/password-files'                                                                                  "$CONF";fi
-  if [[ -z "$EMAGNETALL"     ]];then sed -i "74d"  "$CONF";sed -i '74  i EMAGNETALL=$EMAGNETHOME\/all-files'                                                                                      "$CONF";fi
-  if [[ -z "$EMAGNETCRAP"    ]];then sed -i "75d"  "$CONF";sed -i '75  i EMAGNETCRAP=$EMAGNETHOME\/.pastebin'                                                                                     "$CONF";fi
-  if [[ -z "$EMAGNETTEMP"    ]];then sed -i "76d"  "$CONF";sed -i '76  i EMAGNETTEMP=$EMAGNETHOME\/.temp'                                                                                         "$CONF";fi
-  if [[ -z "$EMAGNETARCHIVE" ]];then sed -i "77d"  "$CONF";sed -i '77  i EMAGNETARCHIVE=$EMAGNET/archive'                                                                                         "$CONF";fi
-  if [[ -z "$EMAGNETDB"      ]];then sed -i "78d"  "$CONF";sed -i '78  i EMAGNETDB=$EMAGNETHOME\/email-files'                                                                                     "$CONF";fi
-  if [[ -z "$EMAGNETBACKUP"  ]];then sed -i "79d"  "$CONF";sed -i '79  i EMAGNETBACKUP=$EMAGNET/backup'                                                                                           "$CONF";fi
-  if [[ -z "$EMAGNETSYNTAX"  ]];then sed -i "80d"  "$CONF";sed -i '80  i EMAGNETSYNTAX=$EMAGNETHOME\/sorted-by-syntax'                                                                            "$CONF";fi
-  if [[ -z "$EMAGNETCRACKED" ]];then sed -i "81d"  "$CONF";sed -i '81  i EMAGNETCRACKED=$EMAGNET/cracked-accounts'                                                                                "$CONF";fi
-  if [[ -z "$VERSION"        ]];then sed -i '90d'  "$CONF";sed -i '90  i VERSION=3.4.1'                                                                                                             "$CONF";fi
-  if [[ -z "$THREADS"        ]];then sed -i '99d'  "$CONF";sed -i "99  i THREADS=$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')"                                         "$CONF";fi
-  if [[ -z "$IDLETIME"       ]];then sed -i '108d' "$CONF";sed -i "108 i IDLETIME=3600"                                                                                                           "$CONF";fi
-  if [[ -z "$GBRUTEFORCE"    ]];then sed -i '124d' "$CONF";sed -i '124 i GBRUTEFORCE=false'                                                                                                       "$CONF";fi
-  if [[ -z "$SBRUTEFORCE"    ]];then sed -i '125d' "$CONF";sed -i '125 i SBRUTEFORCE=false'                                                                                                       "$CONF";fi
-  if [[ -z "$PBRUTEFORCE"    ]];then sed -i '126d' "$CONF";sed -i '126 i PBRUTEFORCE=false'                                                                                                       "$CONF";fi
-  if [[ -z "$IBRUTEFORCE"    ]];then sed -i '127d' "$CONF";sed -i '127 i IBRUTEFORCE=false'                                                                                                       "$CONF";fi
-  if [[ -z "$BBRUTEFORCE"    ]];then sed -i '128d' "$CONF";sed -i '128 i BBRUTEFORCE=template'                                                                                                    "$CONF";fi
-  if [[ -z "$CBRUTEFORCE"    ]];then sed -i '129d' "$CONF";sed -i '129 i CBRUTEFORCE=template'                                                                                                    "$CONF";fi
-  if [[ -z "$DBRUTEFORCE"    ]];then sed -i '130d' "$CONF";sed -i '130 i DBRUTEFORCE=template'                                                                                                    "$CONF";fi
-  if [[ -z "$EBRUTEFORCE"    ]];then sed -i '131d' "$CONF";sed -i '131 i EBRUTEFORCE=template'                                                                                                    "$CONF";fi
-  if [[ -z "$EMAIL2SEND"     ]];then sed -i '140d' "$CONF";sed -i '140 i EMAIL2SEND='                                                                                                             "$CONF";fi
-  if [[ -z "$NOTIFY"         ]];then sed -i '149d' "$CONF";sed -i '149 i NOTIFY=false'                                                                                                            "$CONF";fi
-  if [[ -z "$VPN"            ]];then sed -i '161d' "$CONF";sed -i '161 i VPN=false'                                                                                                               "$CONF";fi
-  if [[ -z "$VPNROOT"        ]];then sed -i '162d' "$CONF";sed -i '162 i VPNROOT=/etc/openvpn'                                                                                                    "$CONF";fi
-  if [[ -z "$VPNPROVIDER"    ]];then sed -i '163d' "$CONF";sed -i '163 i VPNPROVIDER=$VPNROOT/'                                                                                                   "$CONF";fi
-  if [[ -z "$VPNCOUNTRYS"    ]];then sed -i '164d' "$CONF";sed -i '164 i VPNCOUNTRYS="belgium bulgaria czhech denmark spain finland uk uk-london uk-manchester greece hongkong hungaria italy"'   "$CONF";fi
-  if [[ -z "$SSHUSER"        ]];then sed -i '176d' "$CONF";sed -i '176 i SSHUSER="root"'                                                                                                          "$CONF";fi
-  if [[ -z "$SSHPORT"        ]];then sed -i '177d' "$CONF";sed -i '177 i SSHPORT="22"'                                                                                                            "$CONF";fi
-  if [[ -z "$SSHPASS"        ]];then sed -i '178d' "$CONF";sed -i '178 i SSHPASS='                                                                                                                "$CONF";fi
-  if [[ -z "$SSHTARGETS"     ]];then sed -i '179d' "$CONF";sed -i '179 i SSHTARGETS="$HOME/.config/emagnet/tmp/.emagnet-sshbruter.txt"'                                                           "$CONF";fi
-  if [[ -z "$SSHPORTSCAN"    ]];then sed -i '180d' "$CONF";sed -i '180 i SSHPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
-  if [[ -z "$RDPUSER"        ]];then sed -i '192d' "$CONF";sed -i '192 i RDPUSER="Administrator"'                                                                                                 "$CONF";fi
-  if [[ -z "$RDPPORT"        ]];then sed -i '193d' "$CONF";sed -i '193 i RDPPORT="3389"'                                                                                                          "$CONF";fi
-  if [[ -z "$RDPPASS"        ]];then sed -i '194d' "$CONF";sed -i '194 i RDPPASS="qwerty"'                                                                                                        "$CONF";fi
-  if [[ -z "$RDPTARGETS"     ]];then sed -i '195d' "$CONF";sed -i '195 i RDPTARGETS="$HOME/.config/emagnet/tmp/.emagnet-rdpbruter.txt"'                                                           "$CONF";fi
-  if [[ -z "$RDPPORTSCAN"    ]];then sed -i '196d' "$CONF";sed -i '196 i RDPPORTSCAN="$HOME/.config/emagnet/tmp/.emagnet-portscan.txt"'                                                           "$CONF";fi
-  if [[ -z "$USERAGENT"      ]];then sed -i '206d' "$CONF";sed -i '206 i USERAGENT=Mosaic/0.9'                                                                                                    "$CONF";fi
-  if [[ -z "$PROXY"          ]];then sed -i '219d' "$CONF";sed -i '219 i PROXY=false'                                                                                                             "$CONF";fi                                                                                                           
-  if [[ -z "$PROXYHOST"      ]];then sed -i '220d' "$CONF";sed -i '220 i PROXY=localhost'                                                                                                         "$CONF";fi
-  if [[ -z "$PROXYPORT"      ]];then sed -i '221d' "$CONF";sed -i '221 i PROXY=5000'                                                                                                              "$CONF";fi
-  if [[ -z "$PROXYUSER"      ]];then sed -i '222d' "$CONF";sed -i '222 i PROXY=user'                                                                                                              "$CONF";fi
-  if [[ -z "$PROXYPORT"      ]];then sed -i '223d' "$CONF";sed -i '223 i PROXY=password'                                                                                                          "$CONF";fi
- 
+
+#### Run emagnet in a screen
+emagnet_screen() {
+ mkdir -p /tmp/screen/S-root &> /dev/null
+ chmod 755 /tmp/screen &> /dev/null
+ chmod -R 700 /tmp/screen/S-root &> /dev/null
+ hash screen &> /dev/null
+     if [[ "$?" -gt "0" ]]; then 
+       echo -e "$basename$0: internal error -- Screen is required to be installed before you can emagnet in background..."
+       exit 1
+     fi
+         pid="$(ps aux |grep emagnet)"
+         printf "$basename$0: emagnet has been started in background (pid:$(ps aux|grep "SCREEN -dmS emagnet"|awk '{print $2}'|head -n1))\n"
+         screen -S "emagnet" -dm bash "$basename$0" --emagnet
 }
 
-##############################################################################
-#### Author of emagnet will be printed if --author or -a is being used     ####
-###############################################################################
-emagnet_author() {
-cat << "EOF"
 
- Copyright (C) 2018-2019, wuseman
-
- Emagnet was founded in 2015 and was released as open source
- on github.com/wuseman/emagnet in January 2018 and is licensed
- under GNU LESSER GENERAL PUBLIC LICENSE GPLv3
-
-   - Author: wuseman <wuseman@nr1.nu>
-   - IRC   : wuseman <irc.freenode.com>
-
- Please report bugs/issues on:
-
-   - https://github.com/wuseman/EMAGNET/issues
-
-EOF
-}
-
-###############################################################################
-#### Run emagnet in a screen in background. NOTICE: Set time to 200s       ####
-#### in emagnet.conf before you running this in background else            ####
-#### you can expect a ban within 10 minutes when running in the screen     ####
-#### - Set time by: ./emagnet -t 200 followed by ./emagnet -q              ####
-###############################################################################
-emagnet_quiet() {
- mkdir -p /tmp/screen/S-root &> /dev/null;chmod 755 /tmp/screen &> /dev/null;chmod -R 700 /tmp/screen/S-root &> /dev/null
- hash screen &> /dev/null; if [[ "$?" -gt "0" ]]; then echo -e "Screen is required to be installed before you run emagnet in background ...";exit 1; fi
-  pid="$(ps aux |grep emagnet)"
-  printf "$basename$0: emagnet has been started in background (pid:$(ps aux|grep "SCREEN -dmS emagnet"|awk '{print $2}'|head -n1))\n"
-  screen -S "emagnet" -dm bash "$basename$0" --emagnet
-}
-
-###############################################################################
-#### If you will see this message when executing emagnet, then you have    ####
-#### been busted and you wont be able to use emagnet with your current ip  ####
-#### until pastebin lift the ban from their filter, usually it takes       ####
-#### between 1-2 weeks until the ban has been lifted and removed, until    ####
-#### then use a Socks proxy or enable VPN by ./emagnet -v true             ####
-###############################################################################
-emagnet_notice_about_scraping() {
-   emagnet_clear;emagnet_banner
-   echo -e "                            \e[1;31mNOTICE\e[0m:\n"
-   echo -e "[\e[1;31m<<\e[0m] - You are scraping pastbin.com way too fast! \e[1;31mSlow Down\e[0m!"
-   echo -e "[\e[1;31m<<\e[0m] - Pastebin has blocked you from the archive page until you slow down."
-   echo -e "[\e[1;31m<<\e[0m] - You will only be able to download 8 files at time until you raise TIME"
-   echo -e "[\e[1;31m<<\e[0m] - The block from pastebin.com/archive will be lifted within 20 minutes.."
-   sleep 7;emagnet_clear;emagnet_banner
-}
-
-###############################################################################
-#### If you have a ghost session of emagnet use ./emagnet -k               ####
-###############################################################################
+#### If you have a ghost session of emagnet use ./emagnet -k
 emagnet_kill() {
 ESESSIONS=$(ps aux|grep -i emagnet |awk '{print $2}'|sed '$d')
 NRESESSIONS=$(ps aux|grep -i "emagnet"|awk '{print $2}'|sed '$d'|wc -l)
@@ -275,184 +357,9 @@ INSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g')"
 }
 
 ###############################################################################
-#### Sometimes pastebin is under heavy load and you wont be able to scrape ####
-#### the site so then we sleep 60 seconds until we can scrape it again     ####
-###############################################################################
-emagnet_heavyload() {
-curl -sL -H "$USERAGENT" "$PASTEBIN" \
-|grep -q "is under heavy load right now"
-  if [[ "$?" = "0" ]]; then
-    for (( ; ; )); do
-     wait_time=60
-     temp_cnt="${wait_time}"
-      while [[ "${temp_cnt}" -gt 0 ]]; do
-      printf "\rPastebin is currently under heavy load, will continue in: \e[1;1m%1d\e[0m" ${temp_cnt}
-      printf " seconds"
-      sleep 1
-      ((temp_cnt--))
-      done
-      echo
-	  bash "$basename$0" --emagnet
-      done
-      bash "$basename$0" --emagnet
-fi
-}
-
-###############################################################################
-#### Before we trying to scrape pastebin we wanna know if we are banned or not#
-###############################################################################
-emagnet_wasibanned() {
-    echo -ne "Please wait"
-    emagnet_required_stuff
-    emagnet_conf
-    curl -sL "$USERAGENT" "$PASTEBIN"|grep -q "blocked your IP"
-     if [[ $? -eq "0" ]]; then
-       echo -e ", \e[1;31m$(curl -s $WIP2)\e[0m is blocked, turn on your vpn or wait ~30 minutes ..."
-     else
-       echo -e ", \e[1;31m$(curl -s $WIP2)\e[0m has not been blocked ..."
-    fi
-}
-
-###############################################################################
-#### If we was banned, then we check if vpn is enable otherwise we sleep   ####
-#### for 3600 seconds (default)                                            ####
-###############################################################################
-emagnet_I_was_banned() {
-curl -s -H "$USERAGENT" "$PASTEBIN" \
-|grep -q "blocked your IP"
-if [[ "$?" = "0" ]]; then
-  		if [[ "$VPN" = "false" ]]; then
-                    emagnet_clear
-                    emagnet_banner
-   	   	   for (( ; ; )); do
-                   wait_time=${IDLETIME}
-      		        temp_cnt=${wait_time}
-   		          while [[ "${temp_cnt}" -gt "0" ]]; do
-                    printf "\rIP: [\e[1;31m$(curl -s $WIP2 )\e[0m] has been blocked, continues in \e[1;1m%1d\e[0m" ${temp_cnt}
-                    printf " seconds"
-      		          sleep 1
-      		          ((temp_cnt--))
-  	            done
-                    printf "\n"
-                    emagnet_clear
-                    emagnet_banner
-                    bash "$basename$0" --emagnet
-                    sleep 2
-           done
-                    emagnet_clear
-                    emagnet_banner
-                    bash "$basename$0" --emagnet
-                    exit 1
-      else
-                    emagnet_banned
-      fi
-fi
-}
-
-
-###############################################################################
-#### This is the VPN function for enable vpn                               ####
-###############################################################################
-emagnet_vpnsetup() {
-emagnet_mustberoot
-( hash openvn &> /dev/null; [[ $? -eq "0" ]] && echo -e "$basename$0: internal error -- openvpn is required to be installed when enabling vpn"; exit )
-VPNCONFIG=$(awk -F'/' '/VPNPROVIDER/ {print $2}' $CONF |cut -d'"' -f1|head -2|sed '1d')
-
-  case "$COUNTRY" in
-     "argentina")             cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ag.ovpn"  &> /dev/null & ;;
-     "australia")             cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.au.ovpn"  &> /dev/null & ;;
-     "brazil")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.br.ovpn"  &> /dev/null & ;;
-     "canada")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ca.ovpn"  &> /dev/null & ;;
-     "switzerland")           cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ch.ovpn"  &> /dev/null & ;;
-     "china")                 cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.cn.ovpn"  &> /dev/null & ;;
-     "croatia")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.cr.ovpn"  &> /dev/null & ;;
-     "czhech")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.cz.ovpn"  &> /dev/null & ;;
-     "germany")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.de.ovpn"  &> /dev/null & ;;
-     "denmark")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.dk.ovpn"  &> /dev/null & ;;
-     "spain")                 cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.es.ovpn"  &> /dev/null & ;;
-     "finland")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.fi.ovpn"  &> /dev/null & ;;
-     "france")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.fr.ovpn"  &> /dev/null & ;;
-     "íreland")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ir.ovpn"  &> /dev/null & ;;
-     "iceland")               cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.is.ovpn"  &> /dev/null & ;;
-     "italy")                 cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.it.ovpn"  &> /dev/null & ;;
-     "japan")                 cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.jp.ovpn"  &> /dev/null & ;;
-     "korea")                 cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.kr.ovpn"  &> /dev/null & ;;
-     "luxemburg")             cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.lx.ovpn"  &> /dev/null & ;;
-     "mexico")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.mx.ovpn"  &> /dev/null & ;;
-     "malaysia")              cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.my.ovpn"  &> /dev/null & ;;
-     "netherlands")           cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.nl.ovpn"  &> /dev/null & ;;
-     "norway")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.no.ovpn"  &> /dev/null & ;;
-     "new-zealand")           cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.nz.ovpn"  &> /dev/null & ;;
-     "panama")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.pa.ovpn"  &> /dev/null & ;;
-     "poland")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.pl.ovpn"  &> /dev/null & ;;
-     "portugal")              cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.pt.ovpn"  &> /dev/null & ;;
-     "russia")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.ru.ovpn"  &> /dev/null & ;;
-     "sweden")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.se.ovpn"  &> /dev/null & ;;
-     "turkey")                cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.tr.ovpn"  &> /dev/null & ;;
-     "united-kingdom")        cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.uk.ovpn"  &> /dev/null & ;;
-     "united-states")         cd "$VPNPROVIDER";openvpn --config "$VPNCONFIG.us.ovpn"  &> /dev/null & ;;
-  esac
-}
-
-###############################################################################
-#### If we was really banned for real, then try connect to a VPN           ####
-#### to our vpn setup we have set in emagnet.conf, otherwise sleep for 3600s ##
-###############################################################################
-emagnet_banned() {
-if [[ "$VPN" = "false" ]]; then
-   emagnet_I_was_banned
-else
-  line='...........................................................'
-  line1='................................[ ok ]'
-  line2='...............................................'
-  OPENVPNRUNNING="$(ps aux |grep openvpn|sed '1d')"
-  MYIP="$(curl -s $WIP)"
-  MYCOUNTRY="$(curl -s $WIP|xargs whois|grep -i COUNTRY|awk '{print tolower($2)}')"
-  COUNTRY=$(awk -F'="' '/VPNCOUNTRYS="/ {print $2}' $CONF|sed 's/"//g'|tr ' ' '\n'|sort -R | sed 's/.*[0-9]\t//'|shuf -n1)
-      curl -H "$USERAGENT" -Ls "$WIP" > "$HOME/.config/emagnet/tmp/.emagnet-ip"
-      if [[ -n "$OPENVPNRUNNING" ]]; then pkill -9 "openvpn"; fi
-	    emagnet_clear
-	    emagnet_banner
-	    printf "\e[1;31m                You have been blocked by pastebin...\n\n\e[0m"
-	    printf "%s${line2:${#MYIP}}[ ok ]\n" "Current IP: $MYIP"
-	    printf "Connecting to "
-	    printf "\e[1m%s\e[0m%s \e[1;37m%s\e[0m" $COUNTRY ", please wait${line1:${#COUNTRY}}"
-	    printf "\n"
-        emagnet_vpnsetup
-        sleep 10
-        MYIP="$(curl -s $WIP)"
-        MYOLDIP="$(cat $HOME/.config/emagnet/tmp/.emagnet-ip)"
-	    if [[ "$MYIP" != "$MYOLDIP" ]]; then
-                rm "$HOME/.config/emagnet/tmp/.emagnet-ip" &> /dev/null
-                MYNEWIP=$(printf "Successfully connected to $(echo  "$(curl -s $WIP)")")
-                printf "%s%s[ ok ]\n" "$MYNEWIP" "${line:${#MYNEWIP}}"
-                printf "\rEmagnet will continue in 5 seconds.........................[ ok ]\n\n"
-                sleep 5
-        fi
-            if [[ "$MYIP" = "$MYOLDIP" ]]; then
-              echo -e "Still trying to establish a connection.....................[\e[1;3m\e[5mwait\e[0m\e[0m]"
-              sleep 10
-              MYIP="$(curl -s $WIP)"
-		          if [[ ! "$MYIP" = "$MYOLDIP" ]]; then
-                      rm "$HOME/.config/emagnet/tmp/.emagnet-ip" &> /dev/null
-                      MYNEWIP=$(echo -e "Successfully connected to $(curl -s $WIP)")
-                      printf "%s%s[ ok ]\n" "$MYNEWIP" "${line:${#MYNEWIP}}"
-                      printf "\rEmagnet will continue in 5 seconds.........................[ ok ]\n\n"
-                      sleep 5
-                  else
-                      echo -e "It seems to be some trouble with the connection, aborted...[\e[1;31mfail\e[0m]\n"
-                      exit 1
-                 fi
-            fi
-        fi
-}
-
-###############################################################################
 #### This is for save us some time, print analyzing when we downloding files ##
 ###############################################################################
 emagnet_analyzing_message() {
-    text="Analyzing..."
-    delay="0.1"
 if [[ "$GBRUTEFORCE" = "true" ]]; then
            printf "%19s \e[1;31m$(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mi\e[0;32mL\e\e[0m") BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
@@ -471,7 +378,13 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
 	  else
            sleep 0
 fi
-           printf "%26s"; for analyzing in $(seq 0 $(expr length "${text}")); do echo -n "${text:$analyzing:1}";sleep "${delay}";done
+    text="Analyzing..."
+    delay="0.1"
+    printf "%26s"
+        for analyzing in $(seq 0 $(expr length "${text}")); do 
+           echo -n "${text:$analyzing:1}"
+           sleep "${delay}"
+        done
 }
 
 ###############################################################################
@@ -516,8 +429,10 @@ TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # 
 
 }
 
+# MESSAGE WHILE RUNNING
 emagnet_analyzer() {
-emagnet_clear;emagnet_banner
+emagnet_clear
+emagnet_banner
 if [[ "$GBRUTEFORCE" = "true" ]]; then
            printf "%19s \e[1;31m$(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mi\e[0;32mL\e\e[0m") BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
@@ -907,35 +822,27 @@ fi
 }
 
 emagnet_syntax() {
-curl -H "$USERAGENT" -Ls "$PASTEBIN"|grep -q "blocked your IP"
-if [[ $? = "0" ]]; then
- if [[ "$VPN" = "true" ]]; then
-      emagnet_banned
- else
-      echo -e "[\e[1;31m<<\e[0m] - You have been blocked by pastebin"
-      echo -e "[\e[1;31m<<\e[0m] - Enable a vpn or please try run emagnet in ~3600 seconds again, aborted\n"
-      exit 1
- fi
+if [[ -z "$SYNTAX2DL" ]]; then 
+    echo -e "$basename$0: internal error -- you must include a syntax language (ex: bash, python or perl)."
+    exit 1
 fi
-if [[ -z "$SYNTAX2DL" ]]; then echo -e "$basename$0: internal error -- you must include a syntax language (ex: bash, python or perl).";exit 1;fi
- curl -Ls "$PASTEBIN/archive/$SYNTAX2DL" \
+
+
+
+ curl -Ls "https://pastebin.com/archive/$SYNTAX2DL" \
 |grep -o '<a href="/........' \
 |cut -d'/' -f2 \
 |grep -E '[0-9]{1,4}' \
 |sed 's/^/https:\/\/pastebin.com\/raw\//g' > "$HOME/.config/emagnet/tmp/.emagnet-syntaxes-urls"
  grep -q "$SYNTAX2DL" "$HOME/.config/emagnet/tmp/.emagnet-syntaxes"
 
+emagnet_check_pastebin
 if [[ "$?" = "0" ]]; then
+     
      printf "Downloading $(cat $HOME/.config/emagnet/tmp/.emagnet-syntaxes-urls|wc -l) ${SYNTAX2DL} files.."
      mkdir -p "$EMAGNETSYNTAX/$SYNTAX2DL"
-if [[ $PROXY = "true" ]]; then
-     export SOCKS_SERVER=$PROXYHOST:$PROXYPORT
-     xargs -P "${THREADS}" -n 1 wget --user-agent="${USERAGENT}" -nc -q < $HOME/.config/emagnet/tmp/.emagnet-syntaxes-urls -P "$EMAGNETSYNTAX/$SYNTAX2DL" &> /dev/null
-     else
-     xargs -P "${THREADS}" -n 1 wget --user-agent="${USERAGENT}" -nc -q < $HOME/.config/emagnet/tmp/.emagnet-syntaxes-urls -P "$EMAGNETSYNTAX/$SYNTAX2DL" &> /dev/null
-fi
  else
-     curl -Ls "$PASTEBIN/languages" \
+     curl -Ls "https://pastebin.com/languages" \
      |grep -o 'href="/archive/............' \
      |cut -d'<' -f1 \
      |cut -d'/' -f3 \
@@ -947,22 +854,11 @@ fi
 }
 
 emagnet_main() {
-# This is not in use, use this when using pastebin.com ias
-# ------------------------------------------------------------
-#  if [[ $? -gt "0" ]]; then
-#    curl -s -H "$USERAGENT" https://scrape.pastebin.com/api_scraping.php > $EMAGNETTEMP/.status
-#      grep -qi "blocked your IP" /$EMAGNETTEMP/.status
-#        if [[ "$?" = "0" ]]; then emagnet_banned;fi    
-#      grep -qi "is under heavy load right now" /$EMAGNETTEMP/.status
-#        if [[" $?" = "0" ]]; then emagnet_heavyload;fi 
-#      grep -qi "TO GET ACCESS" /$EMAGNETTEMP/.status
-#        if [[ "$?" = "0" ]]; then emagnet_api;fi
-#      rm $EMAGNETTEMP/.status &> /dev/null
-#  fi#
 # ------------------------------------------------------------
 # BETA - CHOOSE ONE?
 #curl -s https://scrape.pastebin.com/api_scraping.php -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Cookie: _ga=GA1.2.1092992254.1592458160; cf_clearance=427618303dfe7f40fd4bed06784b682ff11e9492-1593096187-0-d1784d20-250'|egrep -oi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' > $HOME/.config/emagnet/tmp/.emagnet-temp1
-#grep -qEoi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' $HOME/.config/emagnet/tm
+#grep -qEoi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' $HOME/.config/emagnet/tmp/.emagnet-temp1
+# ------------------------------------------------------------
 
     # Check if PROXY is set to true (ssh/tunnel)
     if [[ $PROXY = "true" ]]; then 
@@ -971,82 +867,77 @@ emagnet_main() {
       CURL="curl -s "
     fi
 
-# Decide wich URL to use when scraping pastebin, checkin API value for choose from emagnet.conf
-    if ! [[ "$API" = "false" ]]; then
-        rm /root/.config/emagnet/tmp/.1 /root/.config/emagnet/tmp/.* &> /dev/null
-        curl -s https://scrape.pastebin.com/api_scraping.php|grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*"|awk 'length < 30' > $HOME/.config/emagnet/tmp/.emagnet1
-        ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.1"
-        cat "$HOME/.config/emagnet/tmp/.emagnet1"|sort|cut -d/ -f4 > "$HOME/.config/emagnet/tmp/.2"
-        grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" |awk -F, '!seen[$1]++'|sed "s/^/https:\/\/pastebin.com\/raw\//g" > "$HOME/.config/emagnet/tmp/.emagnet"
-    else
-        $CURL -H "$USERAGENT" -Ls "$PASTEBIN/archive" \
-        |awk -F'href="/' '{print $2}' \
-        |cut -d'"' -f1 \
-        |awk 'length($0)>6 && length($0)<9' \
-        |grep -v 'archive\|contact\|settings\|messages\|signup\|index.html' \
-        |awk '{print tolower($0)}' > $HOME/.config/emagnet/tmp/.emagnet1
-        ls -1 "$EMAGNETALL" \
-        |sort > "$HOME/.config/emagnet/tmp/.1"
-        cat "$HOME/.config/emagnet/tmp/.emagnet1" \
-        |sort \
-        |cut -d/ -f5 > "$HOME/.config/emagnet/tmp/.2"
-        grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" |awk -F, '!seen[$1]++'|sed "s/^/https:\/\/pastebin.com\/raw\//g" > "$HOME/.config/emagnet/tmp/.emagnet"
-      fi
+# We now use nr1.nu instead for see recent uploads 
+# since patebin now have filtered default syntax 
+# "text" from being listed, lmao :) 
+  $CURL -sL -H "$USERAGENT" -Ls ${PASTEBIN}|cut -d/ -f4|grep -v "index" > $HOME/.config/emagnet/tmp/.emagnet-temp1
+  ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
+  cat "$HOME/.config/emagnet/tmp/.emagnet-temp1"|sort|awk '!seen[$0]++'|cut -d'/' -f4 > "$HOME/.config/emagnet/tmp/.emagnet-temp3"
+  grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
+        
+#-----------------------------------------------------
+# If cloudfare is trigged, then we will do below 
+# - We wont be allowed to use wget without
+# cookies, so then we run curl in a loop instead
+# this is alot slower and JUST an example so please
+# change this if you have a faster, better and more 
+# stable way to do this if cloudfare is triggered
+#-----------------------------------------------------
+#while read line; do
+#curl -sL $PASTEBIN \
+#     -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H \
+#     -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' \
+#     -H 'Cookie: __cfduid=.....; cf_clearance=..; PHPSESSID=.....; _ga=....; _gid=.... __gads=ID=... _gat_UA-58643-34=1' \
+#     -H 'Upgrade-Insecure-Requests: 1' \
+#     -H 'Cache-Control: max-age=0' \
+#     -H 'TE: Trailers'
+#    -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::');
+#done < "$HOME/.config/emagnet/tmp/.emagnet-temp3" &> /dev/null
 
-      rm "$HOME/.config/emagnet/tmp/.1" "$HOME/.config/emagnet/tmp/.2" &> /dev/null
-      if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|wc -l)"      = "8" ]];  then emagnet_notice_about_scraping         ;fi
-      if [[ "$(cat $HOME/.config/emagnet/tmp/.emagnet1|grep https|wc -l)" = "0" ]];  then emagnet_heavyload;emagnet_I_was_banned;fi
+# Before we can download stuff from pastebin, we must insert http://pastebin.com/raw/<file_name> in
+# emagnet-download since we just want to download new files that not already is in our all-files
+      sed -i 's/^/https:\/\/pastebin.com\/raw\//g' "$HOME/.config/emagnet/tmp/.emagnet-download"
 
 # Downloading new pastes we found, no duplicates will be downloaded of course
-      xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet &> /dev/null
-      tt="$(cat $HOME/.config/emagnet/tmp/.emagnet| wc -l)"
+      xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
+# Cleanup, we don't need these files after we downloaded them.
+      rm "$HOME/.config/emagnet/tmp/.emagnet-temp1" "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3" &> /dev/null
+      tt="$(ls $EMAGNETTEMP| wc -l)"
 
 # Count stats and print them in realtime 
-      el=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|cut -d: -f2|tr ' ' '\n'|awk -F, '!seen[$1]++')
-      et=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|tr ' ' '\n'|wc -l)
-      ef=$(grep -rEiEio "\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f1|uniq|grep -v '"'\|','\|'<'|tr ' ' '\n')
-      pf=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f1|uniq|grep -v '"'\|','\|'<'|tr ' ' '\n')
-      pl=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" "$EMAGNETTEMP"|awk '{print $1}'|cut -d':' -f2,3|cut -d'|' -f1|awk -F, '!seen[$1]++'|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'\|'index.html'\|'alerts'|grep -v '/')
-      pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETTEMP|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v /|wc -l)
-         if [[ "${tt}" -eq "0" ]]; then
-           tt=0$tt
-           grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' "$EMAGNETTEMP"|cut -d: -f1|tr ' ' '\n'
-           printf "[\e[1;31m<<\e[0m] - No new files could be downloaded..\n[\e[1;31m<<\e[0m] - Increase time or you will get banned anytime now..\n\n"
-      	   sleep 5 # Sleep here for make some room, this will not cause any problems with missing files
-           emagnet_clear;emagnet_banner
-         else
-           echo -e "\n===================================================================\nPastebin URLS from: $(date +%d/%m/%Y\ -\ %H:%M)\n==================================================================="  >> "$EMAGNETLOGS/pastebin-urls.txt"
-           # cat "$HOME/.config/emagnet/tmp/.emagnet" >> "$EMAGNETLOGS/pastebin-urls.txt"
-           if [[ $PROXY = "true" ]]; then 
-            CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT "; else 
-            CURL="curl -s ";fi
-           $CURL -H "$USERAGENT" -Ls "pastebin.com/archive"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'| \
-           grep -v 'archive\|contact\|settings\|messages\|signup\|index.html' |\
-           sed 's/^/https:\/\/pastebin.com\/raw\//g'|sed 's/$/ - Downloaded /g' > 1
-           if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi
-           $CURL -H "$USERAGENT" -Ls "pastebin.com/archive" |grep -i ago|cut -d'>' -f2|cut -d'<' -f1|sed '1d' > 2
-           paste 1 2|sed 's/ago/after upload/g'|sed 's/\t//g'|sed '$d' >> "$EMAGNETLOGS/pastebin-urls.txt"
-           rm "./1" "./2"
-        fi
-         
-         if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
+el=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|cut -d: -f2|tr ' ' '\n'|awk -F, '!seen[$1]++')
+et=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|tr ' ' '\n'|wc -l)
+ef=$(grep -rEiEio "\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f1|uniq|grep -v '"'\|','\|'<'|tr ' ' '\n')
+pf=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f1|uniq|grep -v '"'\|','\|'<'|tr ' ' '\n')
+pl=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" "$EMAGNETTEMP"|awk '{print $1}'|cut -d':' -f2,3|cut -d'|' -f1|awk -F, '!seen[$1]++'|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'\|'index.html'\|'alerts'|grep -v '/')
+pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETTEMP|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v /|wc -l)
+
+# We want to clear screen after we counted stuff
+    emagnet_clear
+    emagnet_banner
+        
+# If we found both passwords and email addresses then we do below 
+# --------------------------------------------------------------- 
+# Notice about sleep:                                             
+# Sleep 2 below counters is added so user will be able to see     
+# what stats we have collected, otherwise it will just            
+# go on and on and we wont see any stats                           
+if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
             echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${pt} passwords from: $EMAGNETPW/${pf##*/}"      | xargs >> "$EMAGNETLOGS/emagnet.log"
             echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${et} email addresses from: $EMAGNETDB/${ef##*/}"|xargs >> "$EMAGNETLOGS/emagnet.log"
             echo -e "${pl}" >> $EMAGNETLOGS/passwords-from-pastebin.txt
             echo -e "${el}" >> $EMAGNETLOGS/emails-from-pastebin.txt
             cp -rn ${ef} $EMAGNETDB/ &> /dev/null
             cp -rn ${pf} $EMAGNETPW/ &> /dev/null
-             if [[ "$NOTIFY" = "truee" ]]; then
-                notify-send -a "Stats" "Emagnet" "\n
-               "${tt}" - Files Downloaded\n
-               "${pt}" - Passwords Found\n
-               "${et}" - Email Addresses Found"
-               
-             fi
-               echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m]"
-               echo -e "                       - Passwords Found \r             [\e[1;32m$pt\e[0m]"
-               echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m]\n"
-               sleep 2
+            if [[ ${tt} -lt "10" ]]; then tt=0${tt};fi
+            if [[ ${et} -lt "10" ]]; then et=0${et};fi
+            if [[ ${pt} -lt "10" ]]; then pt=0${pt};fi
+            echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m]"
+            echo -e "                       - Passwords Found \r             [\e[1;32m$pt\e[0m]"
+            echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m]\n"
+            emagnet_move_realtime
+            sleep 2
+              
                if [[ "$GBRUTEFORCE" = "true" ]]; then
                   printf "%64s \n\n" | tr ' ' '='
                   printf "%17s";printf "BRUTE FORCING -- $(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mI\e[0;32mL\E[1;31m\e[0m") ACCOUNTS\e[0m\n\n"
@@ -1068,91 +959,60 @@ emagnet_main() {
                 else
                   sleep 0
                fi
-                elif [[ "$pt" = "0" ]] && [[ "$et" -gt "0" ]]; then
-                   cp -rn ${ef} $EMAGNETDB/ &> /dev/null
-                   echo -e "${el}" >> "$EMAGNETLOGS/emails-from-pastebin.txt"
-                   echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${et} email addresses from $EMAGNETDB/${e##*/}"|xargs >> "$EMAGNETLOGS/emagnet.log"
-                if [[ "$NOTIFY" = "truee" ]]; then
-                   notify-send -a "Stats" "Emagnet" "\n
-                   ${tt} - Files downloaded\n
-                   00 - Passwords found\n
-                   ${et} - Email addresses found"
-                fi
-                   echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
-                   echo -e "                       - Passwords Found \r             [\e[1;31m00\e[0m] "
-                   echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m] \n"
-                   sleep 2
-                else
-                  if [[ "$NOTIFY" = "truee" ]]; then
-                    notify-send -a "Stats" "Emagnet" "\n
-                    ${tt} - Files downloaded\n
-                    00 - Passwords found\n
-                    00 - Email addresses found"
-                 fi
-                    echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
-                    echo -e "                       - Passwords found \r             [\e[1;31m00\e[0m] "
-                    echo -e "                       - Email Addresses Found \r             [\e[1;31m00\e[0m] \n"
-                    sleep 2
-              fi
-                    mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
-                    rm "$HOME/.config/emagnet/tmp/.emagnet" "$HOME/.config/emagnet/tmp/.emagnet1"  &> /dev/null
-                    sleep 2
-                    pkill -9 "notify-send" &> /dev/null
+
+# If we found no passwords and mail addresses only we do below
+elif [[ "$pt" = "0" ]] && [[ "$et" -gt "0" ]]; then
+            echo -e "[$(date +%d/%m/%Y\ -\ %H:%M)]: Found ${et} email addresses from: $EMAGNETDB/${ef##*/}"|xargs >> "$EMAGNETLOGS/emagnet.log"
+            echo -e "${el}" >> $EMAGNETLOGS/emails-from-pastebin.txt
+            cp -rn ${ef} $EMAGNETDB/ &> /dev/null
+            if [[ ${tt} -lt "10" ]]; then tt=0${tt};fi
+            if [[ ${et} -lt "10" ]]; then et=0${et};fi
+            echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
+            echo -e "                       - Passwords Found \r             [\e[1;31m00\e[0m] "
+            echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m] \n"
+            emagnet_move_realtime
+            sleep 2                         
+            
+# If we found no passwords and no mail addresses we print 00 
+elif [[ "$pt" = "0" ]] && [[ "$et" = "0" ]] && [[ ${tt} = "0" ]]; then
+            echo -e "[\e[1;31m<<\e[0m] - No new files could be downloaded...\n[\e[1;31m<<\e[0m] - You may want to raise time in emagnet.conf.."
+            sleep 2                         
+        else
+            if [[ ${tt} -lt "10" ]]; then tt=0${tt};fi
+            echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
+            echo -e "                       - Passwords found \r             [\e[1;31m00\e[0m] "
+            echo -e "                       - Email Addresses Found \r             [\e[1;31m00\e[0m] \n"        
+            emagnet_move_realtime
+            sleep 2
+fi
 }
 
 emagnet_run4ever() {
-       emagnet_conf
-       if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi
-       $CURL -H "$USERAGENT" -sL "$PASTEBIN"|grep -q "blocked your IP"
-       if [[ "$?" = "0" ]]; then
-         if [[ "$VPN" = "true" ]]; then
-           emagnet_banned
-         else
-           emagnet_I_was_banned;
-         fi
-       fi
-       if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi
-       $CURL -H "$USERAGENT" -sL "$PASTEBIN"|grep -q "captcha"
-       if [[ "$?" = "0" ]]; then
-         if [[ "$VPN" = "true" ]]; then
-          emagnet_banned
-         else
-          if [[ $PROXY = "true" ]]; then CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT ";else CURL="curl -s ";fi
-          $CURL -s -H "$USERAGENT" "$PASTEBIN"|grep -q 'recaptcha'
-            if [[ $? = "0" ]]; then
-                emagnet_banner
-                echo -e "[\e[1;31m<<\e[0m] - Busted! I told you, \e[1;31mDON'T\e[0m scrape pastebin to often."
-                echo -e "[\e[1;31m<<\e[0m] - And from now you should set time to 200> seconds."
-                echo -e "[\e[1;31m<<\e[0m] - This block wont be lifted until ~1 or ~2 weeks"
-                echo -e "[\e[1;31m<<\e[0m] - There is one solution for this and it is to execute"
-                echo -e "[\e[1;31m<<\e[0m] - emagnet from another IP, use a socks5 proxy or setup a vpn"
-                echo -e "[\e[1;31m<<\e[0m] - Do not set TIME to <200 seconds, this is my last warning..\n"
-                exit 1
-            fi
-          fi
-         fi
-       for (( ; ; )); do
-        emagnet_conf
-        emagnet_count_down
+    for (( ; ; )); do  
+        emagnet_conf                         # Source emagnet-conf so we know all settings for emagnet
+        emagnet_first_run
+        emagnet_paths
+        emagnet_iconnection                  # Check if we got internet, otherwise we stop
+        emagnet_version                      # Check so we using the correct emagnet.conf
         emagnet_clear
         emagnet_banner
-        emagnet_analyzing_message
-        emagnet_clear
-        emagnet_banner
-        emagnet_I_was_banned
-        emagnet_main
+        emagnet_analyzer                     # Change this with emagnet_count_down when we have added brute force stuff again
+        emagnet_clear                        # Clear screen
+        emagnet_banner                       # Printbanner
+        emagnet_analyzing_message            # Print Analyzing before we count data, it takes 0.9seconds and looks better  
+        emagnet_main                         # Scrape pastebin, download files and then count stats
        done
 }
 
 emagnet_first_run() {
 if ! [[ -f "$CONF" ]]; then
-        emagnet_requirements
         emagnet_required_stuff
         emagnet_conf
+        emagnet_required_tools
+        emagnet_version
         emagnet_mustbefilled
         emagnet_paths
         emagnet_I_was_banned
-        emagnet_api
         timeout 2 ping -t 1 -c 1 nr1.nu &> /dev/null
         [[ "$?" -gt "0" ]] && sed -i '40d' $CONF;sed -i '40 i MYIP=127.0.0.1' $CONF || wip
         emagnet_conf
@@ -1161,7 +1021,7 @@ fi
 }
 
 emagnet_search() {
-	emagnet_requirements
+	emagnet_required_tools
     dt="$(date +%d%m%y)"
     emagnet_conf
     emagnet_clear
@@ -1362,20 +1222,17 @@ case "${1}" in
       ;;
 
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
+        emagnet_conf           # Source emagnet.conf before we do anything else so we know variables are used, like user-agent before check_pastebin
+        emagnet_check_pastebin # Check if everything ARE ok and if we are allowed to visit pastebin before we doing anything
         emagnet_iconnection
         emagnet_first_run
-        emagnet_requirements
+        emagnet_required_tools
         emagnet_distro
         sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' "$CONF"
         sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' "$CONF"
         sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
         sed -i 's/IBRUTEFORCE=true/IBRUTEFORCE=false/g' "$CONF"
         sed -i 's/RBRUTEFORCE=true/RBRUTEFORCE=false/g' "$CONF"
-        curl -s https://scrape.pastebin.com/api_scraping.php|grep -qi "NOT HAVE ACCESS"
-           if [[ "$?" -eq "0" ]]; then 
-               countdown
-           fi
-	    emagnet_api
         emagnet_run4ever
 		  ;;
       "-S"|"-search"|"--search")
@@ -1384,7 +1241,7 @@ case "${1}" in
         ;;
 
       "-g"|"-bruteforce"|"--bruteforce")
-          emagnet_requirements
+          emagnet_required_tools
           emagnet_iconnection
           emagnet_first_run
           sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' "$CONF"
@@ -1431,23 +1288,59 @@ case "${1}" in
            elif [[ "$2" = "spotify" ]]; then
              find /usr/include -name "portaudio.h" |xargs grep -v "port" &> /dev/null
                if [[ $? -ne 0 ]]; then 
-                    echo -e "$basename$0: internal error -- portaudio is requrired to be installed"
+                   # DEBIAN DISTROS: ALSA Development Kit Before PortAudio 
+                   # DEBIAN DISTROS: Copy and paste: apt install libsound-dev libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
+                   # GENTOO DISTROS: wich is the default distro for emagnet, of course have it already in tree, 
+                   # GENTOO DISTROS: emerge --ask media-libs/portaudio
+                    echo -e "$basename$0: internal error -- portaudio is required to be installed, exiting..."
                     exit 1
                fi
 
-             find /usr/include -type d |grep 'libspotify' &> /dev/null
-             if [[ "$?" -ne "0" ]]; then
-             if [[ -z "$LIBSPOTIFY" ]]; then
-	                 printf "Libspotify is deprecated but is required for emagnet bruteforcing\nto work, do you have libspotify installed? (YES/no): "
-               read LIBSPOTIFY
-                 if ! [[ "$LIBSPOTIFY" = "YES" ]]; then
-                   echo "Can't continue until libspotify has been installed.."
-      		   echo "Exiting.."
-       		   exit 1
-         	 fi
-               sed -i '248d' "$CONF"
-               sed -i '248 i LIBSPOTIFY=true' "$CONF"
-            fi
+if [[ "$LIBSPOTIFY" = "false" ]]; then
+   find /usr/include -type d |grep 'libspotify' &> /dev/null
+     if [[ "$?" -ne "0" ]]; then
+
+echo -e "
+\e[1;33mNOTICE:\e[0m
+-------------------------------------------
+\e[1;32mlibspotify\e[0m is not installed on this system
+and since it is deprecated it is removed from 
+all current repositorys for all distros so you
+you need to install it manually, see below:
+
+\e[1;34mMANUALLY INSTALL:\e[0m
+-------------------------------------------
+wget https://nr1.nu/archive/\e[1;32mlibspotify\e[0m/12.1.51/amd64/\e[1;32mlibspotify\e[0m_12.1.51.orig-amd64.tar.gz -P /tmp
+tar -xvf /tmp/\e[1;32mlibspotify\e[0m_12.1.51.orig-amd64.tar.gz -C /tmp
+cd /tmp/\e[1;32mlibspotify\e[0m-12.1.51-Linux-x86_64-release/ && make install prefix=/usr/local
+
+\e[1;31mALSA Development Kit Requirements:\e[0m
+-------------------------------------------
+If you don't care or understand what this is about
+then you probably just want type uppercase \e[4mYES\e[0m
+to let me install \e[1;32mlibspotify\e[0m and get started :)\n
+"
+
+read -p "Answer: " LIBSPOTIFY
+if [[ "$LIBSPOTIFY" = "YES" ]]; then
+printf "%s" "Checking connection........";emagnet_iconnection
+    ping -i "1" -c 1 google.com &> /dev/null; [[ "$?" -gt "0" ]] && echo -e "$basename$0: internal error -- this feature require a inernet connection but you seems to be offline, exiting.."
+printf "..ok\n"
+sleep 1
+printf "%s" "Downloading libspoify........"; wget -q https://nr1.nu/archive/libspotify/12.1.51/amd64/libspotify_12.1.51.orig-amd64.tar.gz -P /tmp; printf "ok\n"
+printf "%s" "Extracting libspoify..,......"; tar -xf /tmp/libspotify_12.1.51.orig-amd64.tar.gz -C /tmp; printf "ok\n"
+printf "%s" "Installing libspotify........"; cd /tmp/libspotify-12.1.51-Linux-x86_64-release/ && make install prefix=/usr/local &> /dev/null; printf "ok\n"
+printf "%s" "Preparing emagnet.conf......."; emagnet_conf;sed -i '248d' "$CONF";sed -i '248 i LIBSPOTIFY=true' "$CONF"; printf "ok\n"
+echo -e "\nAll done, will continue in 3 seconds!"
+sleep 2
+else
+  echo "Can't continue until libspotify has been installed.."
+  echo "Exiting.."
+  exit 1
+  sed -i '248d' "$CONF"
+  sed -i '248 i LIBSPOTIFY=false' "$CONF"
+fi
+fi
               else
                sed -i '248d' "$CONF"
                sed -i '248 i LIBSPOTIFY=true' "$CONF"
@@ -1506,7 +1399,7 @@ case "${1}" in
                 ;;
 
       "-i"|"--ip"|"-ip"|"ip")
-                emagnet_requirements
+                emagnet_required_tools
                 emagnet_conf
                 emagnet_iconnection
                 echo "The IP You will use when visiting pastbin:"
@@ -1523,7 +1416,7 @@ case "${1}" in
                 ;;
 
       "-l"|"-license"|"--license")
-                emagnet_requirements
+                emagnet_required_tools
                 emagnet_iconnection
                 emagnet_license
                 ;;
@@ -1555,7 +1448,7 @@ case "${1}" in
                     echo -e "$basename$0: config file has been updated -- text file has been set to: $2"
                     exit 1
                 fi
-                emagnet_requirements
+                emagnet_required_tools
                 emagnet_iconnection
                 emagnet_first_run
                 emagnet_spammer
@@ -1567,7 +1460,7 @@ case "${1}" in
                 ;;
 
       "-x"|"-syntax"|"--syntax")
-                emagnet_requirements
+                emagnet_required_tools
                 emagnet_conf
                 emagnet_iconnection
                 SYNTAX2DL="${2}"
@@ -1576,7 +1469,7 @@ case "${1}" in
 
       "-q"|"-quiet"|"--quiet")
                 emagnet_conf
-                emagnet_quiet
+                emagnet_screen
                 ;;
 
       "version"|"-version"|"--version"|"-V")
@@ -1617,23 +1510,6 @@ case "${1}" in
                 # Since user already has answered if notifications works once, we set notify to truee instead of true so we know
                 if [[ $2 = "true" ]];  then sed -i '149d' "$CONF";sed -i "149 i NOTIFY=truee"  "$CONF";printf "$basename$0: config file has been updated -- notifications has been enable\n"; fi
                 if [[ $2 = "false" ]]; then sed -i '149d' "$CONF";sed -i "149 i NOTIFY=false" "$CONF";printf "$basename$0: config file has been updated -- notifications has been disable\n";fi
-                ;;
-
-        "-v"|"-vpn"|"--vpn")
-               emagnet_required_stuff
-               emagnet_conf
-               if [[ $1 -eq "-v" && $2 = "-p" && -n $3  ]]; then
-                         sed -i '163d' $CONF; sed -i "163 i VPNPROVIDER=\$VPNROOT/$3" $CONF
-                         echo -e "$basename$0: config file has been updated -- vpn provider has been set to $3"
-                         exit 1
-                fi
-                emagnet_conf
-                if [[ $VPNPROVIDER = "$VPNROOT/" && $VPNPROVIDER2 = "$VPNROOT/" && $VPNPROVIDER3 = "$VPNROOT/" ]]; then echo -e "$basename$0: internal error -- you must set a vpn provider before you can enable vpn\nusage: ./$basename$0 -v -p <provider>";exit 1;fi
-                if [[ -z "$2" ]]; then echo -e "$basename$0: internal error -- you must include true or false";exit 1;fi
-                if [[ "$2" = "true" ]] || [[ $2 = "on" ]] || [[ $2 = "enable" ]]; then    sed -i '161d' "$CONF";sed -i "161i VPN=true" "$CONF";echo -e "emagnet: config file has been updated -- vpn has been enabled";exit 1
-                elif [[ $2 = "false" ]] || [[ $2 = "off" ]] || [[ $2 = "disable" ]]; then sed -i '161d' "$CONF";sed -i "161i VPN=false" "$CONF";echo -e "emagnet: config file has been updated -- vpn has been disabled";exit 1
-                elif [[ $1 = "-v"  || $2 = "-p" || -z $3 ]]; then echo -e "$basename$0: internal error -- you must include a vpn provider";echo -e "$basename$0: usage example -- ./emagnet -v -p mullvad"; exit 1
-                else echo -e "basename$0: internal error -- $2 is an unknown option -- valid options is true or false"; exit 1; fi
                 ;;
 
         "-b"|"-backup"|"--backup")
