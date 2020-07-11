@@ -1,4 +1,4 @@
-# EMAGNET v3.4.2
+# EMAGNET v3.4.3
 
 ### Before you using emagnet, please remember that with great power comes great responsibility. 
 
