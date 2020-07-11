@@ -909,7 +909,9 @@ emagnet_main() {
       sed -i 's/^/https:\/\/pastebin.com\/raw\//g' "$HOME/.config/emagnet/tmp/.emagnet-download"
 
 # Downloading new pastes we found, no duplicates will be downloaded of course
-      xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
+ 
+#     xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
+     xargs -P "8" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
 # Cleanup, we don't need these files after we downloaded them.
       rm "$HOME/.config/emagnet/tmp/.emagnet-temp1" "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3" &> /dev/null
       tt="$(ls $EMAGNETTEMP| wc -l)"
