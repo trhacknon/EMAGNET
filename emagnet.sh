@@ -93,13 +93,18 @@ emagnet_required_tools() {
 
 #### If we are on wrong version, then stop!
 emagnet_version() {
-    if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
+if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
+   if [[ -f "./emagnet.conf" ]]; then
+               mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak &> /dev/null
+               cp ./emagnet.conf $HOME/.config/emagnet/ &> /dev/null
+else
                echo -e "$basename$0: internal error -- You are using an old emagnet.conf..."
                echo -e "$basename$0: internal error -- Download correct config file from https://github.com/wuseman/emagnet"
                echo -e "$basename$0: internal error -- When you got the correct version, move emagnet.conf into $HOME/.config/emagnet/ and please try again"
                mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak
                exit 1 
-    fi
+   fi
+fi
 }
 
 
