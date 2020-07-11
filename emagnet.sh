@@ -67,16 +67,13 @@ emagnet_conf() {
 if ! [[ -f "$HOME/.config/emagnet/emagnet.conf" ]]; then
     mkdir -p "$HOME/.config/emagnet/tmp"
     cp "./emagnet.conf" $HOME/.config/emagnet/ &> /dev/null
-fi
-
       if [[ "$?" -gt "0" ]]; then
           echo -e "$basename$0: internal error -- Can't find emagnet.conf, please move it to $HOME/.config/emagnet/ manually...."
           echo -e "$basename$0: internal error -- Get default and latest emagnet.conf file from:"
           echo -e "$basename$0: internal error -- https://raw.githubusercontent.com/wuseman/EMAGNET/emagnet/emagnet.conf"
-          echo -e "$basename$0: internal error -- $HOME/.config/emagnet/ and please try again"
           exit 1
       fi
-
+fi
     CONF="$HOME/.config/emagnet/emagnet.conf"
     source "$CONF" &> /dev/null
 }
