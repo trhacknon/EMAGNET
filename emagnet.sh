@@ -66,7 +66,7 @@ EOF
 emagnet_conf() {
 if ! [[ -f "$HOME/.config/emagnet/emagnet.conf" ]]; then
     mkdir -p "$HOME/.config/emagnet/tmp"
-    cp "./emagnet.conf" $HOME/.config/emagnet/ &> /dev/null
+    cp "./emagnet.conf" "$HOME/.config/emagnet/" &> /dev/null
 fi
 
     CONF="$HOME/.config/emagnet/emagnet.conf"
@@ -91,13 +91,12 @@ if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
                mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak &> /dev/null
                cp ./emagnet.conf $HOME/.config/emagnet/ &> /dev/null
 else
-               cp ./emagnet.conf $HOME/.config/emagnet/ &> /dev/null
                if [[ "$?" -gt "0" ]]; then
                echo -e "$basename$0: internal error -- You are using an old emagnet.conf and emagnet.conf can't be found..."
                echo -e "$basename$0: internal error -- Download correct config file from "
                echo -e "$basename$0: internal error -- https://raw.githubusercontent.com/wuseman/EMAGNET/emagnet/emagnet.conf"
                echo -e "$basename$0: internal error -- and type: cp ./emagnet.conf $HOME/.config/emagnet/ and please try again"
-               mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak
+               mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak &> /dev/null
                exit 1 
                fi
    fi
@@ -111,7 +110,7 @@ if [[ -f $HOME/.config/emagnet/emagnet.conf ]]; then
 grep -qio 'version=[0-9].*' $HOME/.config/emagnet/emagnet.conf
    if [[ $? -eq "0" ]]; then 
         mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak
-        cp ./emagnet.conf $HOME/.config/emagnet/
+        cp ./emagnet.conf $HOME/.config/emagnet/ &> /dev/null
    fi
 fi
 }
@@ -129,11 +128,11 @@ emagnet_license(){
   printf "%s\n" "Thank you.." 
 }
 
-emagnet_required_stuff() { 
+emagnet_required_stuff() {
      if ! [[ -d "$HOME/.config/emagnet/" ]];then 
       mkdir -p "$HOME/.config/emagnet/tmp"
      fi
-     cp "./emagnet.conf" $HOME/.config/emagnet/
+     cp "./emagnet.conf" $HOME/.config/emagnet/ &> /dev/null
 }
 
 #### UP NEXT! We can remove alot of old stuff in here, will be up next!
