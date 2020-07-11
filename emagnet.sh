@@ -40,7 +40,7 @@
 ###############################################################################
 #################################################################################
 ### Last Modified: 01:55:09 - 2020-07-11
-CURRENT_VERSION="3.4.2"
+CURRENT_VERSION="3.4.3"
 
 #### Author of emagnet will be printed if --author or -a is being used
 emagnet_author() {
@@ -68,13 +68,6 @@ if ! [[ -f "$HOME/.config/emagnet/emagnet.conf" ]]; then
     mkdir -p "$HOME/.config/emagnet/tmp"
     cp "./emagnet.conf" $HOME/.config/emagnet/ &> /dev/null
 fi
-#### If above command didn't work, then we need emagnet.conf
-    if ! [[ -f "$HOME/.config/emagnet/emagnet.conf" ]]; then
-          echo -e "$basename$0: internal error -- Can't find emagnet.conf, please move it to $HOME/.config/emagnet/ manually...."
-          echo -e "$basename$0: internal error -- Get default and latest emagnet.conf file from:"
-          echo -e "$basename$0: internal error -- https://raw.githubusercontent.com/wuseman/EMAGNET/emagnet/emagnet.conf"
-          exit 1
-    fi
 
     CONF="$HOME/.config/emagnet/emagnet.conf"
     source "$CONF" &> /dev/null
