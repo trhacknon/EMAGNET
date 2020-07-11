@@ -71,8 +71,9 @@ fi
 
       if [[ "$?" -gt "0" ]]; then
           echo -e "$basename$0: internal error -- Can't find emagnet.conf, please move it to $HOME/.config/emagnet/ manually...."
-          echo -e "$basename$0: internal error -- Download correct config file from https://github.com/wuseman/emagnet"
-          echo -e "$basename$0: internal error -- When you got the correct version, move emagnet.conf into $HOME/.config/emagnet/ and please try again"
+          echo -e "$basename$0: internal error -- Get default and latest emagnet.conf file from:"
+          echo -e "$basename$0: internal error -- https://raw.githubusercontent.com/wuseman/EMAGNET/emagnet/emagnet.conf"
+          echo -e "$basename$0: internal error -- $HOME/.config/emagnet/ and please try again"
           exit 1
       fi
 
