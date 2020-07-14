@@ -87,7 +87,7 @@ emagnet_required_tools() {
 #### If we are on wrong version, then stop!
 emagnet_version() {
 if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
-   if [[ -f "./emagnet.conf" ]]; then
+   if ! [[ -f "./emagnet.conf" ]]; then
                mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak &> /dev/null
                cp ./emagnet.conf $HOME/.config/emagnet/ &> /dev/null
 else
