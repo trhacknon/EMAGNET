@@ -91,14 +91,12 @@ if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
                mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak &> /dev/null
                cp ./emagnet.conf $HOME/.config/emagnet/ &> /dev/null
 else
-               if [[ "$?" -gt "0" ]]; then
                echo -e "$basename$0: internal error -- You are using an old emagnet.conf and emagnet.conf can't be found..."
-               echo -e "$basename$0: internal error -- Download correct config file from "
-               echo -e "$basename$0: internal error -- https://raw.githubusercontent.com/wuseman/EMAGNET/emagnet/emagnet.conf"
-               echo -e "$basename$0: internal error -- and type: cp ./emagnet.conf $HOME/.config/emagnet/ and please try again"
+               echo -e "$basename$0: internal error -- Write current emagnet.conf to ~/.config/emagnet/emagnet.conf by below command..."
+               echo -e "$basename$0: internal error -- curl -sL -o ~/.config/emagnet/emagnet.conf https://raw.githubusercontent.com/wuseman/EMAGNET/emagnet/emagnet.conf"
+               echo -e "$basename$0: internal error -- Once done, press arrow key up and hit enter..."
                mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak &> /dev/null
-               exit 1 
-               fi
+               exit 1
    fi
 fi
 }
