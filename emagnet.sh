@@ -1026,7 +1026,6 @@ if ! [[ -f "$CONF" ]]; then
         emagnet_version
         emagnet_mustbefilled
         emagnet_paths
-        emagnet_I_was_banned
         timeout 2 ping -t 1 -c 1 nr1.nu &> /dev/null
         [[ "$?" -gt "0" ]] && sed -i '40d' $CONF;sed -i '40 i MYIP=127.0.0.1' $CONF || wip
         emagnet_conf
