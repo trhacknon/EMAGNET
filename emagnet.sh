@@ -84,7 +84,7 @@ emagnet_required_tools() {
      done
 }
 
-#### If we are on wrong version, then stop!
+#### If wrong version, then stop!
 emagnet_version() {
 if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
    if ! [[ -f "./emagnet.conf" ]]; then
@@ -865,12 +865,12 @@ emagnet_main() {
 #grep -qEoi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' $HOME/.config/emagnet/tmp/.emagnet-temp1
 # ------------------------------------------------------------
 
-    # Check if PROXY is set to true (ssh/tunnel)
-    if [[ $PROXY = "true" ]]; then 
-      CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT "
-    else
-      CURL="curl -s "
-    fi
+# Check if PROXY is set to true (ssh/tunnel)
+if [[ $PROXY = "true" ]]; then 
+   CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT "
+else
+    CURL="curl -s "
+fi
 
 # We now use nr1.nu instead for see recent uploads 
 # since patebin now have filtered default syntax 
