@@ -105,7 +105,3 @@ Cheers!
 
 ### Emagnet is a private project since 2015 and was released in June @ 2018, to be continued. 
 
-
-
-# EMAGNET-SCRAPER
-# EMAGNET-SCRAPER
