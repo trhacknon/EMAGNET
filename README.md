@@ -65,7 +65,7 @@ _Get started with spotify brute forcing - How emagnet will work with your openvp
 
 ## Authors: 
 
-* **wuseman <wuseman[at]nr1.nu\>** 
+* **wuseman <wuseman@nr1.nu\>** 
 
 ## License
 
@@ -73,7 +73,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 ### Contact
 
-  If you have problems, questions, ideas or suggestions please contact me on *_wuseman[at]nr1.nu_  - For faster contact visit freenode irc network or the webchat and type '/msg wuseman hi!' in the input bar and I will reply you ASAP I will see the message.
+  If you have problems, questions, ideas or suggestions please contact me on *_wuseman@nr1.nu_  - For faster contact visit freenode irc network or the webchat and type '/msg wuseman hi!' in the input bar and I will reply you ASAP I will see the message.
   
   Enter Freenodes network via your own client 'chat.freenode.com:+6697 or use their new web client [here](https://webchat.freenode.net/)
 
@@ -101,7 +101,7 @@ Cheers!
 
 ### Feel free to send donations if you want to support the development of the emagnet
 
-      Please contact me before you send a donatin: wuseman[at]nr1.nu
+    Please contact me before you send a donation: wuseman@nr1.nu
 
 ### Emagnet is a private project since 2015 and was released in June @ 2018, to be continued. 
 
