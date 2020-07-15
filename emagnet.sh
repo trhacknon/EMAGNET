@@ -39,7 +39,7 @@
 ####                                                                       ####
 ###############################################################################
 #################################################################################
-### Last Modified: 01:55:09 - 2020-07-11
+### Last Modified: 21:45:09 - 2020-07-15
 CURRENT_VERSION="3.4.3"
 
 #### Author of emagnet will be printed if --author or -a is being used
@@ -875,15 +875,13 @@ fi
 # We now use nr1.nu instead for see recent uploads 
 # since patebin now have filtered default syntax 
 # "text" from being listed, lmao :) 
-  $CURL -sL -H "$USERAGENT" -Ls ${PASTEBIN}|cut -d/ -f4|grep -v "index\|raw" > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
-  ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
-  cat "$HOME/.config/emagnet/tmp/.emagnet-temp1"|sort|awk '!seen[$0]++'|cut -d'/' -f4 > "$HOME/.config/emagnet/tmp/.emagnet-temp3"
-  grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
+  $CURL -sL -H "$USERAGENT" -Ls "${PASTEBIN}"|sort|awk '!seen[$0]++'|sed 's/.com/.com\/raw/g'  > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
+  ls -1 "$EMAGNETALL"|sort|awk '!seen[$0]++'|sed 's/^/https:\/\/pastebin.com\/raw\//g' > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
+  # Before we can download stuff from pastebin, we must insert http://pastebin.com/raw/<file_name> in
+  # emagnet-download since we just want to download new files that not already is in our all-files
 
-# Before we can download stuff from pastebin, we must insert http://pastebin.com/raw/<file_name> in
-# emagnet-download since we just want to download new files that not already is in our all-files
-      sed -i 's/^/https:\/\/pastebin.com\/raw\//g' "$HOME/.config/emagnet/tmp/.emagnet-download"
-
+# Compare all files in our allfiles path with the new file so we know if there is any dupes, we just want new files
+  grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp1" "$HOME/.config/emagnet/tmp/.emagnet-temp2"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
 #-----------------------------------------------------
 # If cloudfare is trigged, then we will do below 
 # - We wont be allowed to use wget without
@@ -893,7 +891,7 @@ fi
 # stable way to do this if cloudfare is triggered
 #-----------------------------------------------------
 curl -sL https://pastebin.com/|grep -io "What can I do to" &> /dev/null
-if [[ "$?" -gt "0" ]]; then
+if [[ "$?" = "0" ]]; then
 while read line; do
 curl -sL $PASTEBIN \
      -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H \
