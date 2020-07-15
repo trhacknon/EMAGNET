@@ -14,6 +14,14 @@ R = REBUILT
 
 # Version 3.4.3
 
++    Created https://github.com/wuseman/emagnet-scraper repo, this is the script we using for scrape pastebin and add everything to nr1.nu
++    -- All brute-force tool works as expected again
++    Gmail bruter-forcer has been fixed
++    Instagram brute-forcer has been fixed
++    SSH bruter-forcer has been fixed
++    RDP bruter-forcer has been fixed
++    Spotify bruter-forcer has been fixed
++    ----
 +    Almost entire emagnet_main function, the heart of emagnet is changed since we changed how we list files and check things for not download dupes.
 +    Changed source for get newest uploads from pastebin (notice: be careful here if you didnt run emagnet before, you will probably be banned due ALOT of downloads)
      pastebin.com is now https://nr1.nu/emagnet/pastebin/$(date +%Y-%m-%d)/pastebin.txt in emagnet.conf under PASTEBIN= (source, variable name will be changed)

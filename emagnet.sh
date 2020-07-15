@@ -192,7 +192,7 @@ emagnet_mustbefilled() {
 # After we downloaded and counted data we want to move all temporary files to all-files
 # and also because we dont want to count data from those files twice...
 emagnet_move_realtime() {
-        # mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
+         mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
          rm "$HOME/.config/emagnet/tmp/.emagnet" "$HOME/.config/emagnet/tmp/.emagnet1"  &> /dev/null
  }
 
@@ -875,7 +875,7 @@ fi
 # We now use nr1.nu instead for see recent uploads 
 # since patebin now have filtered default syntax 
 # "text" from being listed, lmao :) 
-  $CURL -sL -H "$USERAGENT" -Ls ${PASTEBIN}|cut -d/ -f4|grep -v "index" > $HOME/.config/emagnet/tmp/.emagnet-temp1
+  $CURL -sL -H "$USERAGENT" -Ls ${PASTEBIN}|cut -d/ -f4|grep -v "index\|raw" > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
   ls -1 $EMAGNETALL|sort > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
   cat "$HOME/.config/emagnet/tmp/.emagnet-temp1"|sort|awk '!seen[$0]++'|cut -d'/' -f4 > "$HOME/.config/emagnet/tmp/.emagnet-temp3"
   grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp3"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
@@ -893,7 +893,7 @@ fi
 # stable way to do this if cloudfare is triggered
 #-----------------------------------------------------
 curl -sL https://pastebin.com/|grep -io "What can I do to" &> /dev/null
-if [[ ${$?} -gt "0" ]]; then
+if [[ "$?" -gt "0" ]]; then
 while read line; do
 curl -sL $PASTEBIN \
      -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H \
