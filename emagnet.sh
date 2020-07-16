@@ -192,7 +192,7 @@ emagnet_mustbefilled() {
 # After we downloaded and counted data we want to move all temporary files to all-files
 # and also because we dont want to count data from those files twice...
 emagnet_move_realtime() {
-        # mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
+         mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
          rm "$HOME/.config/emagnet/tmp/.emagnet1" "$HOME/.config/emagnet/tmp/.emagnet2  &> /dev/null
  }
 
