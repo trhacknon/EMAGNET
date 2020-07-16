@@ -192,7 +192,7 @@ emagnet_mustbefilled() {
 # After we downloaded and counted data we want to move all temporary files to all-files
 # and also because we dont want to count data from those files twice...
 emagnet_move_realtime() {
-         mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
+        # mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
          rm "$HOME/.config/emagnet/tmp/.emagnet" "$HOME/.config/emagnet/tmp/.emagnet1"  &> /dev/null
  }
 
@@ -700,7 +700,8 @@ while read instagramlogin; do
   else
          echo -e "[\e[1;31m<<\e[0m] - Wrong Password: $instagramlogin"
  fi
-done < $HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt
+#done < $HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt
+done < "$SPOTIFY_TARGETS"
          printf "%64s \n\n" | tr ' ' '='
          sleep 3
          rm "$HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt"
@@ -874,14 +875,12 @@ fi
 
 # We now use nr1.nu instead for see recent uploads 
 # since patebin now have filtered default syntax 
-# "text" from being listed, lmao :) 
-  $CURL -sL -H "$USERAGENT" -Ls "${PASTEBIN}"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
-  ls -1 "$EMAGNETALL"|sort|awk '!seen[$0]++'|sed 's/^/https:\/\/pastebin.com\/raw\//g' > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
-  # Before we can download stuff from pastebin, we must insert http://pastebin.com/raw/<file_name> in
-  # emagnet-download since we just want to download new files that not already is in our all-files
+# "text" from being listed, lmao :)
+source "$HOME/.config/emagnet/emagnet.conf" &> /dev/null
+curl -H "$USERAGENT" -Ls "https://nr1.nu/emagnet/pastebin/2020-07-15/pastebin.txt"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
+ls -1 "$EMAGNETALL"|sort|awk '!seen[$0]++'|sed 's/^/https:\/\/pastebin.com\/raw\//g' > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
+grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp1"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
 
-# Compare all files in our allfiles path with the new file so we know if there is any dupes, we just want new files
-  grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp1" "$HOME/.config/emagnet/tmp/.emagnet-temp2"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
 #-----------------------------------------------------
 # If cloudfare is trigged, then we will do below 
 # - We wont be allowed to use wget without
@@ -890,25 +889,28 @@ fi
 # change this if you have a faster, better and more 
 # stable way to do this if cloudfare is triggered
 #-----------------------------------------------------
-
+# See how you can bypass cloudfare here: 
+# https://pastebin.com/raw/8MfnBW7r
+#-----------------------------------------------------
 curl -sL https://pastebin.com/|grep -io "What can I do to" &> /dev/null
-if [[ "$?" = "0" ]]; then
-while read line; do
-curl -sL $line \
-     -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H \
-     -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' \
-     -H 'Cookie: __cfduid=.....; cf_clearance=..; PHPSESSID=.....; _ga=....; _gid=.... __gads=ID=... _gat_UA-58643-34=1' \
-     -H 'Upgrade-Insecure-Requests: 1' \
-     -H 'Cache-Control: max-age=0' \
-     -H 'TE: Trailers' \
-     -o $EMAGNETTEMP/$(echo $line|sed 's:..*/::');
-done < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
+if [[ ${$?} -gt "0" ]]; then
+   while read line; do
+        source "$HOME/.config/emagnet/emagnet.conf" &> /dev/null
+        curl -sL ${line} \
+             | -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0'
+             | -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' \ 
+             | -H 'Accept-Language: en-US,en;q=0.5' 
+             | -H 'Connection: keep-alive' 
+             | -H 'Cookie: __cfduid=d7d79b8cd36362aa95e3b90fcf3acc7491594533376; _ga=GA1.2.1884747867.1594742009; __gads=ID=38e8a6bea2852c12:T=1594734804:S=ALNI_MYI6CC_VHeBWyI_jkDdMgjO0Ny2zw; cf_clearance=dfb094f0ccac0b6649ebafa292bb81de7b37b94e-1594840687-0-1za25cfc5cze628b45azf578cfb9-250' 
+             | -H 'Upgrade-Insecure-Requests: 1' 
+             | -H 'Cache-Control: max-age=0' 
+             | -H 'TE: Trailers' -o $EMAGNETTEMP/$(echo -e $line|sed "s:..*/::")
+    done < $HOME/.config/emagnet/tmp/.emagnet-download
 else
-# Downloading new pastes we found, no duplicates will be downloaded of course
+# Downloading new pastes we found, no duplicates will be downloaded of course - This is __ALOT__ faster then while loop above - But this wont work when cloudfare will become a problem for us :)
      xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
-#     xargs -P "8" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
 fi
-# Print TT nice
+# Print total files on a better way
       tt="$(ls $EMAGNETTEMP| wc -l)"
 
 # Count stats and print them in realtime 
@@ -1026,6 +1028,7 @@ if ! [[ -f "$CONF" ]]; then
         emagnet_version
         emagnet_mustbefilled
         emagnet_paths
+        emagnet_I_was_banned
         timeout 2 ping -t 1 -c 1 nr1.nu &> /dev/null
         [[ "$?" -gt "0" ]] && sed -i '40d' $CONF;sed -i '40 i MYIP=127.0.0.1' $CONF || wip
         emagnet_conf
@@ -1573,3 +1576,4 @@ fi
 esac
 
 ( [[ -z $1 ]] && emagnet_usage; exit 1 )
+
