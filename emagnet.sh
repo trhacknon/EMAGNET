@@ -193,7 +193,7 @@ emagnet_mustbefilled() {
 # and also because we dont want to count data from those files twice...
 emagnet_move_realtime() {
         # mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
-         rm "$HOME/.config/emagnet/tmp/.emagnet" "$HOME/.config/emagnet/tmp/.emagnet1"  &> /dev/null
+         rm "$HOME/.config/emagnet/tmp/.emagnet1" "$HOME/.config/emagnet/tmp/.emagnet2  &> /dev/null
  }
 
 
