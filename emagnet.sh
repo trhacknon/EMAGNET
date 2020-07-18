@@ -1350,13 +1350,8 @@ fi
                 emagnet_required_tools
                 emagnet_conf
                 emagnet_iconnection
-                echo "The IP You will use when visiting pastbin:"
-                if [[ $PROXY = "true" ]]; then
-                CURL="curl -s -x socks5h://$PROXYHOST:$PROXYPORT ";
-                else
-                CURL="curl -s "
-                fi
-                echo -e "IP : $($CURL -s $WIP)"
+                [[ $PROXY = "true" ]] && CURL="curl -s -x socks5h://$PROXYHOST:$PROXYPORT " || CURL="curl -s "
+                echo -e "IP : $($CURL -s https://nr1.nu/i/)"
                 ;;
 
       "-h"|"--help"|"-help"|"help")
