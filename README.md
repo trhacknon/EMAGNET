@@ -45,6 +45,8 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 ### System Requirements
 
 - Bash     - Find more info about _bash_ [here](https://www.gnu.org/software/bash/)
+- Gsed     - Find more info about _gsed_ [here](https://www.gnu.org/software/sed/)
+- Gawk     - Find more info about _gawk_ [here](https://www.gnu.org/software/gawk/)
 - Wget     - Find more info about _wget_ [here](https://www.gnu.org/software/wget/)
 - Curl     - Find more info about _curl_ [here](https://github.com/curl/curl)
 
