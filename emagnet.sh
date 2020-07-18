@@ -201,6 +201,7 @@ emagnet_move_realtime() {
 # Check if we are allowed to visit pastebin before doing next function
 emagnet_check_pastebin() {
 emagnet_conf
+emagent_paths
   curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
     grep -qi "blocked your IP" /$EMAGNETTEMP/.status
     if [[ "$?" = "0" ]]; then 
