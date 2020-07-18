@@ -1231,6 +1231,7 @@ case "${1}" in
 
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
         emagnet_conf           # Source emagnet.conf before we do anything else so we know variables are used, like user-agent before check_pastebin
+        emagnet_paths
         emagnet_check_pastebin # Check if everything ARE ok and if we are allowed to visit pastebin before we doing anything
         emagnet_iconnection
         emagnet_first_run
