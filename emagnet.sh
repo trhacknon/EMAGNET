@@ -200,8 +200,6 @@ emagnet_move_realtime() {
 
 # Check if we are allowed to visit pastebin before doing next function
 emagnet_check_pastebin() {
-emagnet_conf
-emagent_paths
   curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
     grep -qi "blocked your IP" /$EMAGNETTEMP/.status
     if [[ "$?" = "0" ]]; then 
@@ -1001,6 +999,7 @@ emagnet_run4ever() {
         emagnet_conf                         # Source emagnet-conf so we know all settings for emagnet
         emagnet_first_run
         emagnet_paths
+        emagnet_check_pastebin               # Check if everything ARE ok and if we are allowed to visit pastebin before we doing anything
         emagnet_iconnection                  # Check if we got internet, otherwise we stop
         emagnet_version                      # Check so we using the correct emagnet.conf
         emagnet_clear
@@ -1231,8 +1230,6 @@ case "${1}" in
 
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
         emagnet_conf           # Source emagnet.conf before we do anything else so we know variables are used, like user-agent before check_pastebin
-        emagnet_paths
-        emagnet_check_pastebin # Check if everything ARE ok and if we are allowed to visit pastebin before we doing anything
         emagnet_iconnection
         emagnet_first_run
         emagnet_required_tools
