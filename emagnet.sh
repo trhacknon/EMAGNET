@@ -1351,7 +1351,7 @@ fi
                 emagnet_conf
                 emagnet_iconnection
                 [[ $PROXY = "true" ]] && CURL="curl -s -x socks5h://$PROXYHOST:$PROXYPORT " || CURL="curl -s "
-                echo -e "IP : $($CURL -s https://nr1.nu/i/)"
+                echo -e "IP: $($CURL -s https://nr1.nu/i/)"
                 ;;
 
       "-h"|"--help"|"-help"|"help")
