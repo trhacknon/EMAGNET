@@ -296,7 +296,7 @@ emagnet_clear() {
 emagnet_iconnection() {
     ping -i "1" -c 1 google.com &> /dev/null
         if [[ "$?" -gt "0" ]]; then 
-            echo -e "$basename$0: internal error -- this feature require a inernet connection but you seems to be offline, exiting.."
+            echo -e "$basename$0: internal error -- this feature require a internet connection but you seems to be offline, exiting.."
             exit 1
         fi
 }
