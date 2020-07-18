@@ -877,7 +877,7 @@ fi
 # since patebin now have filtered default syntax 
 # "text" from being listed, lmao :)
 source "$HOME/.config/emagnet/emagnet.conf" &> /dev/null
-curl -H "$USERAGENT" -Ls "https://nr1.nu/emagnet/pastebin/2020-07-15/pastebin.txt"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
+curl -H "$USERAGENT" -Ls "$PASTEBIN"|grep -i "https"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
 ls -1 "$EMAGNETALL"|sort|awk '!seen[$0]++'|sed 's/^/https:\/\/pastebin.com\/raw\//g' > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
 grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp1"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
 
@@ -1333,7 +1333,7 @@ to let me install \e[1;32mlibspotify\e[0m and get started :)\n
 read -p "Answer: " LIBSPOTIFY
 if [[ "$LIBSPOTIFY" = "YES" ]]; then
 printf "%s" "Checking connection........";emagnet_iconnection
-    ping -i "1" -c 1 google.com &> /dev/null; [[ "$?" -gt "0" ]] && echo -e "$basename$0: internal error -- this feature require a inernet connection but you seems to be offline, exiting.."
+    ping -i "1" -c 1 google.com &> /dev/null; [[ "$?" -gt "0" ]] && echo -e "$basename$0: internal error -- this feature require a internet connection but you seems to be offline, exiting.."
 printf "..ok\n"
 sleep 1
 printf "%s" "Downloading libspoify........"; wget -q https://nr1.nu/archive/libspotify/12.1.51/amd64/libspotify_12.1.51.orig-amd64.tar.gz -P /tmp; printf "ok\n"
