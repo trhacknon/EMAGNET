@@ -165,7 +165,7 @@ emagnet_mustbefilled() {
   if [[ -z "$CBRUTEFORCE"    ]];then sed -i '129d' "$CONF";sed -i '129 i CBRUTEFORCE='                                                                                                    "$CONF";fi
   if [[ -z "$DBRUTEFORCE"    ]];then sed -i '130d' "$CONF";sed -i '130 i DBRUTEFORCE='                                                                                                    "$CONF";fi
   if [[ -z "$EBRUTEFORCE"    ]];then sed -i '131d' "$CONF";sed -i '131 i EBRUTEFORCE='                                                                                                    "$CONF";fi
-  if [[ -z "$EMAIL2SEND"     ]];then sed -i '140d' "$CONF";sed -i '140 i EMAIL2SEND='                                                                                                             "$CONF";fi
+  #if [[ -z "$EMAIL2SEND"     ]];then sed -i '140d' "$CONF";sed -i '140 i EMAIL2SEND='                                                                                                             "$CONF";fi
   if [[ -z "$NOTIFY"         ]];then sed -i '149d' "$CONF";sed -i '149 i NOTIFY=false'                                                                                                            "$CONF";fi
   if [[ -z "$VPN"            ]];then sed -i '161d' "$CONF";sed -i '161 i VPN=false'                                                                                                               "$CONF";fi
   if [[ -z "$VPNROOT"        ]];then sed -i '162d' "$CONF";sed -i '162 i VPNROOT=/etc/openvpn'                                                                                                    "$CONF";fi
@@ -273,9 +273,6 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
   -k, --kill          Kill emagnet ghost sessions
   -m, --merge         Merge all log files from incoming to archive
   -M, --move          Move all downloaded files to archive
-  -s, --spam          Send email to all targets 
-                      - Send email to targets in logs/emails-from-patebin.txt
-                      - Choose and set file by ./$basename$0 -s /text/to/send.txt
   -S, --search        Search for email addresses and various stuff
   -q, --quiet         Run emagnet in a screen
   -x, --syntax        Download uploads sorted by syntax
@@ -772,57 +769,6 @@ done < "$HOME/.config/emagnet/tmp/.emagnet-passwords.txt"
       sleep 3
 else
       sleep 1
-fi
-}
-
-emagnet_spammer() {
-emagnet_required_stuff
-emagnet_conf
-ssmtp &> /dev/null
-if [[ "$?" -gt "0" ]]; then printf "%s\n" "$basename$0: internal error -- ssmtp is required to be installed";exit 1;fi
-
-if [[ -z "$EMAIL2SEND" ]]; then
-    printf "%s\n" " - You must create a text file wich contains the message"
-    printf "%s\n" " - you want to send when text file has been created then run:"
-    printf "%s\n" " - Usage: ./$basename$0 -s /path/to/text-file.txt"
-    exit 1
-fi
-
-
-if [[ -z "$2" ]]; then
-    printf "%s\n" "$basename$0: internal error -- you must choose a file with email addresses..."
-    exit 1 
-fi
-
-if ! [[ -f "$EMAIL2SEND" ]]; then
-    printf "%s\n" "$basename$0: internal error -- $1 does not exist..."
-    exit 1
-fi
-
-if [[ "$(ls $EMAGNETDB|wc -l)" -eq "0" ]]; then
-    echo -e "$basename$0: internal error -- no email addresses has been found."
-    exit 1
-else
-        emagnet_clear
-        emagnet_banner
-        NRTARGETS="$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETDB|cut -d: -f2|wc -l)"
-        printf "%17s[\e[1;32m$NRTARGETS\e[0m] - EMAIL ADDRESSES\e[0m\n"
-        printf "\n%64s \n\n" | tr ' ' '='
-        read -p "- Are you really sure you want to send your mail (yes/NO): " sendtoall
-             case $sendtoall in
-                  "yes")
-                     printf "\n%64s \n" | tr ' ' '='
-                     grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETDB|cut -d: -f2 > $HOME/.config/emagnet/tmp/.emagnet-spam
-                     while read e1; do printf "%-57s%s\n" "- Sending email to: $e1 $(ssmtp $e1 < "$EMAIL2SEND")" "[.sent.]";done < "$HOME/.config/emagnet/tmp/.emagnet-spam"
-                     printf "\n%64s \n\n" | tr ' ' '='
-                     echo -e "- Successfully sent to all $TARGETS"
-                     rm "$HOME/.config/emagnet/tmp/.emagnet-spam" &> /dev/null
-                   ;;
-                  "*")
-                     echo -e "- Aborted..\n"
-                     exit 1
-                   ;;
-             esac
 fi
 }
 
@@ -1435,26 +1381,6 @@ fi
                 emagnet_move_files
                 ;;
 
-      "-s"|"-spam"|"--spam")
-               emagnet_required_stuff
-               emagnet_conf 
-               if [[ -z "$EMAIL2SEND" ]]; then
-                 if ! [[ -f "$2" ]]; then
-                   echo -e "$basename$0: internal error -- no such file found"
-                   exit 1
-                 fi
-                fi
-
-                if [[ -n "$2" ]]; then
-                    sed -i '140d' "${CONF}"; sed -i "140 i EMAIL2SEND=$2" "${CONF}"
-                    echo -e "$basename$0: config file has been updated -- text file has been set to: $2"
-                    exit 1
-                fi
-                emagnet_required_tools
-                emagnet_iconnection
-                emagnet_first_run
-                emagnet_spammer
-                ;;
       "-d"|"-stats"|"--stats")
                 emagnet_required_stuff
                 emagnet_conf
