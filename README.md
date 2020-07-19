@@ -32,6 +32,11 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
     chmod +x emagnet/emagnet.sh
     bash emagnet/emagnet.sh --emagnet
   
+### Preview - v3.4.3 (2020-07-19)
+#### Parallel downloading! More than twice as fast as previous version.
+
+![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3.gif)
+
 ### Sit back and relax and Emagnet will do the rest, watch the video below, this is for real!	
 
 ![Screenshot](.preview/emagnet-latest.gif)
