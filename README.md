@@ -33,7 +33,7 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
 * Emagnet is quick, easy, unique and awesome!
 * Google used Emagnet source for analyze their own site for ~1year ago, this is how people trying to attack accounts today.
 * No skills needed, even your grandmother can use emagnet.
-* Bruteforce ssh targets, Microsoft Remote Desktop - We portscanning extremely for choose our targets via (netcat/xargs)
+* Bruteforce ssh targets, Microsoft Remote Desktop - We portscanning extremely fast for choose our targets with X port open (netcat/xargs)
 * Super easy to add your own tools using inotifywait with emagnet - See script example [here](https://pastebin.com/raw/rem8bNRw)
 - ./emagnet -g gmail will automate the attack for gmail/google accounts only - We skip the rest!
   - Read more on googles security blog and automated-tools(emagnet) 
