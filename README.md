@@ -18,25 +18,42 @@
 </a>
 </p>
 
-### About: 
-
-Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin w
-
 #### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
 
 - Emagnet is No.1 tool for fetch these leaks from pastebin
+
+### About - Emagnet v3.4.3 (2020-07-19)
+
+Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin w
+
+* Parallel downloading! More than twice as fast as previous version.
+* 555 files downloaded, over ~20.000 accounts found to auto brute-forceby one command that toke ~4.51 seconds (see proof below)
+* Incredibly good results for successful attacks.
+* There is __no__ other tool nearby that has more successful attempts than the Emagnet.
+* Emagnet is quick, easy, unique and awesome!
+* Google used Emagnet source for analyze their own site for ~1year ago, this is how people trying to attack accounts today.
+* No skills needed, even your grandmother can use emagnet.
+* Super easy to add your own tools using inotifywait with emagnet - See script example [here](https://pastebin.com/raw/rem8bNRw)
+- ./emagnet -g gmail will automate the attack for gmail/google accounts only - We skip the rest!
+  - Read more on googles security blog and automated-tools(emagnet) 
+  - Emagnet is 1 year after the analyze from google still the best tool for it's purpose (2020-07-19) (7% using 2FA)
+  - If the user does not have 2FA enable, you will succeed!
+  - URL To google security blog (This was for try 2FA security): [Google.com - Security Blog](https://security.googleblog.com/2019/05/new-research-how-effective-is-basic.html)
+  - __Remember,bruteforce accounts without the owner's approval violates the law.__
+
+### Emagnet - v3.4.3 (spotify)
+![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3-spotify.gif)
+
+### Emagnet - v3.4.3 (gmail)
+![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3-gmail.gif)
 
 ### Getting Started
 
     git clone https://github.com/wuseman/emagnet
     chmod +x emagnet/emagnet.sh
     bash emagnet/emagnet.sh --emagnet
-  
-### Preview - v3.4.3 (2020-07-19)
-#### Parallel downloading! More than twice as fast as previous version.
-
-![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3.gif)
-
+    
+    
 ### Sit back and relax and Emagnet will do the rest, watch the video below, this is for real!	
 
 ![Screenshot](.preview/emagnet-latest.gif)
