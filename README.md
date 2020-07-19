@@ -27,7 +27,7 @@
 Emagnet is a very powerful tool for it's purpose wich is to capture  email addresses and passwords from leaked databases uploaded on pastebin. It's almost impossible to find leaked passwords when they are out of list on pastebin.com. Either they have been deleted by pastebin's techs or the uploads is just one in the crowd. To be honest it's easier to find a needle in a haystack then find outdated uploads on pastebin w
 
 * Parallel downloading! More than twice as fast as previous version.
-* 555 files downloaded, over ~20.000 accounts found to auto brute-forceby one command that toke ~4.51 seconds (see proof below)
+* 555 files downloaded, over ~20.000 accounts found to auto brute-force by one command that toke ~4.51 seconds (see proof below)
 * Incredibly good results for successful attacks.
 * There is __no__ other tool nearby that has more successful attempts than the Emagnet.
 * Emagnet is quick, easy, unique and awesome!
