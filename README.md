@@ -42,6 +42,9 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
   - URL To google security blog (This was for try 2FA security): [Google.com - Security Blog](https://security.googleblog.com/2019/05/new-research-how-effective-is-basic.html)
   - __Remember,bruteforce accounts without the owner's approval violates the law.__
 
+### Emagnet - v3.4.3 (ssh)
+![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3-ssh.gif)
+
 ### Emagnet - v3.4.3 (spotify)
 ![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3-spotify.gif)
 
@@ -53,8 +56,7 @@ Emagnet is a very powerful tool for it's purpose wich is to capture  email addre
     git clone https://github.com/wuseman/emagnet
     chmod +x emagnet/emagnet.sh
     bash emagnet/emagnet.sh --emagnet
-    
-    
+       
 ### Sit back and relax and Emagnet will do the rest, watch the video below, this is for real!	
 
 ![Screenshot](.preview/emagnet-latest.gif)
