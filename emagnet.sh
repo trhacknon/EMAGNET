@@ -971,7 +971,7 @@ case "${1}" in
            elif [[ "$2" = "spotify" ]]; then
              find /usr/include -name "portaudio.h" |xargs grep -v "port" &> /dev/null
                if [[ $? -ne 0 ]]; then 
-                   echo -e "$basename$0: internal error -- \e[1;31mDebian\e[0m: Copy and paste: apt install libsound-dev libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0"
+                   echo -e "$basename$0: internal error -- \e[1;31mDebian\e[0m: Copy and paste: apt install -y libasound2-dev portaudio19-dev libportaudio2 libportaudiocpp0"
                    echo -e "$basename$0: internal error -- \e[1;34mGentoo\e[0m: Copy and paste: emerge --ask media-libs/portaudio" 
 
                     echo -e "$basename$0: internal error -- portaudio is required to be installed, exiting..."
