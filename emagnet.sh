@@ -1044,7 +1044,7 @@ sleep 1
 printf "%s" "Downloading libspoify........"; wget -q https://nr1.nu/archive/libspotify/12.1.51/amd64/libspotify_12.1.51.orig-amd64.tar.gz -P /tmp; printf "ok\n"
 printf "%s" "Extracting libspoify..,......"; tar -xf /tmp/libspotify_12.1.51.orig-amd64.tar.gz -C /tmp; printf "ok\n"
 printf "%s" "Installing libspotify........"; cd /tmp/libspotify-12.1.51-Linux-x86_64-release/&> /dev/null; printf "ok\n"  & make install prefix=/usr/local &> /dev/null; printf "ok\n"
-printf "%s" "Preparing emagnet.conf......."; emagnet_conf;sed -i 's/LIBSPOTIFY/LIBSPOTIFY=true/g' "$CONF"; printf "ok\n"
+printf "%s" "Preparing emagnet.conf......."; emagnet_conf;sed -i 's/LIBSPOTIFY=/LIBSPOTIFY=true/g' "$CONF"; printf "ok\n"
 echo -e "\nAll done, will continue in 3 seconds!"
 sleep 2
 else
