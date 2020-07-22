@@ -1051,13 +1051,11 @@ else
   echo "Can't continue until libspotify has been installed.."
   echo "Exiting.."
   exit 1
-  sed -i '248d' "$CONF"
-  sed -i '248 i LIBSPOTIFY=false' "$CONF"
+  sed -i 's/LIBSPOTIFY=/LIBSPOTIFY=false/g' "$CONF"
 fi
 fi
               else
-               sed -i '248d' "$CONF"
-               sed -i '248 i LIBSPOTIFY=true' "$CONF"
+               sed -i 's/LIBSPOTIFY=/LIBSPOTIFY=true/g' "$CONF"
             fi
                hash unzip &> /dev/null
                if [[ "$?" -ne "0" ]]; then
