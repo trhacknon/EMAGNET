@@ -23,7 +23,7 @@
 ####  This program is free software; you can redistribute it and/or modify ####
 ####  it under the terms of the GNU General Public License as published by ####
 ####  the Free Software Foundation; either version 2 of the License, or    ####
-####  (at your option) any later version.                                  ####
+####  (at your option) any later wversion.                                  ####
 ####                                                                       ####
 ####  This program is distributed in the hope that it will be useful,      ####
 ####  but WITHOUT ANY WARRANTY; without even the implied warranty of       ####
@@ -63,7 +63,6 @@ cat << "EOF"
 EOF
 }
 
-#### Check so we are running correct version of emagnet 
 emagnet_conf() {
 if ! [[ -f "$HOME/.config/emagnet/emagnet.conf" ]]; then
     mkdir -p "$HOME/.config/emagnet/tmp"
@@ -82,34 +81,6 @@ emagnet_required_tools() {
                  exit 1
              fi
      done
-}
-
-#### If wrong version, then stop!
-emagnet_version() {
-if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
-   if ! [[ -f "./emagnet.conf" ]]; then
-               mv" $HOME/.config/emagnet/emagnet.conf" "$HOME/.config/emagnet/emagnet.conf.bak" &> /dev/null
-               cp "./emagnet.conf" "$HOME/.config/emagnet/" &> /dev/null
-else
-               echo -e "$basename$0: internal error -- You are using an old emagnet.conf and emagnet.conf can't be found..."
-               echo -e "$basename$0: internal error -- Write current emagnet.conf to ~/.config/emagnet/emagnet.conf by below command..."
-               echo -e "$basename$0: internal error -- curl -sL -o ~/.config/emagnet/emagnet.conf https://raw.githubusercontent.com/wuseman/EMAGNET/emagnet/emagnet.conf"
-               echo -e "$basename$0: internal error -- Once done, press arrow key up and hit enter..."
-               mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak &> /dev/null
-               exit 1
-   fi
-fi
-}
-
-# Check if we using right config file...
-emagnet_check_version() {
-if [[ -f "$HOME/.config/emagnet/emagnet.conf" ]]; then
-grep -qio 'version=[0-9].*' "$HOME/.config/emagnet/emagnet.conf"
-   if [[ $? -eq "0" ]]; then 
-        mv "$HOME/.config/emagnet/emagnet.conf" "$HOME/.config/emagnet/emagnet.conf.bak"
-        cp "./emagnet.conf" "$HOME/.config/emagnet/" &> /dev/null
-   fi
-fi
 }
 
 #### Some functions require root on almost all distros, installing missing packages for example.
@@ -862,7 +833,6 @@ emagnet_run4ever() {
         emagnet_paths
         emagnet_check_pastebin               # Check if everything ARE ok and if we are allowed to visit pastebin before we doing anything
         emagnet_iconnection                  # Check if we got internet, otherwise we stop
-        emagnet_version                      # Check so we using the correct emagnet.conf
         emagnet_clear
         emagnet_banner
         emagnet_analyzer                     # Change this with emagnet_count_down when we have added brute force stuff again
@@ -878,13 +848,11 @@ if ! [[ -f "$CONF" ]]; then
         emagnet_required_stuff
         emagnet_conf
         emagnet_required_tools
-        emagnet_version
         emagnet_mustbefilled
         emagnet_paths
         timeout 2 ping -t 1 -c 1 nr1.nu &> /dev/null
         [[ "$?" -gt "0" ]] && sed -i '40d' $CONF;sed -i '40 i MYIP=127.0.0.1' $CONF || wip
         emagnet_conf
-        emagnet_check_version
 fi
 }
 
@@ -1003,10 +971,9 @@ case "${1}" in
            elif [[ "$2" = "spotify" ]]; then
              find /usr/include -name "portaudio.h" |xargs grep -v "port" &> /dev/null
                if [[ $? -ne 0 ]]; then 
-                   # DEBIAN DISTROS: ALSA Development Kit Before PortAudio 
-                   # DEBIAN DISTROS: Copy and paste: apt install libsound-dev libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
-                   # GENTOO DISTROS: wich is the default distro for emagnet, of course have it already in tree, 
-                   # GENTOO DISTROS: emerge --ask media-libs/portaudio
+                   echo -e "$basename$0: internal error -- \e[1;31mDebian\e[0m: Copy and paste: apt install libsound-dev libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0"
+                   echo -e "$basename$0: internal error -- \e[1;34mGentoo\e[0m: Copy and paste: emerge --ask media-libs/portaudio" 
+
                     echo -e "$basename$0: internal error -- portaudio is required to be installed, exiting..."
                     exit 1
                fi
