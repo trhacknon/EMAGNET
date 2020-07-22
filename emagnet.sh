@@ -72,6 +72,7 @@ fi
     CONF="$HOME/.config/emagnet/emagnet.conf"
     source "$CONF" &> /dev/null
 }
+
 #### Required tools for emagnet
 emagnet_required_tools() {
      for packages in "wget curl"; do
@@ -81,6 +82,36 @@ emagnet_required_tools() {
                  exit 1
              fi
      done
+}
+
+#### If wrong version, then stop!
+
+emagnet_version() {
+if [[ "$VERSION" != "$CURRENT_VERSION" ]]; then
+   if ! [[ -f "./emagnet.conf" ]]; then
+               mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak &> /dev/null
+               cp ./emagnet.conf $HOME/.config/emagnet/ &> /dev/null
+else
+               echo -e "$basename$0: internal error -- You are using an old emagnet.conf and emagnet.conf can't be found..."
+               echo -e "$basename$0: internal error -- Write current emagnet.conf to ~/.config/emagnet/emagnet.conf by below command..."
+               echo -e "$basename$0: internal error -- curl -sL -o ~/.config/emagnet/emagnet.conf https://raw.githubusercontent.com/wuseman/EMAGNET/emagnet/emagnet.conf"
+               echo -e "$basename$0: internal error -- Once done, press arrow key up and hit enter..."
+               mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak &> /dev/null
+               exit 1
+   fi
+fi
+}
+
+# Check if we using right config file...
+
+emagnet_check_version() {
+if [[ -f $HOME/.config/emagnet/emagnet.conf ]]; then
+grep -qio 'version=[0-9].*' $HOME/.config/emagnet/emagnet.conf
+   if [[ $? -eq "0" ]]; then 
+        mv $HOME/.config/emagnet/emagnet.conf $HOME/.config/emagnet/emagnet.conf.bak
+        cp ./emagnet.conf $HOME/.config/emagnet/ &> /dev/null
+   fi
+fi
 }
 
 #### Some functions require root on almost all distros, installing missing packages for example.
@@ -833,6 +864,8 @@ emagnet_run4ever() {
         emagnet_paths
         emagnet_check_pastebin               # Check if everything ARE ok and if we are allowed to visit pastebin before we doing anything
         emagnet_iconnection                  # Check if we got internet, otherwise we stop
+        emagnet_version
+        emagnet_check_version
         emagnet_clear
         emagnet_banner
         emagnet_analyzer                     # Change this with emagnet_count_down when we have added brute force stuff again
