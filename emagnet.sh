@@ -427,7 +427,7 @@ find $EMAGNET/incoming -maxdepth 1 -type d|sed '1d'|grep '.' &> /dev/null
          find $HOME/emagnet/incoming/*/password-files -type f -exec cp {} $EMAGNETARCHIVE/password-files/ \;
 fi
 
- if [[ -f "/root/emagnet/incoming/$(date +%Y)*/logs/emails-from-pastebin.txt" ]]; then 
+ if ! [[ -f "/root/emagnet/incoming/$(date +%Y)*/logs/emails-from-pastebin.txt" ]]; then 
        echo -e "Merged:   [\e[1;31m00\e[0m] email addresses..."
  else
        EMAIL_ADDRESSES="$(cat $EMAGNET/incoming/*/logs/email-files|wc -l)" 
@@ -435,7 +435,7 @@ fi
        cat /root/emagnet/incoming/$(date +%Y)*/logs/emails-from-pastebin.txt >> $EMAGNETARCHIVE/logs/emails-from-pastebin.txt 
  fi
 
- if [[ -f "/root/emagnet/incoming/$(date +%Y)*/logs/passwords-from-pastebin.txt" ]]; then 
+ if ! [[ -f "/root/emagnet/incoming/$(date +%Y)*/logs/passwords-from-pastebin.txt" ]]; then 
        echo -e "Merged:   [\e[1;31m00\e[0m] email and passwords combos to ..."
  else
        PASSWORDS="$(cat $EMAGNET/incoming/*/logs/passwords-from-pastebin.txt|wc -l)" 
