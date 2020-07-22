@@ -1011,6 +1011,7 @@ case "${1}" in
                     exit 1
                fi
 
+source ${CONF}
 if [[ -z ${LIBSPOTIFY} ]]; then
    find /usr/include -type d |grep 'libspotify' &> /dev/null
      if [[ "$?" -ne "0" ]]; then
