@@ -1011,10 +1011,9 @@ case "${1}" in
                     exit 1
                fi
 
-if [[ "$LIBSPOTIFY" = "false" ]]; then
+if [[ -z ${LIBSPOTIFY} ]]; then
    find /usr/include -type d |grep 'libspotify' &> /dev/null
      if [[ "$?" -ne "0" ]]; then
-
 echo -e "
 \e[1;33mNOTICE:\e[0m
 -------------------------------------------
@@ -1045,7 +1044,6 @@ sleep 1
 printf "%s" "Downloading libspoify........"; wget -q https://nr1.nu/archive/libspotify/12.1.51/amd64/libspotify_12.1.51.orig-amd64.tar.gz -P /tmp; printf "ok\n"
 printf "%s" "Extracting libspoify..,......"; tar -xf /tmp/libspotify_12.1.51.orig-amd64.tar.gz -C /tmp; printf "ok\n"
 printf "%s" "Installing libspotify........"; cd /tmp/libspotify-12.1.51-Linux-x86_64-release/&> /dev/null; printf "ok\n"  & make install prefix=/usr/local &> /dev/null; printf "ok\n"
-#printf "%s" "Installing libspotify........"; cd /tmp/libspotify-12.1.51-Linux-x86_64-release/  & make install prefix=/usr/local &> /dev/null; printf "ok\n"
 printf "%s" "Preparing emagnet.conf......."; emagnet_conf;sed -i 's/LIBSPOTIFY/LIBSPOTIFY=true/g' "$CONF"; printf "ok\n"
 echo -e "\nAll done, will continue in 3 seconds!"
 sleep 2
@@ -1135,14 +1133,6 @@ fi
                 emagnet_stats
                 ;;
 
-      "-x"|"-syntax"|"--syntax")
-                emagnet_required_tools
-                emagnet_conf
-                emagnet_iconnection
-                SYNTAX2DL="${2}"
-                emagnet_syntax
-                ;;
-
       "-q"|"-quiet"|"--quiet")
                 emagnet_conf
                 emagnet_screen
@@ -1151,7 +1141,7 @@ fi
       "version"|"-version"|"--version"|"-V")
                 emagnet_required_stuff
                 emagnet_conf
-                VERSION="$(cat $CONF|grep "^VERSION"|cut -d= -f2)"
+                VERSION="$(cat $CONF|grep "^VERSION"|cut -d'=' -f2)"
                 printf "Emagnet Version: $VERSION\n"
                 ;;
 
