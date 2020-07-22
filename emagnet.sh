@@ -955,10 +955,10 @@ case "${1}" in
       ;;
 
       "-g"|"-bruteforce"|"--bruteforce")
+          emagnet_conf &> /dev/null
           emagnet_required_tools
           emagnet_iconnection
           emagnet_first_run
-
           sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' "$CONF"
           sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' "$CONF"
           sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' "$CONF"
