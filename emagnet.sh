@@ -68,8 +68,8 @@ EOF
 
 #### Required tools for emagnet
 emagnet_required_tools() {
-	hash wget &> /dev/null;[[ $? > "0" ]] && echo  "$basename$0: internal error -- wget is required to be installed, exiting."
-	hash curl &> /dev/null;[[ $? > "0" ]] && echo  "$basename$0: internal error -- curl is required to be installed, exiting." && exit 1
+   hash wget &> /dev/null;[[ $? > "0" ]] && echo  "$basename$0: internal error -- wget is required to be installed, exiting."
+   hash curl &> /dev/null;[[ $? > "0" ]] && echo  "$basename$0: internal error -- curl is required to be installed, exiting." && exit 1
 }
 
 #### If wrong version, then stop!
