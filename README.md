@@ -20,7 +20,7 @@
 
 ### Notice: 
 
-Pastebin found the vulnerability I used to scrape scrape.pastebin.com/api_scrape.php and fixed this, at the moment it is not possible to get the recent uploaded files anymore. 
+Pastebin found the vulnerability I used to scrape scrape.pastebin.com/api_scrape.php and fixed this, at the moment it is not possible to get the recent uploaded files anymore as before, you are now limited to all syntaxes exempt the default one (95% get's uploaded as 'text' and this is removed from all recent upload lists). 
 
 Currently working on a new way to share all recent uploads for free
 
