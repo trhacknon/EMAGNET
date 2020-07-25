@@ -18,6 +18,12 @@
 </a>
 </p>
 
+### Notice: 
+
+Pastebin found the vulnerability I used to scrape scrape.pastebin.com/api_scrape.php and fixed this, at the moment it is not possible to get the recent uploaded files anymore. 
+
+Currently working on a new way to share all recent uploads for free
+
 #### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
 
 - Emagnet is No.1 tool for fetch these leaks from pastebin
