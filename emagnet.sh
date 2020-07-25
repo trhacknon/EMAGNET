@@ -723,9 +723,12 @@ fi
 # since patebin now have filtered default syntax 
 # "text" from being listed, lmao :)
 
-$CURL -H "$USERAGENT" -Ls "$PASTEBIN"|grep -i "https"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
+# UNTIL NR1 OPENING SCRAPE AGAIN WE SKIP THIS
+#$CURL -H "$USERAGENT" -Ls "$NR1"|grep -i "https"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
+exclude='signup\|login\|archive\|_\|pastebin$\|dmca$\|tools$\|contact$\|languages'
+curl -Ls "$PASTEBIN"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'|sed 's/^/https:\/\/patebin.com\/raw\//g'|grep -v $exclude > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
 ls -1 "$EMAGNETALL"|sort|awk '!seen[$0]++'|sed 's/^/https:\/\/pastebin.com\/raw\//g' > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
-grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp1"|awk -F, '!seen[$1]++' > "$HOME/.config/emagnet/tmp/.emagnet-download"
+grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp1"|awk -F, '!seen[$1]++' > $HOME/.config/emagnet/tmp/.emagnet-download
 
 #-----------------------------------------------------
 # If cloudfare is trigged, then we will do below 
@@ -747,10 +750,11 @@ fi
 if [[ "$?" = "0" ]]; then
    while read line; do
         source "$HOME/.config/emagnet/emagnet.conf" &> /dev/null
-        curl -sL "$line" -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' -H 'Cookie: __cfduid=d7d79b8cd36362aa95e3b90fcf3acc7491594533376; _ga=GA1.2.1884747867.1594742009; __gads=ID=38e8a6bea2852c12:T=1594734804:S=ALNI_MYI6CC_VHeBWyI_jkDdMgjO0Ny2zw; cf_clearance=dfb094f0ccac0b6649ebafa292bb81de7b37b94e-1594840687-0-1za25cfc5cze628b45azf578cfb9-250; _gid=GA1.2.423143590.1594877466' -H 'Upgrade-Insecure-Requests: 1' -H 'Cache-Control: max-age=0' -H 'TE: Trailers' -o "$EMAGNETTEMP/$(echo -e $line|sed "s:..*/::")"
+        $CURL -sL "$line" -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Connection: keep-alive' -H 'Cookie: __cfduid=d7d79b8cd36362aa95e3b90fcf3acc7491594533376; _ga=GA1.2.1884747867.1594742009; __gads=ID=38e8a6bea2852c12:T=1594734804:S=ALNI_MYI6CC_VHeBWyI_jkDdMgjO0Ny2zw; cf_clearance=dfb094f0ccac0b6649ebafa292bb81de7b37b94e-1594840687-0-1za25cfc5cze628b45azf578cfb9-250; _gid=GA1.2.423143590.1594877466' -H 'Upgrade-Insecure-Requests: 1' -H 'Cache-Control: max-age=0' -H 'TE: Trailers' -o "$EMAGNETTEMP/$(echo -e $line|sed "s:..*/::")"
     done < "$HOME/.config/emagnet/tmp/.emagnet-download"
 else
-     xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 wget --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet-download &> /dev/null
+     xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 \
+     wget --no-check-certificate --user-agent="${USERAGENT}" -q -nc -P "$EMAGNETTEMP" < $HOME/.config/emagnet/tmp/.emagnet-download &> /dev/null
 fi
 # Print total files on a better way
       tt="$(ls $EMAGNETTEMP| wc -l)"
