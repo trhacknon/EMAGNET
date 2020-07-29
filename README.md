@@ -26,7 +26,7 @@ Currently working on a new way to share all recent uploads for free
 
 Pastebin on twitter: https://twitter.com/pastebin/status/1250472977491091457
 
-See their own license here: https://web.archive.org/web/20200410004902/https://pastebin.com/doc_terms_of_service
+Read their terms of service here before this happend.: https://web.archive.org/web/20200410004902/https://pastebin.com/doc_terms_of_service
 
 Idiots!
 
