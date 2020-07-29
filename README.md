@@ -20,7 +20,9 @@
 
 ### Notice: 
 
-Pastebin found the vulnerability I used to scrape scrape.pastebin.com/api_scrape.php and fixed this, at the moment it is not possible to get the recent uploaded files anymore as before, you are now limited to all syntaxes exempt the default one (95% get's uploaded as 'text' and this is removed from all recent upload lists). 
+Pastebin found the vulnerability I used to get recent uploads from https://pastebin.com/archive and fixed this issue.
+
+At the moment it is not possible to get the recent uploaded files anymore as before, you are now limited to all syntaxes exempt the default one (95% get's uploaded as 'text' and this is removed from all recent upload lists). 
 
 Currently working on a new way to share all recent uploads for free.
 
@@ -28,6 +30,7 @@ Pastebin on twitter:
 https://twitter.com/pastebin/status/1250472977491091457
 
 Read their terms of service here before this decision:
+
 https://web.archive.org/web/20200410004902/https://pastebin.com/doc_terms_of_service
 
     4. Services Usage Limits
@@ -41,9 +44,9 @@ https://web.archive.org/web/20200410004902/https://pastebin.com/doc_terms_of_ser
 
     All use of Pastebin data gathered through scraping must comply with the Pastebin Privacy Statement. 
  
-Emagnet users are archivists! Right?
+Emagnet users are archivists! __Right__?
 
-We didnt get the recent uploads from scrape.pastebin.com, we used pastebin.com/archive, this means we never was under the privacy statements.
+We didnt get the recent uploads from __scrape.pastebin.com__, we used _pastebin.com/archive_, this means we never was under the privacy statements.
 
 Whatever, this means that the emagnet project has ended up in a pause phase as we will not go much further until this changes, but just wait. Soon the greed will come and they will open the pro section again. They can not run this service for free, too long.
 
