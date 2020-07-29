@@ -24,7 +24,10 @@ Pastebin found the vulnerability I used to scrape scrape.pastebin.com/api_scrape
 
 Currently working on a new way to share all recent uploads for free
 
-![Pastebin on Twitter](https://twitter.com/pastebin/status/1250472977491091457)
+Pastebin on twitter: https://twitter.com/pastebin/status/1250472977491091457
+See their own license here: https://web.archive.org/web/20200410004902/https://pastebin.com/doc_terms_of_service
+
+Idiots!
 
 #### BBC NEWS: ["Pastebin: Running the site where hackers publicise their attacks"](https://www.bbc.com/news/technology-17524822) 
 
