@@ -43,7 +43,6 @@
 EMAGNET_HOME="$HOME/.config/emagnet"
 EMAGNET_CONF="$HOME/.config/emagnet/emagnet.conf"
 CURRENT_VERSION=3.4.3
-DISTRO=$(cat /etc/*release | head -n 1 | awk '{ print tolower($1) }' | cut -d= -f2)
 
 #### Author of emagnet will be printed if --author or -a is being used
 emagnet_author() {
@@ -119,17 +118,17 @@ emagnet_license(){
 }
 
 emagnet_required_stuff() {
-     if ! [[ -d "$HOME/.config/emagnet/" ]];then 
-      mkdir -p "$HOME/.config/emagnet/tmp"
+     if ! [[ -d "$HOME/.config/emagnet/" ]];then
+        mkdir -p "$HOME/.config/emagnet/tmp"
      fi
-     cp "./emagnet.conf" $HOME/.config/emagnet/ &> /dev/null
+        cp "./emagnet.conf" $HOME/.config/emagnet/ &> /dev/null
 }
 
 #### UP NEXT! We can remove alot of old stuff in here, will be up next!
 #### Paths that must be filled
 emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  ${EMAGNET_CONF};sed -i '12  i DEBUG=false'                                                                                                             ${EMAGNET_CONF};fi
-  if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  ${EMAGNET_CONF};sed -i '21  i PASTEBIN=https:\/\/nr1.nu\/emagnet\/pastebin/\$(date +%Y-%m-%d)\/pastebin.txt'                                                                                     ${EMAGNET_CONF};fi
+  if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  ${EMAGNET_CONF};sed -i '21  i PASTEBIN=https:\/\/pastebin.com\/archive\/'                                                                                     ${EMAGNET_CONF};fi
   if [[ -z "$TIME"           ]];then sed -i '30d'  ${EMAGNET_CONF};sed -i "30  i TIME=200"                                                                                                                ${EMAGNET_CONF};fi
   if [[ -z "$MYIP"           ]];then sed -i '40d'  ${EMAGNET_CONF};sed -i "40  i MYIP=$(curl -s https://nr1.nu/i/)"                                                                                       ${EMAGNET_CONF};fi
   if [[ -z "$WIP"            ]];then sed -i '50d'  ${EMAGNET_CONF};sed -i '50  i WIP=https:\/\/nr1.nu\/i\/'                                                                                               ${EMAGNET_CONF};fi
@@ -188,15 +187,17 @@ emagnet_move_realtime() {
          rm "$HOME/.config/emagnet/tmp/.emagnet-*"  &> /dev/null
  }
 
+
 # Check if we are allowed to visit pastebin before doing next function
 emagnet_check_pastebin() {
+source $HOME/.config/emagnet/emagnet.conf
   curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
     grep -qi "blocked your IP" /$EMAGNETTEMP/.status
     if [[ "$?" = "0" ]]; then 
       MYIP_PASTEBIN=$(curl -s --insecure https://nr1.nu/i/)
       echo -e "$basename$0: internal error -- pastebin blocked\e[1;31m $MYIP_PASTEBIN\e[0m, try again within 60 minutes..."
       exit 1
-    fi       
+    fi
       grep -qi "is under heavy load right now" /$EMAGNETTEMP/.status
    if [[ "$?" = "0" ]]; then 
       echo -e "$basename$0: internal error -- pastebin is under heavy load, please try again in a few seconds.."
@@ -205,7 +206,15 @@ emagnet_check_pastebin() {
       grep -qi "TO GET ACCESS" /$EMAGNETTEMP/.status
    if [[ "$?" = "0" ]]; then 
       echo -e "$basename$0: internal error -- ${MYIP} does not have access to https://scrape.pastebin.com/api_scraping.php...."
+      exit 1
    fi
+      grep -qi "cloudflare" /$EMAGNETTEMP/.status
+   if [[ "$?" = "0" ]]; then
+      echo -e "$basename$0: internal error -- cloudfare has blocked ${MYIP}, please read here: https://pastebin.com/raw/d4wdyM3F...."
+      exit 1
+   fi
+
+
       rm $EMAGNETTEMP/.status &> /dev/null
 }
 
@@ -247,12 +256,10 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
   -l, --license       Show license information
   -h, --help          Display this very helpful text
   -t, --time          Set refresh time in seconds
-                      Use: -v -p <provider> for set provider
   -V, --version       Displays version information.
   -i, --ip            Print you current WAN IPv4/IPv6
   -e, --emagnet       Download latest uploaded files on pastebin
-                      and store email addresses and passwords
-                      in sorted day directories.
+                      and store email addresses and passwords in sorted day directories.
   -g, --bruteforce    Same as above '-e' with brute-force mode on
                       - Available options: gmail/ssh/spotify/instagram/rdp
   -k, --kill          Kill emagnet ghost sessions
@@ -713,17 +720,12 @@ emagnet_main() {
 # ------------------------------------------------------------
 
 # Check if PROXY is set to true (ssh/tunnel)
-if [[ $PROXY = "true" ]]; then 
+if [[ $PROXY = "true" ]]; then
    CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT"
 else
     CURL="curl -s "
 fi
 
-# We now use nr1.nu instead for see recent uploads 
-# since patebin now have filtered default syntax 
-# "text" from being listed, lmao :)
-
-# UNTIL NR1 OPENING SCRAPE AGAIN WE SKIP THIS
 #$CURL -H "$USERAGENT" -Ls "$NR1"|grep -i "https"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
 exclude='signup\|login\|archive\|_\|pastebin$\|dmca$\|tools$\|contact$\|languages'
 curl -Ls "$PASTEBIN"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'|sed 's/^/https:\/\/patebin.com\/raw\//g'|grep -v $exclude > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
@@ -901,13 +903,13 @@ emagnet_stats() {
 
         [[ $TOTAL_MAIL_FILES = "0" ]] && TOTAL_MAIL_FILES="0$TOTAL_MAIL_FILES"
         printf "[\e[1;32m%s\e[m] %s %s - Total files that included at least one mail address\n" $TOTAL_MAIL_FILES  "${line:${#TOTAL_MAIL_FILES}}"
-        
+
         [[ $TOTAL_PASSWORD_FILES = "0" ]] && TOTAL_PASSWORD_FILES="0$TOTAL_PASSWORD_FILES"
         printf "[\e[1;32m%s\e[m] %s %s - Total files that included at least one combo: mail:password\n" $TOTAL_MAIL_FILES  "${line:${#TOTAL_MAIL_FILES}}"
-        
+
         [[ $TOTAL_MAIL_ADDRESSES = "0" ]] && TOTAL_MAIL_ADDRESSES="0$TOTAL_MAIL_ADDRESSES"
         printf "[\e[1;32m%s\e[m] %s %s - Total mail addresses found\n" $TOTAL_MAIL_ADDRESSES "${line:${#TOTAL_MAIL_ADDRESSES}}"
-        
+
         [[ $TOTAL_MAIL_AND_PASSWORDS = "0" ]] && TOTAL_MAIL_AND_PASSWORDS="0$TOTAL_MAIL_AND_PASSWORDS"
         printf "[\e[1;32m%s\e[m] %s %s - Total mail login credenticals stored\n" $TOTAL_MAIL_AND_PASSWORDS "${line:${#TOTAL_MAIL_AND_PASSWORDS}}"
 
@@ -917,7 +919,7 @@ fi
 
 emagnet_distro() {
     if [[ -z ${DISTRO} ]]; then
-        DISTRO="$(cat /etc/*release | head -n 1 | awk '{ print tolower($1) }' | cut -d= -f2)"
+        DISTRO=$(cat /etc/*release | head -n 1 | awk '{ print tolower($1) }' | cut -d= -f2)
         sed -i "s/DISTRO=/DISTRO=$DISTRO/g" ${EMAGNET_CONF}
     fi
 }
@@ -934,6 +936,7 @@ case "${1}" in
         emagnet_first_run
         emagnet_required_tools
         emagnet_distro
+        emagnet_check_pastebin
         sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' ${EMAGNET_CONF}
         sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' ${EMAGNET_CONF}
         sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' ${EMAGNET_CONF}
