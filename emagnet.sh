@@ -1018,7 +1018,7 @@ you need to install it manually, see below:
 
 \e[1;34mMANUALLY INSTALL:\e[0m
 -------------------------------------------
-wget https://nr1.nu/archive/\e[1;32mlibspotify\e[0m/12.1.51/amd64/\e[1;32mlibspotify\e[0m_12.1.51.orig-amd64.tar.gz -P /tmp
+wget https://github.com/mopidy/libspotify-deb/blob/master/libspotify_12.1.51.orig-amd64.tar.gz -P /tmp
 tar -xvf /tmp/\e[1;32mlibspotify\e[0m_12.1.51.orig-amd64.tar.gz -C /tmp
 cd /tmp/\e[1;32mlibspotify\e[0m-12.1.51-Linux-x86_64-release/ && make install prefix=/usr/local
 
@@ -1035,7 +1035,7 @@ printf "%s" "Checking connection........";emagnet_iconnection
     ping -i "1" -c 1 google.com &> /dev/null; [[ "$?" -gt "0" ]] && echo -e "$basename$0: internal error -- this feature require a internet connection but you seems to be offline, exiting.."
 printf "..ok\n"
 sleep 1
-printf "%s" "Downloading libspoify........"; wget -q https://nr1.nu/archive/libspotify/12.1.51/amd64/libspotify_12.1.51.orig-amd64.tar.gz -P /tmp; printf "ok\n"
+printf "%s" "Downloading libspoify........"; wget -q https://github.com/mopidy/libspotify-deb/blob/master/libspotify_12.1.51.orig-amd64.tar.gz -P /tmp; printf "ok\n"
 printf "%s" "Extracting libspoify..,......"; tar -xf /tmp/libspotify_12.1.51.orig-amd64.tar.gz -C /tmp; printf "ok\n"
 printf "%s" "Installing libspotify........"; cd /tmp/libspotify-12.1.51-Linux-x86_64-release/&> /dev/null; printf "ok\n"  & make install prefix=/usr/local &> /dev/null; printf "ok\n"
 printf "%s" "Preparing emagnet.conf......."; emagnet_conf;sed -i 's/LIBSPOTIFY=/LIBSPOTIFY=true/g' ${EMAGNET_CONF}; printf "ok\n"
