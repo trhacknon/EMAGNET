@@ -57,7 +57,10 @@ mkdir -p $EMAGNETTEMP
 #### Now we gonna grab all leakers we have found since earlier for download all their downloads
    ls -1 $EMAGNET/password-files|sed 's/^/https:\/\/pastebin.com\//g'|xargs -P100 -n1 curl -sL >> $EMAGNETTEMP/.temp.txt
 
+# If .temp.txt exist we gonna remove the file first
 # Grab all usernames so we know from wich user we want to download
+
+   [[ -f $EMAGNETTEMP/.temp.txt ]] && rm $EMAGNETTEMP/.temp.txt
    egrep -io '\/u.*.">.*' $EMAGNETTEMP/.temp.txt|grep -o -P '(?<=\/u\/).*(?=")'|grep -o "^[A-Za-z0-9]*"|awk '!seen[$0]++' >> $EMAGNETTEMP/.temp-user.txt
 
 # Count total leakers
