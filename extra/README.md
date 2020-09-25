@@ -5,6 +5,6 @@
     cd /path/to/emagnet
     git pull
     cd ./extra
-    bash ./emagnet-by-users.sh
+    bash ./emagnet-by-user.sh
     
    Enjoy! :-)
