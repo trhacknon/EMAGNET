@@ -75,7 +75,7 @@ mkdir -p $EMAGNETTEMP
    done < $EMAGNETTEMP/.temp-user.txt
 
 # Now let us download every file
-      echo -e "We going to download all files frmo $TOTAL_LEAKERS leakers....\n\e[1;31mDon't stop!!\e[0m You will get banned anyway if there is alot of pastes, the ban is _not_ instant from pastebin..."
+      echo -e "We going to download all files frmo $LEAKERS leakers....\n\e[1;31mDon't stop!!\e[0m You will get banned anyway if there is alot of pastes, the ban is _not_ instant from pastebin..."
          while read line; do
               source "$HOME/.config/emagnet/emagnet.conf" &> /dev/null
               echo -e "\e[1;32m+]\ẹ[0m Downloading all uploads from: $line"
