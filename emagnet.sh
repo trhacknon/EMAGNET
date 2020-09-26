@@ -82,7 +82,7 @@ if ! [[ -f ${EMAGNET_CONF} ]]; then
        else
            echo -e "$basename$0: internal error -- can't copy emagnet.conf to ${EMAGNET_CONF}"
            echo -e "$basename$0: internal error -- to fix this error, you must either run emagnet from it's main dir or download emagnet.conf via:"
-           echo -e "$basename$0: internal error -- curl -sL -o ~/.config/emagnet/emagnet.conf https://raw.githubusercontent.com/wuseman/EMAGNET/emagnet/emagnet.conf"
+           echo -e "$basename$0: internal error -- curl -sL -o ~/.config/emagnet/emagnet.conf https://raw.githubusercontent.com/wuseman/EMAGNET/master/emagnet.conf"
            echo -e "$basename$0: internal error -- Once done, press arrow key up and hit enter..."
            exit 1
        fi
