@@ -2,7 +2,7 @@
 
 ### Before you using emagnet, please remember that with great power comes great responsibility. 
 
-# <p align="center">![Screenshot](https://repository-images.githubusercontent.com/165741206/f9087e00-397d-11ea-9cab-1aea419f9448)
+# ![Screenshot](https://repository-images.githubusercontent.com/165741206/f9087e00-397d-11ea-9cab-1aea419f9448)
 
 | Current Version    | News                            | Tested On                          |
 | :----------------- | :-------------------------------- | :----------------------------------|
@@ -11,12 +11,17 @@
 | `3.4.1`            |  Support for SSH Tunnel/Socks5 proxy    | Linux/MacOS/OpenWRT/Windows/Android                               |
 | `3.4`              |  Full support on android devices, no root required    | Linux/MacOS/OpenWRT/Windows/Android                               |
 
-<a href="https://github.com/wuseman/EMAGNET"><img src="https://img.shields.io/github/languages/top/wuseman/emagnet.svg?color=magenta&label=Bash%2FShell"></a><a href="https://github.com/wuseman/EMAGNET/issues?q=is%3Aissue+is%3Aclosed">
+<a href="https://github.com/wuseman/EMAGNET"></a>
+<img src="https://img.shields.io/github/languages/top/wuseman/emagnet.svg?color=magenta&label=Bash%2FShell"></a>
+<a href="https://github.com/wuseman/EMAGNET/issues?q=is%3Aissue+is%3Aclosed">
 <img src="https://img.shields.io/github/issues-closed/wuseman/emagnet.svg?color=light&label=Closed%20Issues"></a>
- <a href="https://github.com/wuseman/EMAGNET/issues"><img src="https://img.shields.io/github/issues-raw/wuseman/emagnet.svg?color=orange&label=Open%20Issues"></a><img src="https://img.shields.io/github/last-commit/wuseman/emagnet.svg?color=darkmagenta&label=Latest%20Commit"><a href="https://twitter.com/wuseman1">
- <img src="https://img.shields.io/website/https/nr1.nu.svg?down_color=darkred&down_message=DOWN&label=Nr1.nu%2Femagnet&up_message=UP"><img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a></a></a>
-</a>
-</p>
+<a href="https://github.com/wuseman/EMAGNET/issues"></a>
+<img src="https://img.shields.io/github/issues-raw/wuseman/emagnet.svg?color=orange&label=Open%20Issues"></a>
+<img src="https://img.shields.io/github/last-commit/wuseman/emagnet.svg?color=darkmagenta&label=Latest%20Commit"></a>
+<a href="https://twitter.com/wuseman1"></a>
+<img src="https://img.shields.io/website/https/nr1.nu.svg?down_color=darkred&down_message=DOWN&label=Nr1.nu%2Femagnet&up_message=UP">
+<img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a>
+
 
 ### Notice: 
 
