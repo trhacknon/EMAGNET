@@ -39,7 +39,7 @@
 ####                                                                       ####
 ###############################################################################
 ###############################################################################
-### Last Modified: 06:58:05 - 2020-07-16
+### Last Modified: 03:02:27 - 2020-11-24
 EMAGNET_HOME="$HOME/.config/emagnet"
 EMAGNET_CONF="$HOME/.config/emagnet/emagnet.conf"
 CURRENT_VERSION=3.4.3
@@ -73,7 +73,6 @@ emagnet_required_tools() {
 
 #### If wrong version, then stop!
 emagnet_conf() {
-
 if ! [[ -f ${EMAGNET_CONF} ]]; then
    if ! [[ -d ${EMAGNET_HOME} ]]; then
       mkdir -p "$HOME/.config/emagnet/tmp"
@@ -190,7 +189,7 @@ emagnet_move_realtime() {
 
 # Check if we are allowed to visit pastebin before doing next function
 emagnet_check_pastebin() {
-source $HOME/.config/emagnet/emagnet.conf
+    MYIP=$(curl -Ls https://nr1.nu/i/)
   curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
     grep -qi "blocked your IP" /$EMAGNETTEMP/.status
     if [[ "$?" = "0" ]]; then 
@@ -936,6 +935,8 @@ case "${1}" in
         emagnet_first_run
         emagnet_required_tools
         emagnet_distro
+        emagnet_paths
+        emagnet_conf
         emagnet_check_pastebin
         sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' ${EMAGNET_CONF}
         sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' ${EMAGNET_CONF}
