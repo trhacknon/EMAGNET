@@ -48,7 +48,7 @@ CURRENT_VERSION=3.4.3
 emagnet_author() {
 cat << "EOF"
 
- Copyright (C) 2018-2019, wuseman
+ Copyright (C) 2018-2020, wuseman
 
  Emagnet was founded in 2015 and was released as open source
  on github.com/wuseman/emagnet in January 2018 and is licensed
@@ -127,11 +127,11 @@ emagnet_required_stuff() {
 #### Paths that must be filled
 emagnet_mustbefilled() {
   if [[ -z "$DEBUG"          ]];then sed -i "12d"  ${EMAGNET_CONF};sed -i '12  i DEBUG=false'                                                                                                             ${EMAGNET_CONF};fi
-  if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  ${EMAGNET_CONF};sed -i '21  i PASTEBIN=https:\/\/pastebin.com\/archive\/'                                                                                     ${EMAGNET_CONF};fi
+  if [[ -z "$PASTEBIN"       ]];then sed -i '21d'  ${EMAGNET_CONF};sed -i '21  i PASTEBIN=https:\/\/pastebin.com\/archive\/'                                                                              ${EMAGNET_CONF};fi
   if [[ -z "$TIME"           ]];then sed -i '30d'  ${EMAGNET_CONF};sed -i "30  i TIME=200"                                                                                                                ${EMAGNET_CONF};fi
   if [[ -z "$MYIP"           ]];then sed -i '40d'  ${EMAGNET_CONF};sed -i "40  i MYIP=$(curl -s https://nr1.nu/i/)"                                                                                       ${EMAGNET_CONF};fi
   if [[ -z "$WIP"            ]];then sed -i '50d'  ${EMAGNET_CONF};sed -i '50  i WIP=https:\/\/nr1.nu\/i\/'                                                                                               ${EMAGNET_CONF};fi
-  if [[ -z "$WIP2"           ]];then sed -i '51d'  ${EMAGNET_CONF};sed -i '51  i WIP2=https:\/\/ifconfig.co'                                                                                                                   ${EMAGNET_CONF};fi
+  if [[ -z "$WIP2"           ]];then sed -i '51d'  ${EMAGNET_CONF};sed -i '51  i WIP2=https:\/\/ifconfig.co'                                                                                              ${EMAGNET_CONF};fi
   if [[ -z "$EMAGNET"        ]];then sed -i '70d'  ${EMAGNET_CONF};sed -i '70  i EMAGNET=$HOME/emagnet'                                                                                                   ${EMAGNET_CONF};fi
   if [[ -z "$EMAGNETHOME"    ]];then sed -i "71d"  ${EMAGNET_CONF};sed -i '71  i EMAGNETHOME=$EMAGNET\/incoming\/$(date +%Y-%m-%d)'                                                                       ${EMAGNET_CONF};fi
   if [[ -z "$EMAGNETLOGS"    ]];then sed -i "72d"  ${EMAGNET_CONF};sed -i '72  i EMAGNETLOGS=$EMAGNETHOME/logs'                                                                                           ${EMAGNET_CONF};fi
@@ -151,10 +151,10 @@ emagnet_mustbefilled() {
   if [[ -z "$SBRUTEFORCE"    ]];then sed -i '125d' ${EMAGNET_CONF};sed -i '125 i SBRUTEFORCE=false'                                                                                                       ${EMAGNET_CONF};fi
   if [[ -z "$PBRUTEFORCE"    ]];then sed -i '126d' ${EMAGNET_CONF};sed -i '126 i PBRUTEFORCE=false'                                                                                                       ${EMAGNET_CONF};fi
   if [[ -z "$IBRUTEFORCE"    ]];then sed -i '127d' ${EMAGNET_CONF};sed -i '127 i IBRUTEFORCE=false'                                                                                                       ${EMAGNET_CONF};fi
-  if [[ -z "$BBRUTEFORCE"    ]];then sed -i '128d' ${EMAGNET_CONF};sed -i '128 i BBRUTEFORCE='                                                                                                    ${EMAGNET_CONF};fi
-  if [[ -z "$CBRUTEFORCE"    ]];then sed -i '129d' ${EMAGNET_CONF};sed -i '129 i CBRUTEFORCE='                                                                                                    ${EMAGNET_CONF};fi
-  if [[ -z "$DBRUTEFORCE"    ]];then sed -i '130d' ${EMAGNET_CONF};sed -i '130 i DBRUTEFORCE='                                                                                                    ${EMAGNET_CONF};fi
-  if [[ -z "$EBRUTEFORCE"    ]];then sed -i '131d' ${EMAGNET_CONF};sed -i '131 i EBRUTEFORCE='                                                                                                    ${EMAGNET_CONF};fi
+  if [[ -z "$BBRUTEFORCE"    ]];then sed -i '128d' ${EMAGNET_CONF};sed -i '128 i BBRUTEFORCE='                                                                                                            ${EMAGNET_CONF};fi
+  if [[ -z "$CBRUTEFORCE"    ]];then sed -i '129d' ${EMAGNET_CONF};sed -i '129 i CBRUTEFORCE='                                                                                                            ${EMAGNET_CONF};fi
+  if [[ -z "$DBRUTEFORCE"    ]];then sed -i '130d' ${EMAGNET_CONF};sed -i '130 i DBRUTEFORCE='                                                                                                            ${EMAGNET_CONF};fi
+  if [[ -z "$EBRUTEFORCE"    ]];then sed -i '131d' ${EMAGNET_CONF};sed -i '131 i EBRUTEFORCE='                                                                                                             ${EMAGNET_CONF};fi
   #if [[ -z "$EMAIL2SEND"     ]];then sed -i '140d' ${EMAGNET_CONF};sed -i '140 i EMAIL2SEND='                                                                                                             ${EMAGNET_CONF};fi
   if [[ -z "$NOTIFY"         ]];then sed -i '149d' ${EMAGNET_CONF};sed -i '149 i NOTIFY=false'                                                                                                            ${EMAGNET_CONF};fi
   if [[ -z "$VPN"            ]];then sed -i '161d' ${EMAGNET_CONF};sed -i '161 i VPN=false'                                                                                                               ${EMAGNET_CONF};fi
@@ -189,21 +189,21 @@ emagnet_move_realtime() {
 
 # Check if we are allowed to visit pastebin before doing next function
 emagnet_check_pastebin() {
-    MYIP=$(curl -Ls https://nr1.nu/i/)
-  curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
+source $HOME/.config/emagnet/emagnet.conf
+curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
     grep -qi "blocked your IP" /$EMAGNETTEMP/.status
-    if [[ "$?" = "0" ]]; then 
+    if [[ "$?" = "0" ]]; then
       MYIP_PASTEBIN=$(curl -s --insecure https://nr1.nu/i/)
       echo -e "$basename$0: internal error -- pastebin blocked\e[1;31m $MYIP_PASTEBIN\e[0m, try again within 60 minutes..."
       exit 1
     fi
       grep -qi "is under heavy load right now" /$EMAGNETTEMP/.status
-   if [[ "$?" = "0" ]]; then 
+   if [[ "$?" = "0" ]]; then
       echo -e "$basename$0: internal error -- pastebin is under heavy load, please try again in a few seconds.."
       exit 1
-  fi 
+  fi
       grep -qi "TO GET ACCESS" /$EMAGNETTEMP/.status
-   if [[ "$?" = "0" ]]; then 
+   if [[ "$?" = "0" ]]; then
       echo -e "$basename$0: internal error -- ${MYIP} does not have access to https://scrape.pastebin.com/api_scraping.php...."
       exit 1
    fi
@@ -854,9 +854,9 @@ emagnet_run4ever() {
         emagnet_conf                         # Source emagnet-conf so we know all settings for emagnet
         emagnet_first_run
         emagnet_paths
-        emagnet_check_pastebin               # Check if everything ARE ok and if we are allowed to visit pastebin before we doing anything
         emagnet_iconnection                  # Check if we got internet, otherwise we stop
         emagnet_version
+        emagnet_check_pastebin               # Check if everything ARE ok and if we are allowed to visit pastebin before we doing anything
         emagnet_clear
         emagnet_banner
         emagnet_analyzer                     # Change this with emagnet_count_down when we have added brute force stuff again
@@ -875,6 +875,7 @@ if ! [[ -f "$EMAGNET_CONF" ]]; then
         emagnet_required_tools
         emagnet_mustbefilled
         emagnet_paths
+        emagnet_check_pastebin
         emagnet_conf
 fi
 }
@@ -937,7 +938,6 @@ case "${1}" in
         emagnet_distro
         emagnet_paths
         emagnet_conf
-        emagnet_check_pastebin
         sed -i 's/GBRUTEFORCE=true/GBRUTEFORCE=false/g' ${EMAGNET_CONF}
         sed -i 's/SBRUTEFORCE=true/SBRUTEFORCE=false/g' ${EMAGNET_CONF}
         sed -i 's/PBRUTEFORCE=true/PBRUTEFORCE=false/g' ${EMAGNET_CONF}
