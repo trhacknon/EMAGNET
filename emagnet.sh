@@ -727,7 +727,7 @@ fi
 
 #$CURL -H "$USERAGENT" -Ls "$NR1"|grep -i "https"|sort|awk '!seen[$0]++' > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
 exclude='signup\|login\|archive\|_\|pastebin$\|dmca$\|tools$\|contact$\|languages'
-curl -Ls "$PASTEBIN"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'|sed 's/^/https:\/\/patebin.com\/raw\//g'|grep -v $exclude > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
+curl -Ls "$PASTEBIN"|awk -F'href="/' '{print $2}'|cut -d'"' -f1|awk 'length($0)>6 && length($0)<9'|sed 's/^/https:\/\/pastebin.com\/raw\//g'|grep -v $exclude > "$HOME/.config/emagnet/tmp/.emagnet-temp1"
 ls -1 "$EMAGNETALL"|sort|awk '!seen[$0]++'|sed 's/^/https:\/\/pastebin.com\/raw\//g' > "$HOME/.config/emagnet/tmp/.emagnet-temp2"
 grep  -v -x -F -f "$HOME/.config/emagnet/tmp/.emagnet-temp2" "$HOME/.config/emagnet/tmp/.emagnet-temp1"|awk -F, '!seen[$1]++' > $HOME/.config/emagnet/tmp/.emagnet-download
 
