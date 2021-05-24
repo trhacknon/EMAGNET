@@ -209,7 +209,7 @@ curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
    fi
       grep -qi "cloudflare" /$EMAGNETTEMP/.status
    if [[ "$?" = "0" ]]; then
-      echo -e "$basename$0: internal error -- cloudfare has blocked ${MYIP}, please read here: https://pastebin.com/raw/d4wdyM3F...."
+       echo -e "$basename$0: internal error -- cloudfare has blocked $(curl -s https://ifconfig.co), please read here: https://github.com/wuseman/Emagnet/issues/46#issuecomment-846446070"
       exit 1
    fi
 
