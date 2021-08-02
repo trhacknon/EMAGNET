@@ -79,6 +79,9 @@ Emagnet is a very powerful tool for it's purpose which is to capture  email addr
   - URL To google security blog (This was for try 2FA security): [Google.com - Security Blog](https://security.googleblog.com/2019/05/new-research-how-effective-is-basic.html)
   - __Remember,bruteforce accounts without the owner's approval violates the law.__
 
+**Unfortunately my server was raided in Russia (as you may know) and my backup server had a disk crash.**
+**I will re-add the previews asap I figure out wich server I got them stored to get the readme-complete**
+
 ### Emagnet - v3.4.3 (ssh)
 ![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3-ssh.gif)
 
@@ -127,9 +130,9 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 ### Contact
 
-  If you have problems, questions, ideas or suggestions please contact me on *_wuseman@nr1.nu_  - For faster contact visit freenode irc network or the webchat and type '/msg wuseman hi!' in the input bar and I will reply you ASAP I will see the message.
+  If you have problems, questions, ideas or suggestions please contact me on *_wuseman@nr1.nu_  - For faster contact visit Libera irc network or the webchat and type '/msg wuseman hi!' in the input bar and I will reply you ASAP I will see the message.
   
-  Enter Freenodes network via your own client 'chat.freenode.com:+6697 or use their new web client [here](https://webchat.freenode.net/)
+  Enter Liberas network via your own client 'chat.libera.chat:+6697 or use their new web client [here](https://web.libera.chat/)
 
 ### Notice
 
