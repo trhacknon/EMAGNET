@@ -80,7 +80,7 @@ Emagnet is a very powerful tool for it's purpose which is to capture  email addr
   - __Remember,bruteforce accounts without the owner's approval violates the law.__
 
 **Unfortunately my server was raided in Russia (as you may know) and my backup server had a disk crash.**
-**I will re-add the previews asap I figure out wich server I got them stored to get the readme-complete**
+**I will re-add the previews asap I figure out wich server I got them stored to get the readme-complete again, until that day -> Happy hacking**
 
 ### Emagnet - v3.4.3 (ssh)
 ![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3-ssh.gif)
