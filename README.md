@@ -152,7 +152,7 @@ Cheers!
 
 ### Feel free to send donations if you want to support the development of Emagnet
 
-    Please contact me before you send a donation: wuseman@nr1.nu
+    Please contact me before you send a donation at: wuseman@nr1.nu
 
 ### Emagnet is a private project since 2015 and was released in June @ 2018, to be continued. 
 
