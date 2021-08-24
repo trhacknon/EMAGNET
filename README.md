@@ -25,7 +25,7 @@
 
 ### Notice: 
 
-Pastebin patched the vulnerability I used in order to get recent uploads from https://pastebin.com/archive, so at the moment it is not possible to get recently uploaded files, you are now limited to all syntaxes exempt the default one (95% get's uploaded as 'text' and this is removed from all recent upload lists). 
+Pastebin patched the vulnerability I previously used in order to get recent uploads from https://pastebin.com/archive, so at the moment it is not possible to get recently uploaded files, you are now limited to all syntaxes exempt the default one (95% get's uploaded as 'text' and this is removed from all recent upload lists). 
 
 Currently working on a new way to share all recent uploads for free.
 
@@ -152,7 +152,7 @@ Cheers!
 
 ### Feel free to send donations if you want to support the development of Emagnet
 
-    Please contact me before you send a donation: wuseman@nr1.nu
+    Please contact me before you send a donation at: wuseman@nr1.nu
 
 ### Emagnet is a private project since 2015 and was released in June @ 2018, to be continued. 
 
