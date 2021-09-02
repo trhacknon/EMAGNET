@@ -22,6 +22,10 @@
 <img src="https://img.shields.io/website/https/nr1.nu.svg?down_color=darkred&down_message=DOWN&label=Nr1.nu%2Femagnet&up_message=UP">
 <img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a>
 
+### How to get pastes in meanwhile pastebin is blocking new PRO users? 
+### Don't pay for those sites offering leaks for $, especially NOT when their filtering is **HORRIBLE** :) 
+![Screenshot](previews/psbdmp.gif)
+
 
 ### Notice: 
 
