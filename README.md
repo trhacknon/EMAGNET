@@ -23,7 +23,14 @@
 <img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a>
 
 ### How to get pastes in meanwhile pastebin is blocking new PRO users? 
-### Don't pay for those sites offering leaks for $, especially NOT when their filtering is **HORRIBLE** :) 
+Don't pay for those sites offering leaks for $, especially NOT when their filtering is **HORRIBLE** :) 
+
+This video was created (2021-09-02) - They for sure will try protect their site better when they see this video.
+
+Sharing is caring ;) - Download those files to emagnet folder and let emagnet fix the rest. I have no time to setup this, but now you know one site of 100 that you can use for this purpose. 
+
+Never Give Up - There is allways a workaround, for **everything** :) 
+
 ![Screenshot](previews/psbdmp.gif)
 
 
