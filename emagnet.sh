@@ -191,10 +191,10 @@ emagnet_move_realtime() {
 emagnet_check_pastebin() {
 source $HOME/.config/emagnet/emagnet.conf
 curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
-    grep -qi "blocked your IP" /$EMAGNETTEMP/.status
+    grep -qi "captcha" $EMAGNETTEMP/.status
     if [[ "$?" = "0" ]]; then
       MYIP_PASTEBIN=$(curl -s --insecure https://nr1.nu/i/)
-      echo -e "$basename$0: internal error -- pastebin blocked\e[1;31m $MYIP_PASTEBIN\e[0m, try again within 60 minutes..."
+      echo -e "$basename$0: internal error -- pastebin blocked\e[1;31m $(curl -s ifconfig.co)\e[0m, try again within 60 minutes..."
       exit 1
     fi
       grep -qi "is under heavy load right now" /$EMAGNETTEMP/.status
@@ -207,7 +207,7 @@ curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
       echo -e "$basename$0: internal error -- ${MYIP} does not have access to https://scrape.pastebin.com/api_scraping.php...."
       exit 1
    fi
-      grep -qi "cloudflare" /$EMAGNETTEMP/.status
+      grep -qi "hy do I have t" /$EMAGNETTEMP/.status
    if [[ "$?" = "0" ]]; then
        echo -e "$basename$0: internal error -- cloudfare has blocked $(curl -s https://ifconfig.co), please read here: https://github.com/wuseman/Emagnet/issues/46#issuecomment-846446070"
       exit 1
