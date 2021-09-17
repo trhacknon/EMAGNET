@@ -22,17 +22,6 @@
 <img src="https://img.shields.io/website/https/nr1.nu.svg?down_color=darkred&down_message=DOWN&label=Nr1.nu%2Femagnet&up_message=UP">
 <img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a>
 
-### How to get pastes in meanwhile pastebin is blocking new PRO users? 
-Don't pay for those sites offering leaks for $, especially NOT when their filtering is **HORRIBLE** :) 
-
-This video was created (2021-09-02) - They for sure will try protect their site better when they see this video.
-
-Sharing is caring ;) - Download those files to emagnet folder and let emagnet fix the rest. I have no time to setup this, but now you know one site of 100 that you can use for this purpose. 
-
-Never Give Up - There is allways a workaround, for **everything** :) 
-
-![Screenshot](previews/psbdmp.gif)
-
 
 ### Notice: 
 
@@ -92,13 +81,13 @@ Emagnet is a very powerful tool for capturing email addresses and passwords from
 **I will re-add the previews ASAP after I figure out wich server I got them stored to get the readme-complete again, until that day -> Happy hacking**
 
 ### Emagnet - v3.4.3 (ssh)
-![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3-ssh.gif)
+![Screenshot](.previews/emagnet-v3.4.3-ssh.gif)
 
 ### Emagnet - v3.4.3 (spotify)
-![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3-spotify.gif)
+![Screenshot](.previews/emagnet-v3.4.3-spotify.gif)
 
 ### Emagnet - v3.4.3 (gmail)
-![Screenshot](https://nr1.nu/emagnet/emagnet-v3.4.3-gmail.gif)
+![Screenshot](.previews/emagnet-v3.4.3-gmail.gif)
 
 ### Getting Started
 
