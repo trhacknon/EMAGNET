@@ -77,8 +77,6 @@ Emagnet is a very powerful tool for capturing email addresses and passwords from
   - URL To Google's security blog (This was for try 2FA security): [Google.com - Security Blog](https://security.googleblog.com/2019/05/new-research-how-effective-is-basic.html)
   - __Remember, bruteforcing accounts without the owner's approval violates the law.__
 
-**Unfortunately my server was raided in Russia (as you may know) and my backup server had a disk crash.**
-**I will re-add the previews ASAP after I figure out wich server I got them stored to get the readme-complete again, until that day -> Happy hacking**
 
 ### Emagnet - v3.4.3 (ssh)
 ![Screenshot](.previews/emagnet-v3.4.3-ssh.gif)
