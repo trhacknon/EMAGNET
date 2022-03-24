@@ -22,13 +22,6 @@
 <img src="https://img.shields.io/website/https/nr1.nu.svg?down_color=darkred&down_message=DOWN&label=Nr1.nu%2Femagnet&up_message=UP">
 <img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a>
 
-
-### Update:
-
-This is just an example video how you can scrape pastebin sites for leaks. When you scraped the pastebin site of your choice then just move the files to emagnets temp directory and it will sort and bruteforce the accounts you found on the pastebin site. This is just one of many sites how to get started without paying 1 cent:
-
-![Screenshot](.previews/psbdmp.gif)
-
 ### Notice: 
 
 Pastebin patched the vulnerability I previously used in order to get recent uploads from https://pastebin.com/archive, so at the moment it is not possible to get recently uploaded files, you are now limited to all syntaxes exempt the default one (95% get's uploaded as 'text' and this is removed from all recent upload lists). 
