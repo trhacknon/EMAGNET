@@ -46,9 +46,17 @@ Added `emagnet_v4.0.0-beta.sh` as its own script for now, will be built in later
      - Edit this to my old emanget version paths for monitoring dirs and bruteforce via the old emagnet for now
 8. Emagnet doing the bruteforce job for you! Lay back and enjoy!
 
-I do not recommend anyone to try v4.0.0 without editing the the script. Change useragent and folders please and resolve host for not being an idiot! Do it on your own risk, never blame me for anything!
+If you wish, add the script to your crontab and let it run every hour / day!
 
-Sorry kids, you have been pwned by Emagnet since a long time and now its public! 
+I do not recommend anyone to try v4.0.0 without editing the the script. 
+
+* Change useragent and folders please and resolve host for not being an idiot! Do it on your own risk, never blame me for anything!
+
+Sorry kids, you have been pwned by Emagnet since a long time! 
+
+* More sources will be used in next update! 
+
+Credits to the source page we grabbing urls from that keep things free as. 
 
 ### How to protect yourself?
 
