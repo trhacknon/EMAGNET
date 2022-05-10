@@ -7,7 +7,7 @@
 #       Version: 4.0
 #
 #       Created: 2022-04-08 (06:30:15)
-#      Modified: 2022-05-10 (23:39:57)
+#      Modified: 2022-05-10 (23:46:41)
 #
 #           iRC: wuseman (Libera/EFnet/LinkNet) 
 #       Website: https://www.nr1.nu/
@@ -85,7 +85,13 @@ vERSION="4.0.0"
 #      Required Tools for Emagnet
 #
 # -----------------------------------------------------------------------------------
+
 emagnet_required_tools() {
+    RCURL="$( curl -V |awk ' FNR == 1 {print $2}'|cut -d. -f1,2)"
+    if [[ $RCURL -lt "7.49" ]]; then 
+        errMSG "Some commands in this script require curl v7.49 or higher installed, your current installed version is ${RCURL}";
+        exit 
+    fi
     for tools in wget curl awk sed rg; do 
         hash ${tools} &> /dev/null; 
         if [[ $? -ne "0" ]]; then
