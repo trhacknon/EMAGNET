@@ -4,7 +4,7 @@
 #
 #        Author: wuseman <wuseman@nr1.nu>
 #      FileName: emagnet.sh
-#       Version: 4.0
+#       Version: 4.0.0
 #
 #       Created: 2022-04-08 (06:30:15)
 #      Modified: 2022-05-10 (23:46:41)
@@ -19,7 +19,7 @@
 #
 # - LiCENSE -------------------------------------------------------------------------
 #
-#      Copyright (C) 2021, wuseman                                     
+#      Copyright (C) 2022, wuseman                                     
 #                                                                       
 #      This program is free software; you can redistribute it and/or modify 
 #      it under the terms of the GNU General Public License as published by 
