@@ -6,6 +6,7 @@
 
 | Current Version    | News                            | Tested On                          |
 | :----------------- | :-------------------------------- | :----------------------------------|
+| `4.0.0`            |     |                              |
 | `3.4.3`            |  More than twice as fast as the previous version    | Linux/MacOS/OpenWRT/Windows/Android                               |
 | `3.4.2`            |  Support for scraping via API has been added    | Linux/MacOS/OpenWRT/Windows/Android                               |
 | `3.4.1`            |  Support for SSH Tunnel/Socks5 proxy    | Linux/MacOS/OpenWRT/Windows/Android                               |
@@ -21,6 +22,37 @@
 <a href="https://twitter.com/wuseman1"></a>
 <img src="https://img.shields.io/website/https/nr1.nu.svg?down_color=darkred&down_message=DOWN&label=Nr1.nu%2Femagnet&up_message=UP">
 <img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a>
+
+### Update: 2022-05-10 
+
+![Screenshot](.preview/emagnet_v)
+
+Added `emagnet_v4.0.0-beta.sh` as its own script for now, will be built in later but its alot of job left with alot of more sources, use this for now! 
+
+`No support` will be given around this, `edit/mod/config` the script as you wish if you wanna do it in some other language. No guarantees available or can be given! `Use it at your own risk`!
+
+### A small explanation of what it does.
+
+1. Emagnet visits the site with all dumps
+2. Emagnet grab urls for the leaks 
+   - Im not sure if I want to download the files or doing this part as we reading the files yet
+3 . Once files downlaoded we use ripgrep for speed up things ASAP! Grab the urls the uploads are stored, mostly times
+     - `upload.ee `
+     - `anonfiles.com`
+     - `yandex.ru`
+5. Emagnet now downloading files 
+6. Emagent now sorting correct files and we skip the rest, we only want the leaked dumps
+7. Emagnet save all files in ~/emagnet-temp/dump (
+     - Edit this to my old emanget version paths for monitoring dirs and bruteforce via the old emagnet for now
+8. Emagnet doing the bruteforce job for you! Lay back and enjoy!
+
+I do not recommend anyone to try v4.0.0 without editing the the script. Change useragent and folders please and resolve host for not being an idiot! Do it on your own risk, never blame me for anything!
+
+Sorry kids, you have been pwned by Emagnet since a long time and now its public! 
+
+### How to protect yourself?
+
+Use extra security for your accounts, passwords sucks and im trying to show you why with Emagnet!
 
 ### Notice: 
 
