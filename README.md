@@ -36,7 +36,7 @@ Added `emagnet_v4.0.0-beta.sh` as its own script for now, will be built in later
 1. Emagnet visits the site with all dumps
 2. Emagnet grab urls for the leaks 
    - Im not sure if I want to download the files or doing this part as we reading the files yet
-3 . Once files downlaoded we use ripgrep for speed up things ASAP! Grab the urls the uploads are stored, mostly times
+3 . Once files downloaded we use ripgrep for speed up things ASAP! Grab the urls the uploads are stored, mostly times
      - `upload.ee `
      - `anonfiles.com`
      - `yandex.ru`
