@@ -52,11 +52,12 @@ I do not recommend anyone to try v4.0.0 without editing the the script.
 
 * Change useragent and folders please and resolve host for not being an idiot! Do it on your own risk, never blame me for anything!
 
-Sorry kids, you have been pwned by Emagnet since a long time! 
+Sorry kids, you have been pwned by Emagnet since a long time! (kids as people downloading and trying to sell free stuff)
 
 * More sources will be used in next update! 
 
-Credits to the source page we grabbing urls from that keep things free as. 
+Credits to the source page we grabbing urls from that keep things free as it should be. 
+
 
 ### How to protect yourself?
 
