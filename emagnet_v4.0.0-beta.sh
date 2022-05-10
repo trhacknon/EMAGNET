@@ -68,7 +68,7 @@ dPATH="$HOME/emagnet-temp/dumps"
 nPATH="$HOME/emagnet-temp"
 mPATH="$HOME/emagnet-temp/mirrors"
 tPATH="$HOME/emagnet-temp/.temp"
-uGENT="User-Agent: fbi.gov"
+uGENT="User-Agent: somehost.gov"
 sHOST="somehost.gov"
 lHOST="127.0.0.1"
 fuURL=""
@@ -331,7 +331,7 @@ function download_urls_source2() {
     #       xargs -n 1 -P 5 curl -v -sL -u "${lOGIN}" -H "${uGENT}" \
     #             --resolve ${sHOST}:443:${lHOST} -Z -r 0-1000000 -O "${tPATH}" < "${tPATH}/urls1.txt" 
     okMSG "Downloading files that will give us all dumps..."
-    xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "somehost/1.0.1" -P ${tPATH} < "${tPATH}/urls_sqli1.txt" &> /dev/null
+    xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "${uAGENT}" -P ${tPATH} < "${tPATH}/urls_sqli1.txt" &> /dev/null
     rm "${tPATH}/urls_sqli1.txt"
 }
 
@@ -362,7 +362,7 @@ function grep_paste_source() {
 function download_paste_source() {
     okMSG "Ready to download from our targets..."
     #xargs -n 1 -P 5 curl -v -sL -u "${lOGIN}" -H "${uGENT}" --resolve ${sHOST}:443:${lHOST} -Z -r 0-1000000 -O ${nPATH} < "${tPATH}/urls2.txt" 
-    xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "somehost/1.0.1" -P ${tPATH} < "${nPATH}/urls2.txt" &> /dev/null
+    xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "${uAGENT}" -P ${tPATH} < "${nPATH}/urls2.txt" &> /dev/null
 }
 
 # - Fetch Last Source ----------------------------------------------------------------
@@ -386,7 +386,7 @@ function fetch_last_source2() {
 function download_last_source2() {
     okMSG "Last part, we are almost done.. Hold on.."
     #xargs -n 1 -P 5 curl -v -sL -u "${lOGIN}" -H "${uGENT}" --resolve ${sHOST}:443:${lHOST} -Z -r 0-1000000 -O ${nPATH} < "${tPATH}/urls2.txt" 
-    xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "somehost/1.0.1" -P "${dPATH}" < "${nPATH}/lets-download.txt" &> /dev/null
+    xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "${uAGENT}" -P "${dPATH}" < "${nPATH}/lets-download.txt" &> /dev/null
     #rm -rf ${tPATH}
     okMSG "Cleaning up..."
     rp="$(cat $HOME/emagnet-temp/dumps/*.txt|wc -l)"
