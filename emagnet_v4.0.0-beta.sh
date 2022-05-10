@@ -378,7 +378,7 @@ function fetch_last_source2() {
             "${urls}"; done < ${nPATH}/urls_sqli2.txt| grep -o "https.*\/download.*txt" >> ${nPATH}/lets-download.txt
         }
 
-# - Fetch Last Source ----------------------------------------------------------------
+# - Fetch Last Source -----------------------------------------------------------------
 #
 #     Final step - Download dumps
 #
@@ -396,10 +396,26 @@ function download_last_source2() {
     rm ${nPATH}/lets-download.txt ${nPATH}/urls_sqli2.txt
 }
 
+# - See if the user understand -----------------------------------------------------------------
+#
+#     Simple exit control to stop users who should not use this script.
+#     this part is not included if you have downloaded the script via releases as 
+#     there is a readme to read on that page: https://github.com/wuseman/EMAGNET/releases
+#
+#     Delete line 399->413 from this file or do it via sed:
+#
+#     sed -e '399,418d' emagnet_v4.0.0-beta.sh
+#
+#     Thx!
+#
+#-----------------------------------------------------------------------------------------------
+grep -qoi "cryingkidzFBIisH3re:cryikidzFBIisH3re" $basename$0 &> /dev/null
+if [[ $? -ne "0" ]]; then
+        errMSG "I told you to edit this script before executing it, for your own safety!"
+        errMSG "Edit user:password for something else or remove this if statement from the script..."
+        exit
+fi
 
-grep -qi "cryingkidzFBIisH3re:cryingkidzFBIisH3re"  $basename$0
-[[ $? = "0" ]] && errMSG "I told you to edit this script before executing it, for your own safety!"; 
-errMSG "Edit user:password for something else or remove this line + the two lines above for continue...";exit
 
 emagnet_wmirror() {
     uGENT="$(echo -e $uGENT|cut -d: -f2|sed 's/ //g')" 
