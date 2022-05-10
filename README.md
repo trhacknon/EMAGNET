@@ -36,13 +36,14 @@ Added `emagnet_v4.0.0-beta.sh` as its own script for now, will be built in later
 1. Emagnet visits the site with all dumps
 2. Emagnet grab urls for the leaks 
    - Im not sure if I want to download the files or doing this part as we reading the files yet
-3 . Once files downloaded we use ripgrep for speed up things ASAP! Grab the urls the uploads are stored, mostly times
+3 . Once files downloaded we use [ripgrep](https://github.com/BurntSushi/ripgrep) for speed up things - Its fast as ****! 
+4.. Ripgrep grabs the urls the leaks are stored on, mostly times
      - `upload.ee `
      - `anonfiles.com`
      - `yandex.ru`
-5. Emagnet now downloading files 
-6. Emagent now sorting correct files and we skip the rest, we only want the leaked dumps
-7. Emagnet save all files in ~/emagnet-temp/dump (
+5. Emagnet now downloading the dump files 
+6. Emagnet now sorting and doing some magic(check inside script) for sort the correct files in correct dir, we just want the dumps
+7. Emagnet now save all files in ~/emagnet-temp/dump (
      - Edit this to my old emanget version paths for monitoring dirs and bruteforce via the old emagnet for now
 8. Emagnet doing the bruteforce job for you! Lay back and enjoy!
 
