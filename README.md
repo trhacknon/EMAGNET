@@ -25,44 +25,7 @@
 
 ### Update: 2022-05-10 
 
-![Screenshot](.previews/emagnet_v4.gif)
-
-Added `emagnet_v4.0.0-beta.sh` as its own script for now, will be built in later but its alot of job left with alot of more sources, use this for now! 
-
-`No support` will be given around this, `edit/mod/config` the script as you wish if you wanna do it in some other language. No guarantees available or can be given! `Use it at your own risk`!
-
-### A small explanation of what it does.
-
-1. Emagnet visits the site with all dumps
-2. Emagnet grab urls for the leaks 
-   - Im not sure if I want to download the files or doing this part as we reading the files yet o
-   - Once all files is downloaded we use [ripgrep](https://github.com/BurntSushi/ripgrep) for speed up things - Its fast as ****
-4. Ripgrep grabs the urls the leaks are stored on, mostly times
-     - `upload.ee `
-     - `anonfiles.com`
-     - `yandex.ru`
-5. Emagnet now downloading the dump files 
-6. Emagnet now sorting and doing some magic(check inside script) for sort the correct files in correct dir, we just want the dumps
-7. Emagnet now save all files in ~/emagnet-temp/dump
-     - Edit this to my old emanget version paths for monitoring dirs and bruteforce via the old emagnet for now
-8. Emagnet doing the bruteforce job for you! Lay back and enjoy!
-
-If you wish, add the script to your crontab and let it run every hour / day!
-
-I do not recommend anyone to try v4.0.0 without editing the the script. 
-
-* Change useragent and folders please and resolve host for not being an idiot! Do it on your own risk, never blame me for anything!
-
-Sorry kids, you have been pwned by Emagnet since a long time! (kids as people downloading and trying to sell free stuff)
-
-* More sources will be used in next update! 
-
-Credits to the source page we grabbing urls from that keep things free as it should be. 
-
-
-### How to protect yourself?
-
-Use extra security for your accounts, passwords sucks and im trying to show you why with Emagnet!
+Visit [releases](https://github.com/wuseman/EMAGNET/releases) for more info about the beta script.
 
 ### Notice: 
 
