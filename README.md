@@ -25,7 +25,7 @@
 
 ### Update: 2022-05-10 
 
-![Screenshot](.preview/emagnet_v)
+![Screenshot](.previews/emagnet_v4.gif)
 
 Added `emagnet_v4.0.0-beta.sh` as its own script for now, will be built in later but its alot of job left with alot of more sources, use this for now! 
 
