@@ -7,7 +7,7 @@
 #       Version: 4.0
 #
 #       Created: 2022-04-08 (06:30:15)
-#      Modified: 2022-05-10 (22:09:00)
+#      Modified: 2022-05-10 (23:39:03)
 #
 #           iRC: wuseman (Libera/EFnet/LinkNet) 
 #       Website: https://www.nr1.nu/
@@ -440,7 +440,7 @@ function lets_pwn() {
 }
 
 OPTIND=1
-while getopts abchveifm opt; do
+while getopts abchveif opt; do
     case $opt in
         a)  emagnet_author ;;
         b)  
@@ -463,7 +463,7 @@ while getopts abchveifm opt; do
             lets_pwn
             ;;
         m)  
-            emagnet_wmirror
+            #emagnet_wmirror
             ;;
         *)
             show_help >&2
