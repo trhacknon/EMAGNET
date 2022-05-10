@@ -399,7 +399,7 @@ function download_last_source2() {
 
 grep -qi "cryingkidzFBIisH3re:cryingkidzFBIisH3re"  $basename$0
 [[ $? = "0" ]] && errMSG "I told you to edit this script before executing it, for your own safety!"; 
-errMSG "Edit user:password for somethiung else or remove this line + the two lines above for continue...";exit
+errMSG "Edit user:password for something else or remove this line + the two lines above for continue...";exit
 
 emagnet_wmirror() {
     uGENT="$(echo -e $uGENT|cut -d: -f2|sed 's/ //g')" 
