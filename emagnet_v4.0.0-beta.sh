@@ -86,7 +86,7 @@ vERSION="4.0.0"
 #
 # -----------------------------------------------------------------------------------
 emagnet_required_tools() {
-    for tools in wget curl awk sed ; do 
+    for tools in wget curl awk sed rg; do 
         hash ${tools} &> /dev/null; 
         if [[ $? -ne "0" ]]; then
             echo -e "$basename$0: internal error -- wget is required to be installed, exiting."
