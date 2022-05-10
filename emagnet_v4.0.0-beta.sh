@@ -7,7 +7,7 @@
 #       Version: 4.0
 #
 #       Created: 2022-04-08 (06:30:15)
-#      Modified: 2022-05-10 (23:39:03)
+#      Modified: 2022-05-10 (23:39:57)
 #
 #           iRC: wuseman (Libera/EFnet/LinkNet) 
 #       Website: https://www.nr1.nu/
@@ -191,7 +191,6 @@ Usage: ${0##*/} [-b] [-e] [-m] [-h] ...
       -c          check if extra security is used or not that will block us
       -e          fetch latest urls and quit
       -i          print your ip addresses
-      -m          mirror entire website that hosting our files 
 
 EOF
 }
