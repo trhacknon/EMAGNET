@@ -61,7 +61,7 @@ sed "${BLINE}i . ~/.emagnet/emagnet.conf" ./emagnet_v4.0.0-beta.sh
 sed 's/nPATH="$HOME\/emagnet-temp//nPATH="$EMAGNETHOME/.temp"/g' emagnet_v4.0.0-beta.sh
       
 # Add a cronie line for emagnet beta to be executed every 60min + 10sec (36010ecs) **before** autobruter will be executed from Tab 1 (edit folder)
-(crontab -l 2>/dev/null; echo "*/60 * * * * ~/scripts/emagnet_v4.0.0-beta.sh -e") | crontab -
+(crontab -l 2>/dev/null; echo "*/60 * * * * sleep 10; bash ~/scripts/emagnet_v4.0.0-beta.sh -e") | crontab -
 ```
 
 ----- `Result / Explanation / Summary`
