@@ -23,6 +23,61 @@
 <img src="https://img.shields.io/website/https/nr1.nu.svg?down_color=darkred&down_message=DOWN&label=Nr1.nu%2Femagnet&up_message=UP">
 <img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a>
 
+## Update: 2022-05-11
+
+For all my stargazzers! This is a bonus for now.
+
+![Screenshot](.previews/bonusSpider.gif)
+
+Telegram is dangerous! Be careful, don't visit groups on Telegram without knowing the admin and who is watching new members. 
+
+There is no reasons, for everyone that didn't know this you will love it, there is no reason to make things more complicated than they are:
+
+1. Choose a Telegram Group and add a simple 's' between .me/ and /groupname 
+2. like: https://t.me/s/groupname - Alot of admins adforgets to securing their group and have no clue about this (obviously), lets continue:  
+3. Change groupname in url  on line 1p, execute this in your browsers developer console and see results in console window:
+
+
+### You get redirected to a link as below everywhere if you see a telegram button: 
+
+https://t.me/spiderbot_if 
+
+#### Copy the url in browser, add the 's' i mention above and now visit: 
+
+https://t.me/s/spiderbot_if
+
+Scroll until end, now execute below in browser console! This will grab all urls and open a new tab in your browser with all urls on the currrent page.
+
+```sh
+var x = document.querySelectorAll("a");
+var myarray = []
+for (var i=0; i<x.length; i++){
+var nametext = x[i].textContent;
+var cleantext = nametext.replace(/\s+/g, ' ').trim();
+var cleanlink = x[i].href;
+myarray.push([cleantext,cleanlink]);
+};
+function make_table() {
+    var table = '<table><thead><th>Name</th><th>Links</th></thead><tbody>';
+   for (var i=0; i<myarray.length; i++) {
+            table += '<tr><td>'+ myarray[i][0] + '</td><td>'+myarray[i][1]+'</td></tr>';
+    };
+ 
+    var w = window.open("");
+w.document.write(table); 
+}
+make_table()
+```
+
+### Now save all the urls we have in our new tab, and do it as I did 5 years ago! This may be a lie! This can be a lie! You decide, lol
+
+    xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 \
+    wget --no-check-certificate --user-agent="GovForSeriousCrime/1.0.0" -q -nc -P outpitdir < files_with_url.txt
+
+### YouWannaCry? ;-)
+
+## Enjoy!
+
 ### Update: 2022-05-10 
 
 Visit [releases](https://github.com/wuseman/EMAGNET/releases) for more info about the beta script.
