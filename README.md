@@ -23,6 +23,74 @@
 <img src="https://img.shields.io/website/https/nr1.nu.svg?down_color=darkred&down_message=DOWN&label=Nr1.nu%2Femagnet&up_message=UP">
 <img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a>
 
+### Update: 2022-05-11
+
+For all my stargazzers! This is a bonus for now.
+
+Telegram is dangerous! Be careful, don't visit groups on Telegram without knowing the admin and who is watching new members. 
+
+There is no reasons, for everyone that didn't know this you will love it, there is no reason to make things more complicated than they are:
+
+1. Choose a Telegram add a simple 's' between .me/ and /groupname 
+2. like: https://t.me/s/groupname - Alot of admins admins forgets to securing their group and have a clue about this (obviously) this part, lets continue:  
+3. Change groupname in url  on line 1p, execute this in your browsers developer console and see results in console window:, 
+- remove pagehide from the function and copy and paste (edit groupname end of url, line1)
+
+```js
+var protoUrl = "tg:\/\/resolve?domain=groupname";
+if (false) {
+  var iframeContEl = document.getElementById('tgme_frame_cont') || document.body;
+  var iframeEl = document.createElement('iframe');
+  iframeContEl.appendChild(iframeEl);
+  var pageHidden = false;
+  window.addEventListener('pagehide', function () {
+    pageHidden = true;
+  }, false);
+ 
+```
+
+If gesture is NOT required, stay away from that group and instead download everything ASAP! Lets use SpiderBots group with hacked pastebins since 2018! How everytghin was captched as a pro! ;) ~97% correct data fetched in avg incl. ;-)
+
+### You get redirected to: 
+https://t.me/spiderbot_if 
+
+
+#### Please try visit: 
+
+https://t.me/s/spiderbot_if
+
+Scroll until end, now execute below in browser console! This will grab all urls and open a new tab in your browser with all urls on the currrent page.
+
+```sh
+var x = document.querySelectorAll("a");
+var myarray = []
+for (var i=0; i<x.length; i++){
+var nametext = x[i].textContent;
+var cleantext = nametext.replace(/\s+/g, ' ').trim();
+var cleanlink = x[i].href;
+myarray.push([cleantext,cleanlink]);
+};
+function make_table() {
+    var table = '<table><thead><th>Name</th><th>Links</th></thead><tbody>';
+   for (var i=0; i<myarray.length; i++) {
+            table += '<tr><td>'+ myarray[i][0] + '</td><td>'+myarray[i][1]+'</td></tr>';
+    };
+ 
+    var w = window.open("");
+w.document.write(table); 
+}
+make_table()
+```
+
+Now save all the urls we have in our new tab, and do it as I did 5 years ago! ;)
+
+    xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 \
+    wget --no-check-certificate --user-agent="GovForSeriousCrime/1.0.0" -q -nc -P outpitdir < files_with_url.txt
+
+You wannaCry? ;-)
+
+Enjoy!
+
 ### Update: 2022-05-10 
 
 Visit [releases](https://github.com/wuseman/EMAGNET/releases) for more info about the beta script.
