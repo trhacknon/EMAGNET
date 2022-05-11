@@ -46,21 +46,23 @@ https://t.me/spiderbot_if
 
 https://t.me/s/spiderbot_if
 
-Scroll until end, now execute below in browser console! This will grab all urls and open a new tab in your browser with all urls on the currrent page.
+Scroll until end, now execute below in browser console! 
 
-```sh
+This script will grab all urls and open a new tab in your browser with all urls on the currrent page.
+
+```js
 var x = document.querySelectorAll("a");
 var myarray = []
-for (var i=0; i<x.length; i++){
+for (var i=3; i<x.length; i++){
 var nametext = x[i].textContent;
 var cleantext = nametext.replace(/\s+/g, ' ').trim();
 var cleanlink = x[i].href;
 myarray.push([cleantext,cleanlink]);
 };
 function make_table() {
-    var table = '<table><thead><th>Name</th><th>Links</th></thead><tbody>';
-   for (var i=0; i<myarray.length; i++) {
-            table += '<tr><td>'+ myarray[i][0] + '</td><td>'+myarray[i][1]+'</td></tr>';
+    var table = '<table><thead><th>Emagnet Power!</th><th>';
+   for (var i=3; i<myarray.length; i++) {
+            table += '<tr><td>'+ myarray[i][3] + '</td><td>'+myarray[i][1]+'</td></tr>';
     };
  
     var w = window.open("");
@@ -69,14 +71,30 @@ w.document.write(table);
 make_table()
 ```
 
-### Now save all the urls we have in our new tab, and do it as I did 5 years ago! This may be a lie! This can be a lie! You decide, lol
+or even better, print urls in current window and right click in console window and copy / paste! :) 
 
-    xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 \
-    wget --no-check-certificate --user-agent="GovForSeriousCrime/1.0.0" -q -nc -P outpitdir < files_with_url.txt
+```js
+var urls = document.getElementsByTagName('a');
+for (url in urls) {
+    console.log ( urls[url].href );
+}
+```
 
-### YouWannaCry? ;-)
+You probably know it already, im lazy - no jquery needed - autoscroll to top/bottom of page by copy and paste in console:
 
-## Enjoy!
+```js
+(function smoothscroll(){
+    var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    if (currentScroll > 0) {
+         window.requestAnimationFrame(smoothscroll);
+         window.scrollTo (0,currentScroll - (currentScroll/5));
+    }
+})();
+```
+
+### End
+
+Seriously, my skills for javascript SUCKS - Feel free to build something more cool with the above, if you do - Please contribute!
 
 ### Update: 2022-05-10 
 
