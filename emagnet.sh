@@ -66,14 +66,11 @@ emagnet_author() {
 EOF
 }
 
-
-#### Required tools for emagnet
 emagnet_required_tools() {
     hash wget &> /dev/null;[[ $? > "0" ]] && echo  "$basename$0: internal error -- wget is required to be installed, exiting."
     hash curl &> /dev/null;[[ $? > "0" ]] && echo  "$basename$0: internal error -- curl is required to be installed, exiting." && exit 1
 }
 
-#### If wrong version, then stop!
 emagnet_conf() {
     if ! [[ -f ${EMAGNET_CONF} ]]; then
         if ! [[ -d ${EMAGNET_HOME} ]]; then
@@ -105,12 +102,10 @@ emagnet_version() {
     fi
 }
 
-#### Some functions require root on almost all distros, installing missing packages for example.
 emagnet_mustberoot() {
     (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1
 }
 
-#### Print LICENSE
 emagnet_license(){
     printf "%s\n" "Printing LICENSE - Use 'q' to quit"
     sleep 2
@@ -181,15 +176,12 @@ emagnet_mustbefilled() {
     if [[ -z "$PROXYPORT"      ]];then sed -i '223d' ${EMAGNET_CONF};sed -i '223 i PROXY=password'                                                                                                          ${EMAGNET_CONF};fi
 }
 
-# After we downloaded and counted data we want to move all temporary files to all-files
-# and also because we dont want to count data from those files twice...
 emagnet_move_realtime() {
     mv $EMAGNETTEMP/* $EMAGNETHOME/all-files &> /dev/null
     rm "$HOME/.config/emagnet/tmp/.emagnet-*"  &> /dev/null
 }
 
 
-# Check if we are allowed to visit pastebin before doing next function
 emagnet_check_pastebin() {
     source $HOME/.config/emagnet/emagnet.conf
     curl -s -H "$USERAGENT" https://pastebin.com > $EMAGNETTEMP/.status
@@ -219,7 +211,6 @@ emagnet_check_pastebin() {
     rm $EMAGNETTEMP/.status &> /dev/null
 }
 
-#### Emagnet maskot
 emagnet_banner() {
     cat << "EOF"
      _                      _______                      _
@@ -270,8 +261,6 @@ Usage: ./$basename$0 [--author] [--emagnet] [--option] .....
 EOF
 }
 
-
-#### Just for make it easier to read main script
 emagnet_clear() {
     clear
 }
@@ -288,15 +277,12 @@ emagnet_optional(){
     sleep 0
 }
 
-
-# Check so all paths has been created so we can use emagnet
 emagnet_paths() {
     [[ ! -d ${EMAGNETALL} ]] && \
         PATHS="${EMAGNETHOME} ${EMAGNETCRACKED} ${EMAGNETDB} ${EMAGNETPW} ${EMAGNETTEMP} ${EMAGNETCRAP} ${EMAGNETALL} ${EMAGNETARCHIVE} ${EMAGNETLOGS}"
         for DIRS in ${PATHS}; do [[ ! -d "${DIRS}" ]] && mkdir -p "${DIRS}" &> /dev/null;done
     }
 
-#### Run emagnet in a screen
 emagnet_screen() {
     mkdir -p /tmp/screen/S-root &> /dev/null
     chmod 755 /tmp/screen &> /dev/null
@@ -311,8 +297,6 @@ emagnet_screen() {
     screen -S "emagnet" -dm bash "$basename$0" --emagnet
 }
 
-
-#### If you have a ghost session of emagnet use ./emagnet -k
 emagnet_kill() {
     ESESSIONS=$(ps aux|grep -i emagnet |awk '{print $2}'|sed '$d')
     NRESESSIONS=$(ps aux|grep -i "emagnet"|awk '{print $2}'|sed '$d'|wc -l)
@@ -333,9 +317,6 @@ emagnet_kill() {
     fi
 }
 
-###############################################################################
-#### This is for save us some time, print analyzing when we downloding files ##
-###############################################################################
 emagnet_analyzing_message() {
     if [[ "$GBRUTEFORCE" = "true" ]]; then
         printf "%19s \e[1;31m$(echo -e "\e[1;34mG\e[1;31mM\e[1;33mA\e[1;34mi\e[0;32mL\e\e[0m") BRUTE MODE is: \e[1;32mON\e[0m\e[0m\n\n"
@@ -365,7 +346,6 @@ emagnet_analyzing_message() {
 }
 
 
-# MESSAGE WHILE RUNNING
 emagnet_analyzer() {
     emagnet_clear
     emagnet_banner
@@ -712,14 +692,8 @@ emagnet_spotify_bruter() {
             fi
         }
 
-        emagnet_main() {
-            # ------------------------------------------------------------
-            # BETA - CHOOSE ONE?
-            #curl -s https://scrape.pastebin.com/api_scraping.php -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' -H 'Cookie: _ga=GA1.2.1092992254.1592458160; cf_clearance=427618303dfe7f40fd4bed06784b682ff11e9492-1593096187-0-d1784d20-250'|egrep -oi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' > $HOME/.config/emagnet/tmp/.emagnet-temp1
-            #grep -qEoi 'https:\/\/scrape.*php.*"'|sed 's/.$//g' $HOME/.config/emagnet/tmp/.emagnet-temp1
-            # ------------------------------------------------------------
+emagnet_main() {
 
-# Check if PROXY is set to true (ssh/tunnel)
 if [[ $PROXY = "true" ]]; then
     CURL="curl -x socks5h://$PROXYHOST:$PROXYPORT"
 else
@@ -761,7 +735,6 @@ fi
 # Print total files on a better way
 tt="$(ls $EMAGNETTEMP| wc -l)"
 
-# Count stats and print them in realtime 
 el=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|cut -d: -f2|tr ' ' '\n'|awk -F, '!seen[$1]++')
 et=$(grep -rEiEio '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b' $EMAGNETTEMP|tr ' ' '\n'|wc -l)
 ef=$(grep -rEiEio "\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f1|uniq|grep -v '"'\|','\|'<'|tr ' ' '\n')
@@ -769,10 +742,10 @@ pf=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" $E
 pl=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" "$EMAGNETTEMP"|awk '{print $1}'|cut -d':' -f2,3|cut -d'|' -f1|awk -F, '!seen[$1]++'|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'\|'index.html'\|'alerts'|grep -v '/')
 pt=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" $EMAGNETTEMP|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v /|wc -l)
 
-# We want to clear screen after we counted stuff
 emagnet_clear
 emagnet_banner
 emagnet_move_realtime
+
 # If we found both passwords and email addresses then we do below 
 # --------------------------------------------------------------- 
 # Notice about sleep:                                             
@@ -881,10 +854,6 @@ emagnet_first_run() {
     fi
 }
 
-
-###############################################################################
-#### This is stats function when you using emagnet -s for count stats.......####
-################################################################################
 emagnet_stats() {
     FILES=$(find $EMAGNET -type f|grep -v ".txt\|.gif\|.sh$\|tar.gz$" &> /dev/null)
     if [[ "$FILES" -gt "0" ]]; then
