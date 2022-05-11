@@ -27,30 +27,18 @@
 
 For all my stargazzers! This is a bonus for now.
 
+![Screenshot](.previews/bonusSpider.gif)
+
 Telegram is dangerous! Be careful, don't visit groups on Telegram without knowing the admin and who is watching new members. 
 
 There is no reasons, for everyone that didn't know this you will love it, there is no reason to make things more complicated than they are:
 
 1. Choose a Telegram Group and add a simple 's' between .me/ and /groupname 
 2. like: https://t.me/s/groupname - Alot of admins adforgets to securing their group and have no clue about this (obviously), lets continue:  
-3. Change groupname in url  on line 1p, execute this in your browsers developer console and see results in console window:, 
-- remove pagehide from the function and copy and paste (edit groupname end of url, line1)
+3. Change groupname in url  on line 1p, execute this in your browsers developer console and see results in console window:
 
-```js
-var protoUrl = "tg:\/\/resolve?domain=groupname";
-if (false) {
-  var iframeContEl = document.getElementById('tgme_frame_cont') || document.body;
-  var iframeEl = document.createElement('iframe');
-  iframeContEl.appendChild(iframeEl);
-  var pageHidden = false;
-  window.addEventListener('pagehide', function () {
-    pageHidden = true;
-  }, false);
- ```
 
-If gesture is NOT required, stay away from that group and instead download everything ASAP! Lets use SpiderBots group with hacked pastebins until 2018! (its dead since 2018) - How everything was captched as a real spider pro! (~97% of all spidering sites are correct in avg, does 97% sound familiar?) ;)
-
-### You get redirected to a link as below everywhere: 
+### You get redirected to a link as below everywhere if you see a telegram button: 
 
 https://t.me/spiderbot_if 
 
@@ -81,12 +69,12 @@ w.document.write(table);
 make_table()
 ```
 
-### Now save all the urls we have in our new tab, and do it as I did 5 years ago! ;)
+### Now save all the urls we have in our new tab, and do it as I did 5 years ago! This may be a lie! This can be a lie! You decide, lol
 
     xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 \
     wget --no-check-certificate --user-agent="GovForSeriousCrime/1.0.0" -q -nc -P outpitdir < files_with_url.txt
 
-### YouwannaCry? ;-)
+### YouWannaCry? ;-)
 
 ## Enjoy!
 
