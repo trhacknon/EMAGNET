@@ -54,10 +54,10 @@ Step By Step! Dirty Version! Until I get everything together into one script.
     # Add a cronie line for emagnet beta to be executed every hour (36010ecs) after before autobruter will be executed from tab1
     (crontab -l 2>/dev/null; echo "*/60 * * * * /path/to/emagnet_v4.0.0-beta.sh -with args") | crontab -
 
-    ----- Result
+----- Result
 
     Every hour emagnet_v4.0.0-beta.sh is executed in background, and
-    ...10 seconds later....emagnet.sh will bruteforcing the accounts
+    ...10 seconds later....emagnet.sh will bruteforce the accounts
     
 Sorry for the mess, if you do not understand at all how this works, please find another tool for this purpose ;) 
 
