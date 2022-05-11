@@ -32,7 +32,7 @@ Telegram is dangerous! Be careful, don't visit groups on Telegram without knowin
 There is no reasons, for everyone that didn't know this you will love it, there is no reason to make things more complicated than they are:
 
 1. Choose a Telegram Group and add a simple 's' between .me/ and /groupname 
-2. like: https://t.me/s/groupname - Alot of admins admins forgets to securing their group and have a clue about this (obviously) this part, lets continue:  
+2. like: https://t.me/s/groupname - Alot of admins adforgets to securing their group and have no clue about this (obviously), lets continue:  
 3. Change groupname in url  on line 1p, execute this in your browsers developer console and see results in console window:, 
 - remove pagehide from the function and copy and paste (edit groupname end of url, line1)
 
