@@ -265,11 +265,16 @@ emagnet_clear() {
     clear
 }
 
-#### Check for a working connection, using google since it is up 24/7 
 emagnet_iconnection() {
-    if ! nc -zw1 google.com 443; then
-        echo -e "$basename$0: internal error -- this feature requires an internet connection but you seem to be offline, exiting.."
-        exit 1
+    for interface in $(ls /sys/class/net/ | grep -v lo);
+    do
+        if [[ $(cat /sys/class/net/$interface/carrier) = 1 ]]; then 
+            OnLine=1; 
+        fi
+    done
+    if ! [ $OnLine ]; then 
+        echo "Not Online" > /dev/stderr; 
+        exit; 
     fi
 }
 
@@ -998,7 +1003,7 @@ case "${1}" in
                     If you don't care or understand what this is about
                     then you probably just want type uppercase \e[4mYES\e[0m
                     to let me install \e[1;32mlibspotify\e[0m and get started :)\n
-                        "|awk '{print substr($0,21)}'  # indentation setup driving me crazy this solves the problem for now
+                        "|awk '{print substr($0,21)}'  # because my vim config driving me crazy and this solves the problem for now with printing this nice, remove first 21 characters from the output
 
 
                         read -p "Answer: " LIBSPOTIFY
