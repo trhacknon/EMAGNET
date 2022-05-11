@@ -272,7 +272,7 @@ emagnet_clear() {
 }
 
 emagnet_iconnection() {
-    for interface in $(ls /sys/class/net/ | grep -v "lo"); do
+    for interface in $(ls "/sys/class/net/" | grep -v "lo"); do
         if [[ $(cat /sys/class/net/$interface/carrier) = 1 ]]; then 
             OnLine=1; 
         fi
