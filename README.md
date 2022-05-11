@@ -2,7 +2,7 @@
 
 ### Before using Emagnet, please remember that with great power comes great responsibility. 
 
-# ![Screenshot](https://repository-images.githubusercontent.com/165741206/f9087e00-397d-11ea-9cab-1aea419f9448)
+# ![f9087e00-397d-11ea-9cab-1aea419f9448](https://user-images.githubusercontent.com/26827453/167769573-375b14d2-5816-45d6-8395-82d0a7d12089.gif)
 
 | Current Version    | News                            | Tested On                          |
 | :----------------- | :-------------------------------- | :----------------------------------|
@@ -25,18 +25,20 @@
 
 ## Update: 2022-05-11
 
-For all my stargazzers! This is a bonus for now.
+For all Emagnets stargazzers! This is a bonus for now.
 
-![Screenshot](.previews/bonusSpider.gif)
+![ezgif-2-bd3d5a7add](https://user-images.githubusercontent.com/26827453/167769057-18552805-759d-4ff0-829b-ff52f063758d.gif)
 
-Telegram is dangerous! Be careful, don't visit groups on Telegram without knowing the admin and who is watching new members. 
+Telegram is dangerous (dangerous = when it comes to unknown groups)! 
+
+Be careful, don't visit groups on Telegram without knowing the admin and who is watching new members.
+
 
 There is no reasons, for everyone that didn't know this you will love it, there is no reason to make things more complicated than they are:
 
 1. Choose a Telegram Group and add a simple 's' between .me/ and /groupname 
 2. like: https://t.me/s/groupname - Alot of admins adforgets to securing their group and have no clue about this (obviously), lets continue:  
 3. Change groupname in url  on line 1p, execute this in your browsers developer console and see results in console window:
-
 
 ### You get redirected to a link as below everywhere if you see a telegram button: 
 
@@ -206,15 +208,15 @@ Emagnet is a very powerful tool for capturing email addresses and passwords from
   - URL To Google's security blog (This was for try 2FA security): [Google.com - Security Blog](https://security.googleblog.com/2019/05/new-research-how-effective-is-basic.html)
   - __Remember, bruteforcing accounts without the owner's approval violates the law.__
 
-
 ### Emagnet - v3.4.3 (ssh)
-![Screenshot](.previews/emagnet-v3.4.3-ssh.gif)
+![emagnet-v3 4 3-ssh](https://user-images.githubusercontent.com/26827453/167769249-825ddb73-7b57-42cf-b21c-70d53e50a2cb.gif)
 
 ### Emagnet - v3.4.3 (spotify)
-![Screenshot](.previews/emagnet-v3.4.3-spotify.gif)
+![emagnet-v3 4 3-spotify](https://user-images.githubusercontent.com/26827453/167769248-8084d3e9-bf52-4c73-95ab-a41c0eb7e2ff.gif)
 
 ### Emagnet - v3.4.3 (gmail)
-![Screenshot](.previews/emagnet-v3.4.3-gmail.gif)
+![emagnet-v3 4 3-gmail](https://user-images.githubusercontent.com/26827453/167769247-5add436f-682c-4f19-b216-b8facd94dba5.gif)
+
 
 ### Getting Started
 
