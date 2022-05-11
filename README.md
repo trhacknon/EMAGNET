@@ -33,12 +33,13 @@ Telegram is dangerous (dangerous = when it comes to unknown groups)!
 
 Be careful, don't visit groups on Telegram without knowing the admin and who is watching new members.
 
-
 There is no reasons, for everyone that didn't know this you will love it, there is no reason to make things more complicated than they are:
 
 1. Choose a Telegram Group and add a simple 's' between .me/ and /groupname 
-2. like: https://t.me/s/groupname - Alot of admins adforgets to securing their group and have no clue about this (obviously), lets continue:  
-3. Change groupname in url  on line 1p, execute this in your browsers developer console and see results in console window:
+2. like: https://t.me/s/groupname - Alot of admins forgets to securing their group and have no clue about this (obviously), lets continue and dont talk this with anyone, the more ppl that will know this  the worse it gets for you and me. If you're an admin, you sucks! DOn put your users in danger because you are an idiot and do not know how to secure a simple group on telegram, lol. 
+3. Don't worry! This is just a bonus (bonus = wont last forever, if any group admin will see this who did not know better, then use emagnet-v4.0.0-beta instead) - This part is just added for fun and not a real part of this project!
+
+Don't hate the player hate the game (admin)!
 
 ### You get redirected to a link as below everywhere if you see a telegram button: 
 
