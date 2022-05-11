@@ -50,7 +50,7 @@ bash emagnet.sh -q -b spotify
 
 ```sh
 # Source emagnet.conf, place the line under the vERSION="4.0.0" in emagnet-v4.0.0.-beta.sh
-BLINE=$(awk '/vERSION="4.0.0"/ {print NR+1}' emagnet_v4..0.0.sh)
+BLINE=$(awk '/vERSION="4.0.0"/ {print NR+1}' emagnet_v4.0.0-beta.sh)
     
 # Insert ". ~/emagnet/emagnet.conf" via sed or do it manually lets_pwn wherever you want
 # but it must be outside any function and before the lets_pwn() { function..
