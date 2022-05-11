@@ -48,7 +48,7 @@ if (false) {
   }, false);
  ```
 
-If gesture is NOT required, stay away from that group and instead download everything ASAP! Lets use SpiderBots group with hacked pastebins since 2018! How everything was captched as a real spider pro! (~97% correct data fetched in avg. does 97% sound familiar?) ;)
+If gesture is NOT required, stay away from that group and instead download everything ASAP! Lets use SpiderBots group with hacked pastebins until 2018! (its dead since 2018) - How everything was captched as a real spider pro! (~97% of all spidering sites are correct in avg, does 97% sound familiar?) ;)
 
 ### You get redirected to a link as below everywhere: 
 
