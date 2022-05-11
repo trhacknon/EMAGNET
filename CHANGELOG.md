@@ -11,6 +11,13 @@ r = RE-ADDED FEATURE FROM AN EARLIER VERSION
      that has been re-added is now stable and not "half done" so they are here for stay.
 R = REBUILT
 
+# Version 4.0.0 - Beta
+
++    This is just a very very very early release from something MUCH bigger, this will be updated later but few things can be added
++    We changed source from pastebin.com to sqli.cloud for grab urls, we stay on this source ONLY for now
++    We using ripgrep for grep what we looking for faster then using grep recursive only
++    curl parallel has been added but is not in use in public version (please see curl manual for latest updates about this feature from curl, also known as -Z)
++    We just downloading files we dont use any bruteforcing in this beta version (use v3.4.3 to monitor the dirs to find leaks from this version)
 
 
 # Version 4.0.0 - Beta

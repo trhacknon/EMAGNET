@@ -27,6 +27,58 @@
 
 Visit [releases](https://github.com/wuseman/EMAGNET/releases) for more info about the beta script.
 
+Simple example how things can be done, no support will be given for this - Wait for a future release please.
+
+Step By Step! Dirty Version! Until I get everything together into one script. 
+
+----- `Tab 1`
+```sh
+git clone git@github.com:/wuseman/emagnet
+cd emagnet
+    
+# Set time to 1 hour + 10 seconds (add more seconds if your bw is very slow)
+bash emagnet.sh -t 3610
+    
+# Run emagnet in screen with auto spotify bruteforce enable.. 
+bash emagnet.sh -q -b spotify 
+    
+# Or without screen if you wanna see in realtime wich account is valid and available to use
+`bash emagnet.sh -b spotify 
+```
+
+----- `Tab 2` - Keep above running in background or in another tab
+
+```sh
+# Source emagnet.conf, place the line under the vERSION="4.0.0" in emagnet-v4.0.0.-beta.sh
+BLINE=$(awk '/vERSION="4.0.0"/ {print NR+1}' emagnet_v4.0.0-beta.sh)
+    
+# Insert ". ~/emagnet/emagnet.conf" via sed or do it manually lets_pwn wherever you want
+# but it must be outside any function and before the lets_pwn() { function..
+# Just copy and paste BLINE above line and this line in emagnet dir and its done
+sed "${BLINE}i . ~/.emagnet/emagnet.conf" ./emagnet_v4.0.0-beta.sh
+    
+# Now you must change folders in beta script so emagnet.sh can grab accounts to bruteforce:
+sed 's/nPATH="$HOME\/emagnet-temp//nPATH="$EMAGNETHOME/.temp"/g' emagnet_v4.0.0-beta.sh
+      
+# Add a cronie line for emagnet beta to be executed every 60min + 10sec (36010ecs) **before** autobruter will be executed from Tab 1 (edit folder)
+(crontab -l 2>/dev/null; echo "*/60 * * * * sleep 10; bash ~/scripts/emagnet_v4.0.0-beta.sh -e") | crontab -
+```
+
+----- `Result / Explanation / Summary`
+
+Every hour `emagnet_v4.0.0-beta.sh` is executed via cronie(crontab) in background and this will download all files to .temp dir
+and...10 seconds later....`emagnet.sh` is executed and will check .temp dir and if there is any accounts found emagnet will bruteforce
+all these accounts in background! 
+    
+You personally, can take a walk while emagnet takes care of the rest!
+
+*** 
+Sorry for the mess in this README!  I have done my best to try to give an example of how you can use v3.4.3 and v4.0.0 without getting too complicated. if you still do not understand or get this example to work side by side find another hobby or use another tool until I fix it for you but there is a lot of work left so Emagnet can be adapted to everyone! 
+
+### End of 2022-05-10 - Update
+
+***
+
 ### Notice: 
 
 Pastebin patched the vulnerability I previously used in order to get recent uploads from https://pastebin.com/archive, so at the moment it is not possible to get recently uploaded files, you are now limited to all syntaxes exempt the default one (95% get's uploaded as 'text' and this is removed from all recent upload lists). 

@@ -396,7 +396,7 @@ function download_last_source2() {
     rm ${nPATH}/lets-download.txt ${nPATH}/urls_sqli2.txt
 }
 
-# - See if the user understand -----------------------------------------------------------------
+# - See if the user edit's the part I tell them to do in readme ----------------------------------
 #
 #     Simple exit control to stop users who should not use this script.
 #     this part is not included if you have downloaded the script via releases as 
@@ -415,7 +415,6 @@ if [[ $? = "0" ]]; then
         errMSG "Edit user:password for something else or remove this if statement from the script..."
         exit
 fi
-
 
 emagnet_wmirror() {
     uGENT="$(echo -e $uGENT|cut -d: -f2|sed 's/ //g')" 
