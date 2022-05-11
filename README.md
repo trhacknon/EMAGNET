@@ -48,13 +48,13 @@ if (false) {
   }, false);
  ```
 
-If gesture is NOT required, stay away from that group and instead download everything ASAP! Lets use SpiderBots group with hacked pastebins since 2018! How everytghin was captched as a pro! ;) ~97% correct data fetched in avg incl. ;-)
+If gesture is NOT required, stay away from that group and instead download everything ASAP! Lets use SpiderBots group with hacked pastebins since 2018! How everything was captched as a real spider pro! ;) ~97% correct data fetched in avg. ;-)
 
-### You get redirected to: 
+### You get redirected to a link as below everywhere: 
+
 https://t.me/spiderbot_if 
 
-
-#### Please try visit: 
+#### Copy the url in browser, add the 's' i mention above and now visit: 
 
 https://t.me/s/spiderbot_if
 
