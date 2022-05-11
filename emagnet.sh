@@ -67,9 +67,15 @@ EOF
 }
 
 emagnet_required_tools() {
-    hash wget &> /dev/null;[[ $? > "0" ]] && echo  "$basename$0: internal error -- wget is required to be installed, exiting."
-    hash curl &> /dev/null;[[ $? > "0" ]] && echo  "$basename$0: internal error -- curl is required to be installed, exiting." && exit 1
+     for packages in "wget curl"; do
+         which ${packages} &> /dev/null
+             if [[ "$?" -gt "0" ]]; then
+                 echo -e "$basename$0: internal error -- ${cmd} is required to be installed, exiting."
+                 exit 1
+             fi
+     done
 }
+
 
 emagnet_conf() {
     if ! [[ -f ${EMAGNET_CONF} ]]; then
@@ -266,14 +272,13 @@ emagnet_clear() {
 }
 
 emagnet_iconnection() {
-    for interface in $(ls /sys/class/net/ | grep -v lo);
-    do
+    for interface in $(ls /sys/class/net/ | grep -v "lo"); do
         if [[ $(cat /sys/class/net/$interface/carrier) = 1 ]]; then 
             OnLine=1; 
         fi
     done
     if ! [ $OnLine ]; then 
-        echo "Not Online" > /dev/stderr; 
+            echo -e "$basename$0: internal error -- this feature require a internet connection but you seems to be offline, exiting.." > /dev/stderr; 
         exit; 
     fi
 }
