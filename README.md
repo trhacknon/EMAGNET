@@ -78,14 +78,20 @@ for (url in urls) {
 }
 ```
 
-### Now save all the urls we have in our new tab, and do it as I did 5 years ago! This may be a lie! This can be a lie! You decide, lol
+You probably know it already, im lazy - no jquery needed - autoscroll to top/bottom of page by copy and paste in console:
 
-    xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 \
-    wget --no-check-certificate --user-agent="GovForSeriousCrime/1.0.0" -q -nc -P outpitdir < files_with_url.txt
+```js
+(function smoothscroll(){
+    var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    if (currentScroll > 0) {
+         window.requestAnimationFrame(smoothscroll);
+         window.scrollTo (0,currentScroll - (currentScroll/5));
+    }
+})();
+```
 
-### YouWannaCry? ;-)
+### Enjoy! 
 
-## Enjoy!
 
 ### Update: 2022-05-10 
 
