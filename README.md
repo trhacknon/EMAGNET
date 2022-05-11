@@ -73,9 +73,9 @@ all these accounts in background!
 You personally, can take a walk while emagnet takes care of the rest!
 
 *** 
-Sorry for the mess in this README!  I have done my best to try to give an example of how you can use v3.4.3 and v4.0.0 without getting too complicated. if you still do not understand or get this example to work side by side another hobby or use another tool until I fix it for you but there is a lot of work left so Emagnet can be adapted to everyone! 
+Sorry for the mess in this README!  I have done my best to try to give an example of how you can use v3.4.3 and v4.0.0 without getting too complicated. if you still do not understand or get this example to work side by side find another hobby or use another tool until I fix it for you but there is a lot of work left so Emagnet can be adapted to everyone! 
 
-### End of 2022-05-11 - Update
+### End of 2022-05-10 - Update
 
 ***
 
