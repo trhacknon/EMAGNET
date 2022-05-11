@@ -27,7 +27,7 @@
 
 For all Emagnets stargazzers! This is a bonus for now.
 
-![ezgif-2-bd3d5a7add](https://user-images.githubusercontent.com/26827453/167769057-18552805-759d-4ff0-829b-ff52f063758d.gif)
+https://user-images.githubusercontent.com/26827453/167771364-d3bf9c15-6753-4f44-b450-b4cfd953298f.mp4
 
 Telegram is dangerous (dangerous = when it comes to unknown groups)! 
 
