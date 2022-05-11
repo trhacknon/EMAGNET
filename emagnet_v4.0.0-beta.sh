@@ -61,7 +61,7 @@
 #
 # -----------------------------------------------------------------------------------
 
-lOGIN="cryingkidzFBIisH3re:cryingkidzFBIisH3re"
+lOGIN="cryingkidzFBIisH3re:cryingidzFBIisH3re"
 aPATH="$HOME/emagnet-temp/archive"
 aPATH="$HOME/emagnet-temp/backup"
 dPATH="$HOME/emagnet-temp/dumps"
@@ -409,9 +409,9 @@ function download_last_source2() {
 #     Thx!
 #
 #-----------------------------------------------------------------------------------------------
-grep -qoi "cryingkidzFBIisH3re:cryikidzFBIisH3re" $basename$0 &> /dev/null
-if [[ $? -ne "0" ]]; then
-        errMSG "I told you to edit this script before executing it, for your own safety!"
+echo -e "cryingkidzFBIisH3re:cryingkidzFBIisH3re"|grep -ow ${lOGIN} &> /dev/null
+if [[ $? = "0" ]]; then
+        errMSG "I told you to edit this script before executing it, for your own safety your lazy cow... (ow yeh, larry the cow slogan)"
         errMSG "Edit user:password for something else or remove this if statement from the script..."
         exit
 fi
