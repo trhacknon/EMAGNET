@@ -46,10 +46,12 @@ https://t.me/spiderbot_if
 
 https://t.me/s/spiderbot_if
 
-Scroll until end, now execute below in browser console! This will grab all urls and open a new tab in your browser with all urls on the currrent page.
+Scroll until end, now execute below in browser console! 
+
+This script will grab all urls and open a new tab in your browser with all urls on the currrent page.
 
 ```js
-var x = document.querySelectorAll("urls");
+var x = document.querySelectorAll("a");
 var myarray = []
 for (var i=3; i<x.length; i++){
 var nametext = x[i].textContent;
@@ -90,8 +92,9 @@ You probably know it already, im lazy - no jquery needed - autoscroll to top/bot
 })();
 ```
 
-### Enjoy! 
+### End
 
+Seriously, my skills for javascript SUCKS - Feel free to build something more cool with the above, if you do - Please contribute!
 
 ### Update: 2022-05-10 
 
