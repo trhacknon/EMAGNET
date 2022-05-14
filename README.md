@@ -1,9 +1,8 @@
 # Emagnet v4.0.0-Beta
 
-
 | Beta Version    | News                            | Tested On                          |
 | :----------------- | :-------------------------------- | :----------------------------------|
-| `4.0.0-Beta`       | ...                               | Gentoo                               |
+| `4.0.0-Beta`       | Downloadingd dumps from https://sqli.cloud                    | GNU/Linux Gentoo                               |
 
 
 ![emagnet_v4](https://user-images.githubusercontent.com/26827453/167770299-c0751cf6-1870-4090-ba15-2b17d7aea027.gif)
@@ -27,9 +26,74 @@ Added `emagnet_v4.0.0-beta.sh` as its own script for now, will be built in later
      - Edit this to my old emanget version paths for monitoring dirs and bruteforce via the old emagnet for now
 8. Emagnet doing the bruteforce job for you! Lay back and enjoy!
 
-If you wish, add the script to your crontab and let it run every hour / day!
+## Update: 2022-05-11
 
-I do not recommend anyone to try v4.0.0 without editing the the script. 
+https://user-images.githubusercontent.com/26827453/167771364-d3bf9c15-6753-4f44-b450-b4cfd953298f.mp4
+
+1. Choose a Telegram Group and add a simple 's' between .me/ and /groupname
+2. like: https://t.me/s/groupname - Alot of admins forgets to securing their group and have no clue about this (obviously), lets continue and dont talk this with anyone, the more ppl that will know this  the worse it gets for you and me. If you're an admin, you sucks! DOn put your users in danger because you are an idiot and do not know how to secure a simple group on telegram, lol.
+3. Don't worry! This is just a bonus (bonus = wont last forever, if any group admin will see this who did not know better, then use emagnet-v4.0.0-beta instead) - This part is just added for fun and not a real part of this project!
+
+Don't hate the player hate the game (admin)!
+
+### You get redirected to a link as below everywhere if you see a telegram button:
+
+https://t.me/spiderbot_if
+
+#### Copy the url in browser, add the 's' i mention above and now visit:
+
+https://t.me/s/spiderbot_if
+
+Scroll until end, now execute below in browser console!
+
+This script will grab all urls and open a new tab in your browser with all urls on the currrent page.
+
+```js
+var x = document.querySelectorAll("a");
+var myarray = []
+for (var i=3; i<x.length; i++){
+var nametext = x[i].textContent;
+var cleantext = nametext.replace(/\s+/g, ' ').trim();
+var cleanlink = x[i].href;
+myarray.push([cleantext,cleanlink]);
+};
+function make_table() {
+    var table = '<table><thead><th>Emagnet Power!</th><th>';
+   for (var i=3; i<myarray.length; i++) {
+            table += '<tr><td>'+ myarray[i][3] + '</td><td>'+myarray[i][1]+'</td></tr>';
+    };
+
+    var w = window.open("");
+w.document.write(table);
+}
+make_table()
+```
+
+or even better, print urls in current window and right click in console window and copy / paste! :)
+
+```js
+var urls = document.getElementsByTagName('a');
+for (url in urls) {
+    console.log ( urls[url].href );
+}
+```
+
+You probably know it already, im lazy - no jquery needed - autoscroll to top/bottom of page by copy and paste in console:
+
+```js
+(function smoothscroll(){
+    var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    if (currentScroll > 0) {
+         window.requestAnimationFrame(smoothscroll);
+         window.scrollTo (0,currentScroll - (currentScroll/5));
+    }
+})();
+```
+
+### End
+
+
+
 
 ### How to protect yourself?
 
