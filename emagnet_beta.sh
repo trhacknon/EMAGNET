@@ -80,6 +80,42 @@ miURL="https://${fuURL}/"
 myIP4="$(curl -sL ifconfig.co)" 
 vERSION="4.0.0"
 
+
+
+# - Emagnet Banner ------------------------------------------------------------------
+#
+#      Ascii to print when script is running
+#
+#------------------------------------------------------------------------------------
+function emagnet_banner() {
+    cat << "EOF"
+     _                      _______                      _
+  _dMMMb._              .adOOOOOOOOOba.              _,dMMMb_
+ dP'  ~YMMb            dOOOOOOOOOOOOOOOb            aMMP~  `Yb
+ V      ~"Mb          dOOOOOOOOOOOOOOOOOb          dM"~      V
+          `Mb.       dOOOOOOOOOOOOOOOOOOOb       ,dM'
+           `YMb._   |OOOOOOOOOOOOOOOOOOOOO|   _,dMP'
+      __     `YMMM| OP'~"YOOOOOOOOOOOP"~`YO |MMMP'     __
+    ,dMMMb.     ~~' OO     `YOOOOOP'     OO `~~     ,dMMMb.
+ _,dP~  `YMba_      OOb      `OOO'      dOO      _aMMP'  ~Yb._   
+             `YMMMM\`OOOo     OOO     oOOO'/MMMMP'             
+     ,aa.     `~YMMb `OOOb._,dOOOb._,dOOO'dMMP~'       ,aa.      
+   ,dMYYMba._         `OOOOOOOOOOOOOOOOO'          _,adMYYMb.    
+  ,MP'   `YMMba._      OOOOOOOOOOOOOOOOO       _,adMMP'   `YM.   
+  MP'        ~YMMMba._ YOOOOPVVVVVYOOOOP  _,adMMMMP~       `YM
+  YMb           ~YMMMM\`OOOOI`````IOOOOO'/MMMMP~           dMP
+   `Mb.           `YMMMb`OOOI,,,,,IOOOO'dMMMP'           ,dM'
+     `'                  `OObNNNNNdOO'                   `'
+                           `~OOOOO~'
+
+= Emagnet v4.0.0 ===================================== © wuseman ========
+
+EOF
+
+#printf "\n%64s \n\n" | tr ' ' '='
+}
+
+
 # - Required Tools -------------------------------------------------------------------
 #
 #      Required Tools for Emagnet
@@ -200,39 +236,6 @@ EOF
 }
 
 
-# - Emagnet Banner ------------------------------------------------------------------
-#
-#      Ascii to print when script is running
-#
-#------------------------------------------------------------------------------------
-function emagnet_banner() {
-    cat << "EOF"
-     _                      _______                      _
-  _dMMMb._              .adOOOOOOOOOba.              _,dMMMb_
- dP'  ~YMMb            dOOOOOOOOOOOOOOOb            aMMP~  `Yb
- V      ~"Mb          dOOOOOOOOOOOOOOOOOb          dM"~      V
-          `Mb.       dOOOOOOOOOOOOOOOOOOOb       ,dM'
-           `YMb._   |OOOOOOOOOOOOOOOOOOOOO|   _,dMP'
-      __     `YMMM| OP'~"YOOOOOOOOOOOP"~`YO |MMMP'     __
-    ,dMMMb.     ~~' OO     `YOOOOOP'     OO `~~     ,dMMMb.
- _,dP~  `YMba_      OOb      `OOO'      dOO      _aMMP'  ~Yb._   
-             `YMMMM\`OOOo     OOO     oOOO'/MMMMP'             
-     ,aa.     `~YMMb `OOOb._,dOOOb._,dOOO'dMMP~'       ,aa.      
-   ,dMYYMba._         `OOOOOOOOOOOOOOOOO'          _,adMYYMb.    
-  ,MP'   `YMMba._      OOOOOOOOOOOOOOOOO       _,adMMP'   `YM.   
-  MP'        ~YMMMba._ YOOOOPVVVVVYOOOOP  _,adMMMMP~       `YM
-  YMb           ~YMMMM\`OOOOI`````IOOOOO'/MMMMP~           dMP
-   `Mb.           `YMMMb`OOOI,,,,,IOOOO'dMMMP'           ,dM'
-     `'                  `OObNNNNNdOO'                   `'
-                           `~OOOOO~'
-
-= Emagnet v4.0.0 ===================================== © wuseman ========
-
-EOF
-
-#printf "\n%64s \n\n" | tr ' ' '='
-}
-
 # - Ok Message _--------------------------------------------------------------------
 #
 #      This is for make everything alot more beauty, just 'okMsg "msgtoprint"''
@@ -318,11 +321,6 @@ function grab_urls_source() {
 #-------------------------------------------------------------------------------------
 function grab_urls_source2() {
     okMSG "Fetching urls from various sources..."
-    #    curl -sL ${sqURL} \
-    #        |grep -Eoi 'https:\/\/sql.*\/d.*"' \
-    #        |sed '1d' \
-    #        |sed 's/.$//g' >> "${tPATH}/urls_sqli1.txt"
-    #            okMSG "Fetching urls done..."
     curl -sL ${sqURL}  \
         |grep -Eo upload.ee................................................................... \
         |awk -F'u0022' '{print $1}' \
@@ -384,10 +382,9 @@ function download_paste_source() {
 #
 #--------------------------------------------------------------------------------------
 function fetch_last_source2() {
-    while read urls; do 
-        curl -sL -u "${lOGIN}" -H "${uGENT}" \
-            --resolve ${sHOST}:443:${lHOST} m \
-            "${urls}"; done < ${nPATH}/urls_sqli2.txt| grep -o "https.*\/download.*txt" >> ${nPATH}/lets-download.txt
+            xargs -n 1 -P 10 curl -v -sL -u "${lOGIN}" \
+             -H "${uGENT}" --resolve ${sHOST}:443:${lHOST} -Z -r 0-1000000 -O ${nPATH} < ${nPATH}/urls_sqli2.txt \
+             grep -o "https.*\/download.*txt" >> ${nPATH}/lets-download.txt
         }
 
 # - Fetch Last Source -----------------------------------------------------------------
@@ -397,8 +394,10 @@ function fetch_last_source2() {
 #--------------------------------------------------------------------------------------
 function download_last_source2() {
     okMSG "Last part, we are almost done.. Hold on.."
-    #xargs -n 1 -P 5 curl -v -sL -u "${lOGIN}" -H "${uGENT}" --resolve ${sHOST}:443:${lHOST} -Z -r 0-1000000 -O ${nPATH} < "${tPATH}/urls2.txt" 
-    xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "${uAGENT}" -P "${dPATH}" < "${nPATH}/lets-download.txt" &> /dev/null
+    xargs -n 1 -P 5 curl -v -sL -u "${lOGIN}" -H "${uGENT}" --resolve ${sHOST}:443:${lHOST} -Z -r 0-1000000 -O ${nPATH} < "${tPATH}/urls2.txt" 
+   # xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "${uAGENT}" -P "${dPATH}" < "${nPATH}/lets-download.txt" &> /dev/null
+    #cat "${nPATH}/lets-download.txt"|xargs -P 20 -n 1 curl -O 
+
     #rm -rf ${tPATH}
     okMSG "Cleaning up..."
     rp="$(cat $HOME/emagnet-temp/dumps/*.txt|wc -l)"
@@ -427,39 +426,6 @@ if [[ $? = "0" ]]; then
         errMSG "Edit user:password for something else or remove this if statement from the script..."
         exit
 fi
-
-emagnet_wmirror() {
-    uGENT="$(echo -e $uGENT|cut -d: -f2|sed 's/ //g')" 
-    printf "%50s\n" |tr ' ' '-'
-    printf "%s\n" '+ Mirror iNFO'
-    printf "%50s\n" |tr ' ' '-'
-    printf '+ Save.Path.........: %s\n' "${nPATH}/mirrors/${fuURL}-$(date +%Y-%m-%d)"
-    printf '+ Website.Url.......: %s \n' "${miURL}"
-    echo -e "+ IP.Adreess........: ${myIP4}" 
-    echo -e "+ USer-Agent........: ${uGENT}"
-    printf "%50s\n" |tr ' ' '-'
-    printf "%s\n" "Press enter to continue.."
-    printf "%50s\n" |tr ' ' '-'
-    wget -c -q --show-progress --progress=bar:force:noscroll -U "${uGENT}" -l inf -m -e robots=off -P "${mPATH}" "${miURL}"
-
-}
-
-emagnet_screen() {
- hash screen &> /dev/null
-     if [[ "$?" -gt "0" ]]; then 
-       echo -e "$basename$0: internal error -- Screen is required to be installed before you can emagnet in background..."
-       exit 1
-     else
-       emkdir -p /tmp/screen/S-root &> /dev/null
-       echmod 755 /tmp/screen &> /dev/null
-       echmod -R 700 /tmp/screen/S-root &> /dev/null
-      fi
-         
-    pid="$(ps aux |grep emagnet)"
-    printf "$basename$0: emagnet has been started in background (pid:$(ps aux|grep "SCREEN -dmS emagnet"|awk '{print $2}'|head -n1))\n"
-    screen -dmS "emagnet" emagnet -e
-}
-
 
 check_block() {
     unMSG "please wait..."
