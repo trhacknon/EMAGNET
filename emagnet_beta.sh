@@ -60,11 +60,11 @@
 #     vERSION: Version of this script
 #
 # -----------------------------------------------------------------------------------
-
 lOGIN="cryingkidzFBIisH3re:cryingidzFBIisH3re"
 aPATH="$HOME/emagnet-temp/archive"
 aPATH="$HOME/emagnet-temp/backup"
 dPATH="$HOME/emagnet-temp/dumps"
+lPATH="$HOME/emagnet-temp/logs"
 nPATH="$HOME/emagnet-temp"
 mPATH="$HOME/emagnet-temp/mirrors"
 tPATH="$HOME/emagnet-temp/.temp"
@@ -84,10 +84,9 @@ vERSION="4.0.0"
 #
 #      Required Tools for Emagnet
 #
-# -----------------------------------------------------------------------------------
-
+# ------------------------------------------------------------------------------------
 emagnet_required_tools() {
-    RCURL="$( curl -V |awk ' FNR == 1 {print $2}'|cut -d. -f1,2)"
+    RCURL="$(curl -V |awk ' FNR == 1 {print $2}'|cut -d. -f1,2)"
     if [[ $RCURL -lt "7.49" ]]; then 
         errMSG "Some commands in this script require curl v7.49 or higher installed, your current installed version is ${RCURL}";
         exit 
@@ -101,26 +100,25 @@ emagnet_required_tools() {
     done
 }
 
-#### Some functions require root on almost all distros, installing missing packages for example.
-emagnet_mustberoot() {
-    (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit 1
+# - Required Tools --------------------^-----------------------------------------------
+#
+#      We probably need to exit if the user is not root if we miss any required tool
+#
+# -------------------------------------------------------------------------------------
+emagnet_mustberoot() { 
+    (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit ;
 }
 
-#### Check for a working connection, using google since it is up 24/7 
-emagnet_iconnection() {
-    for interface in $(ls /sys/class/net/ | grep -v lo);
-    do
-        if [[ $(cat /sys/class/net/$interface/carrier) = 1 ]]; then 
-            OnLine=1; 
-        fi
-    done
-    if ! [ $OnLine ]; then 
-        echo "Not Online" > /dev/stderr; 
-        exit; 
-    fi
-}
+# - Kill Ghost Sessions --------------------^-----------------------------------------------
+#
+#      If you have a ghost session of emagnet use ./emagnet -k
+#
+# -------------------------------------------------------------------------------------
 
-#### If you have a ghost session of emagnet use ./emagnet -k
+
+
+
+
 emagnet_kill() {
     ESESSIONS=$(ps aux|grep -i emagnet |awk '{print $2}'|sed '$d')
     NRESESSIONS=$(ps aux|grep -i "emagnet"|awk '{print $2}'|sed '$d'|wc -l)
@@ -141,7 +139,12 @@ emagnet_kill() {
     fi
 }
 
-#### Print LICENSE
+
+# - License -------------------------------------------------------------------------
+#
+#      Print License
+#
+# -----------------------------------------------------------------------------------
 emagnet_license(){
     printf "%s\n" "Printing LICENSE - Use 'q' to quit"
     sleep 2
@@ -270,9 +273,23 @@ errMSG() {
 function folder_check() {
     if [[ ! -d ${nPATH} ]]; then 
         okMSG "This is first time Emagnet v${vERSION} is launched, creating required dirs..."
-        mkdir -p ${tPATH} ${nPATH} ${dPATH} ${mPATH}  ${bPATH}  ${aPATH} ${dPATH}  
+        mkdir -p ${tPATH} ${nPATH} ${dPATH} ${mPATH}  ${bPATH}  ${aPATH} ${dPATH}  ${lPATH}  
     fi
 }
+
+# - Internet Is Required For Some Features -------------------------------------------
+#
+#      We probably need to exit if the user is not root if we miss any required tool
+#
+# ------------------------------------------------------------------------------------
+emagnet_iconnection() {
+    ping -i "1" -c 1 google.com &> /dev/null
+        if [[ "$?" -gt "0" ]]; then 
+            echo -e "$basename$0: internal error -- this feature require a internet connection but you seems to be offline, exiting.."
+            exit 1
+        fi
+}
+
 
 # - Grab Url Sources -----------------------------------------------------------------
 #
@@ -432,6 +449,23 @@ emagnet_wmirror() {
 
 }
 
+emagnet_screen() {
+ hash screen &> /dev/null
+     if [[ "$?" -gt "0" ]]; then 
+       echo -e "$basename$0: internal error -- Screen is required to be installed before you can emagnet in background..."
+       exit 1
+     else
+       emkdir -p /tmp/screen/S-root &> /dev/null
+       echmod 755 /tmp/screen &> /dev/null
+       echmod -R 700 /tmp/screen/S-root &> /dev/null
+      fi
+         
+    pid="$(ps aux |grep emagnet)"
+    printf "$basename$0: emagnet has been started in background (pid:$(ps aux|grep "SCREEN -dmS emagnet"|awk '{print $2}'|head -n1))\n"
+    screen -dmS "emagnet" emagnet -e
+}
+
+
 check_block() {
     unMSG "please wait..."
     curl -sL -u "${lOGIN}" -H "${uGENT}" \
@@ -465,7 +499,7 @@ function lets_pwn() {
 }
 
 OPTIND=1
-while getopts abchveif opt; do
+while getopts abchveifqk opt; do
     case $opt in
         a)  emagnet_author ;;
         b)  
@@ -480,6 +514,10 @@ while getopts abchveif opt; do
             show_help
             exit 0
             ;;
+      "k"|"-kill")
+                emagnet_kill
+                ;;
+
         i) 
             echo -e "IPv4: $myIP4"
             ;;
@@ -490,6 +528,9 @@ while getopts abchveif opt; do
         m)  
             #emagnet_wmirror
             ;;
+      "q"|"-quiet")
+                emagnet_screen
+                ;;
         *)
             show_help >&2
             exit 1
