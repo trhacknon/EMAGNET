@@ -6,7 +6,6 @@
 
 | Current Version    | News                            | Tested On                          |
 | :----------------- | :-------------------------------- | :----------------------------------|
-| `4.0.0`            |     |                              |
 | `3.4.3`            |  More than twice as fast as the previous version    | Linux/MacOS/OpenWRT/Windows/Android                               |
 | `3.4.2`            |  Support for scraping via API has been added    | Linux/MacOS/OpenWRT/Windows/Android                               |
 | `3.4.1`            |  Support for SSH Tunnel/Socks5 proxy    | Linux/MacOS/OpenWRT/Windows/Android                               |
@@ -23,137 +22,7 @@
 <img src="https://img.shields.io/website/https/nr1.nu.svg?down_color=darkred&down_message=DOWN&label=Nr1.nu%2Femagnet&up_message=UP">
 <img src="https://img.shields.io/github/license/wuseman/emagnet.svg?color=blue&label=License"></a>
 
-## Update: 2022-05-11
-
-For all Emagnets stargazzers! This is a bonus for now.
-
-https://user-images.githubusercontent.com/26827453/167771364-d3bf9c15-6753-4f44-b450-b4cfd953298f.mp4
-
-Telegram is dangerous (dangerous = when it comes to unknown groups)! 
-
-Be careful, don't visit groups on Telegram without knowing the admin and who is watching new members.
-
-There is no reasons, for everyone that didn't know this you will love it, there is no reason to make things more complicated than they are:
-
-1. Choose a Telegram Group and add a simple 's' between .me/ and /groupname 
-2. like: https://t.me/s/groupname - Alot of admins forgets to securing their group and have no clue about this (obviously), lets continue and dont talk this with anyone, the more ppl that will know this  the worse it gets for you and me. If you're an admin, you sucks! DOn put your users in danger because you are an idiot and do not know how to secure a simple group on telegram, lol. 
-3. Don't worry! This is just a bonus (bonus = wont last forever, if any group admin will see this who did not know better, then use emagnet-v4.0.0-beta instead) - This part is just added for fun and not a real part of this project!
-
-Don't hate the player hate the game (admin)!
-
-### You get redirected to a link as below everywhere if you see a telegram button: 
-
-https://t.me/spiderbot_if 
-
-#### Copy the url in browser, add the 's' i mention above and now visit: 
-
-https://t.me/s/spiderbot_if
-
-Scroll until end, now execute below in browser console! 
-
-This script will grab all urls and open a new tab in your browser with all urls on the currrent page.
-
-```js
-var x = document.querySelectorAll("a");
-var myarray = []
-for (var i=3; i<x.length; i++){
-var nametext = x[i].textContent;
-var cleantext = nametext.replace(/\s+/g, ' ').trim();
-var cleanlink = x[i].href;
-myarray.push([cleantext,cleanlink]);
-};
-function make_table() {
-    var table = '<table><thead><th>Emagnet Power!</th><th>';
-   for (var i=3; i<myarray.length; i++) {
-            table += '<tr><td>'+ myarray[i][3] + '</td><td>'+myarray[i][1]+'</td></tr>';
-    };
- 
-    var w = window.open("");
-w.document.write(table); 
-}
-make_table()
-```
-
-or even better, print urls in current window and right click in console window and copy / paste! :) 
-
-```js
-var urls = document.getElementsByTagName('a');
-for (url in urls) {
-    console.log ( urls[url].href );
-}
-```
-
-You probably know it already, im lazy - no jquery needed - autoscroll to top/bottom of page by copy and paste in console:
-
-```js
-(function smoothscroll(){
-    var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
-    if (currentScroll > 0) {
-         window.requestAnimationFrame(smoothscroll);
-         window.scrollTo (0,currentScroll - (currentScroll/5));
-    }
-})();
-```
-
-### End
-
-Seriously, my skills for javascript SUCKS - Feel free to build something more cool with the above, if you do - Please contribute!
-
-### Update: 2022-05-10 
-
 Visit [releases](https://github.com/wuseman/EMAGNET/releases) for more info about the beta script.
-
-Simple example how things can be done, no support will be given for this - Wait for a future release please.
-
-Step By Step! Dirty Version! Until I get everything together into one script. 
-
------ `Tab 1`
-```sh
-git clone git@github.com:/wuseman/emagnet
-cd emagnet
-    
-# Set time to 1 hour + 10 seconds (add more seconds if your bw is very slow)
-bash emagnet.sh -t 3610
-    
-# Run emagnet in screen with auto spotify bruteforce enable.. 
-bash emagnet.sh -q -b spotify 
-    
-# Or without screen if you wanna see in realtime wich account is valid and available to use
-`bash emagnet.sh -b spotify 
-```
-
------ `Tab 2` - Keep above running in background or in another tab
-
-```sh
-# Source emagnet.conf, place the line under the vERSION="4.0.0" in emagnet-v4.0.0.-beta.sh
-BLINE=$(awk '/vERSION="4.0.0"/ {print NR+1}' emagnet_v4.0.0-beta.sh)
-    
-# Insert ". ~/emagnet/emagnet.conf" via sed or do it manually lets_pwn wherever you want
-# but it must be outside any function and before the lets_pwn() { function..
-# Just copy and paste BLINE above line and this line in emagnet dir and its done
-sed "${BLINE}i . ~/.emagnet/emagnet.conf" ./emagnet_v4.0.0-beta.sh
-    
-# Now you must change folders in beta script so emagnet.sh can grab accounts to bruteforce:
-sed 's/nPATH="$HOME\/emagnet-temp//nPATH="$EMAGNETHOME/.temp"/g' emagnet_v4.0.0-beta.sh
-      
-# Add a cronie line for emagnet beta to be executed every 60min + 10sec (36010ecs) **before** autobruter will be executed from Tab 1 (edit folder)
-(crontab -l 2>/dev/null; echo "*/60 * * * * sleep 10; bash ~/scripts/emagnet_v4.0.0-beta.sh -e") | crontab -
-```
-
------ `Result / Explanation / Summary`
-
-Every hour `emagnet_v4.0.0-beta.sh` is executed via cronie(crontab) in background and this will download all files to .temp dir
-and...10 seconds later....`emagnet.sh` is executed and will check .temp dir and if there is any accounts found emagnet will bruteforce
-all these accounts in background! 
-    
-You personally, can take a walk while emagnet takes care of the rest!
-
-*** 
-Sorry for the mess in this README!  I have done my best to try to give an example of how you can use v3.4.3 and v4.0.0 without getting too complicated. if you still do not understand or get this example to work side by side find another hobby or use another tool until I fix it for you but there is a lot of work left so Emagnet can be adapted to everyone! 
-
-### End of 2022-05-10 - Update
-
-***
 
 ### Notice: 
 
