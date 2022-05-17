@@ -356,20 +356,20 @@ if [[ $? = "0" ]]; then
         exit
 fi
 
-emagnet_wmirror() {
-    uGENT="$(echo -e $uGENT|cut -d: -f2|sed 's/ //g')" 
-    printf "%50s\n" |tr ' ' '-'
-    printf "%s\n" '+ Mirror iNFO'
-    printf "%50s\n" |tr ' ' '-'
-    printf '+ Save.Path.........: %s\n' "${nPATH}/mirrors/${fuURL}-$(date +%Y-%m-%d)"
-    printf '+ Website.Url.......: %s \n' "${miURL}"
-    echo -e "+ IP.Adreess........: ${myIP4}" 
-    echo -e "+ USer-Agent........: ${uGENT}"
-    printf "%50s\n" |tr ' ' '-'
-    printf "%s\n" "Press enter to continue.."
-    printf "%50s\n" |tr ' ' '-'
-    wget -c -q --show-progress --progress=bar:force:noscroll -U "${uGENT}" -l inf -m -e robots=off -P "${mPATH}" "${miURL}"
-
+emagnet_screen() {
+ hash screen &> /dev/null
+     if [[ "$?" -gt "0" ]]; then 
+       echo -e "$basename$0: internal error -- Screen is required to be installed before you can emagnet in background..."
+       exit 1
+     else
+       emkdir -p /tmp/screen/S-root &> /dev/null
+       echmod 755 /tmp/screen &> /dev/null
+       echmod -R 700 /tmp/screen/S-root &> /dev/null
+      fi
+         
+    pid="$(ps aux |grep emagnet)"
+    printf "$basename$0: emagnet has been started in background (pid:$(ps aux|grep "SCREEN -dmS emagnet"|awk '{print $2}'|head -n1))\n"
+    screen -dmS "emagnet" emagnet -e
 }
 
 
