@@ -380,6 +380,13 @@ emagnet_screen() {
 }
 
 
+emagnet_main() {
+   seq 1| xargs  -I % -n1 -P20|curl -sL ${sqURL}|sed 's/\\//g'|grep -Eo "(http|https)://www.[a-zA-Z0-9./?=_-]*"|sed 's/u0022//g'  > 1
+   xargs -n 1 -P 18 curl -sL -u "${lOGIN}" -H "${uGENT}" --resolve ${sHOST}:443:${lHOST} < 1 |grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*download.*txt" > 2
+   xargs -I % -P 200 curl -m 5 -k -o /dev/null --silent --head --write-out '%{http_code}\n' %
+}
+
+
 # - Fetch Last Source ----------------------------------------------------------------
 #
 #     Step by step how we run things
@@ -389,13 +396,8 @@ function lets_pwn() {
     emagnet_banner
     folder_check
     #grab_urls_source
-    grab_urls_source2
-    download_urls_source2
-    grep_paste_source
-    #download_paste_source
-    fetch_last_source2
-    #download_last_source
-    download_last_source2
+    emagnet_main
+
     echo -e "\n=========================================================================\n"
 }
 
