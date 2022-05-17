@@ -388,18 +388,21 @@ emagnet_main() {
 }
 
 
+
+
 # - Fetch Last Source ----------------------------------------------------------------
 #
 #     Step by step how we run things
 #
 #--------------------------------------------------------------------------------------
 function lets_pwn() {
+    start=$(date +%s.%N)
     emagnet_banner
     folder_check
     #grab_urls_source
     emagnet_main
-    echo -e "Done!"
-
+    dur=$(echo "$(date +%s.%N) - $start" | bc)
+    printf "All Done, it toke $Execution %.6f seconds\n\n" $dur
 }
 
 OPTIND=1
