@@ -383,7 +383,8 @@ emagnet_screen() {
 emagnet_main() {
    seq 1| xargs  -I % -n1 -P20|curl -sL ${sqURL}|sed 's/\\//g'|grep -Eo "(http|https)://www.[a-zA-Z0-9./?=_-]*"|sed 's/u0022//g'  > 1
    xargs -n 1 -P 18 curl -sL -u "${lOGIN}" -H "${uGENT}" --resolve ${sHOST}:443:${lHOST} < 1 |grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*download.*txt" > 2
-   xargs -I % -P 200 curl -m 5 -k -o /dev/null --silent --head --write-out '%{http_code}\n' %
+    xargs -P "$(xargs --show-limits -s 1 2>&1|grep -i "parallelism"|awk '{print $8}')" -n 1 \
+        wget --no-check-certificate --user-agent="${USERAGENT}" -q -nc -P "$dPATH" < 2
 }
 
 
