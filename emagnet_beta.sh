@@ -266,6 +266,8 @@ emagnet_mustberoot() {
     (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit ;
 }
 
+
+
 # - Kill Ghost Sessions --------------------------------------------------------------
 #
 #      If you have a ghost session of emagnet use ./emagnet -k
