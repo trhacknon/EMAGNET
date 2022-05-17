@@ -336,99 +336,6 @@ function grab_urls_source() {
             fi
         }
 
-# - Grab Url Sources2 -----------------------------------------------------------------
-#
-#      Same as about 2 on site 2
-# 
-#-------------------------------------------------------------------------------------
-function grab_urls_source2() {
-    okMSG "Fetching urls from various sources..."
-    curl -sL ${sqURL}  \
-        |grep -Eo upload.ee................................................................... \
-        |awk -F'u0022' '{print $1}' \
-        |sed 's/\\//g' \
-        |sed 's/^/https:\/\//g' >  "${tPATH}/urls_sqli1.txt"
-    }
-
-# - Download urls1 -----------------------------------------------------------------
-#
-#       As you can see I have comment out the curl line as default, this means we are able
-#       to wither search url via curl or downloading the files to our temp dir. 
-#      
-#       Since we dont wanna get to much attention on the source site, we download files
-#       and we can go through our downloaded files how many times we want. Hence the wget
-# 
-#-------------------------------------------------------------------------------------
-function download_urls_source2() { 
-    #       xargs -n 1 -P 5 curl -v -sL -u "${lOGIN}" -H "${uGENT}" \
-    #             --resolve ${sHOST}:443:${lHOST} -Z -r 0-1000000 -O "${tPATH}" < "${tPATH}/urls1.txt" 
-    okMSG "Downloading files that will give us all dumps..."
-    xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "${uAGENT}" -P ${tPATH} < "${tPATH}/urls_sqli1.txt" &> /dev/null
-    rm "${tPATH}/urls_sqli1.txt"
-}
-
-# - Grep Paste Source -----------------------------------------------------------------
-#
-#      Now we want to grap the urls from every paste/upload/cloud site, this can be 
-#      approved ALOT but mostly uploads are hosted at: 
-#      upload.ee, yandex.ru and anonfiles and my function below covers them all
-# 
-#--------------------------------------------------------------------------------------
-function grep_paste_source() {
-    okMSG "Hold on, simsalabim, doing some magic..."
-    rg --hidden . $tPATH \
-        |grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*" \
-        |grep -ie "^\*.ee\|.ru\|anon\|\/files\|\/d\/" \
-        |grep -v "readcrumbLi\|space\|\.gif\|t.me\|assets\|\.css\|?\|php" \
-        |awk '!seen[$0]++'    \
-        |awk ' length($0) > 35' > ${nPATH}/urls_sqli2.txt 
-            rm ${tPATH}/*
-        }
-
-# -Download Paste Source -------------------------------------------------------------
-#
-#       Here we going to download everything from urls2.txt to temp path
-#       - This path will be wiped after script is done
-#
-#--------------------------------------------------------------------------------------
-function download_paste_source() {
-    okMSG "Ready to download from our targets..."
-    #xargs -n 1 -P 5 curl -v -sL -u "${lOGIN}" -H "${uGENT}" --resolve ${sHOST}:443:${lHOST} -Z -r 0-1000000 -O ${nPATH} < "${tPATH}/urls2.txt" 
-    xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "${uAGENT}" -P ${tPATH} < "${nPATH}/urls2.txt" &> /dev/null
-}
-
-# - Fetch Last Source ----------------------------------------------------------------
-#
-#      Here we going to scrape upload sites, anonfiles and so on...
-#      and ripgrep will give us the final URL to download.
-#
-#--------------------------------------------------------------------------------------
-function fetch_last_source2() {
-            xargs -n 1 -P 10 curl -v -sL -u "${lOGIN}" \
-             -H "${uGENT}" --resolve ${sHOST}:443:${lHOST} -Z -r 0-1000000 -O ${nPATH} < ${nPATH}/urls_sqli2.txt \
-             grep -o "https.*\/download.*txt" >> ${nPATH}/lets-download.txt
-        }
-
-# - Fetch Last Source -----------------------------------------------------------------
-#
-#     Final step - Download dumps
-#
-#--------------------------------------------------------------------------------------
-function download_last_source2() {
-    okMSG "Last part, we are almost done.. Hold on.."
-    xargs -n 1 -P 5 curl -v -sL -u "${lOGIN}" -H "${uGENT}" --resolve ${sHOST}:443:${lHOST} -Z -r 0-1000000 -O ${nPATH} < "${tPATH}/urls2.txt" 
-   # xargs -n 1 -P10 wget -nc -q --progress=bar:force --show-progress -U "${uAGENT}" -P "${dPATH}" < "${nPATH}/lets-download.txt" &> /dev/null
-    #cat "${nPATH}/lets-download.txt"|xargs -P 20 -n 1 curl -O 
-
-    #rm -rf ${tPATH}
-    okMSG "Cleaning up..."
-    rp="$(cat $HOME/emagnet-temp/dumps/*.txt|wc -l)"
-    rf="$(ls $HOME/emagnet-temp/dumps/|wc -l)"
-    okMSG "All done, found \e[1;37m[${rp}]\e[0m passwords from \e[1;37m[${rf}\e[0m] files..."
-    okMSG "Happy bruteforcing..."
-    rm ${nPATH}/lets-download.txt ${nPATH}/urls_sqli2.txt
-}
-
 # - See if the user edit's the part I tell them to do in readme ----------------------------------
 #
 #     Simple exit control to stop users who should not use this script.
@@ -464,23 +371,6 @@ emagnet_wmirror() {
     wget -c -q --show-progress --progress=bar:force:noscroll -U "${uGENT}" -l inf -m -e robots=off -P "${mPATH}" "${miURL}"
 
 }
-
-emagnet_screen() {
- hash screen &> /dev/null
-     if [[ "$?" -gt "0" ]]; then 
-       echo -e "$basename$0: internal error -- Screen is required to be installed before you can emagnet in background..."
-       exit 1
-     else
-       emkdir -p /tmp/screen/S-root &> /dev/null
-       echmod 755 /tmp/screen &> /dev/null
-       echmod -R 700 /tmp/screen/S-root &> /dev/null
-      fi
-         
-    pid="$(ps aux |grep emagnet)"
-    printf "$basename$0: emagnet has been started in background (pid:$(ps aux|grep "SCREEN -dmS emagnet"|awk '{print $2}'|head -n1))\n"
-    screen -dmS "emagnet" emagnet -e
-}
-
 
 
 # - Fetch Last Source ----------------------------------------------------------------
