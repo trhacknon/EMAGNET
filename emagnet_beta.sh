@@ -100,7 +100,7 @@ emagnet_required_tools() {
     done
 }
 
-# - Required Tools --------------------^-----------------------------------------------
+# - Required Tools --------------------------------------------------------------------
 #
 #      We probably need to exit if the user is not root if we miss any required tool
 #
@@ -109,16 +109,11 @@ emagnet_mustberoot() {
     (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit ;
 }
 
-# - Kill Ghost Sessions --------------------^-----------------------------------------------
+# - Kill Ghost Sessions --------------------------------------------------------------
 #
 #      If you have a ghost session of emagnet use ./emagnet -k
 #
-# -------------------------------------------------------------------------------------
-
-
-
-
-
+# ------------------------------------------------------------------------------------
 emagnet_kill() {
     ESESSIONS=$(ps aux|grep -i emagnet |awk '{print $2}'|sed '$d')
     NRESESSIONS=$(ps aux|grep -i "emagnet"|awk '{print $2}'|sed '$d'|wc -l)
