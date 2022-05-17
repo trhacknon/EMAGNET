@@ -116,79 +116,14 @@ EOF
 }
 
 
-# - Required Tools -------------------------------------------------------------------
+# - Terminal Line--------------------------------------------------------------------
 #
-#      Required Tools for Emagnet
-#
-# ------------------------------------------------------------------------------------
-emagnet_required_tools() {
-    RCURL="$(curl -V |awk ' FNR == 1 {print $2}'|cut -d. -f1,2)"
-    if [[ $RCURL -lt "7.49" ]]; then 
-        errMSG "Some commands in this script require curl v7.49 or higher installed, your current installed version is ${RCURL}";
-        exit 
-    fi
-    for tools in wget curl awk sed rg; do 
-        hash ${tools} &> /dev/null; 
-        if [[ $? -ne "0" ]]; then
-            echo -e "$basename$0: internal error -- wget is required to be installed, exiting."
-            exit
-        fi
-    done
-}
-
-# - Required Tools --------------------------------------------------------------------
-#
-#      We probably need to exit if the user is not root if we miss any required tool
-#
-# -------------------------------------------------------------------------------------
-emagnet_mustberoot() { 
-    (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit ;
-}
-
-# - Kill Ghost Sessions --------------------------------------------------------------
-#
-#      If you have a ghost session of emagnet use ./emagnet -k
-#
-# ------------------------------------------------------------------------------------
-emagnet_kill() {
-    ESESSIONS=$(ps aux|grep -i emagnet |awk '{print $2}'|sed '$d')
-    NRESESSIONS=$(ps aux|grep -i "emagnet"|awk '{print $2}'|sed '$d'|wc -l)
-    NRINSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g'|wc -l)"
-    INSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g')"
-
-    if [[ "$INSCREEN" -gt "0" ]]; then 
-        for screens in "$INSCREEN"; do 
-            screen -X -S "$screens" kill; 
-            [[ "$?" = "0" ]] &&  echo -e "[\e[1;31m<<\e[0m] - $NRINSCREEN emagnet screens has been killed\n"
-        done
-    fi
-
-    if [[ "$NRESESSIONS" -lt "3" ]]; then 
-        echo -e "$basename$0: internal error -- 0 emagnet sessions is currently running";else 
-        echo -e "$basename$0: killed $(echo $NRESESSIONS-2|bc) emagnet sessions"
-        kill -9 $ESESSIONS &> /dev/null
-    fi
-}
-
-# - Check For Blocks/Bans ------------------------------------------------------------
-#
-#      Check for blocks
+#      Print line as many columns your screen/monitor/terminal is
 #
 # -----------------------------------------------------------------------------------
-
-check_block() {
-    unMSG "please wait..."
-    curl -sL -u "${lOGIN}" -H "${uGENT}" \
-        --resolve ${sHOST}:443:${lHOST} m \
-        "${npURL}" |grep -iq "ddos-"
-            if [[ $? = "0" ]]; then
-                errMSG "internal error -- ddos-script is blocking us, change ip or try again later..."
-                exit 0
-            else 
-                okMSG "oh boy! all fine, try ./emagnet -e, have fun...."
-            fi
-        }
-
+function terminal_line() {
+    printf "\r%*s\r%s\n" $(tput cols) "$2" "$1"|tr ' ' '-'
+}
 
 # - License -------------------------------------------------------------------------
 #
@@ -226,14 +161,6 @@ emagnet_author() {
 EOF
 }
 
-# - Terminal Line--------------------------------------------------------------------
-#
-#      Print line as many columns your screen/monitor/terminal is
-#
-# -----------------------------------------------------------------------------------
-function terminal_line() {
-    printf "\r%*s\r%s\n" $(tput cols) "$2" "$1"|tr ' ' '-'
-}
 
 # - Show Help --------------------------------------------------------------------
 #
@@ -306,6 +233,82 @@ emagnet_iconnection() {
             exit 1
         fi
 }
+
+
+
+
+# - Required Tools -------------------------------------------------------------------
+#
+#      Required Tools for Emagnet
+#
+# ------------------------------------------------------------------------------------
+emagnet_required_tools() {
+    RCURL="$(curl -V |awk ' FNR == 1 {print $2}'|cut -d. -f1,2)"
+    if [[ $RCURL -lt "7.49" ]]; then 
+        errMSG "Some commands in this script require curl v7.49 or higher installed, your current installed version is ${RCURL}";
+        exit 
+    fi
+    for tools in wget curl awk sed rg; do 
+        hash ${tools} &> /dev/null; 
+        if [[ $? -ne "0" ]]; then
+            echo -e "$basename$0: internal error -- wget is required to be installed, exiting."
+            exit
+        fi
+    done
+}
+
+# - Required Tools --------------------------------------------------------------------
+#
+#      We probably need to exit if the user is not root if we miss any required tool
+#
+# -------------------------------------------------------------------------------------
+emagnet_mustberoot() { 
+    (( ${EUID} > 0 )) && printf "%s\n" "$basename$0: internal error -- root privileges is required" && exit ;
+}
+
+# - Kill Ghost Sessions --------------------------------------------------------------
+#
+#      If you have a ghost session of emagnet use ./emagnet -k
+#
+# ------------------------------------------------------------------------------------
+emagnet_kill() {
+    ESESSIONS=$(ps aux|grep -i emagnet |awk '{print $2}'|sed '$d')
+    NRESESSIONS=$(ps aux|grep -i "emagnet"|awk '{print $2}'|sed '$d'|wc -l)
+    NRINSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g'|wc -l)"
+    INSCREEN="$(screen -ls |grep emagnet|awk -F"." '{print $1}'|sed 's/\t//g')"
+
+    if [[ "$INSCREEN" -gt "0" ]]; then 
+        for screens in "$INSCREEN"; do 
+            screen -X -S "$screens" kill; 
+            [[ "$?" = "0" ]] &&  echo -e "[\e[1;31m<<\e[0m] - $NRINSCREEN emagnet screens has been killed\n"
+        done
+    fi
+
+    if [[ "$NRESESSIONS" -lt "3" ]]; then 
+        echo -e "$basename$0: internal error -- 0 emagnet sessions is currently running";else 
+        echo -e "$basename$0: killed $(echo $NRESESSIONS-2|bc) emagnet sessions"
+        kill -9 $ESESSIONS &> /dev/null
+    fi
+}
+
+# - Check For Blocks/Bans ------------------------------------------------------------
+#
+#      Check for blocks
+#
+# -----------------------------------------------------------------------------------
+check_block() {
+    unMSG "please wait..."
+    curl -sL -u "${lOGIN}" -H "${uGENT}" \
+        --resolve ${sHOST}:443:${lHOST} m \
+        "${npURL}" |grep -iq "ddos-"
+            if [[ $? = "0" ]]; then
+                errMSG "internal error -- ddos-script is blocking us, change ip or try again later..."
+                exit 0
+            else 
+                okMSG "oh boy! all fine, try ./emagnet -e, have fun...."
+            fi
+        }
+
 
 
 # - Grab Url Sources -----------------------------------------------------------------
