@@ -402,7 +402,7 @@ function lets_pwn() {
     #grab_urls_source
     emagnet_main
     dur=$(echo "$(date +%s.%N) - $start" | bc)
-    okMSG "All Done, it toke $Execution %.6f seconds\n\n" $dur
+    okMSG "All Done, it toke $Execution $dur seconds\n\n" 
 }
 
 OPTIND=1
