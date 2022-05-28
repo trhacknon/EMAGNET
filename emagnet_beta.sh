@@ -152,7 +152,7 @@ emagnet_author() {
  under GNU LESSER GENERAL PUBLIC LICENSE GPLv3
 
    - Author: wuseman <wuseman@nr1.nu>
-   - IRC   : wuseman <irc.freenode.com>
+   - IRC   : wuseman <irc.libera.chat>
 
  Please report bugs/issues on:
 
