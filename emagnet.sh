@@ -272,15 +272,11 @@ emagnet_clear() {
 }
 
 emagnet_iconnection() {
-    for interface in $(ls "/sys/class/net/" | grep -v "lo"); do
-        if [[ $(cat /sys/class/net/$interface/carrier) = 1 ]]; then 
-            OnLine=1; 
+    ping -i "1" -c 1 google.com &> /dev/null
+        if [[ "$?" -gt "0" ]]; then 
+            echo -e "$basename$0: internal error -- this feature require a internet connection but you seems to be offline, exiting.."
+            exit 1
         fi
-    done
-    if ! [ $OnLine ]; then 
-            echo -e "$basename$0: internal error -- this feature require a internet connection but you seems to be offline, exiting.." > /dev/stderr; 
-        exit; 
-    fi
 }
 
 emagnet_optional(){ 
