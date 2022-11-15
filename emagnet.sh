@@ -13,11 +13,7 @@
 #       Website: https://www.nr1.nu/
 #        GitHub: https://github.com/wuseman/
 #
-# - Descrpiption --------------------------------------------------------------------
-#
-#      No description has been added
-#
-# - LiCENSE -------------------------------------------------------------------------
+# - LiCENSE --------------------------------------------------------------------------
 #
 #      Copyright (C) 2021, wuseman                                     
 #                                                                       
@@ -41,7 +37,8 @@
 #      You should have received a copy of the GNU General Public License
 #      along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# - End of Header -------------------------------------------------------------
+# - End of Header ----------------------------------------------------------------
+
 EMAGNET_HOME="$HOME/.config/emagnet"
 EMAGNET_CONF="$HOME/.config/emagnet/emagnet.conf"
 CURRENT_VERSION=3.4.3
