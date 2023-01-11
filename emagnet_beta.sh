@@ -108,7 +108,7 @@ function emagnet_banner() {
      `'                  `OObNNNNNdOO'                   `'
                            `~OOOOO~'
 
-= Emagnet v4.0.0 ===================================== © wuseman ========
+= Emagnet v4.0.0 ===================================== © trhacknon ======
 
 EOF
 
@@ -156,7 +156,7 @@ emagnet_author() {
 
  Please report bugs/issues on:
 
-   - https://github.com/wuseman/emagnet
+   - https://github.com/trhacknon/emagnet
 
 EOF
 }
